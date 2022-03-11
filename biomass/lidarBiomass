@@ -38,7 +38,7 @@ var ifn3joined = simpleJoin.apply(parcelas, datos_ifn4, filter);
 print('ifn3joined',ifn3joined.toList(10));
 
 
-var ifn = inf3joined.map(function(f){
+var ifn = ifn3joined.map(function(f){
   
   //obten la geometria del elemento
   var geom = f.geometry();
