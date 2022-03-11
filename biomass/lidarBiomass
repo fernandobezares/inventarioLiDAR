@@ -19,7 +19,7 @@ var datos_ifn4 = ee.FeatureCollection('users/cesefor/InventarioForestal/datos_pa
 
 // aoi
 
-var aoi  = 
+var aoi  = provincias.filter(ee.Filter.eq('NAMEUNIT','Soria'));
 
 // valores ifn3 para soria 
 // haremos un join entre los puntos y los datos
@@ -37,6 +37,28 @@ var ifn3joined = simpleJoin.apply(parcelas, datos_ifn4, filter);
 
 print('ifn3joined',ifn3joined.toList(10));
 
-// sacamos el valor de la altura de la colección de putnos 
-var muestreo = p95_42.sampleRegion;
 
+var ifn = inf3joined.map(function(f){
+  
+  //obten la geometria del elemento
+  var geom = f.geometry();
+  // define un nuevo Feature
+  var newFeat = ee.Feature(geom);
+  
+  // copia las propiedades de la tabla primaria al nuevo elemento
+  var prim = newFeat.copyProperties(f);
+  // copia las propiedades secundarias al nuevo elemento
+  var sec = newFeat.copyProperties(f);
+  
+  return newFeat;
+});
+// Print the result of merging.
+print('IFN, datos limpios:', ifn);
+
+
+// sacamos el valor de la altura de la colección de putnos 
+var muestreo = p95_42.sampleRegions({
+  collection : ifn3joined,
+  
+})
+print('muestreo', muestreo)
