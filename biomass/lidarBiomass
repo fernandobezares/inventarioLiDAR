@@ -12,21 +12,25 @@ var p95_42 = ee.Image('users/cesefor/InventarioForestal/SORIA_Elev_P95_1C');
 
 // parcelas del ifn
 var parcelas = ee.FeatureCollection('users/cesefor/InventarioForestal/parcelas_ifn_cyl');
-var datos_ifn4 = ee.FeatureCollection('users/cesefor/InventarioForestal/datos_parcelas_IFN4_Soria')
+var datos_ifn4 = ee.FeatureCollection('users/cesefor/InventarioForestal/datos_parcelas_IFN4_Soria');
 
 // valores ifn3 para soria 
 // haremos un join entre los puntos y los datos
 
-// Use an equals filter to define how the collections match.
+// queremos definir un filtro que indique como van a coincidir los campos
 var filter = ee.Filter.equals({
-  leftField: 'ID_PARCELAS',
-  rightField: 'ID_PARCELAS'
+  leftField: 'ID_PARCELA',
+  rightField: 'ID_PARCELA'
 });
 
-// Create the join.
-var simpleJoin = ee.Join.simple();
+// Creamos un objeto join 
+var simpleJoin = ee.Join.inner();
 
-// Apply the join.
+// Aplicamos el join.
 var ifn3joined = simpleJoin.apply(parcelas, datos_ifn4, filter);
 
-print('ifn3joined',ifn3joined)
+print('ifn3joined',ifn3joined.toList(10));
+
+// sacamos el valor de la altura de la colección de putnos 
+var muestreo = p95_42.sampleRegion;
+
