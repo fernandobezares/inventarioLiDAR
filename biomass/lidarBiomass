@@ -29,11 +29,15 @@ var filter = ee.Filter.equals({
   rightField: 'ID_PARCELA'
 });
 
-// Creamos un objeto join 
-var simpleJoin = ee.Join.inner();
+// generamos un objeto saveAll
+var saveAllJoin = ee.Join.saveAll({
+  matchesKey: 'ID_PARCELA',
+  ordering: 'ID_PARCELA',
+  ascending: true
+});
 
 // Aplicamos el join.
-var ifn3joined = simpleJoin.apply(parcelas, datos_ifn4, filter);
+var ifn3joined = saveAllJoin.apply(parcelas, datos_ifn4, filter);
 
 print('ifn3joined',ifn3joined.toList(10));
 
@@ -53,7 +57,7 @@ var ifn = ifn3joined.map(function(f){
   return newFeat;
 });
 // Print the result of merging.
-print('IFN, datos limpios:', ifn);
+print('IFN, datos limpios:', ifn.toList(10));
 
 
 // sacamos el valor de la altura de la colección de putnos 
