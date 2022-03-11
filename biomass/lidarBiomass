@@ -12,7 +12,7 @@ var p95_42 = ee.Image('users/cesefor/InventarioForestal/SORIA_Elev_P95_1C');
 
 // parcelas del ifn
 var parcelas = ee.FeatureCollection('users/cesefor/InventarioForestal/parcelas_ifn_cyl');
-var datos_ifn4 = ee.FeaetureCollection('users/cesefor/InventarioForestal/datos_parcelas_IFN4_Soria')
+var datos_ifn4 = ee.FeatureCollection('users/cesefor/InventarioForestal/datos_parcelas_IFN4_Soria')
 
 // valores ifn3 para soria 
 // haremos un join entre los puntos y los datos
