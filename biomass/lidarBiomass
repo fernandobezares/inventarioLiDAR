@@ -1,3 +1,6 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var provincias = ee.FeatureCollection("users/cesefor/general/adminUnits/Provincias_ETRS89");
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 //-----------------------------------------------------------------------------------------------------------------------------
 // Autor: Fernando Bezares
 // contacto: fernando.bezares@cesefor.com
@@ -14,9 +17,12 @@ var p95_42 = ee.Image('users/cesefor/InventarioForestal/SORIA_Elev_P95_1C');
 var parcelas = ee.FeatureCollection('users/cesefor/InventarioForestal/parcelas_ifn_cyl');
 var datos_ifn4 = ee.FeatureCollection('users/cesefor/InventarioForestal/datos_parcelas_IFN4_Soria');
 
+// aoi
+
+var aoi  = 
+
 // valores ifn3 para soria 
 // haremos un join entre los puntos y los datos
-
 // queremos definir un filtro que indique como van a coincidir los campos
 var filter = ee.Filter.equals({
   leftField: 'ID_PARCELA',
