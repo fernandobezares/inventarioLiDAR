@@ -1,0 +1,32 @@
+//-----------------------------------------------------------------------------------------------------------------------------
+// Autor: Fernando Bezares
+// contacto: fernando.bezares@cesefor.com
+//-----------
+// CONTENIDO
+//-----------
+// Este script pretende realizar una simulación sencilla de un modelo de biomasa basado en equaciones de biomasa que relacionan
+// la biomasa del inventario forestal y un model ode alturas de elevaciones lidar 
+
+// Alturas de la vegetacion 95 lidar de 2007 para soria 
+var p95_42 = ee.Image('users/cesefor/InventarioForestal/SORIA_Elev_P95_1C');
+
+// parcelas del ifn
+var parcelas = ee.FeatureCollection('users/cesefor/InventarioForestal/parcelas_ifn_cyl');
+var datos_ifn4 = ee.FeaetureCollection('users/cesefor/InventarioForestal/datos_parcelas_IFN4_Soria')
+
+// valores ifn3 para soria 
+// haremos un join entre los puntos y los datos
+
+// Use an equals filter to define how the collections match.
+var filter = ee.Filter.equals({
+  leftField: 'ID_PARCELAS',
+  rightField: 'ID_PARCELAS'
+});
+
+// Create the join.
+var simpleJoin = ee.Join.simple();
+
+// Apply the join.
+var ifn3joined = simpleJoin.apply(parcelas, datos_ifn4, filter);
+
+print('ifn3joined',ifn3joined)
