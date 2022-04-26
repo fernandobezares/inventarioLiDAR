@@ -23,20 +23,20 @@ Map.addLayer(cylStyled);
 function checkCoberturas(){
   
   // check the value of the select cobertura 
-  var cobertura = coberturaSelect.getValue().getInfo();
+  var cobertura = coberturaSelect.getValue();
    
-  if (cobertura === '1a Cobertura'){
+  if (cobertura.getInfo() === '1a Cobertura'){
     
     // return the keys of the 1 cover object
     return lidar.c1.keys().getInfo();
     
-  }else if (cobertura === '2a Cobertura'){
+  }else if (cobertura.getInfo() === '2a Cobertura'){
     
     // return the keys of the 2 cover object
     return lidar.c1.keys().getInfo();
   
     
-  }else if ( cobertura === ''){
+  }else if (cobertura.getInfo() === ''){
     
     alert('Selecciona una cobertura');
   }
