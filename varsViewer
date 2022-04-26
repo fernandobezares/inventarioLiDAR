@@ -1,36 +1,62 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var image = ee.Image("users/cesefor/CYL_TCH_GEDI_2021");
+var image = ee.Image("users/cesefor/CYL_TCH_GEDI_2021"),
+    image2 = ee.Image("users/cesefor/CYL_TCH_GEDI_2021");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // import LiDAR Vars
 var lidar = require('users/cesefor/inventarioForestal:LiDARVars');
 
 // aoi list
-provinciasNames = ['Ávila','Burgos','León','Palencia','Salamanca','Segovia','Soria','Valladolid','Zamora','Castilla y León'];
+var provinciasNames = ['Ávila','Burgos','León','Palencia','Salamanca','Segovia','Soria','Valladolid','Zamora'];
 
 // aoi datasets 
+var cyl = ee.FeatureCollection('users/cesefor/general/adminUnits/LimiteAdmin_CyL');
+var cylStyled = cyl.style({color : 'black' , fillColor:'FF000000'});
 
-var cyl = ee.ImageCollection('users/cesefor/general/adminUnits/LimiteAdmin_CyL');
+// cyl Provinces 
+var cylP = ee.FeatureCollection('users/cesefor/general/adminUnits/Provincias_ETRS89').filter(ee.Filter.inList('NAMEUNIT',provinciasNames));
+var cylPStyled = cylP.style({color : 'black' , fillColor:'FF000000' , lineType : 'dashed', width: 0.7} );
 
-var cylStyled = cyl.style({color :' black' , fillColor:'##FFFF'});
-
-
+Map.addLayer(cylPStyled);
+Map.addLayer(cylStyled);
 
 //
+function checkCoberturas(){
+  
+  // check the value of the select cobertura 
+  var cobertura = coberturaSelect.getString().getInfo();
+   
+  if (cobertura === '1a Cobertura'){
+    
+    // return the keys of the 1 cover object
+    return lidar.c1.keys().getInfo();
+    
+  }else (cobertura === '2a Cobertura'){
+    
+    // return the keys of the 2 cover object
+    return lidar.c1.keys().getInfo();
+  }
+   
+  
+}
 
+// 
 // ui.Panel
-mainPanel = ui.Panel({layout : ui.Panel.Layout.flow('vertical')});
+var mainPanel = ui.Panel({layout : ui.Panel.Layout.flow('vertical')});
 
 // Main Title 
-mainTitle = ui.Label('Visor Variables LiDAR');
+var mainTitle = ui.Label('Visor Variables LiDAR');
 
 // Select area
-aoi = ui.Select({
-  items: provinciasNames,
+var aoi = ui.Select({
+  items: provinciasNames.concat(['Castilla y León']) ,
   onChange: function(name){
     
     // get the name and check
     if (name === 'Castilla y León'){
       
+      
+      Map.addLayer(cylStyled,{},'CYL');
+
       
     } else {
       
@@ -39,4 +65,16 @@ aoi = ui.Select({
     
     
   }
+});
+
+// Select la cobertura
+var coberturaSelect = ui.Select({
+  items: ['1a Cobertura','2a Cobertura'] ,
+  onChange: function(){}
+  
+});
+
+//Select las varaibles por cobertura
+var variables = ui.Select({
+  items : 
 })
