@@ -30,7 +30,7 @@ function checkCoberturas(){
     // return the keys of the 1 cover object
     return Object.keys(lidar.c1);
     
-  }else if (cobertura === '2a Cobertura'){
+  }else if (cobertura.equals(ee.String('2a Cobertura'))){
     
     // return the keys of the 2 cover object
     return Object.keys(lidar.c2);
