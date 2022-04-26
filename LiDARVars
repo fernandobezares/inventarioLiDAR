@@ -19,7 +19,7 @@ var c2 =  { "fcc" : ee.ImageCollection.fromImages([
            "elev_95" : ee.ImageCollection.fromImages([
                    ee.Image('users/cesefor/InventarioForestal/LiDAR/2C/VALLADOLID_Elev_P95')])
                    .mosaic(),
-           "CAnopy Relief Ratio": ee.Image.constant(5)
+           "Canopy Relief Ratio": ee.Image.constant(5)
           
 };
 
