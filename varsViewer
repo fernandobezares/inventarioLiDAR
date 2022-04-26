@@ -1,4 +1,10 @@
-
+// import LiDAR Vars
 var lidar = require('users/cesefor/inventarioForestal:LiDARVars');
 
-Map.addLayer(lidar.c1.elev_95)
+// ui.Panel
+mainPanel = ui.Panel({layout : ui.Panel.Layout.flow('vertical')});
+
+// Main Title 
+mainTitle = ui.Label('Visor Variables LiDAR');
+
+// 
