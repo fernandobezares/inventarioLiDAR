@@ -1,5 +1,9 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var image = ee.Image("users/cesefor/CYL_TCH_GEDI_2021");
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 // import LiDAR Vars
 var lidar = require('users/cesefor/inventarioForestal:LiDARVars');
+
 
 // ui.Panel
 mainPanel = ui.Panel({layout : ui.Panel.Layout.flow('vertical')});
@@ -7,4 +11,3 @@ mainPanel = ui.Panel({layout : ui.Panel.Layout.flow('vertical')});
 // Main Title 
 mainTitle = ui.Label('Visor Variables LiDAR');
 
-// 
