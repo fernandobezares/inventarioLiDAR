@@ -23,9 +23,18 @@ Map.addLayer(cylStyled);
 function checkCoberturas(){
   
   // check the value of the select cobertura 
-  var cobertura = ee.String(coberturaSelect.getValue());
-   
-  if (cobertura.equals(ee.String('1a Cobertura'))){
+  if ( cobertura === ''){
+    
+    alert('Selecciona una cobertura');
+    
+  // if cobertura is not null
+  } else (){
+    
+    // get teh value of cobertura
+    var cobertura = ee.String(coberturaSelect.getValue());
+    
+    // if cobertura is equal to 1c then retrieve the keys 
+    if (cobertura.equals(ee.String('1a Cobertura'))){
     
     // return the keys of the 1 cover object
     return Object.keys(lidar.c1);
@@ -34,15 +43,15 @@ function checkCoberturas(){
     
     // return the keys of the 2 cover object
     return Object.keys(lidar.c2);
+    }
   
     
-  }else if ( cobertura === ''){
-    
-    alert('Selecciona una cobertura');
   }
+    
+}
+  
    
   
-}
 
 // 
 // ui.Panel
@@ -75,8 +84,6 @@ var aoi = ui.Select({
 // Select la cobertura
 var coberturaSelect = ui.Select({
   items: ['1a Cobertura','2a Cobertura'],
-  value : '1a Cobertura',
-  onChange: function(){}
   
 });
 
