@@ -23,7 +23,7 @@ Map.addLayer(cylStyled);
 function checkCoberturas(){
   
   // check the value of the select cobertura 
-  var cobertura = coberturaSelect.getString().getInfo();
+  var cobertura = coberturaSelect.getValue().getInfo();
    
   if (cobertura === '1a Cobertura'){
     
@@ -81,7 +81,7 @@ var coberturaSelect = ui.Select({
 
 //Select las varaibles por cobertura
 var variables = ui.Select({
-  items : checkCoberturas,
+  items : checkCoberturas(),
   
 })
 
