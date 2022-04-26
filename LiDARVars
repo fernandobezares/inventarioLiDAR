@@ -21,4 +21,4 @@ var c2 =  { "fcc" : ee.ImageCollection.fromImages([
                    .mosaic()
 };
 
-exports = c1 , c2;
+exports = {'c1': c1 , 'c2' : c2};
