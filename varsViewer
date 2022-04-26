@@ -4,7 +4,7 @@ var image = ee.Image("users/cesefor/CYL_TCH_GEDI_2021"),
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // import LiDAR Vars
 var lidar = require('users/cesefor/inventarioForestal:LiDARVars');
-
+print(Object.keys(lidar.c1))
 // aoi list
 var provinciasNames = ['Ávila','Burgos','León','Palencia','Salamanca','Segovia','Soria','Valladolid','Zamora'];
 
@@ -28,12 +28,12 @@ function checkCoberturas(){
   if (cobertura.equals(ee.String('1a Cobertura'))){
     
     // return the keys of the 1 cover object
-    return lidar.c1.keys().getInfo();
+    return Object.keys(lidar.c1);
     
   }else if (cobertura === '2a Cobertura'){
     
     // return the keys of the 2 cover object
-    return lidar.c1.keys().getInfo();
+    return Object.keys(lidar.c2);
   
     
   }else if ( cobertura === ''){
@@ -89,6 +89,6 @@ var variables = ui.Select({
 
 // add widgets to panel 
 
-MainPanel.add(mainTitle).add(coberturaSelect).add(variables)
+mainPanel.add(mainTitle).add(coberturaSelect).add(variables)
 
 ui.root.add(mainPanel)
