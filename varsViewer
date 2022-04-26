@@ -1,0 +1,4 @@
+
+var lidar = require('users/cesefor/inventarioForestal:LiDARVars');
+
+print(lidar)
