@@ -4,6 +4,18 @@ var image = ee.Image("users/cesefor/CYL_TCH_GEDI_2021");
 // import LiDAR Vars
 var lidar = require('users/cesefor/inventarioForestal:LiDARVars');
 
+// aoi list
+provinciasNames = ['Ávila','Burgos','León','Palencia','Salamanca','Segovia','Soria','Valladolid','Zamora','Castilla y León'];
+
+// aoi datasets 
+
+var cyl = ee.ImageCollection('users/cesefor/general/adminUnits/LimiteAdmin_CyL');
+
+var cylStyled = cyl.style({color :' black' , fillColor:'##FFFF'});
+
+
+
+//
 
 // ui.Panel
 mainPanel = ui.Panel({layout : ui.Panel.Layout.flow('vertical')});
@@ -11,3 +23,20 @@ mainPanel = ui.Panel({layout : ui.Panel.Layout.flow('vertical')});
 // Main Title 
 mainTitle = ui.Label('Visor Variables LiDAR');
 
+// Select area
+aoi = ui.Select({
+  items: provinciasNames,
+  onChange: function(name){
+    
+    // get the name and check
+    if (name === 'Castilla y León'){
+      
+      
+    } else {
+      
+      
+    }
+    
+    
+  }
+})
