@@ -30,10 +30,15 @@ function checkCoberturas(){
     // return the keys of the 1 cover object
     return lidar.c1.keys().getInfo();
     
-  }else (cobertura === '2a Cobertura'){
+  }else if (cobertura === '2a Cobertura'){
     
     // return the keys of the 2 cover object
     return lidar.c1.keys().getInfo();
+  
+    
+  }else if ( cobertura === ''){
+    
+    alert('Selecciona una cobertura');
   }
    
   
@@ -76,5 +81,13 @@ var coberturaSelect = ui.Select({
 
 //Select las varaibles por cobertura
 var variables = ui.Select({
-  items : 
+  items : checkCoberturas,
+  
 })
+
+
+// add widgets to panel 
+
+MainPanel.add(mainTitle).add(coberturaSelect).add(variables)
+
+ui.root.add(mainPanel)
