@@ -30,7 +30,7 @@ function checkCoberturas(cobertura){
   // if cobertura is not null
   } else{
     
-    cobertura = ee.String(coberturaSelect.getValue());
+    cobertura = ee.String(cobertura);
     // get teh value of cobertura
     //var cobertura = ee.String(coberturaSelect.getValue());
     
@@ -86,18 +86,24 @@ var cobs = ['1a Cobertura','2a Cobertura']
 // Select la cobertura
 var coberturaSelect = ui.Select({
   items: cobs,
-  value: ee.String('1a Cobertura'),
+  value:'1a Cobertura',
   onChange : function(cobertura){return ee.String(cobertura)}
   
 });
 
 //Select las varaibles por cobertura
+ee.String(coberturaSelect.getValue()).evaluate(function(cover){
+  
+print('Cover', cover)
 
-coberturaSelect.getValue().evaluate(function(cover){
-
-var variables = ui.Select({
+// create the ui.Select according to the cobertura seelct value
+var v = ui.Select({
   items :checkCoberturas(cover)
   })
+  
+  mainPanel.add(v)
+
+
 });
 
 
@@ -105,6 +111,6 @@ var variables = ui.Select({
 
 // add widgets to panel 
 
-mainPanel.add(mainTitle).add(coberturaSelect).add(variables)
+mainPanel.add(mainTitle).add(coberturaSelect)
 
 ui.root.add(mainPanel)
