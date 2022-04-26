@@ -86,7 +86,7 @@ var cobs = ['1a Cobertura','2a Cobertura']
 // Select la cobertura
 var coberturaSelect = ui.Select({
   items: cobs,
-  value:'1a Cobertura'
+  value: ee.String('1a Cobertura'),
   onChange : function(cobertura){return ee.String(cobertura)}
   
 });
