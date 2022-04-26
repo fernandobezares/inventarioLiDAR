@@ -21,3 +21,5 @@ var c2 =  { "fcc" : ee.ImageCollection.fromImages([
                    ee.Image('users/cesefor/InventarioForestal/LiDAR/2C/VALLADOLID_Elev_P95')])
                    .mosaic()
 };
+
+exports = c1 , c2;
