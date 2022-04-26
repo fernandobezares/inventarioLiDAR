@@ -1,0 +1,23 @@
+// LiDAR variables for the the first coberage
+
+var c1 = { "fcc" : ee.ImageCollection.fromImages([
+                   ee.Image('users/cesefor/InventarioForestal/LiDAR/1C/SEGOVIA_FCC'),
+                   ee.Image('')])
+                   .mosaic(),
+                   
+           "elev_95" : ee.ImageCollection.fromImages([
+                   ee.Image('users/cesefor/InventarioForestal/LiDAR/1C/SEGOVIA_Elev_P95'),
+                   ee.Image('users/cesefor/InventarioForestal/LiDAR/1C/SORIA_Elev_P95_1C')])
+                   .mosaic()
+};
+
+
+// LiDAR variables for the the second coberage
+var c2 =  { "fcc" : ee.ImageCollection.fromImages([
+                   ee.Image('users/cesefor/InventarioForestal/LiDAR/2C/VALLADOLID_FCC')])
+                   .mosaic(),
+                   
+           "elev_95" : ee.ImageCollection.fromImages([
+                   ee.Image('users/cesefor/InventarioForestal/LiDAR/2C/VALLADOLID_Elev_P95')])
+                   .mosaic()
+};
