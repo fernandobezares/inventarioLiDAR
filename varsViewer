@@ -87,12 +87,12 @@ var cobs = ['1a Cobertura','2a Cobertura']
 var coberturaSelect = ui.Select({
   items: cobs,
   value:'1a Cobertura',
-  onChange : function(cobertura){return ee.String(cobertura)}
+  onChange : function(cobertura){return print(ee.String(cobertura))}
   
 });
 
 //Select las varaibles por cobertura
-ee.String(coberturaSelect.getValue()).evaluate(function(cover){
+ee.String(coberturaSelect).evaluate(function(cover){
   
 print('Cover', cover)
 
