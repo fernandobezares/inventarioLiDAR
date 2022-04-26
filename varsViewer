@@ -1,4 +1,4 @@
 
 var lidar = require('users/cesefor/inventarioForestal:LiDARVars');
 
-print(lidar)
+Map.addLayer(lidar.c1.elev_95)
