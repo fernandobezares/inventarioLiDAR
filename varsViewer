@@ -20,18 +20,19 @@ Map.addLayer(cylPStyled);
 Map.addLayer(cylStyled);
 
 //
-function checkCoberturas(){
+function checkCoberturas(cobertura){
   
   // check the value of the select cobertura 
-  if ( cobertura === ''){
+  if (cobertura == null){
     
     alert('Selecciona una cobertura');
     
   // if cobertura is not null
-  } else (){
+  } else{
     
+    cobertura = ee.String(cobertura)
     // get teh value of cobertura
-    var cobertura = ee.String(coberturaSelect.getValue());
+    //var cobertura = ee.String(coberturaSelect.getValue());
     
     // if cobertura is equal to 1c then retrieve the keys 
     if (cobertura.equals(ee.String('1a Cobertura'))){
@@ -84,12 +85,14 @@ var aoi = ui.Select({
 // Select la cobertura
 var coberturaSelect = ui.Select({
   items: ['1a Cobertura','2a Cobertura'],
+  value:'1a Cobertura',
+  onChange : function (cobertura){return ee.String(cobertura)}
   
 });
 
 //Select las varaibles por cobertura
 var variables = ui.Select({
-  items : checkCoberturas(),
+  items : ee.String(coberturaSelect.getValue()).evaluate(checkCoberturas),
   
 })
 
