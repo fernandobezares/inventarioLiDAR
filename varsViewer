@@ -88,7 +88,18 @@ var cobs = ['1a Cobertura','2a Cobertura'];
 var coberturaSelect = ui.Select({
   items: cobs,
   //value:'null',
-  onChange : function(cobertura){return print(ee.String(cobertura))}
+  onChange : function(cobertura){
+    
+    
+    
+    
+    
+    return checkCoberturas()
+    
+    
+    
+    
+  }
   
 });
 
