@@ -1,10 +1,11 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var image = ee.Image("users/cesefor/CYL_TCH_GEDI_2021"),
-    image2 = ee.Image("users/cesefor/CYL_TCH_GEDI_2021");
+var image = ee.Image("users/cesefor/InventarioForestal/LiDAR/2C/VALLADOLID_Elev_P95"),
+    image3 = ee.Image("users/cesefor/InventarioForestal/LiDAR/1C/SORIA_Elev_P95_1C"),
+    image2 = ee.Image("users/cesefor/InventarioForestal/LiDAR/1C/SEGOVIA_FCC");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // import LiDAR Vars
 var lidar = require('users/cesefor/inventarioForestal:LiDARVars');
-print(Object.keys(lidar.c1))
+
 // aoi list
 var provinciasNames = ['Ávila','Burgos','León','Palencia','Salamanca','Segovia','Soria','Valladolid','Zamora'];
 
