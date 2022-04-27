@@ -82,12 +82,12 @@ var aoi = ui.Select({
   }
 });
 
-var cobs = ['1a Cobertura','2a Cobertura']
+var cobs = ['1a Cobertura','2a Cobertura'];
 
 // Select la cobertura
 var coberturaSelect = ui.Select({
   items: cobs,
-  value:'null',
+  //value:'null',
   onChange : function(cobertura){return print(ee.String(cobertura))}
   
 });
@@ -95,12 +95,12 @@ var coberturaSelect = ui.Select({
 //Select las varaibles por cobertura
 ee.String(coberturaSelect.getValue()).evaluate(function(cover){
   
-print('Cover', cover)
+print('Cover', cover);
 
 // create the ui.Select according to the cobertura seelct value
 var v = ui.Select({
   items :checkCoberturas(cover)
-  })
+  });
   
   mainPanel.add(v)
 
