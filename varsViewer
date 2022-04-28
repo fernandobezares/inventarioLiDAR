@@ -132,9 +132,10 @@ var coberturaSelect = ui.Select({
   //value: '1a Cobertura',
   style: {width: "98%"},
   onChange:function(cover){
-    buttonPanels.clear().add(coberturaSelect).add(loadingDatasetsSelect);
+    buttonPanels.clear().add(coberturaSelect).add(loadingDatasetSelect);
     var datasets = checkCoberturas(cover);
-    datasets.evaluate(function(list){
+    ee.List(datasets).evaluate(function(list){
+      print(list)
         datasetSelect = ui.Select({
           items: list,
           style: {width: "98%"},
@@ -169,6 +170,6 @@ var v = ui.Select({
 
 // add widgets to panel 
 
-mainPanel.add(mainTitle).add(coberturaSelect)
+mainPanel.add(mainTitle).add(buttonPanels)
 
 ui.root.add(mainPanel)
