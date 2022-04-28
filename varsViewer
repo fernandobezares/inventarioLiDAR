@@ -24,6 +24,7 @@ var fcc = fcc.mosaic();
 
 // cargar la p95
 var p95 = p95. mosaic()
+var mdav = mdav.map(function(image){return image.updateMask(image.neq(0))}).mosaic()
 
 // visualize vars 
 Map.addLayer(fcc,{min:0,max:100,palette:['white','lightyellow','lightgreen','green']},'fcc',0);
