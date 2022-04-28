@@ -2,7 +2,7 @@
 
 var c1 = { "fcc" : ee.ImageCollection('users/cesefor/InventarioForestal/LiDAR/1C/FCC').mosaic(),
            "elev_95" : ee.ImageCollection('users/cesefor/InventarioForestal/LiDAR/1C/P95').mosaic(),
-           "mdav": ee.ImageCollection('users/cesefor/InventarioForestal/LiDAR/1C/mdav').mosaic()
+           "mdav": ee.ImageCollection('users/cesefor/InventarioForestal/LiDAR/1C/MDAV').mosaic()
 };
 
 
