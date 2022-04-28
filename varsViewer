@@ -43,28 +43,19 @@ function checkCoberturas(cobertura){
   if (cobertura === null){
     
     alert('Selecciona una cobertura');
-    
   // if cobertura is not null
   } else {
     
-    cobertura = ee.String(cobertura);
-    print(cobertura)
-    // get teh value of cobertura
-    //var cobertura = ee.String(coberturaSelect.getValue());
-    
     // if cobertura is equal to 1c then retrieve the keys 
-    if (cobertura.compareTo(ee.String('1a Cobertura'))){
-      print('True 1a Cobertura')
+    if (cobertura === '1a Cobertura'){
+     
+      // return the keys of the 1 cover object
+      return Object.keys(lidar.c1);
     
-    // return the keys of the 1 cover object
-    return Object.keys(lidar.c1);
+  }else if (cobertura === '2a Cobertura'){
     
-  }else if (cobertura.compareTo(ee.String('2a Cobertura'))){
-    
-    print('True 2a Cobertura')
-    
-    // return the keys of the 2 cover object
-    return Object.keys(lidar.c2);
+      // return the keys of the 2 cover object
+      return Object.keys(lidar.c2);
     }
   
     
@@ -113,19 +104,21 @@ var buttonPanels = ui.Panel({layout:ui.Panel.Layout.flow('vertical')});
 // select Dataset from coberturas 
 var datasetSelect = ui.Select({
   items: [],
+  style: {width: "98%"},
   placeholder:'Datasets'
 });
 
 // loading datasets 
 var loadingDatasetSelect = ui.Select({
   items: [],
+  style: {width: "98%"},
   placeholder:'Loading...'
 });
 
 // Select la cobertura
 var coberturaSelect = ui.Select({
   items: cobs,
-  //value:'null',
+  style: {width: "98%"},
   onChange : function(){}
   
 });
