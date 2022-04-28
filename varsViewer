@@ -116,25 +116,21 @@ var loadingDatasetSelect = ui.Select({
   placeholder:'Loading...'
 });
 
-// Select la cobertura
-var coberturaSelect = ui.Select({
-  items: cobs,
-  style: {width: "95%"},
-  onChange : function(){}
-  
-});
+
 
 // ui.Select coberturas
 var coberturaSelect = ui.Select({
   items: cobs,
+  placeholder:'Seleccionar Cobertura LiDAR',
   //value: '1a Cobertura',
   style: {width: "95%"},
   onChange:function(cover){
     buttonPanels.clear().add(coberturaSelect).add(loadingDatasetSelect);
     var datasets = checkCoberturas(cover);
     ee.List(datasets).evaluate(function(list){
-      print(list)
+      //print(list)
         datasetSelect = ui.Select({
+          placeholder: 'Variables LiDAR',
           items: list,
           style: {width: "95%"},
           //value: 'All regions'
