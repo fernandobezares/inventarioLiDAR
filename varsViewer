@@ -74,7 +74,10 @@ print(Map.layers())
 
 function displayImage(image){
   
-  // clean the active layer list
+  // get cover value
+  var cobertura = coberturaSelect.getValue()
+  cobertura.evaluate(function(cover){
+    // clean the active layer list
     
     if (Map.layers().length().gte(0)){
       
@@ -84,16 +87,28 @@ function displayImage(image){
       // add images
       
       // visualize vars 
-      Map.addLayer(fcc,{min:0,max:100,palette:['white','lightyellow','lightgreen','green']},'fcc',0);
-      Map.addLayer(p95,{min:0,max:25,palette:['white','lightyellow','orange','red']},'p95',0);
-      Map.addLayer(mdav,{min:0,max:25,palette:['white','lightblue','blue','purple']},'mdav',0);
+      Map.addLayer(lidar[cover][image],visualizations[image],image,1);
+      
+      
+      // visualize provinces
+      Map.addLayer(cylPStyled,{},'Provincias',0);
+      Map.addLayer(cylStyled,{},'CYL',0);
+      
+    } else{
+      
+      // visualize vars 
+      Map.addLayer(lidar[cover][image],visualizations[image],image,1);
+      
       
       // visualize provinces
       Map.addLayer(cylPStyled,{},'Provincias',0);
       Map.addLayer(cylStyled,{},'CYL',0);
       
     }
-    Map.clear();
+  
+    
+  })
+  
     
   
 }
@@ -156,7 +171,7 @@ var loadingDatasetSelect = ui.Select({
 var coberturaSelect = ui.Select({
   items: cobs,
   placeholder:'Seleccionar Cobertura LiDAR',
-  //value: '1a Cobertura',
+  value: '1a Cobertura',
   style: {width: "95%"},
   onChange:function(cover){
     buttonPanels.clear().add(coberturaSelect).add(loadingDatasetSelect);
