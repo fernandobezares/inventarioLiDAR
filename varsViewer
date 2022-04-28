@@ -126,6 +126,7 @@ var coberturaSelect = ui.Select({
   style: {width: "95%"},
   onChange:function(cover){
     buttonPanels.clear().add(coberturaSelect).add(loadingDatasetSelect);
+    // chechk the  type of LiDR Cover 
     var datasets = checkCoberturas(cover);
     ee.List(datasets).evaluate(function(list){
       //print(list)
