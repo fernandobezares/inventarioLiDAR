@@ -69,7 +69,7 @@ function checkCoberturas(cobertura){
 // 
 // ui.Panel
 var mainPanel = ui.Panel({layout : ui.Panel.Layout.flow('vertical')});
-mainPanel.style().set({width:'400px'});
+mainPanel.style().set({width:'300px', margin:"4px"});
 // Main Title 
 var mainTitle = ui.Label('Visor Variables LiDAR');
 
@@ -99,27 +99,27 @@ var cobs = ['1a Cobertura','2a Cobertura'];
 
 // ui.Panel for covers 
 var buttonPanels = ui.Panel({layout:ui.Panel.Layout.flow('vertical')});
-buttonPanels.style().set({backgroundColor:'#c0b09e',width:'98%'})
+buttonPanels.style().set({backgroundColor:'#c0b09e',width:'100%'})
 
 
 // select Dataset from coberturas 
 var datasetSelect = ui.Select({
   items: [],
-  style: {width: "98%"},
+  style: {width: "95%"},
   placeholder:'Datasets'
 });
 
 // loading datasets 
 var loadingDatasetSelect = ui.Select({
   items: [],
-  style: {width: "98%"},
+  style: {width: "95%"},
   placeholder:'Loading...'
 });
 
 // Select la cobertura
 var coberturaSelect = ui.Select({
   items: cobs,
-  style: {width: "98%"},
+  style: {width: "95%"},
   onChange : function(){}
   
 });
@@ -128,7 +128,7 @@ var coberturaSelect = ui.Select({
 var coberturaSelect = ui.Select({
   items: cobs,
   //value: '1a Cobertura',
-  style: {width: "98%"},
+  style: {width: "95%"},
   onChange:function(cover){
     buttonPanels.clear().add(coberturaSelect).add(loadingDatasetSelect);
     var datasets = checkCoberturas(cover);
@@ -136,7 +136,7 @@ var coberturaSelect = ui.Select({
       print(list)
         datasetSelect = ui.Select({
           items: list,
-          style: {width: "98%"},
+          style: {width: "95%"},
           //value: 'All regions'
         });
     buttonPanels.clear().add(coberturaSelect).add(datasetSelect); 
@@ -147,23 +147,6 @@ var coberturaSelect = ui.Select({
 buttonPanels.clear().add(coberturaSelect).add(datasetSelect);
 
 
-/*
-//Select las varaibles por cobertura
-ee.String(coberturaSelect.getValue()).evaluate(function(cover){
-  
-print('Cover', cover);
-
-// create the ui.Select according to the cobertura seelct value
-var v = ui.Select({
-  items :checkCoberturas(cover)
-  });
-  
-  mainPanel.add(v)
-
-
-});
-
-*/
 
 
 // add widgets to panel 
