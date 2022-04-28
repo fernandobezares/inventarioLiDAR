@@ -37,7 +37,7 @@ Map.addLayer(cylStyled,{},'CYL',0);
 
 
 //check which cover is selected
-function checkCoberturas(cobertura){
+function checkDatasetCovers(cobertura){
   
   // check the value of the select cobertura 
   if (cobertura === null){
@@ -63,6 +63,33 @@ function checkCoberturas(cobertura){
     
 }
 
+//check which cover is selected
+function checkCovers(cobertura){
+  
+  // check the value of the select cobertura 
+  if (cobertura === null){
+    
+    alert('Selecciona una cobertura');
+  // if cobertura is not null
+  } else {
+    
+    // if cobertura is equal to 1c then retrieve the keys 
+    if (cobertura === '1a Cobertura'){
+     
+      // return the keys of the 1 cover object
+      return 'c1';
+    
+  }else if (cobertura === '2a Cobertura'){
+    
+      // return the keys of the 2 cover object
+      return 'c2';
+    }
+  
+    
+  }
+    
+}
+
 var visualizations = {
   'fcc': {min:0,max:100,palette:['white','lightyellow','lightgreen','green']},
   'mdav':{min:0,max:25,palette:['white','lightblue','blue','purple']},
@@ -72,14 +99,17 @@ var visualizations = {
 print(Map.layers())
 // function for displaying teh selected image 
 
-function displayImage(image){
+/*
+function displayImage(image,cover){
   
   // get cover value
-  var cobertura = coberturaSelect.getValue()
+  var cobertura = ee.String(coberturaSelect.getValue())
   cobertura.evaluate(function(cover){
     // clean the active layer list
     
-    if (Map.layers().length().gte(0)){
+    print(cover)
+    
+    if (Map.layers().length() >0 ){
       
       // clear the Map and add the selected layer 
       Map.clear();
@@ -109,7 +139,41 @@ function displayImage(image){
     
   })
   
+}
+  */
+  
+
+function displayImage(image,cover){
+  
+   print(image)
+   print(cover)
     
+    if (Map.layers().length() >0 ){
+      
+      // clear the Map and add the selected layer 
+      Map.clear();
+      
+      // add images
+      
+      // visualize vars 
+      Map.addLayer(lidar[cover][image],visualizations[image],image,1);
+      
+      
+      // visualize provinces
+      Map.addLayer(cylPStyled,{},'Provincias',0);
+      Map.addLayer(cylStyled,{},'CYL',0);
+      
+    } else{
+      
+      // visualize vars 
+      Map.addLayer(lidar[cover][image],visualizations[image],image,1);
+      
+      
+      // visualize provinces
+      Map.addLayer(cylPStyled,{},'Provincias',0);
+      Map.addLayer(cylStyled,{},'CYL',0);
+      
+    }
   
 }
   
@@ -171,12 +235,12 @@ var loadingDatasetSelect = ui.Select({
 var coberturaSelect = ui.Select({
   items: cobs,
   placeholder:'Seleccionar Cobertura LiDAR',
-  value: '1a Cobertura',
+  //value: '1a Cobertura',
   style: {width: "95%"},
   onChange:function(cover){
     buttonPanels.clear().add(coberturaSelect).add(loadingDatasetSelect);
     // chechk the  type of LiDR Cover 
-    var datasets = checkCoberturas(cover);
+    var datasets = checkDatasetCovers(cover);
     ee.List(datasets).evaluate(function(list){
       //print(list)
         datasetSelect = ui.Select({
@@ -184,6 +248,11 @@ var coberturaSelect = ui.Select({
           items: list,
           style: {width: "95%"},
           //value: 'All regions'
+          onChange: function(image){
+            
+            print('IMAGE DATASELECT',image)
+            print('Cover DATASELECT',cover)
+            return displayImage(image,checkCovers(cover))}
         });
     buttonPanels.clear().add(coberturaSelect).add(datasetSelect); 
     });
