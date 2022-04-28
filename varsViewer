@@ -23,8 +23,8 @@ var cylPStyled = cylP.style({color : 'black' , fillColor:'FF000000' , lineType :
 var fcc = fcc.mosaic();
 
 // cargar la p95
-var p95 = p95. mosaic()
-var mdav = mdav.map(function(image){return image.updateMask(image.neq(0))}).mosaic()
+var p95 = p95. mosaic();
+var mdav = mdav.map(function(image){return image.updateMask(image.neq(0))}).mosaic();
 
 // visualize vars 
 Map.addLayer(fcc,{min:0,max:100,palette:['white','lightyellow','lightgreen','green']},'fcc',0);
@@ -53,11 +53,14 @@ function checkCoberturas(cobertura){
     
     // if cobertura is equal to 1c then retrieve the keys 
     if (cobertura.equals(ee.String('1a Cobertura'))){
+      print('True 1a Cobertura')
     
     // return the keys of the 1 cover object
     return Object.keys(lidar.c1);
     
   }else if (cobertura.equals(ee.String('2a Cobertura'))){
+    
+    print('True 2a Cobertura')
     
     // return the keys of the 2 cover object
     return Object.keys(lidar.c2);
