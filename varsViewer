@@ -62,14 +62,48 @@ function checkCoberturas(cobertura){
   }
     
 }
+
+var visualizations = {
+  'fcc': {min:0,max:100,palette:['white','lightyellow','lightgreen','green']},
+  'mdav':{min:0,max:25,palette:['white','lightblue','blue','purple']},
+  'elev_p95':{min:0,max:25,palette:['white','lightyellow','orange','red']},
+}
+
+print(Map.layers())
+// function for displaying teh selected image 
+
+function displayImage(image){
   
-   
+  // clean the active layer list
+    
+    if (Map.layers().length().gte(0)){
+      
+      // clear the Map and add the selected layer 
+      Map.clear();
+      
+      // add images
+      
+      // visualize vars 
+      Map.addLayer(fcc,{min:0,max:100,palette:['white','lightyellow','lightgreen','green']},'fcc',0);
+      Map.addLayer(p95,{min:0,max:25,palette:['white','lightyellow','orange','red']},'p95',0);
+      Map.addLayer(mdav,{min:0,max:25,palette:['white','lightblue','blue','purple']},'mdav',0);
+      
+      // visualize provinces
+      Map.addLayer(cylPStyled,{},'Provincias',0);
+      Map.addLayer(cylStyled,{},'CYL',0);
+      
+    }
+    Map.clear();
+    
+  
+}
   
 
 // 
 // ui.Panel
 var mainPanel = ui.Panel({layout : ui.Panel.Layout.flow('vertical')});
 mainPanel.style().set({width:'300px', margin:"4px"});
+
 // Main Title 
 var mainTitle = ui.Label('Visor Variables LiDAR');
 
@@ -148,6 +182,6 @@ buttonPanels.clear().add(coberturaSelect).add(datasetSelect);
 
 // add widgets to panel 
 
-mainPanel.add(mainTitle).add(buttonPanels)
+mainPanel.add(mainTitle).add(buttonPanels);
 
-ui.root.add(mainPanel)
+ui.root.add(mainPanel);
