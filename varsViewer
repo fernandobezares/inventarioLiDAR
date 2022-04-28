@@ -93,7 +93,7 @@ function checkCovers(cobertura){
 var visualizations = {
   'fcc': {min:0,max:100,palette:['white','lightyellow','lightgreen','green']},
   'mdav':{min:0,max:25,palette:['white','lightblue','blue','purple']},
-  'elev_p95':{min:0,max:25,palette:['white','lightyellow','orange','red']},
+  'elev_95':{min:0,max:25,palette:['white','lightyellow','orange','red']},
 }
 
 print(Map.layers())
