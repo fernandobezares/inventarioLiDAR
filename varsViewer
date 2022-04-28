@@ -69,7 +69,7 @@ function checkCoberturas(cobertura){
 // 
 // ui.Panel
 var mainPanel = ui.Panel({layout : ui.Panel.Layout.flow('vertical')});
-
+mainPanel.style().set({width:'400px'});
 // Main Title 
 var mainTitle = ui.Label('Visor Variables LiDAR');
 
@@ -99,6 +99,7 @@ var cobs = ['1a Cobertura','2a Cobertura'];
 
 // ui.Panel for covers 
 var buttonPanels = ui.Panel({layout:ui.Panel.Layout.flow('vertical')});
+buttonPanels.style().set({backgroundColor:'#c0b09e',width:'98%'})
 
 
 // select Dataset from coberturas 
