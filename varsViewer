@@ -145,9 +145,7 @@ function displayImage(image,cover){
 
 function displayImage(image,cover){
   
-   print(image)
-   print(cover)
-    
+
     if (Map.layers().length() >0 ){
       
       // clear the Map and add the selected layer 
@@ -230,7 +228,6 @@ var loadingDatasetSelect = ui.Select({
 });
 
 
-
 // ui.Select coberturas
 var coberturaSelect = ui.Select({
   items: cobs,
@@ -250,8 +247,6 @@ var coberturaSelect = ui.Select({
           //value: 'All regions'
           onChange: function(image){
             
-            print('IMAGE DATASELECT',image)
-            print('Cover DATASELECT',cover)
             return displayImage(image,checkCovers(cover))}
         });
     buttonPanels.clear().add(coberturaSelect).add(datasetSelect); 
