@@ -1,6 +1,7 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var fcc = ee.ImageCollection("users/cesefor/InventarioForestal/LiDAR/1C/FCC"),
-    p95 = ee.ImageCollection("users/cesefor/InventarioForestal/LiDAR/1C/P95");
+    p95 = ee.ImageCollection("users/cesefor/InventarioForestal/LiDAR/1C/P95"),
+    mdav = ee.ImageCollection("users/cesefor/InventarioForestal/LiDAR/1C/MDAV");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // import LiDAR Vars
 var lidar = require('users/cesefor/inventarioForestal:LiDARVars');
@@ -25,12 +26,14 @@ var fcc = fcc.mosaic();
 var p95 = p95. mosaic()
 
 // visualize vars 
-Map.addLayer(fcc,{min:0,max:100,palette:['white','lightyellow','lightgreen','green']},'fcc');
-Map.addLayer(p95,{min:0,max:25,palette:['white','lightyellow','orange','red']},'p95');
-
+Map.addLayer(fcc,{min:0,max:100,palette:['white','lightyellow','lightgreen','green']},'fcc',0);
+Map.addLayer(p95,{min:0,max:25,palette:['white','lightyellow','orange','red']},'p95',0);
+Map.addLayer(mdav,{min:0,max:40,palette:['white','lightblue','blue','purple']},'mdav',0);
 // visualize provinces
-Map.addLayer(cylPStyled,{},'Provincias');
-Map.addLayer(cylStyled,{},'CYL');
+Map.addLayer(cylPStyled,{},'Provincias',0);
+Map.addLayer(cylStyled,{},'CYL',0);
+
+
 //
 function checkCoberturas(cobertura){
   
@@ -100,21 +103,12 @@ var cobs = ['1a Cobertura','2a Cobertura'];
 var coberturaSelect = ui.Select({
   items: cobs,
   //value:'null',
-  onChange : function(cobertura){
-    
-    
-    
-    
-    
-    return checkCoberturas()
-    
-    
-    
-    
-  }
+  onChange : function(){}
   
 });
 
+
+/*
 //Select las varaibles por cobertura
 ee.String(coberturaSelect.getValue()).evaluate(function(cover){
   
@@ -130,7 +124,7 @@ var v = ui.Select({
 
 });
 
-
+*/
 
 
 // add widgets to panel 
