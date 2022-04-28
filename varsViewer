@@ -48,17 +48,18 @@ function checkCoberturas(cobertura){
   } else {
     
     cobertura = ee.String(cobertura);
+    print(cobertura)
     // get teh value of cobertura
     //var cobertura = ee.String(coberturaSelect.getValue());
     
     // if cobertura is equal to 1c then retrieve the keys 
-    if (cobertura.equals(ee.String('1a Cobertura'))){
+    if (cobertura.compareTo(ee.String('1a Cobertura'))){
       print('True 1a Cobertura')
     
     // return the keys of the 1 cover object
     return Object.keys(lidar.c1);
     
-  }else if (cobertura.equals(ee.String('2a Cobertura'))){
+  }else if (cobertura.compareTo(ee.String('2a Cobertura'))){
     
     print('True 2a Cobertura')
     
