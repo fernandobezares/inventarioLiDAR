@@ -1,7 +1,6 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var image = ee.Image("users/cesefor/InventarioForestal/LiDAR/2C/VALLADOLID_Elev_P95"),
-    image3 = ee.Image("users/cesefor/InventarioForestal/LiDAR/1C/SORIA_Elev_P95_1C"),
-    image2 = ee.Image("users/cesefor/InventarioForestal/LiDAR/1C/SEGOVIA_FCC");
+var fcc = ee.ImageCollection("users/cesefor/InventarioForestal/LiDAR/1C/FCC"),
+    p95 = ee.ImageCollection("users/cesefor/InventarioForestal/LiDAR/1C/P95");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // import LiDAR Vars
 var lidar = require('users/cesefor/inventarioForestal:LiDARVars');
@@ -21,10 +20,10 @@ Map.addLayer(cylPStyled);
 Map.addLayer(cylStyled);
 
 // cargar las fcc
-var fcc = cfcc.mosaic();
+var fcc = fcc.mosaic();
 
 // cargar la p95
-var p95 = p95c. mosaic()
+var p95 = p95. mosaic()
 
 Map.addLayer(fcc,{min:0,max:100,palette:['white','lightyellow','lightgreen','green']},'fcc');
 Map.addLayer(p95,{min:0,max:25,palette:['white','lightyellow','orange','red']},'p95');
