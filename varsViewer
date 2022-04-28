@@ -97,55 +97,62 @@ var visualizations = {
 }
 
 print(Map.layers())
-// function for displaying teh selected image 
+ 
 
-/*
-function displayImage(image,cover){
+// function for creating the legend
+function createColorBar(titleText, palette, min, max) {
+  // Legend Title
+  var title = ui.Label({
+    value: titleText, 
+    style: {fontWeight: 'bold', textAlign: 'center', stretch: 'horizontal'}});
+
+  // Colorbar
+  var legend = ui.Thumbnail({
+    image: ee.Image.pixelLonLat().select(0),
+    params: {
+      bbox: [0, 0, 1, 0.1],
+      dimensions: '200x20',
+      format: 'png', 
+      min: 0, max: 1,
+      palette: palette},
+    style: {stretch: 'horizontal', margin: '8px 8px', maxHeight: '40px'},
+  });
   
-  // get cover value
-  var cobertura = ee.String(coberturaSelect.getValue())
-  cobertura.evaluate(function(cover){
-    // clean the active layer list
-    
-    print(cover)
-    
-    if (Map.layers().length() >0 ){
-      
-      // clear the Map and add the selected layer 
-      Map.clear();
-      
-      // add images
-      
-      // visualize vars 
-      Map.addLayer(lidar[cover][image],visualizations[image],image,1);
-      
-      
-      // visualize provinces
-      Map.addLayer(cylPStyled,{},'Provincias',0);
-      Map.addLayer(cylStyled,{},'CYL',0);
-      
-    } else{
-      
-      // visualize vars 
-      Map.addLayer(lidar[cover][image],visualizations[image],image,1);
-      
-      
-      // visualize provinces
-      Map.addLayer(cylPStyled,{},'Provincias',0);
-      Map.addLayer(cylStyled,{},'CYL',0);
-      
-    }
+  // Legend Labels
+  var labels = ui.Panel({
+    widgets: [
+      ui.Label(min, {margin: '4px 10px',textAlign: 'left', stretch: 'horizontal'}),
+      ui.Label((min+max)/2, {margin: '4px 20px', textAlign: 'center', stretch: 'horizontal'}),
+      ui.Label(max, {margin: '4px 10px',textAlign: 'right', stretch: 'horizontal'})],
+    layout: ui.Panel.Layout.flow('horizontal')});
   
-    
+  // Create a panel with all 3 widgets
+  var legendPanel = ui.Panel({
+    widgets: [title, legend, labels],
+    style: {position: 'bottom-center', padding: '8px 15px'}
   })
-  
+  return legendPanel
 }
-  */
-  
 
+  
+// function for displaying teh selected image
 function displayImage(image,cover){
   
-
+    // image to represent
+    var varImg = lidar[cover][image];
+    
+    // visualziation parameters
+    var vis = visualizations[image];
+    
+      // pallete
+      var palette = vis.palette;
+      
+      // min
+      var min = vis.min;
+      
+      //max 
+      var max = vis.max;
+    
     if (Map.layers().length() >0 ){
       
       // clear the Map and add the selected layer 
@@ -154,22 +161,35 @@ function displayImage(image,cover){
       // add images
       
       // visualize vars 
-      Map.addLayer(lidar[cover][image],visualizations[image],image,1);
+      Map.addLayer(varImg, vis, image,1);
       
       
       // visualize provinces
       Map.addLayer(cylPStyled,{},'Provincias',0);
       Map.addLayer(cylStyled,{},'CYL',0);
+      
+      // add legend
+      // Call the function to create a colorbar legend
+      var colorBar = createColorBar(image, palette, min, max);
+
+      Map.add(colorBar);
+      
       
     } else{
       
       // visualize vars 
-      Map.addLayer(lidar[cover][image],visualizations[image],image,1);
+      Map.addLayer(varImg, vis, image,1);
       
       
       // visualize provinces
       Map.addLayer(cylPStyled,{},'Provincias',0);
       Map.addLayer(cylStyled,{},'CYL',0);
+      
+      // add legend
+      // Call the function to create a colorbar legend
+      var colorBar = createColorBar(image, palette, min, max);
+
+      Map.add(colorBar);
       
     }
   
