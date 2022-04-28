@@ -36,16 +36,16 @@ Map.addLayer(cylPStyled,{},'Provincias',0);
 Map.addLayer(cylStyled,{},'CYL',0);
 
 
-//
+//check which cover is selected
 function checkCoberturas(cobertura){
   
   // check the value of the select cobertura 
-  if (cobertura == null){
+  if (cobertura === null){
     
     alert('Selecciona una cobertura');
     
   // if cobertura is not null
-  } else{
+  } else {
     
     cobertura = ee.String(cobertura);
     // get teh value of cobertura
@@ -99,7 +99,24 @@ var aoi = ui.Select({
   }
 });
 
+// cover lists
 var cobs = ['1a Cobertura','2a Cobertura'];
+
+// ui.Panel for covers 
+var buttonPanels = ui.Panel({layout:ui.Panel.Layout.flow('vertical')});
+
+
+// select Dataset from coberturas 
+var datasetSelect = ui.Select({
+  items: [],
+  placeholder:'Datasets'
+});
+
+// loading datasets 
+var loadingDatasetSelect = ui.Select({
+  items: [],
+  placeholder:'Loading...'
+});
 
 // Select la cobertura
 var coberturaSelect = ui.Select({
@@ -108,6 +125,27 @@ var coberturaSelect = ui.Select({
   onChange : function(){}
   
 });
+
+// ui.Select coberturas
+var coberturaSelect = ui.Select({
+  items: cobs,
+  //value: '1a Cobertura',
+  style: {width: "98%"},
+  onChange:function(cover){
+    buttonPanels.clear().add(coberturaSelect).add(loadingDatasetsSelect);
+    var datasets = checkCoberturas(cover);
+    datasets.evaluate(function(list){
+        datasetSelect = ui.Select({
+          items: list,
+          style: {width: "98%"},
+          //value: 'All regions'
+        });
+    buttonPanels.clear().add(coberturaSelect).add(datasetSelect); 
+    });
+  }
+});
+      
+buttonPanels.clear().add(coberturaSelect).add(datasetSelect);
 
 
 /*
