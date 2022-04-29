@@ -93,7 +93,7 @@ function checkCovers(cobertura){
 var visualizations = {
   'fcc': {min:0,max:100,palette:['white','lightyellow','lightgreen','green']},
   'mdav':{min:0,max:25,palette:['white','lightblue','blue','purple']},
-  'elev_95':{min:0,max:25,palette:['white','lightyellow','orange','red']},
+  'elev_95':{min:0,max:20,palette:['white','lightyellow','orange','red']},
   'elev_75':{min:0,max:15,palette:['white','lightyellow','orange','red']},
   'Canopy_Relief_Ratio': {min:0 ,max:1 ,palette:['white','lightgrey','grey','black']},
   'vcc':{min:0,max:10,palette:['white','lightgrey','grey','black']},
