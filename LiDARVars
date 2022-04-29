@@ -1,9 +1,17 @@
-// LiDAR variables for the the first coberage
+// funciones de Volumen 
+function calculateVolume(P75, All_returns_above_heightbreak_div_Total_first_returns_100) {
+  
+  
+}
 
+// LiDAR variables for the the first coberage
 var c1 = { "fcc" : ee.ImageCollection('users/cesefor/InventarioForestal/LiDAR/1C/FCC').mosaic(),
            "elev_95" : ee.ImageCollection('users/cesefor/InventarioForestal/LiDAR/1C/P95').mosaic(),
+           "ele_p75" : ee.ImageCollection ('users/cesefor/InventarioForestal/LiDAR/1C/P75').mosaic(),
+           "Canopy_Relief_Ratio": ee.ImageCollection ('users/cesefor/InventarioForestal/LiDAR/1C/CRR').mosaic(),
            "mdav": ee.ImageCollection('users/cesefor/InventarioForestal/LiDAR/1C/MDAV')
            .map(function(image){return image.updateMask(image.neq(0))}).mosaic(),
+           
 };
 
 
