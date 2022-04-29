@@ -20,6 +20,7 @@ function calculateVolume(All_returns_above_heightbreak_div_Total_first_returns_1
 var c1 = { "fcc" : ee.ImageCollection('users/cesefor/InventarioForestal/LiDAR/1C/FCC').mosaic(),
            "elev_95" : ee.ImageCollection('users/cesefor/InventarioForestal/LiDAR/1C/P95').mosaic(),
            "ele_p75" : ee.ImageCollection ('users/cesefor/InventarioForestal/LiDAR/1C/P75').mosaic(),
+           "All_returns_above_heightbreak_div_Total_first_returns_100" : ee.ImageCollection ('users/cesefor/InventarioForestal/LiDAR/1C/All_returns_above_heightbreak_div_Total_first_returns_100').mosaic(), 
            "Canopy_Relief_Ratio": ee.ImageCollection ('users/cesefor/InventarioForestal/LiDAR/1C/CRR').mosaic(),
            "vcc": calculateVolume(c1.All_returns_above_heightbreak_div_Total_first_returns_100,c1.Canopy_Relief_ratio),
            "mdav": ee.ImageCollection('users/cesefor/InventarioForestal/LiDAR/1C/MDAV')
