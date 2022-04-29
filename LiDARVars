@@ -2,16 +2,17 @@
 function calculateVolume(P75, All_returns_above_heightbreak_div_Total_first_returns_100) {
   
   // Expression using named variables.
-    var namedVarsExp = '(-9.33)+';
-      var namedVarsImg = ee.Image().expression({
-        expression: namedVarsExp,
+    var vcc_pinos = '(-9.33) + 0.14* a + 0.907309* b';
+    
+    var vcc = ee.Image().expression({
+        expression: vcc_pinos,
         map: {
-            NIR: img.select('SR_B5'),
-            Red: img.select('SR_B4')
+            a: All_returns_above_heightbreak_div_Total_first_returns_100.select('SR_B5'),
+            b: P75
     }
-    }).rename('NDVI');
+    }).rename('vcc');
   
-  var vcc = ee.Image
+  return vcc ;
   
 }
 
