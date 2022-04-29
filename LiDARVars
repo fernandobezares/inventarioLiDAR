@@ -16,7 +16,7 @@ var c1 = { "fcc" : ee.ImageCollection('users/cesefor/InventarioForestal/LiDAR/1C
 var vcc1c = models.VCC(c1.All_returns_above_heightbreak_div_Total_first_returns_100,c1.Canopy_Relief_ratio);
 
 // add to collection
-c1.vcc = vcc1;
+c1.vcc = vcc1c;
 
 // LiDAR variables for the the second coberage
 var c2 =  { "fcc" : ee.ImageCollection.fromImages([
@@ -31,3 +31,5 @@ var c2 =  { "fcc" : ee.ImageCollection.fromImages([
 };
 
 exports = {'c1': c1 , 'c2' : c2};
+
+Map.addLayer(vcc1c)
