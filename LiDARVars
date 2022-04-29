@@ -1,5 +1,5 @@
 // funciones de Volumen 
-function calculateVolume(P75, All_returns_above_heightbreak_div_Total_first_returns_100) {
+function calculateVolume(All_returns_above_heightbreak_div_Total_first_returns_100,P75) {
   
   // Expression using named variables.
     var vcc_pinos = '(-9.33) + 0.14* a + 0.907309* b';
@@ -12,7 +12,7 @@ function calculateVolume(P75, All_returns_above_heightbreak_div_Total_first_retu
     }
     }).rename('vcc');
   
-  return vcc ;
+  return ee.Image(vcc) ;
   
 }
 
@@ -21,6 +21,7 @@ var c1 = { "fcc" : ee.ImageCollection('users/cesefor/InventarioForestal/LiDAR/1C
            "elev_95" : ee.ImageCollection('users/cesefor/InventarioForestal/LiDAR/1C/P95').mosaic(),
            "ele_p75" : ee.ImageCollection ('users/cesefor/InventarioForestal/LiDAR/1C/P75').mosaic(),
            "Canopy_Relief_Ratio": ee.ImageCollection ('users/cesefor/InventarioForestal/LiDAR/1C/CRR').mosaic(),
+           "vcc": calculateVolume(c1.All_returns_above_heightbreak_div_Total_first_returns_100,c1.Canopy_Relief_ratio),
            "mdav": ee.ImageCollection('users/cesefor/InventarioForestal/LiDAR/1C/MDAV')
            .map(function(image){return image.updateMask(image.neq(0))}).mosaic(),
            
