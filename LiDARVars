@@ -32,4 +32,3 @@ var c2 =  { "fcc" : ee.ImageCollection.fromImages([
 
 exports = {'c1': c1 , 'c2' : c2};
 
-Map.addLayer(vcc1c)
