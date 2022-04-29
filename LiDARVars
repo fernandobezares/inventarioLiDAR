@@ -17,7 +17,7 @@ var vcc1c = models.VCC(c1.All_returns_above_heightbreak_div_Total_first_returns_
 var g1c = models.G(c1.All_returns_above_heightbreak_div_Total_first_returns_100,c1.Canopy_Relief_Ratio);
 // add to collection
 c1.vcc = vcc1c;
-
+c1.G = g1c;
 // LiDAR variables for the the second coberage
 var c2 =  { "fcc" : ee.ImageCollection.fromImages([
                    ee.Image('users/cesefor/InventarioForestal/LiDAR/2C/VALLADOLID_FCC')])
