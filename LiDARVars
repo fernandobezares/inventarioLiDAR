@@ -4,7 +4,7 @@ var models = require('users/cesefor/inventarioForestal:models');
 // LiDAR variables for the the first coberage
 var c1 = { "fcc" : ee.ImageCollection('users/cesefor/InventarioForestal/LiDAR/1C/FCC').mosaic(),
            "elev_95" : ee.ImageCollection('users/cesefor/InventarioForestal/LiDAR/1C/P95').mosaic(),
-           "elev_p75" : ee.ImageCollection ('users/cesefor/InventarioForestal/LiDAR/1C/P75').mosaic(),
+           "elev_75" : ee.ImageCollection ('users/cesefor/InventarioForestal/LiDAR/1C/P75').mosaic(),
            "All_returns_above_heightbreak_div_Total_first_returns_100" : ee.ImageCollection ('users/cesefor/InventarioForestal/LiDAR/1C/All_returns_above_heightbreak_div_Total_first_returns_100').mosaic(), 
            "Canopy_Relief_Ratio": ee.ImageCollection ('users/cesefor/InventarioForestal/LiDAR/1C/CRR').mosaic(),
            "mdav": ee.ImageCollection('users/cesefor/InventarioForestal/LiDAR/1C/MDAV')
