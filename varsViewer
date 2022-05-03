@@ -275,6 +275,6 @@ Map.setCenter(-4.758, 41.607,7.5);
 
 // add the Main Panel
 mainPanel.add(mainTitle).add(buttonPanels);
-mainPanel.style().set({position:'bottom-left', padding: '8px 15px'});
+mainPanel.style().set({position:'bottom-left', padding: '8px 15px',color : '#dcc4a5'});
 Map.add(mainPanel);
 //ui.root.add(mainPanel);
