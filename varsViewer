@@ -100,7 +100,7 @@ var visualizations = {
   'All_returns_above_heightbreak_div_Total_first_returns_100':{min:0,max:100,palette:['white','lightgrey','grey','black']},
   'G': {min:0,max:15,palette:['white','lightgrey','grey','black']}, 
   
-}
+};
 
 
 
@@ -208,6 +208,7 @@ mainPanel.style().set({width:'300px', margin:"4px"});
 
 // Main Title 
 var mainTitle = ui.Label('Visor Variables LiDAR');
+mainTitle.style().set({fontWeight :'bold'})
 
 // Select area
 var aoi = ui.Select({
