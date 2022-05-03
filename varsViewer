@@ -168,6 +168,8 @@ function displayImage(image,cover){
       // visualize vars 
       Map.addLayer(varImg, vis, image,1);
       
+      // add the Main Panel
+      Map.add(mainPanel);
       
       // visualize provinces
       Map.addLayer(cylPStyled,{},'Provincias',0);
@@ -185,6 +187,8 @@ function displayImage(image,cover){
       // visualize vars 
       Map.addLayer(varImg, vis, image,1);
       
+      // add the Main Panel
+      Map.add(mainPanel);
       
       // visualize provinces
       Map.addLayer(cylPStyled,{},'Provincias',0);
@@ -195,6 +199,7 @@ function displayImage(image,cover){
       var colorBar = createColorBar(image, palette, min, max);
 
       Map.add(colorBar);
+      
       
     }
   
@@ -208,7 +213,7 @@ mainPanel.style().set({width:'300px', margin:"4px"});
 
 // Main Title 
 var mainTitle = ui.Label('Visor Variables LiDAR');
-mainTitle.style().set({fontWeight :'bold', textAling : 'center'});
+mainTitle.style().set({fontWeight :'bold', textAlign : 'center'});
 
 // cover lists
 var cobs = ['1a Cobertura','2a Cobertura'];
@@ -267,6 +272,8 @@ buttonPanels.clear().add(coberturaSelect).add(datasetSelect);
 // add widgets to panel 
 
 Map.setCenter(-4.758, 41.607,7.5);
-mainPanel.add(mainTitle).add(buttonPanels);
+// add the Main Panel
+Map.add(mainPanel);
+//mainPanel.add(mainTitle).add(buttonPanels);
 
-ui.root.add(mainPanel);
+//ui.root.add(mainPanel);
