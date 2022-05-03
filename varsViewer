@@ -102,8 +102,7 @@ var visualizations = {
   
 }
 
-print(Map.layers())
- 
+
 
 // function for creating the legend
 function createColorBar(titleText, palette, min, max) {
