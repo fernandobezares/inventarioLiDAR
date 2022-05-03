@@ -273,7 +273,7 @@ buttonPanels.clear().add(coberturaSelect).add(datasetSelect);
 
 Map.setCenter(-4.758, 41.607,7.5);
 // add the Main Panel
-Map.add(mainPanel);
-//mainPanel.add(mainTitle).add(buttonPanels);
 
+mainPanel.add(mainTitle).add(buttonPanels);
+Map.add(mainPanel);
 //ui.root.add(mainPanel);
