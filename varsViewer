@@ -208,35 +208,14 @@ mainPanel.style().set({width:'300px', margin:"4px"});
 
 // Main Title 
 var mainTitle = ui.Label('Visor Variables LiDAR');
-mainTitle.style().set({fontWeight :'bold'})
-
-// Select area
-var aoi = ui.Select({
-  items: provinciasNames.concat(['Castilla y León']) ,
-  onChange: function(name){
-    
-    // get the name and check
-    if (name === 'Castilla y León'){
-      
-      
-      Map.addLayer(cylStyled,{},'CYL');
-
-      
-    } else {
-      
-      
-    }
-    
-    
-  }
-});
+mainTitle.style().set({fontWeight :'bold'});
 
 // cover lists
 var cobs = ['1a Cobertura','2a Cobertura'];
 
 // ui.Panel for covers 
 var buttonPanels = ui.Panel({layout:ui.Panel.Layout.flow('vertical')});
-buttonPanels.style().set({backgroundColor:'#c0b09e',width:'100%'})
+buttonPanels.style().set({backgroundColor:'#c0b09e',width:'100%'});
 
 
 // select Dataset from coberturas 
