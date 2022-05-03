@@ -213,14 +213,14 @@ mainPanel.style().set({width:'300px', margin:"4px"});
 
 // Main Title 
 var mainTitle = ui.Label('Visor Variables LiDAR');
-mainTitle.style().set({fontWeight :'bold', textAlign : 'center'});
+mainTitle.style().set({fontWeight :'bold', textAlign : 'center', color : '#332f2b',backgroundColor : '#ffffff'});
 
 // cover lists
 var cobs = ['1a Cobertura','2a Cobertura'];
 
 // ui.Panel for covers 
 var buttonPanels = ui.Panel({layout:ui.Panel.Layout.flow('vertical')});
-buttonPanels.style().set({backgroundColor:'#c0b09e',width:'100%'});
+buttonPanels.style().set({backgroundColor:'#ffffff',width:'100%'});// #c0b09e
 
 
 // select Dataset from coberturas 
@@ -275,6 +275,6 @@ Map.setCenter(-4.758, 41.607,7.5);
 
 // add the Main Panel
 mainPanel.add(mainTitle).add(buttonPanels);
-mainPanel.style().set({position:'bottom-left', padding: '8px 15px',color : '#dcc4a5'});
+mainPanel.style().set({position:'bottom-left', padding: '8px 15px',backgroundColor: '#ffffff'});
 Map.add(mainPanel);
 //ui.root.add(mainPanel);
