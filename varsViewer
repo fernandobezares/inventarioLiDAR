@@ -208,7 +208,7 @@ mainPanel.style().set({width:'300px', margin:"4px"});
 
 // Main Title 
 var mainTitle = ui.Label('Visor Variables LiDAR');
-mainTitle.style().set({fontWeight :'bold'});
+mainTitle.style().set({fontWeight :'bold', textAling : 'center'});
 
 // cover lists
 var cobs = ['1a Cobertura','2a Cobertura'];
