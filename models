@@ -4,21 +4,13 @@ var table = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_Castillay
 // The following models are only applied to Pinus sylvestris 
 var mfe = ee.FeatureCollection('users/cesefor/InventarioForestal/mfe_CastillayLeon');
 
-var pinusList = mfe.aggregate_array('especie1').distinct().map(
-  function(especie){
-     var filtro = especie.includes('Pinus');
-    if (filtro){
-      return especie;
-    }else{
-      return none ;
-    }
-    
-  });
+var pinusList = mfe.aggregate_array('especie1').distinct().filter(ee.Filter.stringContains('item', ee.String('Pinus')));
 
-print(pinusList)
+var pinus = mfe.filter(ee.Filter.inList('especie1',pinusList)).union(1);
+
+print(pinusList);
 
 //var pinus = mfe.filter(ee.Filter.inList(''))
-
 
 // funciones de Volumen 
 function VCC(All_returns_above_heightbreak_div_Total_first_returns_100,P75) {
@@ -34,7 +26,7 @@ function VCC(All_returns_above_heightbreak_div_Total_first_returns_100,P75) {
     }
     }).rename('vcc');
   
-  return ee.Image(vcc) ;
+  return ee.Image(vcc).clip(pinus) ;
 }
 
 // funcion de area basimetrica
@@ -51,7 +43,7 @@ function G (All_returns_above_heightbreak_div_Total_first_returns_100,CRR) {
     }
     }).rename('G');
   
-  return ee.Image(g) ;
+  return ee.Image(g).clip(pinus) ;
 }
 
 exports = {'G':G,'VCC':VCC};
