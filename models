@@ -8,10 +8,7 @@ var pinusList = mfe.aggregate_array('especie1').distinct().filter(ee.Filter.stri
 
 var pinus = mfe.filter(ee.Filter.inList('especie1',pinusList)).union(1);
 
-Export.table.toAsset({
-  table:ee.FeatureCollection(pinus)
-  
-})
+
 
 Map.addLayer(pinus);
 
