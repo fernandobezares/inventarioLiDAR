@@ -182,12 +182,18 @@ function displayImage(image,cover){
       //unit
       var unit = units[image]
     
+    print(Map.layers().length())
+    
     if (Map.layers().length() > 0 ){
+      
+      print('dentro ')
       
       print(Map.widgets())
       
       // clear the Map and add the selected layer 
-      Map.layers().reset()
+      Map.layers().remove(Map.layers().get(0))
+      
+      // remove the first elemento of the widgets
       Map.widgets().remove(Map.widgets().get(0))
       
       // add images
@@ -196,11 +202,16 @@ function displayImage(image,cover){
       //Map.add(mainPanel);
       
       // visualize provinces
-      Map.addLayer(cylPStyled,{},'Provincias',0);
-      Map.addLayer(cylStyled,{},'CYL',0);
+      //Map.addLayer(cylPStyled,{},'Provincias',0);
+      //Map.addLayer(cylStyled,{},'CYL',0);
+      //Map.layers().insert(0,varImg) // .visualize({bands:'b1', min: min, max :max, palette:palette})
       
       // visualize vars 
       Map.addLayer(varImg, vis, image,1);
+      
+      var bottom_element = Map.layers().get(0)
+      
+      var sorted = Map.layers().set(0,bottom_element)
       
       // add legend
       // Call the function to create a colorbar legend
@@ -213,6 +224,8 @@ function displayImage(image,cover){
     } else{
       
       // visualize vars 
+      //Map.layers().insert(0,varImg);
+      // visualize vars 
       Map.addLayer(varImg, vis, image,1);
       
       // add the Main Panel
@@ -226,7 +239,6 @@ function displayImage(image,cover){
       // Call the function to create a colorbar legend
       var colorBar = createColorBar(image, unit, palette, min, max);
       
-    
       Map.widgets().insert(0,colorBar);
       
       
