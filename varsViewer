@@ -187,22 +187,18 @@ function displayImage(image,cover){
     if (Map.layers().length() > 0 ){
       
       // clear the Map and add the selected layer 
-      //
       Map.layers().reset();
       
       // remove the first elemento of the widgets
       Map.widgets().remove(Map.widgets().get(0))
       
       // add images
-      
-      // add the Main Panel
-      //Map.add(mainPanel);
-      
       Map.addLayer(varImg, vis, image,1);
+      
       // visualize provinces
       Map.addLayer(cylPStyled,{},'Provincias',0);
       Map.addLayer(cylStyled,{},'CYL',0);
-      //Map.layers().insert(0,varImg) // .visualize({bands:'b1', min: min, max :max, palette:palette})
+      
       
     
       
@@ -329,7 +325,7 @@ Map.add(mainPanel);
 Map.onClick(function(coords){
   var point = ee.Geometry.Point(coords.lon, coords.lat);
   var reduce = Map.layers().get(0).getEeObject().reduce(ee.Reducer.first());
-  print ('layers 0', Map.layers().get(0).getEeObject())
+  print ('layers 0', Map.layers().get(0).getEeObject());
   var sampledPoint = reduce.reduceRegion(ee.Reducer.first(), point, 10);
   var computedValue = sampledPoint.get('first');
   show_loading('Loading...');
