@@ -103,12 +103,25 @@ var visualizations = {
 };
 
 
+var units = {
+  'fcc': '(%)',
+  'mdav': '(m)',
+  'elev_95': '(m)',
+  'elev_75':'(m)',
+  'Canopy_Relief_Ratio': '' ,
+  'vcc': '(m3)',
+  'All_returns_above_heightbreak_div_Total_first_returns_100':'' ,
+  'G': '(m2)', 
+  
+};
+
+
 
 // function for creating the legend
-function createColorBar(titleText, palette, min, max) {
+function createColorBar(titleText, unit, palette, min, max) {
   // Legend Title
   var title = ui.Label({
-    value: titleText, 
+    value: titleText + ' ' + unit , 
     style: {fontWeight: 'bold', textAlign: 'center', stretch: 'horizontal'}});
 
   // Colorbar
@@ -157,6 +170,9 @@ function displayImage(image,cover){
       
       //max 
       var max = vis.max;
+      
+      //unit
+      var unit = units.image
     
     if (Map.layers().length() > 0 ){
       
@@ -177,7 +193,7 @@ function displayImage(image,cover){
       
       // add legend
       // Call the function to create a colorbar legend
-      var colorBar = createColorBar(image, palette, min, max);
+      var colorBar = createColorBar(image, unit, palette, min, max);
 
       Map.add(colorBar);
       
@@ -196,7 +212,7 @@ function displayImage(image,cover){
       
       // add legend
       // Call the function to create a colorbar legend
-      var colorBar = createColorBar(image, palette, min, max);
+      var colorBar = createColorBar(image, unit, palette, min, max);
 
       Map.add(colorBar);
       
