@@ -17,7 +17,7 @@ var cylStyled = cyl.style({color : 'black' , fillColor:'FF000000'});
 var cylP = ee.FeatureCollection('users/cesefor/general/adminUnits/Provincias_ETRS89').filter(ee.Filter.inList('NAMEUNIT',provinciasNames));
 var cylPStyled = cylP.style({color : 'black' , fillColor:'FF000000' , lineType : 'dashed', width: 0.7} );
 
-
+/*
 
 // cargar las fcc
 var fcc = fcc.mosaic();
@@ -34,7 +34,7 @@ Map.addLayer(mdav,{min:0,max:25,palette:['white','lightblue','blue','purple']},'
 // visualize provinces
 Map.addLayer(cylPStyled,{},'Provincias',0);
 Map.addLayer(cylStyled,{},'CYL',0);
-
+*/
 
 //check which cover is selected
 function checkDatasetCovers(cobertura){
@@ -135,8 +135,8 @@ function createColorBar(titleText, palette, min, max) {
   var legendPanel = ui.Panel({
     widgets: [title, legend, labels],
     style: {position: 'bottom-center', padding: '8px 15px'}
-  })
-  return legendPanel
+  });
+  return legendPanel;
 }
 
   
