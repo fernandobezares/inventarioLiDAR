@@ -345,9 +345,14 @@ val_panel.style().set({
   shown:false
 });
 
-var val_panel_in = ui.Panel(ui.Label('Click on the map to get productivity value', {textAlign: 'center', width: '280px'}));
-val_panel.add(val_panel_in);
-Map.add(val_panel);
+var val_panel_in = ui.Panel(ui.Label('Click on the map to get productivity value', {textAlign: 'center', width: '280px' }));
+val_panel_in.style().set({
+  position: 'top-center',
+  width: '280px',
+  shown:false
+});
+//val_panel.add(val_panel_in);
+Map.add(val_panel_in);
 
 Map.style().set('cursor', 'crosshair');
 /*
@@ -372,7 +377,9 @@ var gradient_labels_val = ui.Panel({
 // show loading / calculating message
 function show_loading(loading_msg){
   val_panel_in.clear();
-  val_panel_in.add(ui.Label(loading_msg, {color: 'gray', textAlign: 'center', width: '280px'}));
+  val_panel_in.style().set({shown:true})
+  val_panel_in.add(ui.Label(loading_msg, {color: 'gray', textAlign: 'center', width: '98%'}));
+  
 }
 
 /*
@@ -386,15 +393,14 @@ Map.onClick(function(coords){
   var reduce = Map.layers().get(0).getEeObject().reduce(ee.Reducer.first());
   var sampledPoint = reduce.reduceRegion(ee.Reducer.first(), point, 10);
   var computedValue = sampledPoint.get('first');
-  val_panel.style().set({shown:true});
   show_loading('Loading...');
   computedValue.evaluate(function(result){
     val_panel_in.clear();
     if(result === null){
-      val_panel_in.add(ui.Label('Selected pixel has no value', {textAlign: 'center', width: '280px'}));
-      colorBar.style().set({shown: false});
+      val_panel_in.add(ui.Label('Selected pixel has no value', {textAlign: 'center', width: '98%'}));
+
     }else{
-      val_panel_in.add(ui.Label(result.toFixed(2)));
+      val_panel_in.add(ui.Label(result.toFixed(2),{textAlign: 'center', width: '98%'}));
     }
   });
 });
