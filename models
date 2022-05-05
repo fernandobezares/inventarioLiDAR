@@ -2,11 +2,11 @@
 var table = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_CastillayLeon");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // The following models are only applied to Pinus sylvestris 
-var pinus = ee.FeatureCollection('users/cesefor/InventarioForestal/pinus_mfe_cyl');
+var pinus = ee.FeatureCollection('users/cesefor/InventarioForestal/pinus_mfe_cyl').union(1);
 
 //var pinusList = mfe.aggregate_array('especie1').distinct().filter(ee.Filter.stringContains('item', ee.String('Pinus')));
 //var pinus = mfe.filter(ee.Filter.inList('especie1',pinusList)).union(1);
-
+print(pinus)
 Map.addLayer(pinus);
 
 //var pinus = mfe.filter(ee.Filter.inList(''))
