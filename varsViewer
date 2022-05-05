@@ -172,7 +172,7 @@ function displayImage(image,cover){
       var max = vis.max;
       
       //unit
-      var unit = units.image
+      var unit = units[image]
     
     if (Map.layers().length() > 0 ){
       
