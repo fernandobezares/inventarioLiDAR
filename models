@@ -5,7 +5,7 @@ var table = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_Castillay
 var mfe = ee.FeatureCollection('users/cesefor/InventarioForestal/mfe_CastillayLeon');
 
 var pinusList = mfe.aggregate_array('especie1').distinct().filter(ee.Filter.stringContains('item', ee.String('Pinus')));
-var pinus = mfe.filter(ee.Filter.inList('especie1',pinusList)).union(1);
+var pinus = mfe.filter(ee.Filter.inList('especie1',pinusList));
 
 Map.addLayer(pinus);
 
