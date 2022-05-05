@@ -117,46 +117,13 @@ var units = {
   
 };
 
-/*
-// function for creating the legend
-function createColorBar(titleText, unit, palette, min, max) {
-  
-  // Legend Title
-  var title = ui.Label({
-    value: titleText + ' ' + unit , 
-    style: {fontWeight: 'bold', textAlign: 'center', stretch: 'horizontal'}});
- 
-  
-  // Colorbar
-  var legend = ui.Thumbnail({
-    image: ee.Image.pixelLonLat().select(0),
-    params: {bbox: [0, 0, 1, 0.1],
-    dimensions: '80x10',
-    format: 'png',
-    min: 0, max: 1, 
-    palette: palette},
-    style: {stretch: 'horizontal', margin: '0px 14px', maxHeight: '12px'},
-  });
-  
-  //Labels
-  var labels = ui.Panel({
-    widgets: [
-    ui.Label(min, {margin: '4px 8px', fontSize: '12px', color:'#666'}),
-    ui.Label((min+max)/2, {margin: '4px 0px', textAlign: 'center', stretch: 'horizontal', fontSize: '12px', color:'#666'}),
-    ui.Label(max, {margin: '4px 0px', fontSize: '12px', color:'#666'})
-    ],
-    layout: ui.Panel.Layout.flow('horizontal')
-  });
-  
-  
-  // add the objects to a panel
-  var gradient_obj = ui.Panel([title, legend, labels]);
-  gradient_obj.style().set({position:'bottom-center',shown: true});
-
-  return gradient_obj;
+// show loading / calculating message
+function show_loading(loading_msg){
+  val_panel_in.clear();
+  val_panel_in.style().set({shown:true});
+  val_panel_in.add(ui.Label(loading_msg, {color: 'gray', textAlign: 'center', width: '98%'}));
   
 }
-*/
 
 // function for creating the legend
 function createColorBar(titleText, unit, palette, min, max) {
@@ -327,8 +294,12 @@ buttonPanels.clear().add(coberturaSelect).add(datasetSelect);
 
 
 // add widgets to panel 
-
 Map.setCenter(-4.758, 41.607,7.5);
+
+// set cursor type for evaluation of pixels
+Map.style().set('cursor', 'crosshair');
+
+Map.add(val_panel_in);
 
 // add the Main Panel
 mainPanel.add(mainTitle).add(buttonPanels);
@@ -337,56 +308,15 @@ Map.add(mainPanel);
 //ui.root.add(mainPanel);
 
 
-//// intreface: show ml score value on click
-var val_panel = ui.Panel();
-val_panel.style().set({
+// panel for showing the values: show values click
+var valuePanel = ui.Panel(ui.Label('Click on the map to get productivity value', {textAlign: 'center', width: '280px' }));
+valuePanel.style().set({
   position: 'top-center',
   width: '280px',
   shown:false
 });
 
-var val_panel_in = ui.Panel(ui.Label('Click on the map to get productivity value', {textAlign: 'center', width: '280px' }));
-val_panel_in.style().set({
-  position: 'top-center',
-  width: '280px',
-  shown:false
-});
-//val_panel.add(val_panel_in);
-Map.add(val_panel_in);
 
-Map.style().set('cursor', 'crosshair');
-/*
-var gradient_val = ui.Thumbnail({
-  image: ee.Image.pixelLonLat().select(0),
-  params: {bbox: [0, 0, 1, 0.1], dimensions: '80x10',
-    format: 'png', min: 0, max: 1, palette: vis_weighted.palette},
-  style: {stretch: 'horizontal', margin: '0px 14px', maxHeight: '12px'},
-});
-
-var gradient_labels_val = ui.Panel({
-  widgets: [
-    ui.Label('0%', {margin: '4px 8px', fontSize: '12px', color:'#666'}),
-    ui.Label((vis_weighted.max / 2) + '%', {margin: '4px 0px', textAlign: 'center',
-      stretch: 'horizontal',fontSize: '12px', color:'#666'}),
-    ui.Label(vis_weighted.max +'%', {margin: '4px 0px', fontSize: '12px', color:'#666'})
-  ],
-  layout: ui.Panel.Layout.flow('horizontal')
-});
-*/
-
-// show loading / calculating message
-function show_loading(loading_msg){
-  val_panel_in.clear();
-  val_panel_in.style().set({shown:true})
-  val_panel_in.add(ui.Label(loading_msg, {color: 'gray', textAlign: 'center', width: '98%'}));
-  
-}
-
-/*
-//var gradient_obj = ui.Panel();
-gradient_obj.style().set({shown: true});
-val_panel.add(gradient_obj);
-*/
 
 Map.onClick(function(coords){
   var point = ee.Geometry.Point(coords.lon, coords.lat);
@@ -395,12 +325,12 @@ Map.onClick(function(coords){
   var computedValue = sampledPoint.get('first');
   show_loading('Loading...');
   computedValue.evaluate(function(result){
-    val_panel_in.clear();
+    valuePanel.clear();
     if(result === null){
-      val_panel_in.add(ui.Label('Selected pixel has no value', {textAlign: 'center', width: '98%'}));
+      valuePanel.add(ui.Label('Selected pixel has no value', {textAlign: 'center', width: '98%'}));
 
     }else{
-      val_panel_in.add(ui.Label(result.toFixed(2),{textAlign: 'center', width: '98%'}));
+      valuePanel.add(ui.Label(result.toFixed(2),{textAlign: 'center', width: '98%'}));
     }
   });
 });
