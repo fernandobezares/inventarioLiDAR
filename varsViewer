@@ -231,7 +231,7 @@ function displayImage(image,cover){
       // add legend
       // Call the function to create a colorbar legend
       var colorBar = createColorBar(image, unit, palette, min, max);
-
+      
       Map.add(colorBar);
       
       
@@ -366,17 +366,17 @@ var gradient_labels_val = ui.Panel({
 
 // show loading / calculating message
 function show_loading(loading_msg){
-  select_area_stop();
+  //select_area_stop();
   val_panel_in.clear();
   gradient_obj.style().set({shown: false});
   val_panel_in.add(ui.Label(loading_msg, {color: 'gray', textAlign: 'center', width: '280px'}));
 }
 
-
+/*
 var gradient_obj = ui.Panel();
-gradient_obj.style().set({shown: false});
+gradient_obj.style().set({shown: true});
 val_panel.add(gradient_obj);
-
+*/
 
 Map.onClick(function(coords){
   var point = ee.Geometry.Point(coords.lon, coords.lat);
