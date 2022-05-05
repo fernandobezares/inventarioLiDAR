@@ -23,7 +23,7 @@ function VCC(All_returns_above_heightbreak_div_Total_first_returns_100,P75) {
     }
     }).rename('vcc');
   
-  return ee.Image(vcc).updateMask(pinusMask.eq(1)) ;
+  return ee.Image(vcc).clipToCollection(pinus)//.updateMask(pinusMask.eq(1)) ;
 }
 
 // funcion de area basimetrica
