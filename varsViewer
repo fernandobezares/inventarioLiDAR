@@ -203,6 +203,7 @@ function displayImage(image,cover){
       // Call the function to create a colorbar legend
       var colorBar = createColorBar(image, unit, palette, min, max);
       
+      Map.add(valuePanel);
       Map.add(colorBar);
       
       
@@ -221,7 +222,8 @@ function displayImage(image,cover){
       // add legend
       // Call the function to create a colorbar legend
       var colorBar = createColorBar(image, unit, palette, min, max);
-
+      
+      Map.add(valuePanel);
       Map.add(colorBar);
       
       
