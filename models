@@ -7,7 +7,7 @@ var mfe = ee.FeatureCollection('users/cesefor/InventarioForestal/mfe_CastillayLe
 var pinusList = mfe.aggregate_array('especie1').distinct().filter(ee.Filter.stringContains('item', ee.String('Pinus')));
 var pinus = mfe.filter(ee.Filter.inList('especie1',pinusList)).map(function(feat){return feat.set('pino',1)});
 
-var pinusMask = pinus.reduceToImage({properties:['pino'], reducer: ee.Reducer.first()});
+//var pinusMask = pinus.reduceToImage({properties:['pino'], reducer: ee.Reducer.first()});
 
 // funciones de Volumen 
 function VCC(All_returns_above_heightbreak_div_Total_first_returns_100,P75) {
@@ -23,7 +23,7 @@ function VCC(All_returns_above_heightbreak_div_Total_first_returns_100,P75) {
     }
     }).rename('vcc');
   
-  return ee.Image(vcc).clipToCollection(pinus)//.updateMask(pinusMask.eq(1)) ;
+  return ee.Image(vcc).clipToCollection(pinus);//.updateMask(pinusMask.eq(1)) ;
 }
 
 // funcion de area basimetrica
@@ -40,7 +40,7 @@ function G (All_returns_above_heightbreak_div_Total_first_returns_100,CRR) {
     }
     }).rename('G');
   
-  return ee.Image(g).updateMask(pinusMask.eq(1)) ;
+  return ee.Image(g).clipToCollection(pinus); //updateMask(pinusMask.eq(1)) ;
 }
 
 exports = {'G':G,'VCC':VCC};
