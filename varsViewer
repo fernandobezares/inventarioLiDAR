@@ -119,9 +119,9 @@ var units = {
 
 // show loading / calculating message
 function show_loading(loading_msg){
-  val_panel_in.clear();
-  val_panel_in.style().set({shown:true});
-  val_panel_in.add(ui.Label(loading_msg, {color: 'gray', textAlign: 'center', width: '98%'}));
+  valuePanel.clear();
+  valuePanel.style().set({shown:true});
+  valuePanel.add(ui.Label(loading_msg, {color: 'gray', textAlign: 'center', width: '98%'}));
   
 }
 
