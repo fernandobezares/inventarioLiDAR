@@ -115,8 +115,45 @@ var units = {
   
 };
 
+// function for creating the legend
+function createColorBar(titleText, unit, palette, min, max) {
+  
+  // Legend Title
+  var title = ui.Label({
+    value: titleText + ' ' + unit , 
+    style: {fontWeight: 'bold', textAlign: 'center', stretch: 'horizontal'}});
+ 
+  
+  // Colorbar
+  var legend = ui.Thumbnail({
+    image: ee.Image.pixelLonLat().select(0),
+    params: {bbox: [0, 0, 1, 0.1],
+    dimensions: '80x10',
+    format: 'png',
+    min: 0, max: 1, 
+    palette: palette},
+    style: {stretch: 'horizontal', margin: '0px 14px', maxHeight: '12px'},
+  });
+  
+  //Labels
+  var labels = ui.Panel({
+    widgets: [
+    ui.Label(min, {margin: '4px 8px', fontSize: '12px', color:'#666'}),
+    ui.Label((min+max)/2, {margin: '4px 0px', textAlign: 'center', stretch: 'horizontal', fontSize: '12px', color:'#666'}),
+    ui.Label(max, {margin: '4px 0px', fontSize: '12px', color:'#666'})
+    ],
+    layout: ui.Panel.Layout.flow('horizontal')
+  });
+  
+  
+  // add the objects to a panel
+  var gradient_obj = ui.Panel([title, legend, labels]);
+  gradient_obj.style().set({position:'bottom-center',shown: true});
 
-
+  return gradient_obj;
+  
+}
+/*
 // function for creating the legend
 function createColorBar(titleText, unit, palette, min, max) {
   // Legend Title
@@ -152,7 +189,7 @@ function createColorBar(titleText, unit, palette, min, max) {
   return legendPanel;
 }
 
-  
+  */
 // function for displaying teh selected image
 function displayImage(image,cover){
   
@@ -294,3 +331,74 @@ mainPanel.add(mainTitle).add(buttonPanels);
 mainPanel.style().set({position:'middle-left', padding: '8px 15px',backgroundColor: '#ffffff'});
 Map.add(mainPanel);
 //ui.root.add(mainPanel);
+
+
+//// intreface: show ml score value on click
+var val_panel = ui.Panel();
+val_panel.style().set({
+  position: 'top-center',
+  width: '310px'
+});
+
+var val_panel_in = ui.Panel(ui.Label('Click on the map to get productivity value', {textAlign: 'center', width: '280px'}));
+val_panel.add(val_panel_in);
+Map.add(val_panel);
+
+Map.style().set('cursor', 'crosshair');
+/*
+var gradient_val = ui.Thumbnail({
+  image: ee.Image.pixelLonLat().select(0),
+  params: {bbox: [0, 0, 1, 0.1], dimensions: '80x10',
+    format: 'png', min: 0, max: 1, palette: vis_weighted.palette},
+  style: {stretch: 'horizontal', margin: '0px 14px', maxHeight: '12px'},
+});
+
+var gradient_labels_val = ui.Panel({
+  widgets: [
+    ui.Label('0%', {margin: '4px 8px', fontSize: '12px', color:'#666'}),
+    ui.Label((vis_weighted.max / 2) + '%', {margin: '4px 0px', textAlign: 'center',
+      stretch: 'horizontal',fontSize: '12px', color:'#666'}),
+    ui.Label(vis_weighted.max +'%', {margin: '4px 0px', fontSize: '12px', color:'#666'})
+  ],
+  layout: ui.Panel.Layout.flow('horizontal')
+});
+*/
+
+// show loading / calculating message
+function show_loading(loading_msg){
+  select_area_stop();
+  val_panel_in.clear();
+  gradient_obj.style().set({shown: false});
+  val_panel_in.add(ui.Label(loading_msg, {color: 'gray', textAlign: 'center', width: '280px'}));
+}
+
+
+var gradient_obj = ui.Panel();
+gradient_obj.style().set({shown: false});
+val_panel.add(gradient_obj);
+
+
+Map.onClick(function(coords){
+  var point = ee.Geometry.Point(coords.lon, coords.lat);
+  var reduce = Map.layers().get(0).getEeObject().reduce(ee.Reducer.first());
+  var sampledPoint = reduce.reduceRegion(ee.Reducer.first(), point, 10);
+  var computedValue = sampledPoint.get('first');
+  show_loading('Loading...');
+  computedValue.evaluate(function(result){
+    val_panel_in.clear();
+    if(result === null){
+      val_panel_in.add(ui.Label('Selected pixel has ML no value', {textAlign: 'center', width: '280px'}));
+      gradient_obj.style().set({shown: false});
+    }else{
+      var t_vert = (1.1 * 240 * result / 100);
+      if(t_vert > 250){t_vert = 250;}
+      val_panel_in.add(ui.Label(result.toFixed(2) + '%', {textAlign: 'left', width: '40px', padding: '0px',
+        margin: '0px ' + (1.1 * 240 * result / 100) + 'px', fontWeight: 'bold', fontSize: '12px'})); // 0 - 250
+      val_panel_in.add(ui.Label('▼',{textAlign: 'left', width: '10px', padding: '0px',
+        margin: '0px ' + ((275 - 12) * result / 100 + 12) + 'px',fontWeight: 'bold', fontSize: '12px', color:'#999'})); // 12 - 275
+      gradient_obj.style().set({shown: true});
+    }
+  });
+});
+
+
