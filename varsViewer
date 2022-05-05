@@ -291,6 +291,13 @@ var coberturaSelect = ui.Select({
 buttonPanels.clear().add(coberturaSelect).add(datasetSelect);
 
 
+// panel for showing the values: show values click
+var valuePanel = ui.Panel(ui.Label('Click on the map to get productivity value', {textAlign: 'center', width: '280px' }));
+valuePanel.style().set({
+  position: 'top-center',
+  width: '280px',
+  shown:false
+});
 
 
 // add widgets to panel 
@@ -299,22 +306,13 @@ Map.setCenter(-4.758, 41.607,7.5);
 // set cursor type for evaluation of pixels
 Map.style().set('cursor', 'crosshair');
 
-Map.add(val_panel_in);
+Map.add(valuePanel);
 
 // add the Main Panel
 mainPanel.add(mainTitle).add(buttonPanels);
 mainPanel.style().set({position:'middle-left', padding: '8px 15px',backgroundColor: '#ffffff'});
 Map.add(mainPanel);
 //ui.root.add(mainPanel);
-
-
-// panel for showing the values: show values click
-var valuePanel = ui.Panel(ui.Label('Click on the map to get productivity value', {textAlign: 'center', width: '280px' }));
-valuePanel.style().set({
-  position: 'top-center',
-  width: '280px',
-  shown:false
-});
 
 
 
