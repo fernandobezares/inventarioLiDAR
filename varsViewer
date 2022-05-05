@@ -98,7 +98,7 @@ var visualizations = {
   'Canopy_Relief_Ratio': {min:0 ,max:1 ,palette:['white','lightgrey','grey','black']},
   'vcc':{min:0,max:30,palette:['white','lightgrey','grey','black']},
   'All_returns_above_heightbreak_div_Total_first_returns_100':{min:0,max:100,palette:['white','lightgrey','grey','black']},
-  'G': {min:0,max:3,palette:['white','lightgrey','#283758','	#a024d6']}, 
+  'G': {min:0,max:4,palette:['white','lightgrey','#283758','	#a024d6']}, 
   
 };
 
