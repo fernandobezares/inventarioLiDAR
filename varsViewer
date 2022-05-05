@@ -165,7 +165,7 @@ function createColorBar(titleText, unit, palette, min, max) {
 function displayImage(image,cover){
   
     // image to represent
-    var varImg = lidar[cover][image];
+    var varImg = ee.Image(lidar[cover][image]);
     
     // visualziation parameters
     var vis = visualizations[image];
@@ -184,27 +184,30 @@ function displayImage(image,cover){
     
     if (Map.layers().length() > 0 ){
       
+      print(Map.widgets())
+      
       // clear the Map and add the selected layer 
-      Map.clear();
+      Map.layers().reset()
+      Map.widgets().remove(0)
       
       // add images
       
-      // visualize vars 
-      Map.addLayer(varImg, vis, image,1);
-      
       // add the Main Panel
-      Map.add(mainPanel);
+      //Map.add(mainPanel);
       
       // visualize provinces
       Map.addLayer(cylPStyled,{},'Provincias',0);
       Map.addLayer(cylStyled,{},'CYL',0);
       
+      // visualize vars 
+      Map.addLayer(varImg, vis, image,1);
+      
       // add legend
       // Call the function to create a colorbar legend
       var colorBar = createColorBar(image, unit, palette, min, max);
       
-      Map.add(valuePanel);
-      Map.add(colorBar);
+      //Map.add(valuePanel);
+      Map.widgets().insert(0,colorBar);
       
       
     } else{
@@ -224,11 +227,11 @@ function displayImage(image,cover){
       var colorBar = createColorBar(image, unit, palette, min, max);
       
     
-      Map.add(colorBar);
+      Map.widgets().insert(0,colorBar);
       
       
     }
-  print(Map.layers())
+  
 }
   
 
@@ -321,6 +324,7 @@ Map.add(mainPanel);
 Map.onClick(function(coords){
   var point = ee.Geometry.Point(coords.lon, coords.lat);
   var reduce = Map.layers().get(0).getEeObject().reduce(ee.Reducer.first());
+  print ('layers 0', Map.layers().get(0).getEeObject())
   var sampledPoint = reduce.reduceRegion(ee.Reducer.first(), point, 10);
   var computedValue = sampledPoint.get('first');
   show_loading('Loading...');
