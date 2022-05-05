@@ -5,9 +5,13 @@ var table = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_Castillay
 var mfe = ee.FeatureCollection('users/cesefor/InventarioForestal/mfe_CastillayLeon');
 
 var pinusList = mfe.aggregate_array('especie1').distinct().filter(ee.Filter.stringContains('item', ee.String('Pinus')));
-var pinus = mfe.filter(ee.Filter.inList('especie1',pinusList));
+var pinus = mfe.filter(ee.Filter.inList('especie1',pinusList)).map(function(feat){return feat.set('pino',1)});
 
+var pinusMask = pinus.reduceToImage(['pino'],ee.Reducer.countEvery());
 
+print(pinus.toList(10,0))
+
+Map.addLayer(pinusMask)
 
 // funciones de Volumen 
 function VCC(All_returns_above_heightbreak_div_Total_first_returns_100,P75) {
