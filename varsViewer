@@ -182,7 +182,7 @@ function displayImage(image,cover){
       //unit
       var unit = units[image];
     
-    print(Map.layers().length())
+    //print(Map.layers().length())
     
     if (Map.layers().length() > 0 ){
       
