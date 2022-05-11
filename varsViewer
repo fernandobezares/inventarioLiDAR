@@ -340,4 +340,4 @@ Map.onClick(function(coords){
   });
 });
 
-
+Map.setOptions("SATELLITE");
