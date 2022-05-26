@@ -4,31 +4,31 @@ var mfecyl = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_Castilla
     mfe3 = ee.FeatureCollection("users/cesefor/general/MFE_3_Peninsula_Baleares_2006");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 function to25830 (feat){
-  return feat.transform({proj:ee.Projection('epsg:25830'), maxError: 1})
+  return feat.transform({proj:ee.Projection('epsg:25830'), maxError: 1});
 }
 
 var mfe2 = mfe2.map(to25830);
-var mfe3 = mfe3.map(to25830)
+var mfe3 = mfe3.map(to25830);
 
-var estados = mfe2.aggregate_array('OTRASSSP1').distinct().sort();
+var estados = mfe2.aggregate_array('ROTULO1').distinct().sort();
 print(estados);
 var filtros = ee.Filter.and(
-ee.Filter.eq('SP1',64),
-//ee.Filter.eq('NOM_FORARB','Eucaliptales'),
+ee.Filter.eq('SP1',64)
+ee.Filter.inList('E1',[4,3]),
 ee.Filter.inList('CCAA_MFE50',[11,12,13,21])
-) 
+) ;
 
 var filtros2 = ee.Filter.and(
-ee.Filter.eq('OTRASSSP1',64)
+ee.Filter.eq('ROTULO1',64)
 //ee.Filter.eq('NOM_FORARB','Eucaliptales'),
 //ee.Filter.inList('CCAA_MFE50',[11,12,13,21])
-) 
+) ;
 
 var nitensFustal = mfe3.filter(filtros);
 var nitensFustal2 = mfe2.filter(filtros2);
 
 print('nitens_fustal', nitensFustal.toList(10,0));
-print('nitens_fustal_mfe2', nitensFustal2)
+print('nitens_fustal_mfe2', nitensFustal2);
 //Map.centerObject(nitensFustal,17);
 Map.addLayer(nitensFustal,{color:'red'},'nitens Fustal');
 Map.addLayer(nitensFustal2,{color:'blue'},'nitens Fustal2');
