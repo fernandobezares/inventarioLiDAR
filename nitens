@@ -13,7 +13,7 @@ var mfe3 = mfe3.map(to25830);
 var estados = mfe2.aggregate_array('ROTULO1').distinct().sort();
 print(estados);
 var filtros = ee.Filter.and(
-ee.Filter.eq('SP1',64)
+ee.Filter.eq('SP1',64),
 ee.Filter.inList('E1',[4,3]),
 ee.Filter.inList('CCAA_MFE50',[11,12,13,21])
 ) ;
