@@ -10,7 +10,7 @@ function to25830 (feat){
 var mfe2 = mfe2.map(to25830);
 var mfe3 = mfe3.map(to25830)
 
-var estados = mfe2.aggregate_array('SP1IFN').distinct().sort();
+var estados = mfe2.aggregate_array('OTRASSSP1').distinct().sort();
 print(estados);
 var filtros = ee.Filter.and(
 ee.Filter.eq('SP1',64),
@@ -19,7 +19,7 @@ ee.Filter.inList('CCAA_MFE50',[11,12,13,21])
 ) 
 
 var filtros2 = ee.Filter.and(
-ee.Filter.eq('SP1IFN',63)
+ee.Filter.eq('OTRASSSP1',64)
 //ee.Filter.eq('NOM_FORARB','Eucaliptales'),
 //ee.Filter.inList('CCAA_MFE50',[11,12,13,21])
 ) 
@@ -28,6 +28,7 @@ var nitensFustal = mfe3.filter(filtros);
 var nitensFustal2 = mfe2.filter(filtros2);
 
 print('nitens_fustal', nitensFustal.toList(10,0));
+print('nitens_fustal_mfe2', nitensFustal2)
 //Map.centerObject(nitensFustal,17);
 Map.addLayer(nitensFustal,{color:'red'},'nitens Fustal');
 Map.addLayer(nitensFustal2,{color:'blue'},'nitens Fustal2');
