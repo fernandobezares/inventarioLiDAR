@@ -33,13 +33,13 @@ var legend = ui.Panel({
     position: 'bottom-left',
     padding: '8px 15px',
     height :'300px',
-    width : '300px'
+    width : '600px'
   }
 });
  
 // Create legend title
 var legendTitle = ui.Label({
-  value: 'My Legend',
+  value: 'Corine LandCover Classes',
   style: {
     fontWeight: 'bold',
     fontSize: '18px',
