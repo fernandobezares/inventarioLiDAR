@@ -11,8 +11,11 @@ var c20Forest = corine2000.first().eq(22);
 
 
 //palette 
-var corinePalette = corine2000.get('landcover_class_palette');
+var corinePalette = corine2000.first().get('landcover_class_palette');
+print(corinePalette)
 
+// get elements length from the landcover palette
+var elements = ee.List(corinePalette).length().getInfo();
 
 
 
@@ -27,6 +30,16 @@ var corinePalette = corine2000.get('landcover_class_palette');
 
 // create a legend for the palette 
 
+for (var i = 0; i < elements; i++){
+  
+  var color = ee.List(corinePalette).get(i)
+  
+  print(color)
+  
+  
+  
+  
+}
 
 
 
