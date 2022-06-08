@@ -1,0 +1,35 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var corine = ee.ImageCollection("COPERNICUS/CORINE/V20/100m");
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+
+// image Corine 2000
+var corine2000 = corine.filterDate('1999-01-01','2001-02-02');
+
+
+// get only forests 
+var c20Forest = corine2000.first().eq(22);
+
+
+//palette 
+var corinePalette = corine2000.get('landcover_class_palette');
+
+
+
+
+
+
+
+
+
+
+
+
+
+// create a legend for the palette 
+
+
+
+
+
+// print the dataset with
+Map.addLayer 
