@@ -28,9 +28,12 @@ var elements = ee.List(corinePalette).length().getInfo();
 
 // set position of panel
 var legend = ui.Panel({
+  layout: ui.Panel.Layout.Flow('vertical'),
   style: {
     position: 'bottom-left',
-    padding: '8px 15px'
+    padding: '8px 15px',
+    height :'300px',
+    width : '300px'
   }
 });
  
@@ -82,8 +85,8 @@ var names = ['Red','Green','Blue'];
  
 
  
-// add legend to map (alternatively you can also print the legend to the console)
-Map.add(legend);
+
+
 
 
 
