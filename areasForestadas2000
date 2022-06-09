@@ -77,19 +77,6 @@ var makeRow = function(color, name) {
       });
 };
  
-//  Palette with the colors
-var palette =['FF0000', '22ff00', '1500ff'];
- 
-// name of the legend
-var names = ['Red','Green','Blue'];
- 
-
- 
-
-
-
-
-
 
 // create a legend for the palette 
 
@@ -104,3 +91,4 @@ for (var i = 0; i < elements; i++){
 
 // print the dataset with
 Map.add(legend) 
+Map.addLayer()
