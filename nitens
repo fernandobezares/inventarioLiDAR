@@ -2,9 +2,7 @@
 var mfecyl = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_CastillayLeon"),
     mfe2 = ee.FeatureCollection("users/cesefor/MFE_2_1996_Esp_ED50"),
     mfe3 = ee.FeatureCollection("users/cesefor/general/MFE_3_Peninsula_Baleares_2006"),
-    corine = ee.ImageCollection("COPERNICUS/CORINE/V20/100m"),
-    image = ee.Image("users/cesefor/CYL_TCH_GEDI_2021"),
-    image2 = ee.Image("users/cesefor/CYL_TCH_GEDI_2021");
+    corine = ee.ImageCollection("COPERNICUS/CORINE/V20/100m");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 function to25830 (feat){
   return feat.transform({proj:ee.Projection('epsg:25830'), maxError: 1});
@@ -49,8 +47,6 @@ var c20Forest = ee.Image(0)
 //palette 
 var corinePalette = corine2000.get('landcover_class_palette').getInfo();
 
-var corinePaletteHash = ee.List(corinePalette).map(function(color){return ee.String('#').cat(color)})
-print(corinePaletteHash)
 // get the landcover names 
 var corineClassNames = corine2000.get('landcover_class_names').getInfo();
 
@@ -62,9 +58,12 @@ var corineClassValues = corine2000.get('landcover_class_values').getInfo();
 // get elements length from the landcover palette
 var elements = ee.List(corinePalette).length().getInfo();
 
+
 print('corinePalette', corinePalette);
 print (ee.Dictionary.fromLists(corinePalette,corineClassNames));
-//print('corinePalette',corineClassValues);
+//print('corineClassValues',corineClassValues);
+
+print('corine200',corine2000)
 
 // ---------------------------- CORINE LEGEND ----------------------------
 
@@ -150,7 +149,8 @@ var nitens2000 = c20Forest.clip(nitensFustal);
 // -------------------- ADD LAYERS TO MAP -----------------------------------------------------
 // print the dataset with
 Map.add(legend) 
-Map.addLayer(corine2000,{min: 111, max :523, palette : corinePaletteHash.getInfo() },'Land Cover Corine 2000');
+Map.addLayer(corine2000,{min: 111, max :523, palette : corinePalette },'Land Cover Corine 2000');
+Map.addLayer(corine2000.updateMask(corine2000.eq(324)),{min: 111, max :523, palette : corinePalette },'Land Cover Corine 2000');
 Map.addLayer(c20Forest.updateMask(c20Forest.eq(1)),{min:0,max:1},'Forest and semi natural areas; forests; broad-leaved forest and Mixed');
 Map.addLayer(nitens2000.updateMask(nitens2000.eq(1)),{min:0,max:1, palette: ['red']},'FORESTED AREAS in 2000 THAT TODAY HAVE NITENS');
 
@@ -161,3 +161,4 @@ print('nitens_fustal_mfe2', nitensFustal2);
 
 Map.addLayer(nitensFustal,{color:'red'},'nitens Fustal');
 Map.addLayer(nitensFustal2,{color:'blue'},'nitens Fustal2');
+
