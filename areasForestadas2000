@@ -2,6 +2,8 @@
 var corine = ee.ImageCollection("COPERNICUS/CORINE/V20/100m");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
+var corine = ee.ImageCollection('COPERNICUS/CORINE/V20/100m')
+
 // image Corine 2000
 var corine2000 = corine.filterDate('1999-01-01','2001-02-02');
 
