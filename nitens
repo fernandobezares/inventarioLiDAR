@@ -2,7 +2,8 @@
 var mfecyl = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_CastillayLeon"),
     mfe2 = ee.FeatureCollection("users/cesefor/MFE_2_1996_Esp_ED50"),
     mfe3 = ee.FeatureCollection("users/cesefor/general/MFE_3_Peninsula_Baleares_2006"),
-    corine = ee.ImageCollection("COPERNICUS/CORINE/V20/100m");
+    corine = ee.ImageCollection("COPERNICUS/CORINE/V20/100m"),
+    loss = ee.Image("users/cesefor/yodLossNitens3");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 function to25830 (feat){
   return feat.transform({proj:ee.Projection('epsg:25830'), maxError: 1});
