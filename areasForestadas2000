@@ -7,7 +7,7 @@ var corine2000 = corine.filterDate('1999-01-01','2001-02-02');
 
 
 // get only forests 
-var c20Forest = corine2000.first().eq(22);
+var c20Forest = corine2000.first().eq(311);
 
 
 //palette 
@@ -91,4 +91,5 @@ for (var i = 0; i < elements; i++){
 
 // print the dataset with
 Map.add(legend) 
-Map.addLayer()
+Map.addLayer(corine2000.first(),{min: 111, max :523, palette : corinePalette },'Land Cover Corine 2000');
+Map.addLayer(c20Forest.updateMask(c20Forest.eq(1)),{min:0,max:1},'Forest and semi natural areas; forests; broad-leaved forest')
