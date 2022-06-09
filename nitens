@@ -142,10 +142,14 @@ for (var i = 0; i < elements; i++){
 var nitens2000 = c20Forest.clip(nitensFustal);
 
 // get unchanged areas 
-var unchanged = loss.unmask(1).lt(2000);
+var unchanged = loss.unmask(0).eq(0);
 
-// mask unchanged areas 
-var nitensUnchanged = nitens2000.updateMask(unchanged)
+// get unchanged areas 
+var nitensUnchanged = nitens2000.multiply(unchanged)
+
+// mask changed areas 
+nitensUnchanged = nitensUnchanged.updateMask(nitensUnchanged.eq(1))
+
 
 
 
@@ -159,7 +163,7 @@ var nitensUnchanged = nitens2000.updateMask(unchanged)
 
 Map.addLayer(c20Forest.updateMask(c20Forest.eq(1)),{min:0,max:1},'Forest and semi natural areas; forests; broad-leaved forest and Mixed');
 Map.addLayer(nitens2000.updateMask(nitens2000.eq(1)),{min:0,max:1, palette: ['red']},'FORESTED AREAS in 2000 THAT TODAY HAVE NITENS');
-Map.addLayer(nitensUnchanged,{min:0,max:1, palette: ['purple']},'Unchanged Nittens' )
+Map.addLayer(nitensUnchanged,{min:0,max:1, palette: ['white','purple']},'Unchanged Nittens' )
 Map.addLayer(unchanged,{},'uncahnged')
 print('nitens_fustal', nitensFustal.toList(10,0));
 print('nitens_fustal_mfe2', nitensFustal2);
