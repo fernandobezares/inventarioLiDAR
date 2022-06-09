@@ -1,7 +1,8 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var mfecyl = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_CastillayLeon"),
     mfe2 = ee.FeatureCollection("users/cesefor/MFE_2_1996_Esp_ED50"),
-    mfe3 = ee.FeatureCollection("users/cesefor/general/MFE_3_Peninsula_Baleares_2006");
+    mfe3 = ee.FeatureCollection("users/cesefor/general/MFE_3_Peninsula_Baleares_2006"),
+    corine = ee.ImageCollection("COPERNICUS/CORINE/V20/100m");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 function to25830 (feat){
   return feat.transform({proj:ee.Projection('epsg:25830'), maxError: 1});
@@ -26,6 +27,126 @@ ee.Filter.eq('ROTULO1',64)
 
 var nitensFustal = mfe3.filter(filtros);
 var nitensFustal2 = mfe2.filter(filtros2);
+
+
+
+// ------------------------------------ FOREST AREAS 2000 -------------------------------------------
+
+
+
+
+// image Corine 2000
+var corine2000 = corine.filterDate('1999-01-01','2001-02-02').first();
+
+// get only forests 
+var c20Forest = ee.Image(0)
+.where(corine2000.eq(311),1)
+.where(corine2000.eq(313),1);
+
+//palette 
+var corinePalette = corine2000.get('landcover_class_palette').getInfo();
+
+print(corinePalette);
+// get the landcover names 
+var corineClassNames = corine2000.get('landcover_class_names').getInfo();
+
+// get teh landcover values
+var corineClassValues = corine2000.get('landcover_class_values').getInfo();
+
+print(corineClassValues);
+
+// get elements length from the landcover palette
+var elements = ee.List(corinePalette).length().getInfo();
+
+
+print (ee.Dictionary.fromLists(corinePalette,corineClassNames));
+
+
+// ---------------------------- CORINE LEGEND ----------------------------
+
+// set position of panel
+var legend = ui.Panel({
+  layout: ui.Panel.Layout.Flow('vertical'),
+  style: {
+    position: 'bottom-left',
+    padding: '8px 15px',
+    height :'300px',
+    width : '600px'
+  }
+});
+ 
+// Create legend title
+var legendTitle = ui.Label({
+  value: 'Corine LandCover Classes',
+  style: {
+    fontWeight: 'bold',
+    fontSize: '18px',
+    margin: '0 0 4px 0',
+    padding: '0'
+    }
+});
+ 
+// Add the title to the panel
+legend.add(legendTitle);
+ 
+// Creates and styles 1 row of the legend.
+var makeRow = function(color, name, code) {
+ 
+      // Create the label that is actually the colored box.
+      var colorBox = ui.Label({
+        style: {
+          backgroundColor: '#' + color,
+          // Use padding to give the box height and width.
+          padding: '8px',
+          margin: '0 0 4px 0'
+        }
+      });
+ 
+      // Create the label filled with the description text.
+      var description = ui.Label({
+        value: name,
+        style: {margin: '0 0 4px 6px'}
+      });
+      
+      // Create teh label filled with the landcover code
+      
+      var code = ui.Label({
+        value: '| ' + code + ' |',
+        style: {
+          margin: '0 0 4px 6px',
+          fontWeight: 'bold',
+        }
+      })
+ 
+      // return the panel
+      return ui.Panel({
+        widgets: [colorBox, code, description, ],
+        layout: ui.Panel.Layout.Flow('horizontal')
+      });
+};
+ 
+
+// create a legend for the palette 
+
+for (var i = 0; i < elements; i++){
+  
+  legend.add(makeRow(corinePalette[i], corineClassNames[i], corineClassValues[i]));
+  
+}
+
+// ------------- GET THE FORESTED AREAS FROM THE 2000 THAT TODAY HAVE NITENS ------------------------
+
+ 
+
+
+
+
+// -------------------- ADD LAYERS TO MAP -----------------------------------------------------
+// print the dataset with
+Map.add(legend) 
+Map.addLayer(corine2000,{min: 111, max :523, palette : corinePalette },'Land Cover Corine 2000');
+Map.addLayer(c20Forest.updateMask(c20Forest.eq(1)),{min:0,max:1},'Forest and semi natural areas; forests; broad-leaved forest');
+
 
 print('nitens_fustal', nitensFustal.toList(10,0));
 print('nitens_fustal_mfe2', nitensFustal2);
