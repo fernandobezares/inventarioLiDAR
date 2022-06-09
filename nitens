@@ -34,9 +34,6 @@ var nitensFustal2 = mfe2.filter(filtros2);
 
 // ------------------------------------ FOREST AREAS 2000 -------------------------------------------
 
-
-
-
 // image Corine 2000
 var corine2000 = corine.filterDate('1999-01-01','2001-02-02').first();
 
@@ -145,13 +142,10 @@ var nitens2000 = c20Forest.clip(nitensFustal);
 var unchanged = loss.unmask(0).eq(0);
 
 // get unchanged areas 
-var nitensUnchanged = nitens2000.multiply(unchanged)
+var nitensUnchanged = nitens2000.multiply(unchanged);
 
 // mask changed areas 
-nitensUnchanged = nitensUnchanged.updateMask(nitensUnchanged.eq(1))
-
-
-
+nitensUnchanged = nitensUnchanged.updateMask(nitensUnchanged.eq(1));
 
 
 
