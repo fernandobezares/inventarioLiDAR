@@ -3,7 +3,8 @@ var mfecyl = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_Castilla
     mfe2 = ee.FeatureCollection("users/cesefor/MFE_2_1996_Esp_ED50"),
     mfe3 = ee.FeatureCollection("users/cesefor/general/MFE_3_Peninsula_Baleares_2006"),
     corine = ee.ImageCollection("COPERNICUS/CORINE/V20/100m"),
-    loss = ee.Image("users/cesefor/yodLossNitens3");
+    loss = ee.Image("users/cesefor/Nitens/yodLossNitens3"),
+    nitensMFE4 = ee.FeatureCollection("users/cesefor/Nitens/Nitens_Cantabrico");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 function to25830 (feat){
   return feat.transform({proj:ee.Projection('epsg:25830'), maxError: 1});
@@ -136,7 +137,7 @@ for (var i = 0; i < elements; i++){
 // ------------- GET THE FORESTED AREAS IN 2000 THAT TODAY HAVE NITENS ------------------------
 
 // get teh areas where there was nitens in 2000 and it was forest 
-var nitens2000 = c20Forest.clip(nitensFustal);
+var nitens2000 = c20Forest.clip(nitensMFE4);
 
 // get unchanged areas 
 var unchanged = loss.unmask(0).eq(0);
@@ -163,6 +164,6 @@ print('nitens_fustal', nitensFustal.toList(10,0));
 print('nitens_fustal_mfe2', nitensFustal2);
 
 
-Map.addLayer(nitensFustal,{color:'red'},'nitens Fustal');
+Map.addLayer(nitensMFE4,{color:'red'},'nitens Fustal');
 //Map.addLayer(nitensFustal2,{color:'blue'},'nitens Fustal2');
 
