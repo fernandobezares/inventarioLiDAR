@@ -85,7 +85,8 @@ var legendTitle = ui.Label({
     padding: '0'
     }
 });
- 
+
+
 // Add the title to the panel
 legend.add(legendTitle);
  
