@@ -216,8 +216,8 @@ nitensUnchanged = nitensUnchanged.updateMask(heigthMask);
 Map.add(resultLegend) 
 
 Map.addLayer(c20Forest.updateMask(c20Forest.eq(1)),{min:0,max:1 , palette: ['#2de060']},'Forest and semi natural areas; forests; broad-leaved forest and Mixed');
-Map.addLayer(nitens2000.updateMask(nitens2000.eq(1)),{min:0,max:1, palette: ['#f54242']},'FORESTED AREAS in 2000 THAT TODAY HAVE NITENS');
-Map.addLayer(nitensUnchanged,{min:0,max:1, palette: ['white','#c842f5']},'Unchanged Nittens' );
+Map.addLayer(nitens2000.updateMask(nitens2000.eq(1)),{min:0,max:1, palette: ['#f54242']},'Areas de bosque en 2000 nitens con nitens en MFE4');
+Map.addLayer(nitensUnchanged,{min:0,max:1, palette: ['white','#c842f5']},'Bosque con nitens sin cambios desde 2000' );
 
 //print('nitens_fustal', nitensFustal.toList(10,0));
 //print('nitens_fustal_mfe2', nitensFustal2);
