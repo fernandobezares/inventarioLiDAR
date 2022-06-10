@@ -138,7 +138,7 @@ for (var i = 0; i < elements; i++){
 // -------------- Results Legend ---------------------------------------------------------------
 
 var resultsNames = ['Areas de bosque en 2000 nitens con nitens en MFE4', 'Bosque con nitens sin cambios desde 2000' ];
-var resultsColors = ['f54242','f54242'];
+var resultsColors = ['f54242','c842f5'];
 
 // set position of panel
 var resultLegend = ui.Panel({
@@ -147,7 +147,7 @@ var resultLegend = ui.Panel({
     position: 'bottom-left',
     padding: '8px 15px',
     height :'100px',
-    width : '200px'
+    width : '400px'
   }
 });
  
@@ -162,9 +162,11 @@ var resultslegendTitle = ui.Label({
     }
 });
 
+
+resultLegend.add(resultslegendTitle);
+
 // create a legend for the palette 
 for (var i = 0; i < 2; i++){
-  
 
   resultLegend.add(makeRow(resultsColors[i], resultsNames[i]));
   
@@ -197,7 +199,7 @@ Map.add(resultLegend)
 
 Map.addLayer(c20Forest.updateMask(c20Forest.eq(1)),{min:0,max:1},'Forest and semi natural areas; forests; broad-leaved forest and Mixed');
 Map.addLayer(nitens2000.updateMask(nitens2000.eq(1)),{min:0,max:1, palette: ['#f54242']},'FORESTED AREAS in 2000 THAT TODAY HAVE NITENS');
-Map.addLayer(nitensUnchanged,{min:0,max:1, palette: ['white','#f54242']},'Unchanged Nittens' );
+Map.addLayer(nitensUnchanged,{min:0,max:1, palette: ['white','#c842f5']},'Unchanged Nittens' );
 
 print('nitens_fustal', nitensFustal.toList(10,0));
 print('nitens_fustal_mfe2', nitensFustal2);
