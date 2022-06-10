@@ -216,16 +216,28 @@ nitensUnchanged = nitensUnchanged.updateMask(heigthMask);
 //Map.add(legend) 
 //Map.addLayer(corine2000,{min: 111, max :523, palette : corinePalette },'Land Cover Corine 2000');
 
-Map.add(resultLegend) 
+Map.add(resultLegend); 
 
-Map.addLayer(c20Forest.updateMask(c20Forest.eq(1)),{min:0,max:1 , palette: ['#2de060']},'Forest and semi natural areas; forests; broad-leaved forest and Mixed');
-Map.addLayer(nitens2000.updateMask(nitens2000.eq(1)),{min:0,max:1, palette: ['#f54242']},'Areas de bosque en 2000 nitens con nitens en MFE4');
-Map.addLayer(nitensUnchanged,{min:0,max:1, palette: ['white','#c842f5']},'Bosque con nitens sin cambios desde 2000' );
+// add canopyheigth map 
+Map.addLayer(canopyHeight, {min:0,max:40, palette :['lightgrey','lightyellow','lightgreen','green', 'darkgreen']},
+'Canopy heigth');
+
+// add corine forests classes 311 and 313 
+Map.addLayer(c20Forest.updateMask(c20Forest.eq(1)),{min:0,max:1 , palette: ['#2de060']},
+'Forest and semi natural areas; forests; broad-leaved forest and Mixed');
+
+// add forest areas in 2000 that today have nitens
+Map.addLayer(nitens2000.updateMask(nitens2000.eq(1)),{min:0,max:1, palette: ['#f54242']},
+'Areas de bosque en 2000 nitens con nitens en MFE4');
+
+// addd the forest areas in 2000 with nitens in 2018 that didn't change and a canopy height above 15 m in 2019 
+Map.addLayer(nitensUnchanged,{min:0,max:1, palette: ['white','#c842f5']},
+'Bosque con nitens sin cambios desde 2000' );
 
 //print('nitens_fustal', nitensFustal.toList(10,0));
 //print('nitens_fustal_mfe2', nitensFustal2);
 
-Map.addLayer(canopyHeight, {min:0,max:40, palette :['lightgrey','lightyellow','lightgreen','green', 'darkgreen']},'Canopy heigth');
+
 Map.addLayer(nitensMFE4,{color:'red'},'nitens Fustal');
 //Map.addLayer(nitensFustal2,{color:'blue'},'nitens Fustal2');
 
