@@ -6,6 +6,15 @@ var mfecyl = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_Castilla
     loss = ee.Image("users/cesefor/Nitens/yodLossNitens3"),
     nitensMFE4 = ee.FeatureCollection("users/cesefor/Nitens/Nitens_Cantabrico");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
+// import canopy height image 2019
+// https://glad.umd.edu/dataset/gedi
+
+var canopyHeight = ee.ImageCollection('users/potapovpeter/GEDI_V27');
+
+canopyHeight = canopyHeight.filter(ee.Filter.eq('system:index','GEDI_NAFR_v27')).first();
+
+// Filter MFE dataset. Selecting E.nitens 
+/*
 function to25830 (feat){
   return feat.transform({proj:ee.Projection('epsg:25830'), maxError: 1});
 }
@@ -30,7 +39,7 @@ ee.Filter.eq('ROTULO1',64)
 
 var nitensFustal = mfe3.filter(filtros);
 var nitensFustal2 = mfe2.filter(filtros2);
-
+*/
 
 
 // ------------------------------------ FOREST AREAS 2000 -------------------------------------------
@@ -39,11 +48,11 @@ var nitensFustal2 = mfe2.filter(filtros2);
 var corine2000 = corine.filterDate('1999-01-01','2001-02-02').first();
 
 // get only forests 
-var c20Forest = ee.Image(0)
-.where(corine2000.eq(311),1)
+var c20Forest = ee.Image(0) // create const raster 
+.where(corine2000.eq(311),1) 
 .where(corine2000.eq(313),1);
 
-//palette 
+// palette 
 var corinePalette = corine2000.get('landcover_class_palette').getInfo();
 
 // get the landcover names 
@@ -60,7 +69,7 @@ var elements = ee.List(corinePalette).length().getInfo();
 print (ee.Dictionary.fromLists(corinePalette,corineClassNames));
 //print('corineClassValues',corineClassValues);
 
-print('corine200',corine2000)
+print('corine200',corine2000);
 print('corinePalette', corinePalette);
 // ---------------------------- CORINE LEGEND ----------------------------
 
@@ -175,7 +184,7 @@ for (var i = 0; i < 3; i++){
 
 // ------------- GET THE FORESTED AREAS IN 2000 THAT TODAY HAVE NITENS ------------------------
 
-// get teh areas where there was nitens in 2000 and it was forest 
+// get the areas where there was nitens in 2000 and it was forest 
 var nitens2000 = c20Forest.clip(nitensMFE4);
 
 // get unchanged areas 
@@ -186,6 +195,15 @@ var nitensUnchanged = nitens2000.multiply(unchanged);
 
 // mask changed areas 
 nitensUnchanged = nitensUnchanged.updateMask(nitensUnchanged.eq(1));
+
+// select heights above 15m 
+var heigthMask = canopyHeight.gte(15);
+
+// apply Mask
+nitensUnchanged = nitensUnchanged.updateMask(heigthMask);
+
+
+
 
 
 
@@ -201,8 +219,8 @@ Map.addLayer(c20Forest.updateMask(c20Forest.eq(1)),{min:0,max:1 , palette: ['#2d
 Map.addLayer(nitens2000.updateMask(nitens2000.eq(1)),{min:0,max:1, palette: ['#f54242']},'FORESTED AREAS in 2000 THAT TODAY HAVE NITENS');
 Map.addLayer(nitensUnchanged,{min:0,max:1, palette: ['white','#c842f5']},'Unchanged Nittens' );
 
-print('nitens_fustal', nitensFustal.toList(10,0));
-print('nitens_fustal_mfe2', nitensFustal2);
+//print('nitens_fustal', nitensFustal.toList(10,0));
+//print('nitens_fustal_mfe2', nitensFustal2);
 
 
 Map.addLayer(nitensMFE4,{color:'red'},'nitens Fustal');
