@@ -218,13 +218,13 @@ nitensUnchanged = nitensUnchanged.updateMask(heigthMask);
 
 Map.add(resultLegend); 
 
-// add canopyheigth map 
-Map.addLayer(canopyHeight, {min:0,max:40, palette :['lightgrey','lightyellow','lightgreen','green', 'darkgreen']},
-'Canopy heigth');
-
 // add corine forests classes 311 and 313 
 Map.addLayer(c20Forest.updateMask(c20Forest.eq(1)),{min:0,max:1 , palette: ['#2de060']},
-'Forest and semi natural areas; forests; broad-leaved forest and Mixed');
+'Forest and semi natural areas; forests; broad-leaved forest and Mixed',1,0.2);
+
+// add canopyheigth map 
+Map.addLayer(canopyHeight.updateMask(c20Forest), {min:0,max:40, palette :['lightgrey','lightyellow','lightgreen','green', 'darkgreen']},
+'Canopy heigth');
 
 // add forest areas in 2000 that today have nitens
 Map.addLayer(nitens2000.updateMask(nitens2000.eq(1)),{min:0,max:1, palette: ['#f54242']},
@@ -237,6 +237,10 @@ Map.addLayer(nitensUnchanged,{min:0,max:1, palette: ['white','#c842f5']},
 //print('nitens_fustal', nitensFustal.toList(10,0));
 //print('nitens_fustal_mfe2', nitensFustal2);
 
+
+// style the ee.FeatureCollection
+
+nitensMFE4 = nitensMFE4.style({fillColor: 'FF000000'})
 
 Map.addLayer(nitensMFE4,{color:'red'},'nitens Fustal');
 //Map.addLayer(nitensFustal2,{color:'blue'},'nitens Fustal2');
