@@ -166,7 +166,7 @@ var resultslegendTitle = ui.Label({
 resultLegend.add(resultslegendTitle);
 
 // create a legend for the palette 
-for (var i = 0; i < 2; i++){
+for (var i = 0; i < 3; i++){
 
   resultLegend.add(makeRow(resultsColors[i], resultsNames[i]));
   
