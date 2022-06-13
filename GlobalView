@@ -1,0 +1,3 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var dyw = ee.ImageCollection("GOOGLE/DYNAMICWORLD/V1");
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
