@@ -1,3 +1,27 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var dyw = ee.ImageCollection("GOOGLE/DYNAMICWORLD/V1");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
+var beforeYear = 2019;
+var afterYear = 2020;
+
+var beforeStart = ee.Date.fromYMD(beforeYear, 1, 1);
+var beforeEnd = beforeStart.advance(1, 'year');
+
+var afterStart = ee.Date.fromYMD(afterYear, 1, 1);
+var afterEnd = afterStart.advance(1, 'year');
+
+var dw = ee.ImageCollection('GOOGLE/DYNAMICWORLD/V1')
+             .filterBounds(geometry)
+             .select('built');
+
+var beforeDw = dw.filterDate(beforeStart, beforeEnd).mean();
+var afterDw = dw.filterDate(afterStart, afterEnd).mean();
+
+
+// Select all pixels that are
+// < 0.2 'built' probability before
+// > 0.5 'built' probability after
+var newUrban = beforeDw.lt(0.2).and(afterDw.gt(0.5));
+
+var changeVisParams = {min: 0, max: 1, palette: ['white', 'red']};
+Map.addLayer(newUrban.clip(geometry), changeVisParams, 'New Urban');
