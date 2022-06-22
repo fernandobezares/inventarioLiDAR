@@ -1,12 +1,13 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var mfecyl = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_CastillayLeon"),
-    mfe2 = ee.FeatureCollection("users/cesefor/MFE_2_1996_Esp_ED50"),
-    mfe3 = ee.FeatureCollection("users/cesefor/general/MFE_3_Peninsula_Baleares_2006"),
+var mfe3 = ee.FeatureCollection("users/cesefor/general/MFE_3_Peninsula_Baleares_2006"),
     corine = ee.ImageCollection("COPERNICUS/CORINE/V20/100m"),
     loss = ee.Image("users/cesefor/Nitens/yodLossNitens3"),
     nitensMFE4 = ee.FeatureCollection("users/cesefor/Nitens/Nitens_Cantabrico"),
     aoi = ee.FeatureCollection("users/cesefor/Nitens/aoiNitens2"),
-    table = ee.FeatureCollection("users/cesefor/Guiriezo");
+    mfe25Gal = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_Galicia"),
+    mfe25PV = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_PaisVasco"),
+    mfe25As = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_PrincipadoDeAsturias"),
+    mfe25C = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_cantabria");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // import canopy height image 2019
 // https://glad.umd.edu/dataset/gedi
@@ -17,32 +18,52 @@ canopyHeight = canopyHeight.filter(ee.Filter.eq('system:index','GEDI_NAFR_v27'))
 .clip(aoi);
 
 // Filter MFE dataset. Selecting E.nitens 
-/*
+
 function to25830 (feat){
   return feat.transform({proj:ee.Projection('epsg:25830'), maxError: 1});
 }
-
+/*
 var mfe2 = mfe2.map(to25830);
 var mfe3 = mfe3.map(to25830);
 
 var estados = mfe2.aggregate_array('ROTULO1').distinct().sort();
 print(estados);
 
+
 var filtros = ee.Filter.and(
-ee.Filter.eq('SP1',64),
-ee.Filter.inList('E1',[4,3]),
-ee.Filter.inList('CCAA_MFE50',[11,12,13,21])
+ee.Filter.eq('SP1',64)
+//ee.Filter.inList('E1',[4,3]),
+//ee.Filter.inList('CCAA_MFE50',[11,12,13,21])
 ) ;
 
 var filtros2 = ee.Filter.and(
 ee.Filter.eq('ROTULO1',64)
 //ee.Filter.eq('NOM_FORARB','Eucaliptales'),
 //ee.Filter.inList('CCAA_MFE50',[11,12,13,21])
-) ;
+) 
 
 var nitensFustal = mfe3.filter(filtros);
 var nitensFustal2 = mfe2.filter(filtros2);
 */
+
+// filter Eucalyptus nitens 
+var filtroNitens = ee.Filter.and(
+ee.Filter.eq('especie1 ',64)
+//ee.Filter.eq('NOM_FORARB','Eucaliptales'),
+//ee.Filter.inList('CCAA_MFE50',[11,12,13,21])
+)
+var filtroNitens = ee.Filter.and(
+ee.Filter.eq('especie1 ',63)
+//ee.Filter.eq('NOM_FORARB','Eucaliptales'),
+//ee.Filter.inList('CCAA_MFE50',[11,12,13,21])
+)
+
+
+// filter the collections
+mfe25C = mfe25C.filter(filtroNitens);
+mfe25As = mfe25As.filter(filtroNitens);
+mfe25PV = mfe25PV.filter(filtroNitens);
+mfe25Gal = mfe25Gal.filter(filtroNitens);
 
 
 // ------------------------------------ FOREST AREAS 2000 -------------------------------------------
@@ -241,7 +262,7 @@ Map.addLayer(nitensUnchanged,{min:0,max:1, palette: ['white','#c842f5']},
 // style the ee.FeatureCollection
 nitensMFE4 = nitensMFE4.style({fillColor: 'FF000000'});
 
-Map.centerObject(table,15)
+Map.centerObject(mfe25Cyl,15)
 
 Map.addLayer(nitensMFE4,{color:'red'},'nitens Fustal');
 //Map.addLayer(nitensFustal2,{color:'blue'},'nitens Fustal2');
