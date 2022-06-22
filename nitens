@@ -9,7 +9,6 @@ var mfecyl = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_Castilla
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // import canopy height image 2019
 // https://glad.umd.edu/dataset/gedi
-
 var canopyHeight = ee.ImageCollection('users/potapovpeter/GEDI_V27');
 
 canopyHeight = canopyHeight.filter(ee.Filter.eq('system:index','GEDI_NAFR_v27'))
