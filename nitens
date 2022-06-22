@@ -45,27 +45,33 @@ ee.Filter.eq('ROTULO1',64)
 var nitensFustal = mfe3.filter(filtros);
 var nitensFustal2 = mfe2.filter(filtros2);
 */
+print(mfe25C.aggregate_array('especie1').distinct().sort());
 
 // filter Eucalyptus nitens 
-var filtroNitens = ee.Filter.and(
-ee.Filter.eq('especie1 ',64)
-//ee.Filter.eq('NOM_FORARB','Eucaliptales'),
+var filtroTodosEuc = ee.Filter.or(
+ee.Filter.eq('especie1',"Eucalyptus nitens"),
+ee.Filter.eq('especie1','Mezcla de eucaliptos'),
+ee.Filter.eq('especie1','Eucalyptus globulus')
 //ee.Filter.inList('CCAA_MFE50',[11,12,13,21])
 )
-var filtroNitens = ee.Filter.and(
-ee.Filter.eq('especie1 ',63)
+var filtroNitens = ee.Filter.eq('especie1','Eucalyptus nitens')
 //ee.Filter.eq('NOM_FORARB','Eucaliptales'),
 //ee.Filter.inList('CCAA_MFE50',[11,12,13,21])
-)
 
+
+var filtroEstado = ee.Filter.inList('estado1',['Fustal','Latizal']);
 
 // filter the collections
-mfe25C = mfe25C.filter(filtroNitens);
-mfe25As = mfe25As.filter(filtroNitens);
-mfe25PV = mfe25PV.filter(filtroNitens);
-mfe25Gal = mfe25Gal.filter(filtroNitens);
+var filteredMfe25C = mfe25C.filter(ee.Filter.and(filtroOtros,filter(filtroEstado)));
+var filteredMfe25As = mfe25As.filter(ee.Filter.and(filtroOtros,filter(filtroNitens)));
+var filteredMfe25PV = mfe25PV.filter(ee.Filter.and(filtroOtros,filter(filtroNitens)));
+var filteredMfe25Gal = mfe25Gal.filter(ee.Filter.and(filtroOtros,filter(filtroNitens)));
 
 
+var eucaliptos = ee.FeatureCollection([filteredMfe25C,filteredMfe25As,filteredMfe25PV,filteredMfe25Gal]).flatten()
+
+print('eucaliptos', eucaliptos)
+Map.addLayer(eucaliptos,{color:'blue'}, 'Eucaliptos')
 // ------------------------------------ FOREST AREAS 2000 -------------------------------------------
 
 // image Corine 2000
@@ -262,7 +268,7 @@ Map.addLayer(nitensUnchanged,{min:0,max:1, palette: ['white','#c842f5']},
 // style the ee.FeatureCollection
 nitensMFE4 = nitensMFE4.style({fillColor: 'FF000000'});
 
-Map.centerObject(mfe25Cyl,15)
+//Map.centerObject(mfe25Cyl,15)
 
 Map.addLayer(nitensMFE4,{color:'red'},'nitens Fustal');
 //Map.addLayer(nitensFustal2,{color:'blue'},'nitens Fustal2');
