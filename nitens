@@ -9,6 +9,10 @@ var mfe3 = ee.FeatureCollection("users/cesefor/general/MFE_3_Peninsula_Baleares_
     mfe25As = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_PrincipadoDeAsturias"),
     mfe25C = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_cantabria");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
+var gaul = ee.FeatureCollection("FAO/GAUL/2015/level1");
+print('gaul',gaul.aggregate_array('ADM1_NAME').distinct().sort())
+var aoi = gaul.filter(ee.Filter.inList('ADM1_NAME', ['Principado de Asturias','Cantabria','Galicia','Pa�s Vasco/Euskadi'])).union(0.5)
+
 // import canopy height image 2019
 // https://glad.umd.edu/dataset/gedi
 var canopyHeight = ee.ImageCollection('users/potapovpeter/GEDI_V27');
@@ -215,7 +219,7 @@ for (var i = 0; i < 3; i++){
 // ------------- GET THE FORESTED AREAS IN 2000 THAT TODAY HAVE NITENS ------------------------
 
 // get the areas where there was nitens in 2000 and it was forest 
-var nitens2000 = c20Forest.clip(nitensMFE4);
+var nitens2000 = c20Forest.clip(eucaliptos);
 
 // get unchanged areas 
 var unchanged = loss.unmask(0).eq(0);
