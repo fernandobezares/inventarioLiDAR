@@ -238,8 +238,7 @@ Map.addLayer(nitensUnchanged,{min:0,max:1, palette: ['white','#c842f5']},
 
 
 // style the ee.FeatureCollection
-
-nitensMFE4 = nitensMFE4.style({fillColor: 'FF000000'})
+nitensMFE4 = nitensMFE4.style({fillColor: 'FF000000'});
 
 Map.addLayer(nitensMFE4,{color:'red'},'nitens Fustal');
 //Map.addLayer(nitensFustal2,{color:'blue'},'nitens Fustal2');
