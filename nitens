@@ -62,10 +62,10 @@ var filtroNitens = ee.Filter.eq('especie1','Eucalyptus nitens')
 var filtroEstado = ee.Filter.inList('estado1',['Fustal','Latizal']);
 
 // filter the collections
-var filteredMfe25C = mfe25C.filter(ee.Filter.and(filtroTodosEuc,filter(filtroEstado)));
-var filteredMfe25As = mfe25As.filter(ee.Filter.and(filtroNitens,filter(filtroEstado)));
-var filteredMfe25PV = mfe25PV.filter(ee.Filter.and(filtroNitens,filter(filtroEstado)));
-var filteredMfe25Gal = mfe25Gal.filter(ee.Filter.and(filtroNitens,filter(filtroEstado)));
+var filteredMfe25C = mfe25C.filter(ee.Filter.and(filtroTodosEuc,filtroEstado));
+var filteredMfe25As = mfe25As.filter(ee.Filter.and(filtroNitens,filtroEstado));
+var filteredMfe25PV = mfe25PV.filter(ee.Filter.and(filtroNitens,filtroEstado));
+var filteredMfe25Gal = mfe25Gal.filter(ee.Filter.and(filtroNitens,filtroEstado));
 
 
 var eucaliptos = ee.FeatureCollection([filteredMfe25C,filteredMfe25As,filteredMfe25PV,filteredMfe25Gal]).flatten()
