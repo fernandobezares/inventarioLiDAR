@@ -1,0 +1,18 @@
+var spectral = require("users/dmlmont/spectral:spectral");
+
+var dataset = "COPERNICUS/S2_SR";
+
+var S2 = ee.ImageCollection(dataset).first();
+var S2 = spectral.scale(S2,dataset);
+
+var parameters = {
+    "N": S2.select("B8"),
+    "R": S2.select("B4"),
+    "G": S2.select("B3"),
+    "RE1": S2.select("B5"),
+    "L": 0.5
+};
+
+var S2 = spectral.computeIndex(S2,["NDVI","GNDVI","SAVI","TCI"],parameters);
+
+Map.addLayer(S2)
