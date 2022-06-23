@@ -76,7 +76,6 @@ var filteredMfe25Gal = mfe25Gal.filter(ee.Filter.and(filtroNitens,filtroEstado))
 
 
 var eucaliptos = ee.FeatureCollection([filteredMfe25C,filteredMfe25As,filteredMfe25PV,filteredMfe25Gal]).flatten()
-
 print('eucaliptos', eucaliptos)
 
 // ------------------------------------ FOREST AREAS 2000 -------------------------------------------
@@ -284,8 +283,7 @@ Map.addLayer(nitensMFE4,{color:'red'},'nitens Fustal',0);
 eucaliptos = eucaliptos.style({fillColor: 'FF000000',color:'yellow'})
 Map.addLayer(eucaliptos,{}, 'Nitens Fustal (mezcla Eucaliptos Cantabria)')
 
-
+Map.centerObject(validacion,13)
 validacion = validacion.style({fillColor: 'FF000000',color:'red'})
 Map.addLayer(validacion,{},'Parcelas de Valicación Guipuzcoa 13-10, 13-11')
 
-Map.centerObject(validacion,13)
