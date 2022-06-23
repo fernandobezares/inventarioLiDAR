@@ -9,7 +9,8 @@ var mfe3 = ee.FeatureCollection("users/cesefor/general/MFE_3_Peninsula_Baleares_
     mfe25As = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_PrincipadoDeAsturias"),
     mfe25C = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_cantabria"),
     loss2 = ee.Image("users/cesefor/Nitens/yodLossNitens_Gal_Ast_PV_Can"),
-    guriezo = ee.FeatureCollection("users/cesefor/Nitens/Guiriezo");
+    guriezo = ee.FeatureCollection("users/cesefor/Nitens/Guiriezo"),
+    validacion = ee.FeatureCollection("users/cesefor/guipuzcoa_131011");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 var gaul = ee.FeatureCollection("FAO/GAUL/2015/level1");
 print('gaul',gaul.aggregate_array('ADM1_NAME').distinct().sort())
@@ -282,4 +283,9 @@ Map.addLayer(nitensMFE4,{color:'red'},'nitens Fustal',0);
 
 eucaliptos = eucaliptos.style({fillColor: 'FF000000',color:'yellow'})
 Map.addLayer(eucaliptos,{}, 'Nitens Fustal (mezcla Eucaliptos Cantabria)')
+
+
+validacion = validacion.style({fillColor: 'FF000000',color:'red'})
+Map.addLayer(validacion,{},'Parcelas de Valicación Guipuzcoa 13-10, 13-11')
+
 Map.centerObject(guriezo,13)
