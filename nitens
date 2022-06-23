@@ -182,7 +182,7 @@ for (var i = 0; i < elements; i++){
 }
 // -------------- Results Legend ---------------------------------------------------------------
 
-var resultsNames = ['Areas de bosque en 2000 nitens con nitens en MFE4', 'Bosque con nitens sin cambios desde 2000', 'Bosque mixto y Bosque caducifolio (año 2000)' ];
+var resultsNames = ['Areas de bosque en 2000 con nitens en MFE4', 'Bosque con nitens sin cambios desde 2000 y altura > 15 m', 'Bosque mixto y Bosque caducifolio (año 2000)' ];
 var resultsColors = ['f54242','c842f5', '2de060'];
 
 // set position of panel
@@ -191,8 +191,8 @@ var resultLegend = ui.Panel({
   style: {
     position: 'bottom-left',
     padding: '8px 15px',
-    height :'100px',
-    width : '400px'
+    height :'110px',
+    width : '450px'
   }
 });
  
@@ -253,19 +253,20 @@ Map.add(resultLegend);
 
 // add corine forests classes 311 and 313 
 Map.addLayer(c20Forest.updateMask(c20Forest.eq(1)),{min:0,max:1 , palette: ['#2de060']},
-'Forest and semi natural areas; forests; broad-leaved forest and Mixed',1,0.2);
+'Bosques de frondosas y mixtos en el año 2000 (CORINE)',1,0.2);
 
 // add canopyheigth map 
-Map.addLayer(canopyHeight.updateMask(c20Forest), {min:0,max:40, palette :['lightgrey','lightyellow','lightgreen','green', 'darkgreen']},
-'Canopy heigth');
+Map.addLayer(canopyHeight.updateMask(c20Forest), 
+{min:0,max:40, palette :['lightgrey','lightyellow','lightgreen','green', 'darkgreen']},
+'Altura vegetación',1,0.1);
 
 // add forest areas in 2000 that today have nitens
 Map.addLayer(nitens2000.updateMask(nitens2000.eq(1)),{min:0,max:1, palette: ['#f54242']},
-'Areas de bosque en 2000 nitens con nitens en MFE4');
+'Areas de bosque en 2000 con nitens en MFE4');
 
 // addd the forest areas in 2000 with nitens in 2018 that didn't change and a canopy height above 15 m in 2019 
 Map.addLayer(nitensUnchanged,{min:0,max:1, palette: ['white','#c842f5']},
-'Bosque con nitens sin cambios desde 2000' );
+'Bosque con nitens sin cambios desde 2000 y altura mayor de 15m' );
 
 //print('nitens_fustal', nitensFustal.toList(10,0));
 //print('nitens_fustal_mfe2', nitensFustal2);
@@ -280,5 +281,5 @@ Map.addLayer(nitensMFE4,{color:'red'},'nitens Fustal',0);
 //Map.addLayer(nitensFustal2,{color:'blue'},'nitens Fustal2');
 
 eucaliptos = eucaliptos.style({fillColor: 'FF000000',color:'yellow'})
-Map.addLayer(eucaliptos,{}, 'Eucaliptos')
+Map.addLayer(eucaliptos,{}, 'Nitens Fustal (mezcla Eucaliptos Cantabria)')
 Map.centerObject(guriezo,13)
