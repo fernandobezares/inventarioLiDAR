@@ -7,7 +7,9 @@ var mfe3 = ee.FeatureCollection("users/cesefor/general/MFE_3_Peninsula_Baleares_
     mfe25Gal = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_Galicia"),
     mfe25PV = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_PaisVasco"),
     mfe25As = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_PrincipadoDeAsturias"),
-    mfe25C = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_cantabria");
+    mfe25C = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_cantabria"),
+    loss2 = ee.Image("users/cesefor/Nitens/yodLossNitens_Gal_Ast_PV_Can"),
+    guriezo = ee.FeatureCollection("users/cesefor/Nitens/Guiriezo");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 var gaul = ee.FeatureCollection("FAO/GAUL/2015/level1");
 print('gaul',gaul.aggregate_array('ADM1_NAME').distinct().sort())
@@ -75,7 +77,7 @@ var filteredMfe25Gal = mfe25Gal.filter(ee.Filter.and(filtroNitens,filtroEstado))
 var eucaliptos = ee.FeatureCollection([filteredMfe25C,filteredMfe25As,filteredMfe25PV,filteredMfe25Gal]).flatten()
 
 print('eucaliptos', eucaliptos)
-Map.addLayer(eucaliptos,{color:'blue'}, 'Eucaliptos')
+
 // ------------------------------------ FOREST AREAS 2000 -------------------------------------------
 
 // image Corine 2000
@@ -222,7 +224,7 @@ for (var i = 0; i < 3; i++){
 var nitens2000 = c20Forest.clip(eucaliptos);
 
 // get unchanged areas 
-var unchanged = loss.unmask(0).eq(0);
+var unchanged = loss2.unmask(0).eq(0);
 
 // get unchanged areas 
 var nitensUnchanged = nitens2000.multiply(unchanged);
@@ -274,6 +276,9 @@ nitensMFE4 = nitensMFE4.style({fillColor: 'FF000000'});
 
 //Map.centerObject(mfe25Cyl,15)
 
-Map.addLayer(nitensMFE4,{color:'red'},'nitens Fustal');
+Map.addLayer(nitensMFE4,{color:'red'},'nitens Fustal',0);
 //Map.addLayer(nitensFustal2,{color:'blue'},'nitens Fustal2');
 
+eucaliptos = eucaliptos.style({fillColor: 'FF000000',color:'yellow'})
+Map.addLayer(eucaliptos,{}, 'Eucaliptos')
+Map.centerObject(guriezo,13)
