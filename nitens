@@ -288,4 +288,4 @@ Map.addLayer(eucaliptos,{}, 'Nitens Fustal (mezcla Eucaliptos Cantabria)')
 validacion = validacion.style({fillColor: 'FF000000',color:'red'})
 Map.addLayer(validacion,{},'Parcelas de Valicación Guipuzcoa 13-10, 13-11')
 
-Map.centerObject(guriezo,13)
+Map.centerObject(validacion,13)
