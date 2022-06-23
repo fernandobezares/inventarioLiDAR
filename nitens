@@ -258,7 +258,7 @@ Map.addLayer(c20Forest.updateMask(c20Forest.eq(1)),{min:0,max:1 , palette: ['#2d
 // add canopyheigth map 
 Map.addLayer(canopyHeight.updateMask(c20Forest), 
 {min:0,max:40, palette :['lightgrey','lightyellow','lightgreen','green', 'darkgreen']},
-'Altura vegetación',1,0.1);
+'Altura vegetación',0,0.1);
 
 // add forest areas in 2000 that today have nitens
 Map.addLayer(nitens2000.updateMask(nitens2000.eq(1)),{min:0,max:1, palette: ['#f54242']},
