@@ -305,15 +305,15 @@ Map.addLayer(nitensUnchanged,{min:0,max:1, palette: ['white','#c842f5']},
 
 
 // style the ee.FeatureCollection
-nitensMFE4 = nitensMFE4.style({fillColor: 'FF000000'});
+//nitensMFE4 = nitensMFE4.style({fillColor: 'FF000000'});
 
 //Map.centerObject(mfe25Cyl,15)
 
-Map.addLayer(nitensMFE4,{color:'red'},'nitens Fustal',0);
+//Map.addLayer(nitensMFE4,{color:'red'},'Nitens Fustal',0);
 //Map.addLayer(nitensFustal2,{color:'blue'},'nitens Fustal2');
 
 eucaliptos = eucaliptos.style({fillColor: 'FF000000',color:'yellow'})
-Map.addLayer(eucaliptos,{}, 'Nitens Fustal (mezcla Eucaliptos Cantabria)',0)
+Map.addLayer(eucaliptos,{}, 'Nitens Fustal (mezcla Eucaliptos Cantabria y PV)',0)
 
 
 Map.centerObject(valPV,10)
