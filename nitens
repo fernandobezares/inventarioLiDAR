@@ -17,10 +17,9 @@ var mfe3 = ee.FeatureCollection("users/cesefor/general/MFE_3_Peninsula_Baleares_
 // aoi
 var gaul = ee.FeatureCollection("FAO/GAUL/2015/level1");
 var aoi = gaul.filter(ee.Filter.inList('ADM1_NAME', ['Principado de Asturias','Cantabria','Galicia','Pa�s Vasco/Euskadi'])).union(0.5)
-
-Map.addLayer(ee.FeatureCollection("FAO/GAUL/2015/level2"))
 var guiAla =  ee.FeatureCollection("FAO/GAUL/2015/level2").filter(ee.Filter.inList('ADM2_NAME', ['Araba/Álava','Gipuzkoa'])).union(0.5);
-print('gaul', ee.FeatureCollection("FAO/GAUL/2015/level2").aggregate_array('ADM2_NAME').distinct().sort())
+
+//print('gaul', ee.FeatureCollection("FAO/GAUL/2015/level2").aggregate_array('ADM2_NAME').distinct().sort())
 
 // import canopy height image 2019
 // https://glad.umd.edu/dataset/gedi
@@ -82,11 +81,28 @@ var filtroEstado = ee.Filter.inList('estado1',['Fustal','Latizal']);
 
 var filteredMfe25C = mfe25C.filter(ee.Filter.and(filtroTodosEuc,filtroEstado));
 var filteredMfe25As = mfe25As.filter(ee.Filter.and(filtroNitens,filtroEstado));
-var filteredMfe25PV = mfe25PV.filter(ee.Filter.and(filtroTodosEuc,filtroEstado));
+var filteredMfe25PV = mfe25PV.filter(ee.Filter.and(filtroNitens,filtroEstado));
 var filteredMfe25Gal = mfe25Gal.filter(ee.Filter.and(filtroNitens,filtroEstado));
 
+// busca los E. globulus en álava y Guipúzcoa por encima de los 350 m
 
-var eucaliptos = ee.FeatureCollection([filteredMfe25C,filteredMfe25As,filteredMfe25PV,filteredMfe25Gal]).flatten();
+var filteredMfe25PVg = mfe25PV
+.filterBounds(guiAla) // selecciona solo la zona de alava y guipuzcoa
+.filter(ee.Filter.and(filtroGlob,filtroEstado)); // selecciona las parcelas de globulus y de latizal o fustal
+
+// calcaula la media de elevación para las parcelas con globulus en Alava y Guipuzcoa
+var elevStats = srtm.reduceRegions({
+  collection:filteredMfe25PVg,
+  reducer:ee.Reducer.mean(),
+  scale:30
+}) 
+
+//print(elevStats.toList(10,0))
+// selecciona solo aquellas parcelas con elevación < 350m
+var eucgte350 = elevStats.filter(ee.Filter.gte('mean',350))
+
+// juntamos las colecciones con nitens
+var eucaliptos = ee.FeatureCollection([filteredMfe25C,filteredMfe25As,filteredMfe25PV,filteredMfe25Gal,eucgte350]).flatten();
 //print('eucaliptos', eucaliptos)
 
 // ------------------------------------ FOREST AREAS 2000 -------------------------------------------
@@ -249,20 +265,7 @@ var heigthMask = canopyHeight.gte(15);
 // apply Mask
 nitensUnchanged = nitensUnchanged.updateMask(heigthMask);
 
-// --------------- MARK THE AREAS ABOVE 350m AND WITH ECUALIPTUS-------------------------------
 
-var filteredMfe25PVAll = mfe25PV.filter(ee.Filter.and(filtroGlob,filtroEstado));
-var mixEucalCanPV = filteredMfe25C.merge(filteredMfe25PV);
-
-var elevMask = srtm.gte(350).clipToCollection(mixEucalCanPV);
-
-var elevStats = srtm.reduceRegions({
-  collection:mixEucalCanPV,
-  reducer:ee.Reducer.max(),
-  scale:30
-}) 
-print(elevStats.toList(10,0))
-var eucgte350 = elevStats.filter(ee.Filter.gte('max',250))
 
 // --------------------------------------------------------------------------------------------
 // VALIDATION LAYERS 
