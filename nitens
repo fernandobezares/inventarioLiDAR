@@ -75,7 +75,7 @@ var filteredMfe25PV = mfe25PV.filter(ee.Filter.and(filtroNitens,filtroEstado));
 var filteredMfe25Gal = mfe25Gal.filter(ee.Filter.and(filtroNitens,filtroEstado));
 
 
-var eucaliptos = ee.FeatureCollection([filteredMfe25C,filteredMfe25As,filteredMfe25PV,filteredMfe25Gal]).flatten()
+var eucaliptos = ee.FeatureCollection([filteredMfe25C,filteredMfe25As,filteredMfe25PV,filteredMfe25Gal]).flatten();
 print('eucaliptos', eucaliptos)
 
 // ------------------------------------ FOREST AREAS 2000 -------------------------------------------
@@ -253,12 +253,12 @@ Map.add(resultLegend);
 
 // add corine forests classes 311 and 313 
 Map.addLayer(c20Forest.updateMask(c20Forest.eq(1)),{min:0,max:1 , palette: ['#2de060']},
-'Bosques de frondosas y mixtos en el año 2000 (CORINE)',1,0.2);
+'Bosques de frondosas y mixtos en el año 2000 (CORINE)',0,0.2);
 
 // add canopyheigth map 
 Map.addLayer(canopyHeight.updateMask(c20Forest), 
 {min:0,max:40, palette :['lightgrey','lightyellow','lightgreen','green', 'darkgreen']},
-'Altura vegetación',0,0.1);
+'Altura vegetación',1,0.1);
 
 // add forest areas in 2000 that today have nitens
 Map.addLayer(nitens2000.updateMask(nitens2000.eq(1)),{min:0,max:1, palette: ['#f54242']},
