@@ -316,7 +316,7 @@ eucaliptos = eucaliptos.style({fillColor: 'FF000000',color:'yellow'})
 Map.addLayer(eucaliptos,{}, 'Nitens Fustal (mezcla Eucaliptos Cantabria)',0)
 
 
-Map.centerObject(valPV,13)
+Map.centerObject(valPV,10)
 valPV = valPV.style({fillColor: 'FF000000',color:'red'})
 Map.addLayer(valPV,{},'Parcelas de Valicación Guipuzcoa 13-10, 13-11')
 
