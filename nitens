@@ -10,11 +10,14 @@ var mfe3 = ee.FeatureCollection("users/cesefor/general/MFE_3_Peninsula_Baleares_
     mfe25C = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_cantabria"),
     loss2 = ee.Image("users/cesefor/Nitens/yodLossNitens_Gal_Ast_PV_Can"),
     guriezo = ee.FeatureCollection("users/cesefor/Nitens/Guiriezo"),
-    validacion = ee.FeatureCollection("users/cesefor/guipuzcoa_131011");
+    guipuzcoa = ee.FeatureCollection("users/cesefor/Nitens/guipuzcoa_131011"),
+    parcelas_pv = ee.FeatureCollection("users/cesefor/Nitens/parcelas_nitens_PV");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
+// aoi
 var gaul = ee.FeatureCollection("FAO/GAUL/2015/level1");
-print('gaul',gaul.aggregate_array('ADM1_NAME').distinct().sort())
 var aoi = gaul.filter(ee.Filter.inList('ADM1_NAME', ['Principado de Asturias','Cantabria','Galicia','Pa�s Vasco/Euskadi'])).union(0.5)
+
+//print('gaul',gaul.aggregate_array('ADM1_NAME').distinct().sort())
 
 // import canopy height image 2019
 // https://glad.umd.edu/dataset/gedi
@@ -25,7 +28,6 @@ canopyHeight = canopyHeight.filter(ee.Filter.eq('system:index','GEDI_NAFR_v27'))
 .clip(aoi);
 
 // Filter MFE dataset. Selecting E.nitens 
-
 function to25830 (feat){
   return feat.transform({proj:ee.Projection('epsg:25830'), maxError: 1});
 }
@@ -52,7 +54,7 @@ ee.Filter.eq('ROTULO1',64)
 var nitensFustal = mfe3.filter(filtros);
 var nitensFustal2 = mfe2.filter(filtros2);
 */
-print(mfe25C.aggregate_array('especie1').distinct().sort());
+//print(mfe25C.aggregate_array('especie1').distinct().sort());
 
 // filter Eucalyptus nitens 
 var filtroTodosEuc = ee.Filter.or(
@@ -238,7 +240,10 @@ var heigthMask = canopyHeight.gte(15);
 // apply Mask
 nitensUnchanged = nitensUnchanged.updateMask(heigthMask);
 
+// --------------------------------------------------------------------------------------------
+// VALIDATION LAYERS 
 
+var valPV = guipuzcoa.merge(parcelas_pv)
 
 
 
@@ -258,7 +263,7 @@ Map.addLayer(c20Forest.updateMask(c20Forest.eq(1)),{min:0,max:1 , palette: ['#2d
 // add canopyheigth map 
 Map.addLayer(canopyHeight.updateMask(c20Forest), 
 {min:0,max:40, palette :['lightgrey','lightyellow','lightgreen','green', 'darkgreen']},
-'Altura vegetación',1,0.1);
+'Altura vegetación',0,0.1);
 
 // add forest areas in 2000 that today have nitens
 Map.addLayer(nitens2000.updateMask(nitens2000.eq(1)),{min:0,max:1, palette: ['#f54242']},
@@ -281,9 +286,10 @@ Map.addLayer(nitensMFE4,{color:'red'},'nitens Fustal',0);
 //Map.addLayer(nitensFustal2,{color:'blue'},'nitens Fustal2');
 
 eucaliptos = eucaliptos.style({fillColor: 'FF000000',color:'yellow'})
-Map.addLayer(eucaliptos,{}, 'Nitens Fustal (mezcla Eucaliptos Cantabria)')
+Map.addLayer(eucaliptos,{}, 'Nitens Fustal (mezcla Eucaliptos Cantabria)',0)
 
-Map.centerObject(validacion,13)
-validacion = validacion.style({fillColor: 'FF000000',color:'red'})
-Map.addLayer(validacion,{},'Parcelas de Valicación Guipuzcoa 13-10, 13-11')
+
+Map.centerObject(valPV,13)
+validacion = valPV.style({fillColor: 'FF000000',color:'red'})
+Map.addLayer(valPV,{},'Parcelas de Valicación Guipuzcoa 13-10, 13-11')
 
