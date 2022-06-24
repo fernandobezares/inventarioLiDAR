@@ -16,6 +16,7 @@ var mfe3 = ee.FeatureCollection("users/cesefor/general/MFE_3_Peninsula_Baleares_
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // aoi
 var gaul = ee.FeatureCollection("FAO/GAUL/2015/level1");
+
 var aoi = gaul.filter(ee.Filter.inList('ADM1_NAME', ['Principado de Asturias','Cantabria','Galicia','Pa�s Vasco/Euskadi'])).union(0.5)
 var guiAla =  ee.FeatureCollection("FAO/GAUL/2015/level2").filter(ee.Filter.inList('ADM2_NAME', ['Araba/Álava','Gipuzkoa'])).union(0.5);
 
@@ -95,11 +96,11 @@ var elevStats = srtm.reduceRegions({
   collection:filteredMfe25PVg,
   reducer:ee.Reducer.mean(),
   scale:30
-}) 
+}) ;
 
-//print(elevStats.toList(10,0))
+
 // selecciona solo aquellas parcelas con elevación < 350m
-var eucgte350 = elevStats.filter(ee.Filter.gte('mean',350))
+var eucgte350 = elevStats.filter(ee.Filter.gte('mean',350));
 
 // juntamos las colecciones con nitens
 var eucaliptos = ee.FeatureCollection([filteredMfe25C,filteredMfe25As,filteredMfe25PV,filteredMfe25Gal,eucgte350]).flatten();
@@ -207,6 +208,7 @@ for (var i = 0; i < elements; i++){
   legend.add(makeRow(corinePalette[i], nameLabel));
   
 }
+
 // -------------- Results Legend ---------------------------------------------------------------
 
 var resultsNames = ['Areas de bosque en 2000 con nitens en MFE4', 'Bosque con nitens sin cambios desde 2000 y altura > 15 m', 'Bosque mixto y Bosque caducifolio (año 2000)' ];
