@@ -11,17 +11,18 @@ var provinciasNames = ['Ávila','Burgos','León','Palencia','Salamanca','Segovia
 
 // aoi datasets 
 var cyl = ee.FeatureCollection('users/cesefor/general/adminUnits/LimiteAdmin_CyL');
-var cylStyled = cyl.style({color : 'black' , fillColor:'FF000000'});
+//var cylStyled = cyl.style({color : 'black' , fillColor:'FF000000'});
 
 // cyl Provinces 
 var cylP = ee.FeatureCollection('users/cesefor/general/adminUnits/Provincias_ETRS89').filter(ee.Filter.inList('NAMEUNIT',provinciasNames));
-var cylPStyled = cylP.style({color : 'black' , fillColor:'FF000000' , lineType : 'dashed', width: 0.7} );
+//var cylPStyled = cylP.style({color : 'black' , fillColor:'FF000000' , lineType : 'dashed', width: 0.7} );
 
 // add teh styled FeatureView
 var cylStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl'). setVisParams({
   lineWidth: 1.5,
   polygonFillColor: 'black',
   polygonFillOpacity: 0})
+  .setName('Castilla y León')
   
 var cylPStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl_prov').setVisParams({
   
@@ -37,7 +38,9 @@ var cylPStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl_prov').setVisParams(
       },
     ],
   
-});
+})
+.setName('Provincias')
+;
 
 // gradiente obj
 var gradient_obj = ui.Panel();
@@ -219,8 +222,8 @@ function displayImage(image,cover){
       
       // visualize provinces
       
-      Map.add(cylPStyled,{lineWidth: 0.7, polygonFillColor: 'FF000000'}, 'Provincias');
-      Map.add(cylStyled,{lineWidth: 0.1, polygonFillColor: 'FF000000'}, 'Castilla y León');
+      Map.add(cylPStyled);
+      Map.add(cylStyled);
       
       /*
       Map.addLayer(cylPStyled,{},'Provincias',0);
@@ -248,8 +251,8 @@ function displayImage(image,cover){
       //Map.add(mainPanel);
       
       // visualize provinces
-      Map.add(cylPStyled,{}, 'Provincias');
-      Map.add(cylStyled,{}, 'Castilla y León');
+      Map.add(cylPStyled);
+      Map.add(cylStyled);
       /*
       Map.addLayer(cylPStyled,{},'Provincias',0);
       Map.addLayer(cylStyled,{},'CYL',0);
