@@ -17,11 +17,21 @@ var cylStyled = cyl.style({color : 'black' , fillColor:'FF000000'});
 var cylP = ee.FeatureCollection('users/cesefor/general/adminUnits/Provincias_ETRS89').filter(ee.Filter.inList('NAMEUNIT',provinciasNames));
 var cylPStyled = cylP.style({color : 'black' , fillColor:'FF000000' , lineType : 'dashed', width: 0.7} );
 
+// add teh styled FeatureView
 var cylStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl');
 var cylPStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl_prov').setVisParams({
+  
+  color: {
+    property: 'CODNUT2',
+    defaultValue: 'black'
+  },
+  fillColor: {
+    property: 'CODNUT2',
+    defaultValue: 'FF000000'
+  },
   rules: [
       {
-        filter: ee.Filter.inList('NAMEUNIT',provinciasNames),
+        filter: ee.Filter.neq('CODNUT2','ES41'),
         isVisible: false,
       },
     ],
