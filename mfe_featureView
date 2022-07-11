@@ -8,17 +8,19 @@ var mfe_cyl = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_Castill
 
 // list of collections to turn FeatureView
 var collections = [mfe_cyl, cyl, cyl_prov]
+var names = ['mfe_cyl', 'cyl', 'cyl_prov']
+
 
 for (collection in collections){
   
 // fetch collection
 var col = collections[collection];
-
+var name = names[collection]
 // Export the WDPA FeatureCollection as a FeatureView asset.
 Export.table.toFeatureView({
-  collection: wdpa,
-  assetId: 'wdpa-featureview-demo',
-  description: 'wdpa-featureview-demo',
+  collection: col,
+  assetId: name,
+  description: name,
   maxFeaturesPerTile: 1500,
   thinningStrategy: 'HIGHER_DENSITY',
   thinningRanking: ['REP_AREA DESC'],
