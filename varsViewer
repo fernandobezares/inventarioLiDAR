@@ -18,7 +18,15 @@ var cylP = ee.FeatureCollection('users/cesefor/general/adminUnits/Provincias_ETR
 var cylPStyled = cylP.style({color : 'black' , fillColor:'FF000000' , lineType : 'dashed', width: 0.7} );
 
 var cylStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl');
-var cylPStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl_prov');
+var cylPStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl_prov').setVisParams({
+  rules: [
+      {
+        filter: ee.Filter.inList('NAMEUNIT',provinciasNames),
+        isVisible: false,
+      },
+    ],
+  
+});
 
 // gradiente obj
 var gradient_obj = ui.Panel();
