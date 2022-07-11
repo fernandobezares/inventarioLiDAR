@@ -19,15 +19,14 @@ var cylPStyled = cylP.style({color : 'black' , fillColor:'FF000000' , lineType :
 
 // add teh styled FeatureView
 var cylStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl'). setVisParams({
-  lineWidth: 1.2,
+  lineWidth: 1.5,
   polygonFillColor: 'black',
   polygonFillOpacity: 0})
   
 var cylPStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl_prov').setVisParams({
   
-  //opacity: 0.5,
-  //pointShape: 'triangle',
-  lineWidth: 1,
+
+  lineWidth: 0.7,
   polygonFillColor: 'black',
   polygonFillOpacity: 0,	
 
