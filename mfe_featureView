@@ -6,3 +6,23 @@ var mfe_cyl = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_Castill
 // in this script we are exporting featureColelctions to FeatureViews to improve visualization of the vectorial datasets in teh apps 
 // mainly Administrative units and Spanish Forest Map 4th version 
 
+// list of collections to turn FeatureView
+var collections = [mfe_cyl, cyl, cyl_prov]
+
+for (collection in collections){
+  
+// 
+var col = collections[collection];
+
+// Export the WDPA FeatureCollection as a FeatureView asset.
+Export.table.toFeatureView({
+  collection: wdpa,
+  assetId: 'wdpa-featureview-demo',
+  description: 'wdpa-featureview-demo',
+  maxFeaturesPerTile: 1500,
+  thinningStrategy: 'HIGHER_DENSITY',
+  thinningRanking: ['REP_AREA DESC'],
+  zOrderRanking: ['REP_AREA DESC'],
+});
+
+}
