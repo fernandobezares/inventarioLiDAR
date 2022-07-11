@@ -11,7 +11,7 @@ var collections = [mfe_cyl, cyl, cyl_prov]
 var names = ['mfe_cyl', 'cyl', 'cyl_prov']
 
 
-for (collection in collections){
+for (var collection in collections){
   
 // fetch collection
 var col = collections[collection];
