@@ -1,0 +1,8 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var mfe_cyl = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_CastillayLeon"),
+    cyl = ee.FeatureCollection("users/cesefor/general/adminUnits/LimiteAdmin_CyL"),
+    cyl_prov = ee.FeatureCollection("users/cesefor/general/adminUnits/Provincias_ETRS89");
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+// in this script we are exporting featureColelctions to FeatureViews to improve visualization of the vectorial datasets in teh apps 
+// mainly Administrative units and Spanish Forest Map 4th version 
+
