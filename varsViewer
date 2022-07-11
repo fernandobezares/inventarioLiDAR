@@ -18,17 +18,19 @@ var cylP = ee.FeatureCollection('users/cesefor/general/adminUnits/Provincias_ETR
 var cylPStyled = cylP.style({color : 'black' , fillColor:'FF000000' , lineType : 'dashed', width: 0.7} );
 
 // add teh styled FeatureView
-var cylStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl');
+var cylStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl'). setVisParams({
+  lineWidth: 1.2,
+  polygonFillColor: 'black',
+  polygonFillOpacity: 0})
+  
 var cylPStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl_prov').setVisParams({
   
-  color: {
-    property: 'CODNUT2',
-    defaultValue: 'black'
-  },
-  fillColor: {
-    property: 'CODNUT2',
-    defaultValue: 'FF000000'
-  },
+  //opacity: 0.5,
+  //pointShape: 'triangle',
+  lineWidth: 1,
+  polygonFillColor: 'black',
+  polygonFillOpacity: 0,	
+
   rules: [
       {
         filter: ee.Filter.neq('CODNUT2','ES41'),
@@ -218,8 +220,9 @@ function displayImage(image,cover){
       
       // visualize provinces
       
-      Map.add(cylPStyled)
-      Map.add(cylStyled)
+      Map.add(cylPStyled,{lineWidth: 0.7, polygonFillColor: 'FF000000'}, 'Provincias');
+      Map.add(cylStyled,{lineWidth: 0.1, polygonFillColor: 'FF000000'}, 'Castilla y León');
+      
       /*
       Map.addLayer(cylPStyled,{},'Provincias',0);
       Map.addLayer(cylStyled,{},'CYL',0);
@@ -246,8 +249,8 @@ function displayImage(image,cover){
       //Map.add(mainPanel);
       
       // visualize provinces
-      Map.add(cylPStyled)
-      Map.add(cylStyled)
+      Map.add(cylPStyled,{}, 'Provincias');
+      Map.add(cylStyled,{}, 'Castilla y León');
       /*
       Map.addLayer(cylPStyled,{},'Provincias',0);
       Map.addLayer(cylStyled,{},'CYL',0);
