@@ -23,8 +23,8 @@ Export.table.toFeatureView({
   description: name,
   maxFeaturesPerTile: 1500,
   thinningStrategy: 'HIGHER_DENSITY',
-  thinningRanking: ['REP_AREA DESC'],
-  zOrderRanking: ['REP_AREA DESC'],
+  thinningRanking: ['size DESC'],
+  zOrderRanking: ['size DESC'],
 });
 
 }
