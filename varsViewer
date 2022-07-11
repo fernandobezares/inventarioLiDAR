@@ -17,6 +17,9 @@ var cylStyled = cyl.style({color : 'black' , fillColor:'FF000000'});
 var cylP = ee.FeatureCollection('users/cesefor/general/adminUnits/Provincias_ETRS89').filter(ee.Filter.inList('NAMEUNIT',provinciasNames));
 var cylPStyled = cylP.style({color : 'black' , fillColor:'FF000000' , lineType : 'dashed', width: 0.7} );
 
+var cylStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl');
+var cylPStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl_prov');
+
 // gradiente obj
 var gradient_obj = ui.Panel();
 
@@ -196,9 +199,13 @@ function displayImage(image,cover){
       Map.addLayer(varImg, vis, image,1);
       
       // visualize provinces
+      
+      Map.add(cylPStyled)
+      Map.add(cylStyled)
+      /*
       Map.addLayer(cylPStyled,{},'Provincias',0);
       Map.addLayer(cylStyled,{},'CYL',0);
-      
+      */
       
     
       
@@ -221,8 +228,12 @@ function displayImage(image,cover){
       //Map.add(mainPanel);
       
       // visualize provinces
+      Map.add(cylPStyled)
+      Map.add(cylStyled)
+      /*
       Map.addLayer(cylPStyled,{},'Provincias',0);
       Map.addLayer(cylStyled,{},'CYL',0);
+      */
       
       // add legend
       // Call the function to create a colorbar legend
