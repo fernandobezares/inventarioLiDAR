@@ -21,3 +21,7 @@ var cylPStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl_prov').setVisParams(
 .setName('Provincias')
 ;
 
+var mfeStyled = ui.Map.FeatureViewLayer('users/cesefor/mfe_cyl').setVisParams({
+  
+  
+})
