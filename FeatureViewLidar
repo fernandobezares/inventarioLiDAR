@@ -10,13 +10,15 @@ var cylStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl'). setVisParams({
 
 // Castilla y leon layer 
 var cylPStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl_prov').setVisParams({
-  lineWidth: 0.7,
-  polygonFillColor: 'black',
+  lineWidth: 0.5,
+  polygonFillColor: 'grey',
   polygonFillOpacity: 0,	
   rules: [
       {
         filter: ee.Filter.neq('CODNUT2','ES41'),
         isVisible: false,
+        polygonStrokeType:'dashed',
+        polygonStrokeWidth: 0.5
       },
     ],
   
@@ -50,6 +52,7 @@ var mfeStyled = ui.Map.FeatureViewLayer('users/cesefor/mfe_cyl').setVisParams({
       polygonFillOpacity: 0.3,
     },
     
+    /*
     //  rules for cultivos 
     { 
       filter: ee.Filter.eq('usomfe', 'Cultivos'),
@@ -68,6 +71,7 @@ var mfeStyled = ui.Map.FeatureViewLayer('users/cesefor/mfe_cyl').setVisParams({
       polygonFillOpacity: 0.1,
     }
     ]
+    */
   
 })
 .setName(' MFE4: Castilla y León');
