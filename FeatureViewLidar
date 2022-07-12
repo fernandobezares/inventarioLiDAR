@@ -56,6 +56,7 @@ var mfeStyled = ui.Map.FeatureViewLayer('users/cesefor/mfe_cyl').setVisParams({
   
 });
 
+// export feature view
 exports = {
   
 'mfeStyled' : mfeStyled,
