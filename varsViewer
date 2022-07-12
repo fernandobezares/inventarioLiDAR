@@ -201,6 +201,10 @@ function displayImage(image,cover){
       // remove the first elemento of the widgets
       Map.widgets().remove(Map.widgets().get(0))
       
+      
+      //add mfe on the bottom
+      Map.add(fv.mfeStyled);
+      
       // add images
       Map.addLayer(varImg, vis, image,1);
       
@@ -208,7 +212,7 @@ function displayImage(image,cover){
       
       Map.add(fv.cylPStyled);
       Map.add(fv.cylStyled);
-      Map.add(fv.mfeStyled);
+      
       /*
       Map.addLayer(cylPStyled,{},'Provincias',0);
       Map.addLayer(cylStyled,{},'CYL',0);
@@ -228,6 +232,9 @@ function displayImage(image,cover){
       
       // visualize vars 
       //Map.layers().insert(0,varImg);
+      
+      //add mfe on the bottom
+      Map.add(fv.mfeStyled);
       // visualize vars 
       Map.addLayer(varImg, vis, image,1);
       
@@ -237,7 +244,7 @@ function displayImage(image,cover){
       // visualize provinces
       Map.add(fv.cylPStyled);
       Map.add(fv.cylStyled);
-      Map.add(fv.mfeStyled);
+      
       /*
       Map.addLayer(cylPStyled,{},'Provincias',0);
       Map.addLayer(cylStyled,{},'CYL',0);
