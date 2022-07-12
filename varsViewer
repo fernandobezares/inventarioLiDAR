@@ -103,7 +103,7 @@ var visualizations = {
 var visualizations = {
   'fcc': {min:0,max:100,palette:['white','lightgrey','#283758','	#c378e3']},
   'mdav':{min:0,max:25,palette:['white','lightgrey','#283758','	#c378e3']},
-  'elev_95':{min:0,max:20,palette:['white','lightgrey','#283758','	#c378e3']},
+  'elev_95':{min:0,max:25,palette:['white','lightgrey','#283758','	#c378e3']},
   'elev_75':{min:0,max:15,palette:['white','lightgrey','#283758','	#c378e3']},
   'Canopy_Relief_Ratio': {min:0 ,max:1 ,palette:['white','lightgrey','#283758','	#c378e3']},
   'vcc':{min:0,max:30,palette:['white','lightgrey','#283758','	#c378e3']},
@@ -174,7 +174,8 @@ function createColorBar(titleText, unit, palette, min, max) {
 function displayImage(image,cover){
   
     // image to represent
-    var varImg = ee.Image(lidar[cover][image]);
+    var varImg = ee.Image(lidar[cover][image]).updateMask(varImg.gte(0));
+    
     
     // visualziation parameters
     var vis = visualizations[image];
