@@ -38,7 +38,7 @@ var mfeStyled = ui.Map.FeatureViewLayer('users/cesefor/mfe_cyl').setVisParams({
       polygonStrokeWidth: 0.2,
       polygonStrokeColor: 'grey',
       polygonFillColor: 'green',
-      polygonFillOpacity: 0.1,
+      polygonFillOpacity: 0.3,
     },
     
     //  rules for frondosas
@@ -47,7 +47,7 @@ var mfeStyled = ui.Map.FeatureViewLayer('users/cesefor/mfe_cyl').setVisParams({
       polygonStrokeWidth: 0.2,
       polygonStrokeColor: 'grey',
       polygonFillColor: 'lightgreen',
-      polygonFillOpacity: 0.1,
+      polygonFillOpacity: 0.3,
     },
     
     //  rules for cultivos 
