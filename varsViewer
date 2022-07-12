@@ -17,7 +17,7 @@ var provinciasNames = ['Ávila','Burgos','León','Palencia','Salamanca','Segovia
 var styles = require('users/cesefor/inventarioForestal:mapStyles');
 
 // set a map style
-Map.setOptions('white', {'White': styles.white_style}// 'Default': styles.custom_style});
+Map.setOptions('white', {'White': styles.white_style}) // 'Default': styles.custom_style});
 
 // aoi datasets 
 var cyl = ee.FeatureCollection('users/cesefor/general/adminUnits/LimiteAdmin_CyL');
