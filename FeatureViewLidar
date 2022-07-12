@@ -11,9 +11,9 @@ var cylStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl'). setVisParams({
 // Castilla y leon layer 
 var cylPStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl_prov').setVisParams({
   
-  polygonFillColor: 'grey',
+  polygonFillColor: 'darkgrey',
   polygonFillOpacity: 0,
-  polygonStrokeWidth: 0.3,
+  polygonStrokeWidth: 0.4,
   polygonStrokeType:'dashed',
   rules: [
       {
