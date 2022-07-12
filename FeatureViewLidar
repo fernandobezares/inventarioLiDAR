@@ -33,7 +33,7 @@ var mfeStyled = ui.Map.FeatureViewLayer('users/cesefor/mfe_cyl').setVisParams({
       ['Coníferas', 'lightgreen'],
       
     ],
-    defaultValue: '#FF000000',
+    defaultValue: 'white',
   },
     rules:[
     { 
@@ -52,7 +52,8 @@ var mfeStyled = ui.Map.FeatureViewLayer('users/cesefor/mfe_cyl').setVisParams({
     }
     ]
   
-});
+})
+.setName(' MFE4: Castilla y León');
 
 // export feature view
 exports = {
