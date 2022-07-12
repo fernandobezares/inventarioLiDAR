@@ -12,6 +12,13 @@ var fv = require('users/cesefor/inventarioForestal:FeatureViewLidar');
 // aoi list
 var provinciasNames = ['Ávila','Burgos','León','Palencia','Salamanca','Segovia','Soria','Valladolid','Zamora'];
 
+
+// import custom styles
+var styles = require('users/cbk/MAIL:inc/styles.js');
+
+// set a map style
+Map.setOptions('Default', {'White': styles.white_style, 'Default': styles.custom_style});
+
 // aoi datasets 
 var cyl = ee.FeatureCollection('users/cesefor/general/adminUnits/LimiteAdmin_CyL');
 //var cylStyled = cyl.style({color : 'black' , fillColor:'FF000000'});
