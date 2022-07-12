@@ -37,14 +37,14 @@ var mfeStyled = ui.Map.FeatureViewLayer('users/cesefor/mfe_cyl').setVisParams({
   },
     rules:[
     { 
-      filter: ee.Filter.lt('usomfe', 'Cultivos'),
+      filter: ee.Filter.eq('usomfe', 'Cultivos'),
       polygonStrokeWidth: 0.5,
       polygonStrokeColor: 'pink',
       polygonFillColor: 'lightpink',
       polygonFillOpacity: 0.3,
     },
     { 
-      filter: ee.Filter.lt('usomfe', 'Desarbolado'),
+      filter: ee.Filter.eq('usomfe', 'Desarbolado'),
       polygonStrokeWidth: 0.5,
       polygonStrokeColor: 'yellow',
       polygonFillColor: 'lightyellow',
