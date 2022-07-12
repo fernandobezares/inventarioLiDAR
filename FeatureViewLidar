@@ -18,7 +18,7 @@ var cylPStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl_prov').setVisParams(
         filter: ee.Filter.neq('CODNUT2','ES41'),
         isVisible: false,
         polygonStrokeType:'dashed',
-        polygonStrokeWidth: 0.5
+        polygonStrokeWidth: 0.5,
       },
     ],
   
