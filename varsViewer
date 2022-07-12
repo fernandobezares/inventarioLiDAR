@@ -7,7 +7,7 @@ var fcc = ee.ImageCollection("users/cesefor/InventarioForestal/LiDAR/1C/FCC"),
 var lidar = require('users/cesefor/inventarioForestal:LiDARVars');
 
 // import featureVierws
-var fv = require('users/cesefor/InventarioForestal:FeatureViewLidar');
+var fv = require('users/cesefor/inventarioForestal:FeatureViewLidar');
 
 // aoi list
 var provinciasNames = ['Ávila','Burgos','León','Palencia','Salamanca','Segovia','Soria','Valladolid','Zamora'];
