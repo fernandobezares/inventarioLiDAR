@@ -86,6 +86,7 @@ function checkCovers(cobertura){
     
 }
 
+/*
 var visualizations = {
   'fcc': {min:0,max:100,palette:['white','lightyellow','lightgreen','green']},
   'mdav':{min:0,max:25,palette:['white','lightblue','blue','purple']},
@@ -97,7 +98,21 @@ var visualizations = {
   'G': {min:0,max:4,palette:['white','lightgrey','#283758','	#a024d6']}, 
   
 };
+*/
 
+var visualizations = {
+  'fcc': {min:0,max:100,palette:['white','lightgrey','#283758','	#a024d6']},
+  'mdav':{min:0,max:25,palette:['white','lightgrey','#283758','	#a024d6']},
+  'elev_95':{min:0,max:20,palette:['white','lightgrey','#283758','	#a024d6']},
+  'elev_75':{min:0,max:15,palette:['white','lightgrey','#283758','	#a024d6']},
+  'Canopy_Relief_Ratio': {min:0 ,max:1 ,palette:['white','lightgrey','#283758','	#a024d6']},
+  'vcc':{min:0,max:30,palette:['white','lightgrey','#283758','	#a024d6']},
+  'All_returns_above_heightbreak_div_Total_first_returns_100':{min:0,max:100,palette:['white','lightgrey','#283758','	#a024d6']},
+  'G': {min:0,max:4,palette:['white','lightgrey','#283758','	#a024d6']}, 
+  
+};
+
+// unitd dict
 
 var units = {
   'fcc': '(%)',
