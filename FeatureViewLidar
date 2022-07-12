@@ -26,18 +26,30 @@ var cylPStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl_prov').setVisParams(
 
 // mfe 4
 var mfeStyled = ui.Map.FeatureViewLayer('users/cesefor/mfe_cyl').setVisParams({
-  color: {
-    property: 'tipobosque',
-    categories: [
-      ['Frondosas', 'purple'],
-      ['Coníferas', 'green'],
-      
-    ],
-    defaultValue: 'white',
-  },
+  
   polygonFillColor: 'black',
   polygonFillOpacity: 0,
     rules:[
+      
+    //  rules for frondosas   
+    { 
+      filter: ee.Filter.eq('tipobosque', 'Frondosas'),
+      polygonStrokeWidth: 0.2,
+      polygonStrokeColor: 'green',
+      polygonFillColor: 'green',
+      polygonFillOpacity: 0.1,
+    },
+    
+    //  rules for frondosas
+    { 
+      filter: ee.Filter.eq('tipobosque', 'Coníferas'),
+      polygonStrokeWidth: 0.2,
+      polygonStrokeColor: 'lightgreen',
+      polygonFillColor: 'lightgreen',
+      polygonFillOpacity: 0.1,
+    },
+    
+    //  rules for cultivos 
     { 
       filter: ee.Filter.eq('usomfe', 'Cultivos'),
       polygonStrokeWidth: 0.2,
@@ -45,6 +57,8 @@ var mfeStyled = ui.Map.FeatureViewLayer('users/cesefor/mfe_cyl').setVisParams({
       polygonFillColor: 'lightpink',
       polygonFillOpacity: 0.1,
     },
+    
+    //  rules for desarbolado 
     { 
       filter: ee.Filter.eq('usomfe', 'Desarbolado'),
       polygonStrokeWidth: 0.2,
