@@ -3,21 +3,24 @@ var mfe = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_CastillayLe
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // add the styled FeatureView
 var cylStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl'). setVisParams({
-  lineWidth: 1.5,
+  polygonStrokeWidth: 1,
   polygonFillColor: 'black',
   polygonFillOpacity: 0})
   .setName('Castilla y León');
 
 // Castilla y leon layer 
 var cylPStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl_prov').setVisParams({
-  lineWidth: 0.5,
+  
   polygonFillColor: 'grey',
-  polygonFillOpacity: 0,	
+  polygonFillOpacity: 0,
+  polygonStrokeWidth: 0.3,
+  polygonStrokeType:'dashed',
   rules: [
       {
         filter: ee.Filter.neq('CODNUT2','ES41'),
         isVisible: false,
         polygonStrokeType:'dashed',
+        polygonFillColor: 'grey',
         polygonStrokeWidth: 0.5,
       },
     ],
