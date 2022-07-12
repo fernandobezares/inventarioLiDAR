@@ -70,8 +70,11 @@ var mfeStyled = ui.Map.FeatureViewLayer('users/cesefor/mfe_cyl').setVisParams({
       polygonFillColor: 'lightyellow',
       polygonFillOpacity: 0.1,
     }
-    ]
+    
     */
+    
+    ]
+    
   
 })
 .setName(' MFE4: Castilla y León');
