@@ -353,7 +353,7 @@ Map.add(mainPanel);
 Map.onClick(function(coords){
   var point = ee.Geometry.Point(coords.lon, coords.lat);
   var reduce = Map.layers().get(1).getEeObject().reduce(ee.Reducer.first());
-  print ('layers 0', Map.layers().get(0).getEeObject());
+  print ('layers 0', Map.layers().get(1).getEeObject());
   var sampledPoint = reduce.reduceRegion(ee.Reducer.first(), point, 10);
   var computedValue = sampledPoint.get('first');
   show_loading('Loading...');
