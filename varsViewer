@@ -6,6 +6,9 @@ var fcc = ee.ImageCollection("users/cesefor/InventarioForestal/LiDAR/1C/FCC"),
 // import LiDAR Vars
 var lidar = require('users/cesefor/inventarioForestal:LiDARVars');
 
+// import featureVierws
+var fv = require('users/cesefor/InventarioForestal:FeatureViewLidar');
+
 // aoi list
 var provinciasNames = ['Ávila','Burgos','León','Palencia','Salamanca','Segovia','Soria','Valladolid','Zamora'];
 
@@ -20,23 +23,7 @@ var cylP = ee.FeatureCollection('users/cesefor/general/adminUnits/Provincias_ETR
 // gradiente obj
 var gradient_obj = ui.Panel();
 
-/*
-// cargar las fcc
-var fcc = fcc.mosaic();
 
-// cargar la p95
-var p95 = p95. mosaic();
-var mdav = mdav.map(function(image){return image.updateMask(image.neq(0))}).mosaic();
-
-// visualize vars 
-Map.addLayer(fcc,{min:0,max:100,palette:['white','lightyellow','lightgreen','green']},'fcc',0);
-Map.addLayer(p95,{min:0,max:25,palette:['white','lightyellow','orange','red']},'p95',0);
-Map.addLayer(mdav,{min:0,max:25,palette:['white','lightblue','blue','purple']},'mdav',0);
-
-// visualize provinces
-Map.addLayer(cylPStyled,{},'Provincias',0);
-Map.addLayer(cylStyled,{},'CYL',0);
-*/
 
 //check which cover is selected
 function checkDatasetCovers(cobertura){
@@ -197,9 +184,9 @@ function displayImage(image,cover){
       
       // visualize provinces
       
-      Map.add(cylPStyled);
-      Map.add(cylStyled);
-      
+      Map.add(fv.cylPStyled);
+      Map.add(fv.cylStyled);
+      Map.add(fv.mfeStyled);
       /*
       Map.addLayer(cylPStyled,{},'Provincias',0);
       Map.addLayer(cylStyled,{},'CYL',0);
@@ -226,8 +213,9 @@ function displayImage(image,cover){
       //Map.add(mainPanel);
       
       // visualize provinces
-      Map.add(cylPStyled);
-      Map.add(cylStyled);
+      Map.add(fv.cylPStyled);
+      Map.add(fv.cylStyled);
+      Map.add(fv.mfeStyled);
       /*
       Map.addLayer(cylPStyled,{},'Provincias',0);
       Map.addLayer(cylStyled,{},'CYL',0);
