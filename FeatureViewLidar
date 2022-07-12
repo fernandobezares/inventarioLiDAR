@@ -29,7 +29,7 @@ var mfeStyled = ui.Map.FeatureViewLayer('users/cesefor/mfe_cyl').setVisParams({
   color: {
     property: 'tipobosque',
     categories: [
-      ['Frondosas', 'darkgreen'],
+      ['Frondosas', 'purple'],
       ['Coníferas', 'green'],
       
     ],
