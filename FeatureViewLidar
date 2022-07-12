@@ -50,7 +50,7 @@ var mfeStyled = ui.Map.FeatureViewLayer('users/cesefor/mfe_cyl').setVisParams({
       polygonStrokeColor: 'grey',
       polygonFillColor: 'lightgreen',
       polygonFillOpacity: 0.3,
-    },
+    }
     
     /*
     //  rules for cultivos 
