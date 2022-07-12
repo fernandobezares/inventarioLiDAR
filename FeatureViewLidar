@@ -1,3 +1,6 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var mfe = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_CastillayLeon");
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 // add the styled FeatureView
 var cylStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl'). setVisParams({
   lineWidth: 1.5,
@@ -23,6 +26,41 @@ var cylPStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl_prov').setVisParams(
 
 // mfe 4
 var mfeStyled = ui.Map.FeatureViewLayer('users/cesefor/mfe_cyl').setVisParams({
+  color: {
+    property: 'tipobosque',
+    categories: [
+      ['Frondosas', 'green'],
+      ['Coníferas', 'lightgreen'],
+      
+    ],
+    defaultValue: '#FF000000',
+    
+    rules:[
+    { 
+      filter: ee.Filter.lt('usomfe', 'Cultivos'),
+      polygonStrokeWidth: 0.5,
+      polygonStrokeColor: 'pink',
+      polygonFillColor: 'lightpink',
+      polygonFillOpacity: 0.3,
+    },
+    { 
+      filter: ee.Filter.lt('usomfe', 'Desarbolado'),
+      polygonStrokeWidth: 0.5,
+      polygonStrokeColor: 'yellow',
+      polygonFillColor: 'lightyellow',
+      polygonFillOpacity: 0.3,
+    }
+    ]
+  }
   
   
-})
+});
+
+exports = {
+  
+'mfeStyled' : mfeStyled,
+'cylStyled' : cylStyled,
+'cylPStyled' : cylPStyled
+};
+  
+  
