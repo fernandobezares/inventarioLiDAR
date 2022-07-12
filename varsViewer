@@ -349,9 +349,13 @@ Map.add(mainPanel);
 //ui.root.add(mainPanel);
 
 
+// def
+
+
 
 Map.onClick(function(coords){
   var point = ee.Geometry.Point(coords.lon, coords.lat);
+  // get the second element in the Map.Layers list and reduce it to first()
   var reduce = Map.layers().get(1).getEeObject().reduce(ee.Reducer.first());
   print ('layers 0', Map.layers().get(1).getEeObject());
   var sampledPoint = reduce.reduceRegion(ee.Reducer.first(), point, 10);
