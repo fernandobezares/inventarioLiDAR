@@ -3,7 +3,7 @@ var cylStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl'). setVisParams({
   lineWidth: 1.5,
   polygonFillColor: 'black',
   polygonFillOpacity: 0})
-  .setName('Castilla y León')
+  .setName('Castilla y León');
 
 // casti lla y leon layer 
 var cylPStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl_prov').setVisParams({
@@ -20,3 +20,4 @@ var cylPStyled = ui.Map.FeatureViewLayer('users/cesefor/cyl_prov').setVisParams(
 })
 .setName('Provincias')
 ;
+
