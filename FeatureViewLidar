@@ -34,7 +34,7 @@ var mfeStyled = ui.Map.FeatureViewLayer('users/cesefor/mfe_cyl').setVisParams({
       
     ],
     defaultValue: '#FF000000',
-    
+  },
     rules:[
     { 
       filter: ee.Filter.lt('usomfe', 'Cultivos'),
@@ -51,8 +51,6 @@ var mfeStyled = ui.Map.FeatureViewLayer('users/cesefor/mfe_cyl').setVisParams({
       polygonFillOpacity: 0.3,
     }
     ]
-  }
-  
   
 });
 
