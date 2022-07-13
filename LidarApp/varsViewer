@@ -14,7 +14,7 @@ var provinciasNames = ['Ávila','Burgos','León','Palencia','Salamanca','Segovia
 
 
 // import custom styles
-var styles = require('users/cesefor/inventarioForestal:mapStyles');
+var styles = require('users/cesefor/inventarioForestal:LidarApp/inc/mapStyles');
 
 // set a map style
 Map.setOptions('white', {'White': styles.white_style}) // 'Default': styles.custom_style});
