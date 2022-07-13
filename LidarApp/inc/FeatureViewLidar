@@ -34,13 +34,14 @@ var mfeStyled = ui.Map.FeatureViewLayer('users/cesefor/mfe_cyl').setVisParams({
   
   polygonFillColor: 'black',
   polygonFillOpacity: 0,
-  polygonStrokeOpacity:1,
+  polygonStrokeOpacity:0,
     rules:[
       
     //  rules for frondosas   
     { 
       filter: ee.Filter.eq('tipobosque', 'Frondosas'),
       polygonStrokeWidth: 0.2,
+      polygonStrokeOpacity: 1,
       polygonStrokeColor: 'grey',
       polygonFillColor: 'green',
       polygonFillOpacity: 0.3,
@@ -50,6 +51,7 @@ var mfeStyled = ui.Map.FeatureViewLayer('users/cesefor/mfe_cyl').setVisParams({
     { 
       filter: ee.Filter.eq('tipobosque', 'Coníferas'),
       polygonStrokeWidth: 0.2,
+      polygonStrokeOpacity: 1,
       polygonStrokeColor: 'grey',
       polygonFillColor: 'lightgreen',
       polygonFillOpacity: 0.3,
