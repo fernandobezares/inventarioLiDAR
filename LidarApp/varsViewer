@@ -29,6 +29,8 @@ var cylP = ee.FeatureCollection('users/cesefor/general/adminUnits/Provincias_ETR
 
 // gradiente obj
 var gradient_obj = ui.Panel();
+
+// create a global var to store the legend
 var colorBar;
 
 
