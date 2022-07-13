@@ -29,7 +29,7 @@ var cylP = ee.FeatureCollection('users/cesefor/general/adminUnits/Provincias_ETR
 
 // gradiente obj
 var gradient_obj = ui.Panel();
-
+var colorBar;
 
 
 //check which cover is selected
@@ -229,11 +229,11 @@ function displayImage(image,cover){
       
       // add legend
       // Call the function to create a colorbar legend
-      var colorBar = createColorBar(image, unit, palette, min, max);
+      colorBar = createColorBar(image, unit, palette, min, max);
       
       Map.widgets().insert(0,colorBar);
     
-  
+    return colorBar
 }
   
 
@@ -417,13 +417,12 @@ Map.onClick(function(coords){
 // Call back function activated when layers load
 Map.onTileLoaded(function(){
   
-  // timeout of 500 milliseconds to check whihc layers are in the app
+  // timeout of 100 milliseconds to check whihc layers are in the app
   ui.util.setTimeout(function(){
     
     // Get map Layers
   var layers = Map.layers();
   
-  print(layers)
   // check if the feature view is activated  
   if (layers.get(0).getShown()){
     
@@ -437,12 +436,22 @@ Map.onTileLoaded(function(){
     
   }
   
+  // check if the layers are set and displays a legend
+  if (layers.get(1).getShown()){
+  
+  //check if the widget list contains the legennd if not add it
+
+  colorBar.style().set({'shown':true});
+   
+  } else {
     
+    // hide the legend if LiDAR var layer is not shown
+    colorBar.style().set({'shown':false});
     
-    
-    
-  }, 5)
+  }
+  
+  }, 1);
   
   
-})
+});
 
