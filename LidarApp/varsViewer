@@ -420,6 +420,7 @@ Map.onTileLoaded(function(){
   // Get map Layers
   var layers = Map.layers();
   
+  print(layers)
   // check if the feature view is activated  
   if (layers.get(0).getShown()){
     
@@ -433,17 +434,6 @@ Map.onTileLoaded(function(){
     
   }
   
-  // check if the feature view is activated  
-  if (layers.get(1).getShown()){
-    
   
-      //check if teh weidhget list contains the legennd if not add it
-     if (Map.widgets().contains(colorBar)){} else {Map.add(colorBar)}
-   
-  } else {
-    //remove the legend if it is not shown
-    colorBar.style().set({shown:false});
-    
-  } 
 })
 
