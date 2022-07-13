@@ -324,7 +324,82 @@ Map.add(mainPanel);
 
 // leyenda mfe
 
-var mfelegend = 
+
+// set position of panel
+var mfeLegend = ui.Panel({
+  layout: ui.Panel.Layout.Flow('vertical'),
+  style: {
+    position: 'bottom-left',
+    padding: '8px 15px',
+    height :'300px',
+    width : '600px'
+  }
+});
+ 
+// Create legend title
+var mfeLegendTitle = ui.Label({
+  value: 'MFE Tipo Arbolado',
+  style: {
+    fontWeight: 'bold',
+    fontSize: '18px',
+    margin: '0 0 4px 0',
+    padding: '0'
+    }
+});
+
+
+// Add the title to the panel
+mfeLegend.add(mfeLegendTitle);
+ 
+// Creates and styles 1 row of the legend.
+var makeRow = function(color, name) {
+ 
+      // Create the label that is actually the colored box.
+      var colorBox = ui.Label({
+        style: {
+          backgroundColor: '#' + color,
+          // Use padding to give the box height and width.
+          padding: '8px',
+          margin: '0 0 4px 0'
+        }
+      });
+ 
+      // Create the label filled with the description text.
+      var description = ui.Label({
+        value: name,
+        style: {margin: '0 0 4px 6px'}
+      });
+      
+      // Create teh label filled with the landcover code
+      
+      var code = ui.Label({
+        value: '| ' + code + ' |',
+        style: {
+          margin: '0 0 4px 6px',
+          fontWeight: 'bold',
+        }
+      });
+ 
+      // return the panel
+      return ui.Panel({
+        widgets: [colorBox, description ],
+        layout: ui.Panel.Layout.Flow('horizontal')
+      });
+};
+ 
+// create lists for the legend representation
+var mfeClass = ['Coníferas','Frondosas'];
+var mfeColor = ['00FF00', '013220'];
+var elements = 2;
+
+// create a legend for the palette 
+for (var i = 0; i < elements; i++){
+  
+  var nameLabel = '| '+ mfeClass[i] ;
+  
+  mfeLegend.add(makeRow(mfeColor[i], nameLabel));
+  
+}
 
 
 
@@ -347,4 +422,27 @@ Map.onClick(function(coords){
   });
 });
 
-//Map.setOptions("SATELLITE");
+
+
+
+Map.onTileLoaded(function(layers){
+  
+  // Get map Layers
+  var layers = Map.layers()
+  
+  if (layers.get(0).getShown()){
+    
+    if (Map.widgets().contains(mfeLegend)){}
+    else{
+    
+    Map.add(mfeLegend)
+      
+    }
+    
+  } else {
+    
+    Map.widgets.slice(1,-1)
+    
+  }
+})
+
