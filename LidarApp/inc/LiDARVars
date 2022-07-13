@@ -1,4 +1,4 @@
-var models = require('users/cesefor/inventarioForestal:models');
+var models = require('users/cesefor/inventarioForestal:LidarApp/inc/models');
 
 
 // LiDAR variables for the the first coberage
