@@ -452,7 +452,7 @@ Map.onTileLoaded(function(){
     
   }
   
-  }, 0.1); // set 10 miliseconds of pause so that the app detects all the layers 
+  }, 0.0001); // set 0.01 miliseconds of pause so that the app detects all the layers 
   
   
 });
