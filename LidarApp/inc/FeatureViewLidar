@@ -34,7 +34,7 @@ var mfeStyled = ui.Map.FeatureViewLayer('users/cesefor/mfe_cyl').setVisParams({
   
   polygonFillColor: 'black',
   polygonFillOpacity: 0,
-  polygonStrokeOpacity:1,
+  polygonStrokeOpacity:0,
     rules:[
       
     //  rules for frondosas   
