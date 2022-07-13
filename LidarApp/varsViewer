@@ -331,18 +331,18 @@ var mfeLegend = ui.Panel({
   style: {
     position: 'bottom-left',
     padding: '8px 15px',
-    height :'300px',
-    width : '600px'
+    height :'90px',
+    width : '200px'
   }
 });
  
 // Create legend title
 var mfeLegendTitle = ui.Label({
-  value: 'MFE Tipo Arbolado',
+  value: 'MFE Tipo Arbolado ',
   style: {
     fontWeight: 'bold',
     fontSize: '18px',
-    margin: '0 0 4px 0',
+    margin: '0 0 10px 0',
     padding: '0'
     }
 });
@@ -369,17 +369,7 @@ var makeRow = function(color, name) {
         value: name,
         style: {margin: '0 0 4px 6px'}
       });
-      
-      // Create teh label filled with the landcover code
-      
-      var code = ui.Label({
-        value: '| ' + code + ' |',
-        style: {
-          margin: '0 0 4px 6px',
-          fontWeight: 'bold',
-        }
-      });
- 
+    
       // return the panel
       return ui.Panel({
         widgets: [colorBox, description ],
@@ -389,7 +379,7 @@ var makeRow = function(color, name) {
  
 // create lists for the legend representation
 var mfeClass = ['Coníferas','Frondosas'];
-var mfeColor = ['00FF00', '013220'];
+var mfeColor = ['defade','b3d9b3'];
 var elements = 2;
 
 // create a legend for the palette 
@@ -424,24 +414,22 @@ Map.onClick(function(coords){
 
 
 
-
-Map.onTileLoaded(function(layers){
+// Call back function activated when layers load
+Map.onTileLoaded(function(){
   
   // Get map Layers
-  var layers = Map.layers()
+  var layers = Map.layers();
   
+  // check if the feature view is activated  
   if (layers.get(0).getShown()){
     
-    if (Map.widgets().contains(mfeLegend)){}
-    else{
-    
-    Map.add(mfeLegend)
-      
-    }
-    
+  
+      //check if teh weidhget list contains the legennd if not add it
+     if (Map.widgets().contains(mfeLegend)){} else {Map.add(mfeLegend)}
+   
   } else {
-    
-    Map.widgets.slice(1,-1)
+    //remove the legend if it is not shown
+    Map.remove(mfeLegend);
     
   }
 })
