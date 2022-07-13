@@ -4,10 +4,10 @@ var fcc = ee.ImageCollection("users/cesefor/InventarioForestal/LiDAR/1C/FCC"),
     mdav = ee.ImageCollection("users/cesefor/InventarioForestal/LiDAR/1C/MDAV");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // import LiDAR Vars
-var lidar = require('users/cesefor/inventarioForestal:LiDARVars');
+var lidar = require('users/cesefor/inventarioForestal:LidarApp/inc/LiDARVars');
 
 // import featureVierws
-var fv = require('users/cesefor/inventarioForestal:FeatureViewLidar');
+var fv = require('users/cesefor/inventarioForestal:LidarApp/inc/FeatureViewLidar');
 
 // aoi list
 var provinciasNames = ['Ávila','Burgos','León','Palencia','Salamanca','Segovia','Soria','Valladolid','Zamora'];
