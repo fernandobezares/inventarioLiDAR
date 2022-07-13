@@ -204,35 +204,10 @@ function displayImage(image,cover){
       Map.widgets().remove(Map.widgets().get(0))
       
       
-      //add mfe on the bottom
-      Map.add(fv.mfeStyled);
-      
-      // add images
-      Map.addLayer(varImg, vis, image,1);
-      
-      // visualize provinces
-      
-      Map.add(fv.cylPStyled);
-      Map.add(fv.cylStyled);
-      
-      /*
-      Map.addLayer(cylPStyled,{},'Provincias',0);
-      Map.addLayer(cylStyled,{},'CYL',0);
-      */
-      
-    
-      
-      // add legend
-      // Call the function to create a colorbar legend
-      var colorBar = createColorBar(image, unit, palette, min, max);
-      
-      //Map.add(valuePanel);
-      Map.widgets().insert(0,colorBar);
-      
-      
     } else{
       
-      // visualize vars 
+    }
+    // visualize vars 
       //Map.layers().insert(0,varImg);
       
       //add mfe on the bottom
@@ -257,9 +232,7 @@ function displayImage(image,cover){
       var colorBar = createColorBar(image, unit, palette, min, max);
       
       Map.widgets().insert(0,colorBar);
-      
-      
-    }
+    
   
 }
   
@@ -349,7 +322,9 @@ Map.add(mainPanel);
 //ui.root.add(mainPanel);
 
 
-// def
+// leyenda mfe
+
+var mfelegend = 
 
 
 
