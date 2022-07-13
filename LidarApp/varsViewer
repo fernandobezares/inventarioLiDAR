@@ -417,7 +417,10 @@ Map.onClick(function(coords){
 // Call back function activated when layers load
 Map.onTileLoaded(function(){
   
-  // Get map Layers
+  // timeout of 500 milliseconds to check whihc layers are in the app
+  ui.util.setTimeout(function(){
+    
+    // Get map Layers
   var layers = Map.layers();
   
   print(layers)
@@ -433,6 +436,12 @@ Map.onTileLoaded(function(){
     Map.remove(mfeLegend);
     
   }
+  
+    
+    
+    
+    
+  }, 5)
   
   
 })
