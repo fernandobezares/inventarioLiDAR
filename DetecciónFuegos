@@ -157,26 +157,26 @@ function maskCollectionByObject(label){
 function adsa (feat){
   
   //select by bounds the images in the collection of fires 
-  var imgColSelection = firmsCyl.filterBounds(feat.geometry())
+  var imgColSelection = firms.filterBounds(feat.geometry());
   
   // obtain the first date from the collection
   var fireObjectStartDate = imgColSelection.aggregate_array('date');
   
-  var label = feat.get('labels')
+  var label = feat.get('labels');
   
-  // sort get teh min date transforming to milis 
+  // sort get the min date transforming to millis 
   fireObjectStartDate = fireObjectStartDate.map(function(date){return ee.Date(date).millis()});
   
   // apply min reducer
   fireObjectStartDate = ee.Date(fireObjectStartDate.reduce(ee.Reducer.min()));
   
   // create and object to store the info 
-  var obj = {'start_forest_fire_date': fireObjectStartDate, 'label': label};
+  var obj = {'label': label};
   
   // add an image to the mosaic with the extra info
-  //ar newImg =  imFire.updateMask(objectMask).setMulti(obj);
+  // var newImg =  imFire.updateMask(objectMask).setMulti(obj);
   
-  return ee.Feature(null,obj)
+  return imgColSelection
   
 }
 
