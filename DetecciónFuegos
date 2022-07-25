@@ -128,7 +128,7 @@ function maskCollectionByObject(label){
     geometry:spain,
     scale:1000,
     labelProperty: 'labels'});
-  
+  /*
   //select by bounds the images in the collection of fires 
   var imgColSelection = firmsCyl.filterBounds(toVector);
   
@@ -146,15 +146,45 @@ function maskCollectionByObject(label){
   
   // add an image to the mosaic with the extra info
   var newImg =  imFire.updateMask(objectMask).setMulti(obj);
-  
+  */
 
   return toVector//ee.Image(newImg);
   
   
   
 }
-print(ee.FeatureCollection(objectList.map(maskCollectionByObject)).flatten())//(objectList.map(maskCollectionByObject))
 
-Map.addLayer(ee.FeatureCollection(objectList.map(maskCollectionByObject)).flatten())
+function adsa (feat){
+  
+  //select by bounds the images in the collection of fires 
+  var imgColSelection = firmsCyl.filterBounds(feat.geometry())
+  
+  // obtain the first date from the collection
+  var fireObjectStartDate = imgColSelection.aggregate_array('date');
+  
+  var label = feat.get('labels')
+  
+  // sort get teh min date transforming to milis 
+  fireObjectStartDate = fireObjectStartDate.map(function(date){return ee.Date(date).millis()});
+  
+  // apply min reducer
+  fireObjectStartDate = ee.Date(fireObjectStartDate.reduce(ee.Reducer.min()));
+  
+  // create and object to store the info 
+  var obj = {'start_forest_fire_date': fireObjectStartDate, 'label': label};
+  
+  // add an image to the mosaic with the extra info
+  //ar newImg =  imFire.updateMask(objectMask).setMulti(obj);
+  
+  return ee.Feature(null,obj)
+  
+}
+
+var feats = ee.FeatureCollection(objectList.map(maskCollectionByObject)).flatten();//(objectList.map(maskCollectionByObject))
+print(feats)
+Map.addLayer(feats)
+
+print(feats.map(adsa))
+
 
 
