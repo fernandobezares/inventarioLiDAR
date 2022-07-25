@@ -1,0 +1,155 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var firms = ee.ImageCollection("FIRMS"),
+    firesVis = {"min":325,"max":400,"palette":["red","orange","yellow"]},
+    spain = 
+    /* color: #d63000 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[-9.661386363948237, 43.69049621677929],
+          [-9.661386363948237, 35.82536258552085],
+          [4.368154651676743, 35.82536258552085],
+          [4.368154651676743, 43.69049621677929]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+// -----------aoi
+
+var regions= ee.FeatureCollection("FAO/GAUL_SIMPLIFIED_500m/2015/level2");
+//print (regions.aggregate_array('ADM2_NAME').distinct().sort(), 'name');
+//Map.addLayer(regions);
+
+var region= ee.String('Castilla y León');
+
+var cyl= regions.filter(ee.Filter.eq('ADM1_NAME', region));
+//print (cyl);
+//Map.addLayer (cyl);
+Map.centerObject(cyl, 8);
+
+
+//----------FIRMS
+var startDate= ee.Date ('2022-07-01');
+var finalDate= ee.Date ('2022-07-22');
+
+var firmsCyl= firms
+                .filter(ee.Filter.bounds(cyl))
+                .filterDate(startDate, finalDate)
+                .select('T21')
+                
+print (firmsCyl, 'Firms cyl');
+Map.addLayer (firmsCyl, firesVis, 'fires cyl');
+
+//-----simplified image collection and convert system:version into a property
+
+var imList= firmsCyl.toList(firmsCyl.size());
+print(imList, 'List of images');
+
+var firms = ee.ImageCollection.fromImages(
+  imList.map(function (el){
+    var i= ee.Image(imList.get(imList.indexOf(el))).round().toInt()
+    var v= i.get('system:version')
+    var d= ee.Date(ee.Number(v).divide(1000))
+    return ee.Image([]).addBands(i).set({date: d})
+  }));
+print (firms, 'simplified image collection firms');
+Map.addLayer(firms, {}, 'firms simplified');
+
+
+//----imageCollection.aggregate_array (calculating a list of all the values of the selected property)
+
+var values= firms.aggregate_array('date');
+print(values, 'values');
+
+
+//----  get an element and convert into a image
+var select= ee.Number(17);
+
+var imageSelect= ee.Image(imList.get(select));
+print (imageSelect, 'individual image of Firms');
+//Map.addLayer(imageSelect, firesVis, 'image selected');
+
+//-----identify individual fires
+//create a function to .map over the imageCollection
+var fire = function (image){
+  var im = image.gte(325)
+  var i = im.selfMask()
+  var id = i.connectedComponents({
+    connectedness: ee.Kernel.plus(1),
+    maxSize: 256
+  })
+  
+  
+  
+  var pn = id.select('labels').connectedPixelCount({
+    maxSize: 100,
+    eightConnected: false
+  })
+  var pixelArea= ee.Image.pixelArea().divide(10000)
+  var fa= pn.multiply(pixelArea)
+  var areaMask= fa.gte(10)
+  return id.updateMask(areaMask)
+}
+
+var firesJuly= firms.map(fire)
+print (firesJuly, 'fires in July')
+
+//---- map individual fires
+var selectFire = ee.Number(17)
+
+var imSel = firesJuly.toList(firesJuly.size())
+var imFire = ee.Image(imSel.get(selectFire))
+print (imFire, 'image')
+Map.addLayer (imFire.randomVisualizer(),{}, 'image of fire selected')
+
+
+//get the values labels of all the objects
+
+var objectList = imFire.select('labels').reduceRegion({
+  reducer:ee.Reducer.frequencyHistogram(),
+  geometry: spain, scale: 1000}).values().get(0);
+
+// get the list of the labels in each image
+objectList = ee.Dictionary(objectList).keys();
+print(objectList);
+
+//var objectList = ee.List(['-4702989197556','-5677946773908'])
+
+// pass a list with the labels of objects and mask the collection with each object
+// then obtain the earliest date for that object
+function maskCollectionByObject(label){
+  
+  // create a mask based on the labels created for the groupings
+  var objectMask = imFire.eq(ee.Number.parse(label));
+  
+  // vectorise the mask to get perimeter for image selection crop 
+  var toVector = objectMask.select(0).reduceToVectors({
+    geometry:spain,
+    scale:1000, 
+    labelProperty: 'labels'});
+  
+  //select by bounds the images in the collection of fires 
+  var imgColSelection = firms.filterBounds(toVector);
+  
+  // obtain the first date from the collection
+  var fireObjectStartDate = imgColSelection.aggregate_min('date');
+  
+  // create and object to store the info 
+  var obj = {'start_forest_fire_date': fireObjectStartDate, 'label': label};
+  
+  // add an image to the mosaic with the extra info
+  var newImg =  imFire.updateMask(objectMask).setMulti(obj)
+  
+
+  return toVector//ee.Image(newImg);
+  
+  
+  
+}
+
+
+var m = ee.ImageCollection.fromImages(objectList.map(maskCollectionByObject)).mosaic()
+
+print(objectList.map(maskCollectionByObject))
+Map.addLayer(m)
