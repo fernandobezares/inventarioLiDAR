@@ -1,0 +1,483 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var visRBR = {"opacity":1,"bands":["RBR"],"min":-0.19869096176636125,"max":0.35520329206573686,"gamma":1},
+    aoi = 
+    /* color: #d63000 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[-6.460222874858383, 42.02504222621329],
+          [-6.460222874858383, 41.805331233203134],
+          [-5.979571019389633, 41.805331233203134],
+          [-5.979571019389633, 42.02504222621329]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+
+//---------- province of interest ---------
+
+var regions= ee.FeatureCollection("FAO/GAUL_SIMPLIFIED_500m/2015/level2")
+//print (regions.aggregate_array('ADM1_NAME').distinct().sort(), 'code description')
+
+var zamora= regions.filter(ee.Filter.and(ee.Filter.eq('ADM0_NAME', 'Spain'),ee.Filter.eq('ADM2_NAME', 'Zamora')))
+//print (zamora)
+
+//Map.addLayer(zamora, {'color': 'blue'}, 'province of interest')
+Map.centerObject(zamora, 8)
+
+//----------- functions -----------------
+
+// mask cloud
+
+function maskS2clouds(image) {
+  var qa = image.select('QA60');
+  var cloudBitMask = 1 << 10;
+  var cirrusBitMask = 1 << 11;
+  var mask = qa.bitwiseAnd(cloudBitMask).eq(0)
+      .and(qa.bitwiseAnd(cirrusBitMask).eq(0));
+  return image.updateMask(mask);//.divide(10000);
+}
+
+// mask water: ndwi= land<0<=water
+
+function maskWater(image){
+  var waterNDWI= image.normalizedDifference(['B3','B8']).lt(0)
+  return image.updateMask(waterNDWI)
+  }
+
+// B12 resample (optional)
+
+function resample(image){
+  var b12= image.select('B12')
+  var proj= image.select('B2').projection()
+  var b12res= b12.resample('bilinear').reproject(proj).rename('B12res')
+  return image.addBands(b12res)
+  }
+
+// NBR pre - post
+
+function addNBRpre (image){
+  var NBR= image.normalizedDifference(['B8','B12']).rename('NBRpre')
+  return image.addBands(NBR)
+  }
+  
+function addNBRpost (image){
+  var NBR= image.normalizedDifference(['B8','B12']).rename('NBRpost')
+  return image.addBands(NBR)
+  } 
+  
+//------------- NBR calculation -----------------------
+
+// call the images and apply functions (masks and nbr)
+
+var starDatePre= ee.Date('2022-06-10')
+var finalDatePre= ee.Date('2022-06-14')
+
+var preFire= ee.ImageCollection("COPERNICUS/S2_SR")
+              .filter(ee.Filter.bounds(zamora))
+              .filterDate(starDatePre, finalDatePre)
+              .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
+              .map(maskS2clouds)
+              .map(maskWater)
+              //.map(resample)
+              .map (addNBRpre)
+              .select ('B.*','NBRpre')
+              
+print (preFire, 'images pre-fire')
+
+var startDatePost= ee.Date('2022-06-20')
+var finalDatePost= ee.Date('2022-06-30')
+
+var postFire= ee.ImageCollection("COPERNICUS/S2_SR")
+              .filter(ee.Filter.bounds(zamora))
+              .filterDate(startDatePost, finalDatePost)
+              .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
+              .map(maskS2clouds)
+              .map(maskWater)
+              //.map(resample)
+              .map(addNBRpost)
+              .select ('B.*', 'NBRpost')
+
+print (postFire, 'images post-fire')
+
+// creation of composites (pre- and post-)
+
+var imagePreFire= preFire.median()
+print (imagePreFire, 'composite pre-fire')
+
+
+var imagePreFire= imagePreFire.addBands(imagePreFire.normalizedDifference(['B8', 'B4']).rename('ndvi'))
+print (imagePreFire,'composite Pre-fire with ndvi')
+
+
+var imagePostFire= postFire.median()
+print(imagePostFire, 'compsite post-fire')
+
+// merge of the pre- and post- images
+var imageIndex= imagePreFire.select('NBRpre').addBands(imagePostFire.select('NBRpost'))
+print (imageIndex, 'image for index calculation')
+Map.addLayer (imageIndex, {}, 'image index calculation')
+
+
+//------------ burn indexes calculation -------------
+
+var visBVI = {};
+var visRdNBR= {};
+var visdNBR= {};
+
+// RBR=(nbrpre-nbrpost/nbrpre+1.001)
+
+var RBR= imageIndex.expression(
+  '(NBRpre - NBRpost)/(NBRpre + 1.001)',{
+    'NBRpre': imageIndex.select('NBRpre'),
+    'NBRpost': imageIndex.select('NBRpost')
+  }).rename('RBR').clip(zamora)
+
+print (RBR, 'RBR')
+Map.addLayer (RBR, visRBR, 'RBR')
+
+// RdNBR = (NBRpre-NBRpost)/|(NBRpre)|^0.5
+
+var RdNBR= imageIndex.expression(
+  '(NBRpre - NBRpost) / (NBRpreAbs)**0.5', {
+    'NBRpre': imageIndex.select('NBRpre'),
+    'NBRpost': imageIndex.select('NBRpost'),
+    'NBRpreAbs': imageIndex.abs().select('NBRpre')
+  }).rename('RdNBR').clip(zamora)
+
+print (RdNBR, 'Rdnbr')
+Map.addLayer (RdNBR, visRdNBR, 'RdNBR')
+
+// BVI (burned vegetation index) = NDVIpre-fire - NBR post-fire
+
+var BVI= imagePreFire.select('ndvi').subtract(imagePostFire.select('NBRpost')).rename('BVI')
+print (BVI, 'BVI')
+Map.addLayer (BVI, visBVI, 'BVI')
+
+// dNBR (NBRpre - NBRpost)
+
+var dNBR= imageIndex.select('NBRpre').subtract(imageIndex.select('NBRpost')).rename('dNBR')
+print (dNBR, 'dNBR')
+Map.addLayer(dNBR, visdNBR, 'dNBR')
+
+//------------------- reclasification and clip to aoi of indexes-------------
+
+
+// determination of aoi //manually with a geometry
+    //var imports= require('users/franciscogallego/Cesefor:Training/ForestFires')
+    //print (imports.aoi,'aoi' )
+    //Map.addLayer(ee.Geometry(imports))
+
+
+
+// RBR: 1-low severity /2 moderate /3 high
+
+var RBRclass= ee.Image(0)
+              .where (RBR.gt(0.105), 1) 
+              .where (RBR.gt(0.2), 2) 
+              .where (RBR.gt(0.355), 3) 
+              .rename('RBRclass')
+              .clip(aoi)
+
+print (RBRclass, 'RBRclass')
+Map.addLayer(RBRclass, {}, 'reclassification RBR')
+
+//RdNBR 1-low severity /2 moderate /3 high
+
+var RdNBRclass= ee.Image(0) //ee.Image(RdNBRclass).where... computes a lot (out of memory)
+              .where (RdNBR.gt(0.230), 1) 
+              .where (RdNBR.gt(0.475), 2) 
+              .where (RdNBR.gt(0.835), 3) 
+              .rename('RdNBRclass')
+              .clip(aoi)
+print (RdNBRclass, 'RdNBRclass')
+Map.addLayer(RdNBRclass, {}, 'reclassification RdNBR')
+
+// dNBR 
+// usgs: (1-regrowth high / 2- regrowth low / 3- unburned / 4- low severity / 5- moderate--low / 6- moderate-high / 7- high)
+
+var dNBRclass= ee.Image(0)
+  .where(dNBR.lte(-0.250), 1)
+  .where(dNBR.gt(-0.250),2)
+  .where(dNBR.gt(-0.100),3)
+  .where(dNBR.gt(0.100),4)
+  .where(dNBR.gt(0.270),5)
+  .where(dNBR.gt(0.440),6)
+  .where(dNBR.gt(0.660),7)
+  .clip(aoi)
+  .rename('dNBRclass')
+print (dNBRclass, 'dNBR classes usgs')
+Map.addLayer(dNBRclass, {}, 'dNBR classes usgs')  
+
+// Manso et al: (1 - low severity / 2- moderate / 3- high)
+
+var dNBRclass2= ee.Image(0)
+              .where (RdNBR.gt(0.160), 1) 
+              .where (RdNBR.gt(0.260), 2) 
+              .where (RdNBR.gt(0.481), 3) 
+              .rename('dNBRclass2')
+              .clip(aoi) 
+
+print (dNBRclass2, 'dNBR classes Mediterranean')
+Map.addLayer(dNBRclass2, {}, 'dNBR classes mediterranean')  
+
+
+
+// BVI 
+/*
+var RdNBRclass= ee.Image(BVI)
+                  .where(BVI.gt(0.230), 1)
+                  .where(BVI.gt(0.475), 2)
+                  .where(BVI.gt(0.835), 3)
+                  .rename('RdNBRclass')
+                  .clip(aoi)
+*/
+
+//------------------ mfe rasters -----------------
+// note: mfe for Sierra de la Culebra has been rasterized in QGIS (lulucf / species)
+
+
+var mfeEspecies= ee.Image('users/franciscogallego/mfeEspecies').rename('especies')
+print (mfeEspecies, 'mfeEspecies')
+
+var mfeLulucf= ee.Image('users/franciscogallego/mfeLulucf').rename('lulucf')
+print (mfeLulucf, 'mfeLulucf')
+
+var mfeData= mfeEspecies.addBands(mfeLulucf)
+print (mfeData, 'mfeData')
+Map.addLayer(mfeData, {}, 'lulucf mfe')
+
+
+//-------------------------areas calculation-------------------------
+
+//(1)----By severity class--
+
+// area calculator function
+
+var indexArea= function(image){
+  var ai= ee.Image.pixelArea().divide(10000).addBands(image)
+  var aIndexDict= ai.reduceRegion({
+    reducer: ee.Reducer.sum().group(1),
+    geometry: aoi,
+    scale: 10,
+    maxPixels: 1e10
+  })
+  return aIndexDict
+}
+
+// RBR
+
+var aRBR= ee.Dictionary(indexArea(RBRclass))
+print (aRBR,'area by class RBR')
+
+// RdNBR
+
+var aRdNBR= ee.Dictionary(indexArea(RdNBRclass))
+print (aRdNBR,'area by class RdNBR')
+
+// dNBR
+var adNBR= ee.Dictionary(indexArea(dNBRclass))
+print (adNBR, 'area by class dNBR')
+
+var adNBR2= ee.Dictionary(indexArea(dNBRclass2))
+print (adNBR2, 'area by class dNBR Mediterranean')
+
+
+//(2)--- By severity class and lulucf value--
+
+//-- creation of the masks with the combination of lulucf classes and severity classes
+
+// extract values from lulucf raster
+
+var uniqueValues= function(image){
+  var valDict= image.reduceRegion({
+    reducer: ee.Reducer.frequencyHistogram(),
+    geometry: aoi,
+    scale: 10,
+    maxPixels: 1e10
+  })
+  return valDict
+}
+
+var uvLulucf= ee.Dictionary(uniqueValues(mfeLulucf).get('lulucf')).keys().map(ee.Number.parse)
+print (uvLulucf,'unique values lulucf')
+
+var uvRBR= ee.Dictionary(uniqueValues(RBRclass).get('RBRclass')).keys().map(ee.Number.parse)
+print (uvRBR, 'unique values uvRBR')
+
+var uvRdNBR= ee.Dictionary(uniqueValues(RdNBRclass).get('RdNBRclass')).keys().map(ee.Number.parse)
+print (uvRdNBR, 'unique values RdNBR')
+
+var uvdNBR= ee.Dictionary(uniqueValues(dNBRclass).get('dNBRclass')).keys().map(ee.Number.parse)
+print (uvdNBR, 'unique values dNBR')
+
+var uvdNBR2= ee.Dictionary(uniqueValues(dNBRclass2).get('dNBRclass2')).keys().map(ee.Number.parse)
+print (uvdNBR2, 'unique values dNBR2')
+
+// generation of the masks
+
+//RBR and Lulucf
+
+var RBRLulucf= ee.ImageCollection.fromImages(
+  uvRBR.map(function (x){
+    return uvLulucf.map(function (y){
+      var h= RBRclass
+      var z= mfeLulucf 
+      var mask= h.eq(ee.Number(x)).and(z.eq(ee.Number(y)))
+      return ee.Image(1).updateMask(mask)
+      .set ('RBRclass', x)
+      .set ('lulucfclass', y)
+      .rename (ee.String('RBR').cat(ee.String(x)).cat(ee.String('_Lulufc')).cat(ee.String(y)).replace('\\.0','','g'))
+      })
+        }).flatten()
+)
+print (RBRLulucf, 'masks combination of RBR and Lulucf classes')
+Map.addLayer (RBRLulucf.first())
+
+var iRBRLulucf= RBRLulucf.toBands()
+print (iRBRLulucf, 'mask RBR-Lulucf image')
+Map.addLayer(iRBRLulucf)
+
+//RdNBR and Lulucf
+
+var RdNBRLulucf= ee.ImageCollection.fromImages(
+  uvRdNBR.map(function (x){
+    return uvLulucf.map(function (y){
+      var h= RdNBRclass
+      var z= mfeLulucf 
+      var mask= h.eq(ee.Number(x)).and(z.eq(ee.Number(y)))
+      return ee.Image(1).updateMask(mask)
+      .set ('RdNBRclass', x)
+      .set ('lulucfclass', y)
+      .rename (ee.String('RdNBR').cat(ee.String(x)).cat(ee.String('_Lulufc')).cat(ee.String(y)).replace('\\.0','','g'))
+      })
+        }).flatten()
+)
+print (RdNBRLulucf, 'masks combination of RdNBR and Lulucf classes')
+
+var iRdNBRLulucf= RdNBRLulucf.toBands()
+print (iRdNBRLulucf, 'mask RdNBR-Lulucf image')
+
+// check
+//Map.addLayer(iRdNBRLulucf.select('23_RdNBR2_Lulufc111'))
+// mask are created well => problem with area calculator
+
+//dNBR
+var dNBRLulucf= ee.ImageCollection.fromImages(
+  uvdNBR.map(function (x){
+    return uvLulucf.map(function (y){
+      var h= dNBRclass
+      var z= mfeLulucf 
+      var mask= h.eq(ee.Number(x)).and(z.eq(ee.Number(y)))
+      return ee.Image(1).updateMask(mask)
+      .set ('dNBRclass', x)
+      .set ('lulucfclass', y)
+      .rename (ee.String('dNBR').cat(ee.String(x)).cat(ee.String('_Lulufc')).cat(ee.String(y)).replace('\\.0','','g'))
+      })
+        }).flatten()
+)
+print (dNBRLulucf, 'masks combination of dNBR and Lulucf classes')
+
+var idNBRLulucf= dNBRLulucf.toBands()
+print (idNBRLulucf, 'mask dNBR-Lulucf image')
+
+var dNBR2Lulucf= ee.ImageCollection.fromImages(
+  uvdNBR2.map(function (x){ 
+    return uvLulucf.map(function (y){
+      var h= dNBRclass2
+      var z= mfeLulucf
+      var mask= h.eq(ee.Number(x)).and(z.eq(ee.Number(y)))
+      return ee.Image(1).updateMask(mask)
+      .set ('dNBRclass2', x)
+      .set ('lulucfclass', y)
+      .rename (ee.String('dNBR2').cat(ee.String(x)).cat(ee.String('_Lulufc')).cat(ee.String(y)).replace('\\.0','','g'))
+      })
+        }).flatten()
+)
+print (RdNBRLulucf, 'masks combination of dNBR2 and Lulucf classes')
+
+var idNBR2Lulucf= dNBR2Lulucf.toBands()
+print (idNBR2Lulucf, 'mask dNBR2-Lulucf image')
+
+// calculation of the areas function
+
+var aCalculator= function(image) {
+  var i=image.multiply(ee.Image.pixelArea()).divide(10000)
+  var areaD= i.reduceRegion({
+  reducer: ee.Reducer.sum(),
+  geometry: aoi,
+  scale: 10,
+  maxPixels: 1e10
+  })
+// the result of reduceRegion is a dictionary, so it is needed to convert it into FeatureCollection (to export it)
+var dict= ee.Dictionary (areaD)
+var key= ee.Dictionary(areaD).keys()
+
+return ee.FeatureCollection(key.map(function(value){
+  return ee.Feature(null, {
+    'band': value,
+    'area': dict.get(value)
+  })
+  })
+)}
+
+// RBR
+
+var aAltRBRL= ee.FeatureCollection (aCalculator(iRBRLulucf))
+print (aAltRBRL, 'RBR lulufc areas')
+
+// RdNBR
+
+var aAltRdNBRL= ee.FeatureCollection (aCalculator(iRdNBRLulucf))
+print (aAltRdNBRL, 'RdNBR lulucf areas')
+
+// dNBR
+
+var aAltRdNBRL= ee.FeatureCollection (aCalculator(idNBRLulucf))
+print (aAltRdNBRL, 'RdNBR lulucf areas')
+
+var aAltRdNBRL= ee.FeatureCollection (aCalculator(idNBR2Lulucf))
+print (aAltRdNBRL, 'RdNBR lulucf areas')
+
+
+
+/*
+//check - check alternative way:
+var imageArea= RdNBRclass.eq(2).and(mfeLulucf.eq(111)).multiply(ee.Image.pixelArea()).divide(10000)
+print (imageArea, 'Image Area')
+var area= imageArea.reduceRegion({
+  reducer: ee.Reducer.sum(),
+  geometry: aoi,
+  scale: 10,
+  maxPixels: 1e10
+})
+
+//print (area, 'total area')
+//Map.addLayer(imageArea)
+*/
+
+//-----------------------export resutls--------------
+/*
+Export.image.toDrive({
+  image: iRBRLulucf.select('34_RBR3_Lulufc111'),
+  description: 'BurnedAreasSierraCulebra',
+  folder: 'GEE',
+  fileNamePrefix: 'RBR3L111',
+  scale: 10,
+  region: aoi,
+  maxPixels: 1e13,
+  fileFormat:'GeoTiff'
+  })
+*/
+
+
+/*
+Export.table.toDrive({
+  collection: aAltRBRL,
+  folder: 'GEE',
+  description:'AreasRBRLulucf',
+  fileFormat: 'CSV'
+});
+*/
+
