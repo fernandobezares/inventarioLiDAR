@@ -14,13 +14,34 @@ var visRBR = {"opacity":1,"bands":["RBR"],"min":-0.19869096176636125,"max":0.355
           [-5.979571019389633, 41.805331233203134],
           [-5.979571019389633, 42.02504222621329]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
+// global variables 
+
+// AOI Defined by external script
+// Dates defined by external script
+// start date 
+// final date 
+
+// -----------------------------------------
+// start date pre
+var starDatePre = ee.Date('2022-06-10');
+
+// end dare pre 
+var finalDatePre = ee.Date('2022-06-14');
+
+// start date post
+var startDatePost= ee.Date('2022-06-20');
+
+// end date post fire
+var finalDatePost= ee.Date('2022-06-30');
+
+
+
 
 //---------- province of interest ---------
-
-var regions= ee.FeatureCollection("FAO/GAUL_SIMPLIFIED_500m/2015/level2")
+var regions = ee.FeatureCollection("FAO/GAUL_SIMPLIFIED_500m/2015/level2");
 //print (regions.aggregate_array('ADM1_NAME').distinct().sort(), 'code description')
 
-var zamora= regions.filter(ee.Filter.and(ee.Filter.eq('ADM0_NAME', 'Spain'),ee.Filter.eq('ADM2_NAME', 'Zamora')))
+var zamora = regions.filter(ee.Filter.and(ee.Filter.eq('ADM0_NAME', 'Spain'),ee.Filter.eq('ADM2_NAME', 'Zamora')))
 //print (zamora)
 
 //Map.addLayer(zamora, {'color': 'blue'}, 'province of interest')
@@ -42,37 +63,34 @@ function maskS2clouds(image) {
 // mask water: ndwi= land<0<=water
 
 function maskWater(image){
-  var waterNDWI= image.normalizedDifference(['B3','B8']).lt(0)
-  return image.updateMask(waterNDWI)
+  var waterNDWI = image.normalizedDifference(['B3','B8']).lt(0);
+  return image.updateMask(waterNDWI);
   }
 
 // B12 resample (optional)
 
 function resample(image){
-  var b12= image.select('B12')
-  var proj= image.select('B2').projection()
-  var b12res= b12.resample('bilinear').reproject(proj).rename('B12res')
-  return image.addBands(b12res)
+  var b12 = image.select('B12');
+  var proj = image.select('B2').projection();
+  var b12res = b12.resample('bilinear').reproject(proj).rename('B12res');
+  return image.addBands(b12res);
   }
 
 // NBR pre - post
 
 function addNBRpre (image){
-  var NBR= image.normalizedDifference(['B8','B12']).rename('NBRpre')
-  return image.addBands(NBR)
+  var NBR = image.normalizedDifference(['B8','B12']).rename('NBRpre');
+  return image.addBands(NBR);
   }
   
 function addNBRpost (image){
-  var NBR= image.normalizedDifference(['B8','B12']).rename('NBRpost')
-  return image.addBands(NBR)
+  var NBR = image.normalizedDifference(['B8','B12']).rename('NBRpost');
+  return image.addBands(NBR);
   } 
   
 //------------- NBR calculation -----------------------
 
 // call the images and apply functions (masks and nbr)
-
-var starDatePre= ee.Date('2022-06-10')
-var finalDatePre= ee.Date('2022-06-14')
 
 var preFire= ee.ImageCollection("COPERNICUS/S2_SR")
               .filter(ee.Filter.bounds(zamora))
@@ -86,8 +104,7 @@ var preFire= ee.ImageCollection("COPERNICUS/S2_SR")
               
 print (preFire, 'images pre-fire')
 
-var startDatePost= ee.Date('2022-06-20')
-var finalDatePost= ee.Date('2022-06-30')
+
 
 var postFire= ee.ImageCollection("COPERNICUS/S2_SR")
               .filter(ee.Filter.bounds(zamora))
