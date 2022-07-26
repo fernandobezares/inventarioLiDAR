@@ -208,9 +208,7 @@ function getMaskByCrossedCategories(img1, img2){
   var bnImg1 = ee.String(img1.bandNames().get(0));
   var bnImg2 = ee.String(img2.bandNames().get(0));
   
-  // new band Name 
-  var newName = bnImg1.cat(ee.String(class1)).cat('_').cat(bnImg2).cat(ee.String(class2)).replace('\\.0','','g'); 
-  
+ 
   // generate an image collection with the masks
   var maskCollection = ee.ImageCollection.fromImages(
       
@@ -223,6 +221,11 @@ function getMaskByCrossedCategories(img1, img2){
         // get mask of the crossed categories
         var mask = img1.eq(ee.Number(class1)).and(img2.eq(ee.Number(class2)));
         
+         // new band Name 
+        var newName = bnImg1.cat(ee.String(class1)).cat('_')
+                            .cat(bnImg2).cat(ee.String(class2))
+                            .replace('\\.0','','g'); 
+
         //return mask
           return ee.Image(1).updateMask(mask)
           .set ('bnImg1', class1)
@@ -437,6 +440,9 @@ var RBRLulucf= ee.ImageCollection.fromImages(
       })
         }).flatten()
 )
+
+var RBRLulucf = getMaskByCrossedCategories(RBRclass,mfeLulucf)
+
 print (RBRLulucf, 'masks combination of RBR and Lulucf classes')
 Map.addLayer (RBRLulucf.first())
 
