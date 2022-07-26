@@ -504,33 +504,33 @@ print (idNBRLulucf, 'mask dNBR-Lulucf image');
 print (idNBR2Lulucf, 'mask dNBR2-Lulucf image');
 
 */
-/*
+
 // area values 
 print (aAltRBRL, 'RBR lulufc areas');
 print (aAltRdNBRL, 'RdNBR lulucf areas');
 print (aAltdNBRL, 'dNBR lulucf areas');
 print (aAltdNBRL2, 'dNBR2 lulucf areas');
-*/
+print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
+
+/*
 var dwonloadButton = ui.Button({
   label: 'Download CSV area',
   onClick: function(){
     var url = aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'})
     
-    window.open(url)
-    /*
     var downPanel = ui.Panel()
     var label = ui.Label(url)
     
     downPanel.add(label)
     
     Map.add(downPanel)
-    */
   
 }
 })
 
 Map.add(dwonloadButton)
 
+*/
 /*
 //----------------------------------------------------------------------
 // OLD METHOD STEP BY STEP 
