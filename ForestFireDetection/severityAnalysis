@@ -212,23 +212,28 @@ function getMaskByCrossedCategories(img1, img2){
   var newName = bnImg1.cat(ee.String(class1)).cat('_').cat(bnImg2).cat(ee.String(class2)).replace('\\.0','','g'); 
   
   // generate an image collection with the masks
-  ee.ImageCollection.fromImages(
-    // loop over category list 1
-    uvimg1.map(function (class1){
+  var maskCollection = ee.ImageCollection.fromImages(
+      
+      // loop over category list 1
+      uvimg1.map(function (class1){
+      
       // loop over category list 2
-    return uvimg2.map(function (class2){
-      
-      // get mask of the crossed categories
-      var mask = img1.eq(ee.Number(class1)).and(img2.eq(ee.Number(class2)));
-      
-      return ee.Image(1).updateMask(mask)
-      .set ('bnImg1', class1)
-      .set ('bnImg2', class2)
-      .rename(newName);
-      });
-        }).flatten()
+      return uvimg2.map(function (class2){
+        
+        // get mask of the crossed categories
+        var mask = img1.eq(ee.Number(class1)).and(img2.eq(ee.Number(class2)));
+        
+        //return mask
+          return ee.Image(1).updateMask(mask)
+          .set ('bnImg1', class1)
+          .set ('bnImg2', class2)
+          .rename(newName);
+          });
+          
+      }).flatten()
 );
   
+  return maskCollection; 
   
 }
 
