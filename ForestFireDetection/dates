@@ -12,8 +12,8 @@ var initDateFires = ee.Date(firms.first().get('system:time_start'));
 var timeDif = eeNow.difference(initDateFires,'months').ceil();
 
 // generate a list with all the increment of the months 
-var timeList = ee.List.sequence(1,timeDif,1,timeDif);
-
+var timeList = ee.List.sequence(1,timeDif);
+print(timeList)
 // get a list with all the dates from the beggining of the firms until now
 var dateList = timeList.map(function(months){
   return initDateFires.advance(months,'months');
