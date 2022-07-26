@@ -181,7 +181,7 @@ function indexArea(image){
 function getUniqueValues (image){
   
   // get the first raster band
-  var bandName = ee.String(image.bandNames()).get(0)
+  var bandName = ee.String(image.bandNames().get(0))
   
   // computes frequency histogram
   var valDict= image.reduceRegion({
@@ -366,20 +366,15 @@ var adNBR2 = ee.Dictionary(indexArea(dNBRclass2));
 //-- creation of the masks with the combination of lulucf classes and severity classes
 
 
-var uvLulucf= getUniqueValues(mfeLulucf)
-print (uvLulucf,'unique values lulucf')
+var uvLulucf = getUniqueValues(mfeLulucf);
 
-var uvRBR= ee.Dictionary(uniqueValues(RBRclass).get('RBRclass')).keys().map(ee.Number.parse)
-print (uvRBR, 'unique values uvRBR')
+var uvRBR = getUniqueValues(RBRclass);
 
-var uvRdNBR= ee.Dictionary(uniqueValues(RdNBRclass).get('RdNBRclass')).keys().map(ee.Number.parse)
-print (uvRdNBR, 'unique values RdNBR')
+var uvRdNBR = getUniqueValues(RdNBRclass);
 
-var uvdNBR= ee.Dictionary(uniqueValues(dNBRclass).get('dNBRclass')).keys().map(ee.Number.parse)
-print (uvdNBR, 'unique values dNBR')
+var uvdNBR = getUniqueValues(dNBRclass);
 
-var uvdNBR2= ee.Dictionary(uniqueValues(dNBRclass2).get('dNBRclass2')).keys().map(ee.Number.parse)
-print (uvdNBR2, 'unique values dNBR2')
+var uvdNBR2 = getUniqueValues(dNBRclass2);
 
 // generation of the masks
 
@@ -538,6 +533,13 @@ print (aRBR,'area by class RBR');
 print (aRdNBR,'area by class RdNBR');
 print (adNBR, 'area by class dNBR');
 print (adNBR2, 'area by class dNBR Mediterranean');
+
+// unique values 
+print (uvLulucf,'unique values lulucf');
+print (uvRBR, 'unique values uvRBR');
+print (uvRdNBR, 'unique values RdNBR');
+print (uvdNBR, 'unique values dNBR');
+print (uvdNBR2, 'unique values dNBR2');
 
 //------------------------------------------------
 // add elements to the map
