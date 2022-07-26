@@ -354,8 +354,6 @@ var dNBR = imageIndex.select('NBRpre').subtract(imageIndex.select('NBRpost')).re
     //print (imports.aoi,'aoi' )
     //Map.addLayer(ee.Geometry(imports))
 
-
-
 // RBR: 
 // 1- low severity 
 // 2- moderate 
@@ -417,11 +415,11 @@ var RdNBRclass= ee.Image(BVI)
 // note: mfe for Sierra de la Culebra has been rasterized in QGIS (lulucf / species)
 
 
-var mfeEspecies= ee.Image('users/franciscogallego/mfeEspecies').rename('especies');
+var mfeEspecies = ee.Image('users/franciscogallego/mfeEspecies').rename('especies');
 
-var mfeLulucf= ee.Image('users/franciscogallego/mfeLulucf').rename('lulucf');
+var mfeLulucf = ee.Image('users/franciscogallego/mfeLulucf').rename('lulucf');
 
-var mfeData= mfeEspecies.addBands(mfeLulucf);
+var mfeData = mfeEspecies.addBands(mfeLulucf);
 
 
 //-------------------------areas calculation-------------------------
@@ -445,59 +443,19 @@ var adNBR2 = ee.Dictionary(indexArea(dNBRclass2));
 
 //-- creation of the masks with the combination of lulucf classes and severity classes
 
-
-// get unique values form rasters
-
-// LULUCF
-var uvLulucf = getUniqueValues(mfeLulucf);
-
-// RBR
-var uvRBR = getUniqueValues(RBRclass);
-
-// RdNBR
-var uvRdNBR = getUniqueValues(RdNBRclass);
-
-// dNBR usgs
-var uvdNBR = getUniqueValues(dNBRclass);
-
-// dNBR Manso
-var uvdNBR2 = getUniqueValues(dNBRclass2);
-
-
-// Masks Collections
-
-// RBR and Lulucf
-var iRBRLulucf = getMasksByCrossedCategories(RBRclass, mfeLulucf);
-
-// RdNBR and Lulucf
-var iRdNBRLulucf = getMasksByCrossedCategories(RdNBRclass,mfeLulucf);
-
-// dNBR and Lulucf
-var idNBRLulucf = getMasksByCrossedCategories(dNBRclass,mfeLulucf);
-
-// dNBR and Lulucf
-var idNBR2Lulucf = getMasksByCrossedCategories(dNBRclass2,mfeLulucf);
-
-
-
-// calculation of the areas function
-
-// RBR
-var aAltRBRL = calculateArea(iRBRLulucf);
-
-// RdNBR
-var aAltRdNBRL = calculateArea(iRdNBRLulucf);
-
-// dNBR
-var aAltRdNBRL = calculateArea(idNBRLulucf);
-
-var aAltRdNBRL = calculateArea(idNBR2Lulucf);
-
 // ------------------------------------------------
 // applying the functions 
- var aAltRdNBRL2 = categoricalZonalStatistics(dNBRclass2,mfeLulucf)
+// RBR
+var aAltRBRL = categoricalZonalStatistics(RBRclass, mfeLulucf);
 
+// RdNBR
+var aAltRdNBRL = categoricalZonalStatistics(RdNBRclass,mfeLulucf);
 
+// dNBR
+var aAltRdNBRL = categoricalZonalStatistics(dNBRclass,mfeLulucf);
+
+// dNBR Manso 
+var aAltRdNBRL = categoricalZonalStatistics(dNBRclass2,mfeLulucf);
 
 //------------------------------------------------
 // prints 
@@ -545,15 +503,66 @@ print (iRdNBRLulucf, 'mask RdNBR-Lulucf image');
 print (idNBRLulucf, 'mask dNBR-Lulucf image');
 print (idNBR2Lulucf, 'mask dNBR2-Lulucf image');
 
-
+*/
 // area values 
 print (aAltRBRL, 'RBR lulufc areas');
 print (aAltRdNBRL, 'RdNBR lulucf areas');
 print (aAltRdNBRL, 'RdNBR lulucf areas');
-*/
 print (aAltRdNBRL, 'RdNBR lulucf areas');
 print (aAltRdNBRL2, 'RdNBR lulucf areas 2 ');
 
+
+/*
+
+// OLD METHOD STEP BY STEP 
+// get unique values form rasters
+
+// LULUCF
+var uvLulucf = getUniqueValues(mfeLulucf);
+
+// RBR
+var uvRBR = getUniqueValues(RBRclass);
+
+// RdNBR
+var uvRdNBR = getUniqueValues(RdNBRclass);
+
+// dNBR usgs
+var uvdNBR = getUniqueValues(dNBRclass);
+
+// dNBR Manso
+var uvdNBR2 = getUniqueValues(dNBRclass2);
+
+
+// Masks Collections
+
+// RBR and Lulucf
+var iRBRLulucf = getMasksByCrossedCategories(RBRclass, mfeLulucf);
+
+// RdNBR and Lulucf
+var iRdNBRLulucf = getMasksByCrossedCategories(RdNBRclass,mfeLulucf);
+
+// dNBR and Lulucf
+var idNBRLulucf = getMasksByCrossedCategories(dNBRclass,mfeLulucf);
+
+// dNBR and Lulucf
+var idNBR2Lulucf = getMasksByCrossedCategories(dNBRclass2,mfeLulucf);
+
+
+
+// calculation of the areas function
+
+// RBR
+var aAltRBRL = calculateArea(iRBRLulucf);
+
+// RdNBR
+var aAltRdNBRL = calculateArea(iRdNBRLulucf);
+
+// dNBR
+var aAltRdNBRL = calculateArea(idNBRLulucf);
+
+var aAltRdNBRL = calculateArea(idNBR2Lulucf);
+
+*/
 
 /*
 //------------------------------------------------
