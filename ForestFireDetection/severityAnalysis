@@ -441,7 +441,7 @@ var RBRLulucf= ee.ImageCollection.fromImages(
         }).flatten()
 )
 
-var RBRLulucf = getMaskByCrossedCategories(RBRclass,mfeLulucf)
+//var RBRLulucf = getMaskByCrossedCategories(RBRclass,mfeLulucf)
 
 print (RBRLulucf, 'masks combination of RBR and Lulucf classes')
 Map.addLayer (RBRLulucf.first())
