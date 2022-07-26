@@ -54,62 +54,53 @@ Map.centerObject(zamora, 8)
 
 // mask cloud
 function maskS2clouds(image) {
-  
   var qa = image.select('QA60');
   var cloudBitMask = 1 << 10;
   var cirrusBitMask = 1 << 11;
   var mask = qa.bitwiseAnd(cloudBitMask).eq(0)
       .and(qa.bitwiseAnd(cirrusBitMask).eq(0));
-      
   return image.updateMask(mask);//.divide(10000);
 }
+
 
 // NDWI 
 // mask water: ndwi= land<0<=water
 function maskWater(image){
-  
   var waterNDWI = image.normalizedDifference(['B3','B8']).lt(0);
-  
   return image.updateMask(waterNDWI);
   }
 
+
 // B12 resample (optional)
 function resample(image){
-  
   var b12 = image.select('B12');
   var proj = image.select('B2').projection();
   var b12res = b12.resample('bilinear').reproject(proj).rename('B12res');
-  
   return image.addBands(b12res);
   }
 
+
 // NBR pre - post
 function addNBRpre(image) {
-  
   var NBR = image.normalizedDifference(['B8','B12']).rename('NBRpre');
-  
   return image.addBands(NBR);
   }
   
 function addNBRpost(image){
-  
   var NBR = image.normalizedDifference(['B8','B12']).rename('NBRpost');
-  
   return image.addBands(NBR);
   } 
 
+
 // NDVI
 function addNDVI(image) {
-  
   var NDVI = image.normalizedDifference(['B8', 'B4']).rename('ndvi');
-  
   return image.addBands(NDVI);
 }
 
 
 // calcRBR
 function calcRBR (image){
-  
   var rbr = image.expression(
     '(NBRpre - NBRpost)/(NBRpre + 1.001)',
     {
@@ -120,6 +111,7 @@ function calcRBR (image){
   
   return rbr;
 }
+
 
 // RdNBR
 function caclRdNBR(image){
@@ -135,8 +127,10 @@ function caclRdNBR(image){
   
   return rdnbr;
 }
+
 //  RECLASSIFICATION SEVERITY FUNCTIONS 
 // usgs dNBR reclass
+
 function usgsDNBR(dNBR){
   
   var usgsReclass = ee.Image(0)
@@ -168,6 +162,7 @@ function mansoDNBR (dNBR) {
   
 }
 
+// ZONAL STATISTICS FUNCTIONS 
 
 // area calculator function
 
@@ -182,7 +177,20 @@ function indexArea(image){
   return aIndexDict;
 };
 
+// extract values from lulucf raster
 
+var uniqueValues= function(image){
+  var valDict= image.reduceRegion({
+    reducer: ee.Reducer.frequencyHistogram(),
+    geometry: aoi,
+    scale: 10,
+    maxPixels: 1e10
+  })
+  return valDict
+}
+
+
+//
 
 //------------- NBR calculation -----------------------
 
@@ -283,7 +291,7 @@ var RdNBRclass= ee.Image(0) //ee.Image(RdNBRclass).where... computes a lot (out 
 
 
 // dNBR Reclassifications
-// dNBR 
+
 // usgs: 
 // 1- regrowth high
 // 2- regrowth low 
@@ -293,7 +301,7 @@ var RdNBRclass= ee.Image(0) //ee.Image(RdNBRclass).where... computes a lot (out 
 // 6- moderate-high 
 // 7- high
 
-var dNBRclass= usgsDNBRReclass(dNBR).clip(aoi);
+var dNBRclass= usgsDNBR(dNBR).clip(aoi);
   
   
 // Manso et al: 
@@ -301,7 +309,7 @@ var dNBRclass= usgsDNBRReclass(dNBR).clip(aoi);
 // 2- moderate 
 // 3- high
 
-var dNBRclass2 = mansodNBR(dNBR).clip(aoi);
+var dNBRclass2 = mansoDNBR(dNBR).clip(aoi);
 
 // BVI 
 /*
@@ -350,17 +358,7 @@ var adNBR2 = ee.Dictionary(indexArea(dNBRclass2));
 
 //-- creation of the masks with the combination of lulucf classes and severity classes
 
-// extract values from lulucf raster
 
-var uniqueValues= function(image){
-  var valDict= image.reduceRegion({
-    reducer: ee.Reducer.frequencyHistogram(),
-    geometry: aoi,
-    scale: 10,
-    maxPixels: 1e10
-  })
-  return valDict
-}
 
 var uvLulucf= ee.Dictionary(uniqueValues(mfeLulucf).get('lulucf')).keys().map(ee.Number.parse)
 print (uvLulucf,'unique values lulucf')
