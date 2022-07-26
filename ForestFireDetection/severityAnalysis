@@ -198,7 +198,7 @@ function getUniqueValues (image){
 
 
 // function to obtain the area in ha from the cross between two categorical rasters
-function getMaskByCrossedCategories(img1, img2){
+function getMasksByCrossedCategories(img1, img2){
   
   // get the unique values from each image
   var uvimg1 = getUniqueValues(img1);
@@ -236,7 +236,7 @@ function getMaskByCrossedCategories(img1, img2){
       }).flatten()
 );
   
-  return maskCollection; 
+  return maskCollection.toBands(); 
   
 }
 
@@ -427,6 +427,7 @@ var uvdNBR2 = getUniqueValues(dNBRclass2);
 
 //RBR and Lulucf
 
+/*
 var RBRLulucf= ee.ImageCollection.fromImages(
   uvRBR.map(function (x){
     return uvLulucf.map(function (y){
@@ -440,35 +441,18 @@ var RBRLulucf= ee.ImageCollection.fromImages(
       })
         }).flatten()
 )
+*/
 
-//var RBRLulucf = getMaskByCrossedCategories(RBRclass,mfeLulucf)
+var RBRLulucf ;
 
-print (RBRLulucf, 'masks combination of RBR and Lulucf classes')
-Map.addLayer (RBRLulucf.first())
-
-var iRBRLulucf= RBRLulucf.toBands()
-print (iRBRLulucf, 'mask RBR-Lulucf image')
-Map.addLayer(iRBRLulucf)
+//RBR and Lulucf
+var iRBRLulucf = getMasksByCrossedCategories(RBRclass, mfeLulucf);
 
 //RdNBR and Lulucf
+var iRdNBRLulucf = getMasksByCrossedCategories(RdNBRclass,mfeLulucf);
 
-var RdNBRLulucf= ee.ImageCollection.fromImages(
-  uvRdNBR.map(function (x){
-    return uvLulucf.map(function (y){
-      var h= RdNBRclass
-      var z= mfeLulucf 
-      var mask= h.eq(ee.Number(x)).and(z.eq(ee.Number(y)))
-      return ee.Image(1).updateMask(mask)
-      .set ('RdNBRclass', x)
-      .set ('lulucfclass', y)
-      .rename (ee.String('RdNBR').cat(ee.String(x)).cat(ee.String('_Lulufc')).cat(ee.String(y)).replace('\\.0','','g'))
-      })
-        }).flatten()
-)
-print (RdNBRLulucf, 'masks combination of RdNBR and Lulucf classes')
 
-var iRdNBRLulucf= RdNBRLulucf.toBands()
-print (iRdNBRLulucf, 'mask RdNBR-Lulucf image')
+
 
 // check
 //Map.addLayer(iRdNBRLulucf.select('23_RdNBR2_Lulufc111'))
@@ -591,6 +575,9 @@ print (uvRdNBR, 'unique values RdNBR');
 print (uvdNBR, 'unique values dNBR');
 print (uvdNBR2, 'unique values dNBR2');
 
+// mask for the area combinations 
+print (iRBRLulucf, 'mask RBR-Lulucf image');
+print (iRdNBRLulucf, 'mask RdNBR-Lulucf image');
 //------------------------------------------------
 // add elements to the map
 
@@ -611,7 +598,9 @@ Map.addLayer(dNBRclass2, {}, 'dNBR classes mediterranean');
 // mfe
 Map.addLayer(mfeData, {}, 'lulucf mfe')
 
-//
+// Masks 
+
+Map.addLayer(iRBRLulucf)
 
 
 /*
