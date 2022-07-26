@@ -520,12 +520,12 @@ var dwonloadButton = ui.Button({
     
     downPanel.add(label)
     
-    
+    Map.add(downPanel)
   
 }
 })
 
-Map.add()(aAltdNBRL2.getDownloadURL('csv'))
+Map.add(dwonloadButton)
 
 /*
 //----------------------------------------------------------------------
