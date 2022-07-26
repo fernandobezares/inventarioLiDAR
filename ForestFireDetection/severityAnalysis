@@ -120,8 +120,41 @@ function caclRdNBR(image){
     })
   .rename('RdNBR');
   
-  return rdnbr
+  return rdnbr;
 }
+
+// usgs dNBR reclass
+function usgsDNBR(dNBR){
+  
+  var usgsReclass = ee.Image(0)
+    .where(dNBR.lte(-0.250), 1)
+    .where(dNBR.gt(-0.250),2)
+    .where(dNBR.gt(-0.100),3)
+    .where(dNBR.gt(0.100),4)
+    .where(dNBR.gt(0.270),5)
+    .where(dNBR.gt(0.440),6)
+    .where(dNBR.gt(0.660),7)
+    .rename('dNBRclass');
+  
+  return usgsReclass;
+  
+  
+}
+
+// 
+function mansoDNBR (dNBR) {
+  
+  var mansoReclass = ee.Image(0)
+    .where (dNBR.gt(0.160), 1) 
+    .where (dNBR.gt(0.260), 2) 
+    .where (dNBR.gt(0.481), 3) 
+    .rename('dNBRclass2');
+    
+  return mansoReclass;
+  
+  
+}
+
 
 
 //------------- NBR calculation -----------------------
@@ -200,7 +233,11 @@ var dNBR = imageIndex.select('NBRpre').subtract(imageIndex.select('NBRpost')).re
 
 
 
-// RBR: 1-low severity /2 moderate /3 high
+// RBR: 
+// 1-low severity 
+// 2-  moderate 
+// 3- high
+
 var RBRclass= ee.Image(0)
               .where (RBR.gt(0.105), 1) 
               .where (RBR.gt(0.2), 2) 
@@ -209,9 +246,10 @@ var RBRclass= ee.Image(0)
               .clip(aoi);
 
 
-
-
-//RdNBR 1-low severity /2 moderate /3 high
+//RdNBR 
+// 1- low severity 
+// 2- moderate 
+// 3- high
 
 var RdNBRclass= ee.Image(0) //ee.Image(RdNBRclass).where... computes a lot (out of memory)
               .where (RdNBR.gt(0.230), 1) 
@@ -220,36 +258,27 @@ var RdNBRclass= ee.Image(0) //ee.Image(RdNBRclass).where... computes a lot (out 
               .rename('RdNBRclass')
               .clip(aoi);
 
+
+// dNBR Reclassifications
 // dNBR 
-// usgs: (1-regrowth high / 2- regrowth low / 3- unburned / 4- low severity / 5- moderate--low / 6- moderate-high / 7- high)
+// usgs: 
+// 1- regrowth high
+// 2- regrowth low 
+// 3- unburned 
+// 4- low severity 
+// 5- moderate--low 
+// 6- moderate-high 
+// 7- high
 
-var dNBRclass= ee.Image(0)
-  .where(dNBR.lte(-0.250), 1)
-  .where(dNBR.gt(-0.250),2)
-  .where(dNBR.gt(-0.100),3)
-  .where(dNBR.gt(0.100),4)
-  .where(dNBR.gt(0.270),5)
-  .where(dNBR.gt(0.440),6)
-  .where(dNBR.gt(0.660),7)
-  .clip(aoi)
-  .rename('dNBRclass')
+var dNBRclass= usgsDNBRReclass(dNBR).clip(aoi);
   
-
   
+// Manso et al: 
+// 1- low severity 
+// 2- moderate 
+// 3- high
 
-// Manso et al: (1 - low severity / 2- moderate / 3- high)
-
-var dNBRclass2= ee.Image(0)
-              .where (RdNBR.gt(0.160), 1) 
-              .where (RdNBR.gt(0.260), 2) 
-              .where (RdNBR.gt(0.481), 3) 
-              .rename('dNBRclass2')
-              .clip(aoi) 
-
-
-  
-
-
+var dNBRclass2 = mansodNBR(dNBR).clip(aoi);
 
 // BVI 
 /*
