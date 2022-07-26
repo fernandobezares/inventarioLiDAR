@@ -34,7 +34,8 @@ var startDatePost= ee.Date('2022-06-20');
 // end date post fire
 var finalDatePost= ee.Date('2022-06-30');
 
-
+// cloud pixel percentage 
+var cloudPixelPercentage = 20;
 
 
 //---------- province of interest ---------
@@ -78,16 +79,51 @@ function resample(image){
 
 // NBR pre - post
 
-function addNBRpre (image){
+function addNBRpre(image) {
   var NBR = image.normalizedDifference(['B8','B12']).rename('NBRpre');
   return image.addBands(NBR);
   }
   
-function addNBRpost (image){
+function addNBRpost(image){
   var NBR = image.normalizedDifference(['B8','B12']).rename('NBRpost');
   return image.addBands(NBR);
   } 
   
+function addNDVI(image) {
+  var NDVI = image.normalizedDifference(['B8', 'B4']).rename('ndvi');
+  return image.addBands(NDVI);
+}
+
+
+// calcRBR
+function calcRBR (image){
+  var rbr = image.expression(
+    '(NBRpre - NBRpost)/(NBRpre + 1.001)',
+    {
+    'NBRpre': image.select('NBRpre'),
+    'NBRpost': image.select('NBRpost')
+    })
+  .rename('RBR');
+  
+  return rbr;
+}
+
+// RdNBR
+function caclRdNBR(image){
+  
+  var rdnbr = image.expression(
+    '(NBRpre - NBRpost) / (NBRpreAbs)**0.5',
+    {
+    'NBRpre': imageIndex.select('NBRpre'),
+    'NBRpost': imageIndex.select('NBRpost'),
+    'NBRpreAbs': imageIndex.abs().select('NBRpre')
+    })
+  .rename('RdNBR');
+  
+  return rdnbr
+}
+
+
 //------------- NBR calculation -----------------------
 
 // call the images and apply functions (masks and nbr)
@@ -95,46 +131,43 @@ function addNBRpost (image){
 var preFire= ee.ImageCollection("COPERNICUS/S2_SR")
               .filter(ee.Filter.bounds(zamora))
               .filterDate(starDatePre, finalDatePre)
-              .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
+              .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', cloudPixelPercentage))
               .map(maskS2clouds)
               .map(maskWater)
               //.map(resample)
               .map (addNBRpre)
               .select ('B.*','NBRpre')
               
-print (preFire, 'images pre-fire')
+
 
 
 
 var postFire= ee.ImageCollection("COPERNICUS/S2_SR")
               .filter(ee.Filter.bounds(zamora))
               .filterDate(startDatePost, finalDatePost)
-              .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
+              .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', cloudPixelPercentage))
               .map(maskS2clouds)
               .map(maskWater)
               //.map(resample)
               .map(addNBRpost)
               .select ('B.*', 'NBRpost')
+              
+              
 
-print (postFire, 'images post-fire')
 
 // creation of composites (pre- and post-)
+var imagePreFire = preFire.median();
+var imagePostFire = postFire.median();
 
-var imagePreFire= preFire.median()
-print (imagePreFire, 'composite pre-fire')
-
-
-var imagePreFire= imagePreFire.addBands(imagePreFire.normalizedDifference(['B8', 'B4']).rename('ndvi'))
-print (imagePreFire,'composite Pre-fire with ndvi')
+// add ndvi to prefire
+var imagePreFire = addNDVI(imagePreFire);
 
 
-var imagePostFire= postFire.median()
-print(imagePostFire, 'compsite post-fire')
 
 // merge of the pre- and post- images
-var imageIndex= imagePreFire.select('NBRpre').addBands(imagePostFire.select('NBRpost'))
-print (imageIndex, 'image for index calculation')
-Map.addLayer (imageIndex, {}, 'image index calculation')
+var imageIndex = imagePreFire.select('NBRpre').addBands(imagePostFire.select('NBRpost'));
+
+
 
 
 //------------ burn indexes calculation -------------
@@ -144,39 +177,18 @@ var visRdNBR= {};
 var visdNBR= {};
 
 // RBR=(nbrpre-nbrpost/nbrpre+1.001)
-
-var RBR= imageIndex.expression(
-  '(NBRpre - NBRpost)/(NBRpre + 1.001)',{
-    'NBRpre': imageIndex.select('NBRpre'),
-    'NBRpost': imageIndex.select('NBRpost')
-  }).rename('RBR').clip(zamora)
-
-print (RBR, 'RBR')
-Map.addLayer (RBR, visRBR, 'RBR')
+var RBR = calcRBR(imageIndex).clip(zamora);
 
 // RdNBR = (NBRpre-NBRpost)/|(NBRpre)|^0.5
-
-var RdNBR= imageIndex.expression(
-  '(NBRpre - NBRpost) / (NBRpreAbs)**0.5', {
-    'NBRpre': imageIndex.select('NBRpre'),
-    'NBRpost': imageIndex.select('NBRpost'),
-    'NBRpreAbs': imageIndex.abs().select('NBRpre')
-  }).rename('RdNBR').clip(zamora)
-
-print (RdNBR, 'Rdnbr')
-Map.addLayer (RdNBR, visRdNBR, 'RdNBR')
+var RdNBR = caclRdNBR(imageIndex).clip(zamora);
 
 // BVI (burned vegetation index) = NDVIpre-fire - NBR post-fire
-
-var BVI= imagePreFire.select('ndvi').subtract(imagePostFire.select('NBRpost')).rename('BVI')
-print (BVI, 'BVI')
-Map.addLayer (BVI, visBVI, 'BVI')
+var BVI = imagePreFire.select('ndvi').subtract(imagePostFire.select('NBRpost')).rename('BVI');
 
 // dNBR (NBRpre - NBRpost)
+var dNBR = imageIndex.select('NBRpre').subtract(imageIndex.select('NBRpost')).rename('dNBR');
 
-var dNBR= imageIndex.select('NBRpre').subtract(imageIndex.select('NBRpost')).rename('dNBR')
-print (dNBR, 'dNBR')
-Map.addLayer(dNBR, visdNBR, 'dNBR')
+
 
 //------------------- reclasification and clip to aoi of indexes-------------
 
@@ -189,16 +201,15 @@ Map.addLayer(dNBR, visdNBR, 'dNBR')
 
 
 // RBR: 1-low severity /2 moderate /3 high
-
 var RBRclass= ee.Image(0)
               .where (RBR.gt(0.105), 1) 
               .where (RBR.gt(0.2), 2) 
               .where (RBR.gt(0.355), 3) 
               .rename('RBRclass')
-              .clip(aoi)
+              .clip(aoi);
 
-print (RBRclass, 'RBRclass')
-Map.addLayer(RBRclass, {}, 'reclassification RBR')
+
+
 
 //RdNBR 1-low severity /2 moderate /3 high
 
@@ -207,9 +218,7 @@ var RdNBRclass= ee.Image(0) //ee.Image(RdNBRclass).where... computes a lot (out 
               .where (RdNBR.gt(0.475), 2) 
               .where (RdNBR.gt(0.835), 3) 
               .rename('RdNBRclass')
-              .clip(aoi)
-print (RdNBRclass, 'RdNBRclass')
-Map.addLayer(RdNBRclass, {}, 'reclassification RdNBR')
+              .clip(aoi);
 
 // dNBR 
 // usgs: (1-regrowth high / 2- regrowth low / 3- unburned / 4- low severity / 5- moderate--low / 6- moderate-high / 7- high)
@@ -224,8 +233,9 @@ var dNBRclass= ee.Image(0)
   .where(dNBR.gt(0.660),7)
   .clip(aoi)
   .rename('dNBRclass')
-print (dNBRclass, 'dNBR classes usgs')
-Map.addLayer(dNBRclass, {}, 'dNBR classes usgs')  
+  
+
+  
 
 // Manso et al: (1 - low severity / 2- moderate / 3- high)
 
@@ -236,8 +246,8 @@ var dNBRclass2= ee.Image(0)
               .rename('dNBRclass2')
               .clip(aoi) 
 
-print (dNBRclass2, 'dNBR classes Mediterranean')
-Map.addLayer(dNBRclass2, {}, 'dNBR classes mediterranean')  
+
+  
 
 
 
@@ -456,6 +466,45 @@ print (aAltRdNBRL, 'RdNBR lulucf areas')
 
 var aAltRdNBRL= ee.FeatureCollection (aCalculator(idNBR2Lulucf))
 print (aAltRdNBRL, 'RdNBR lulucf areas')
+
+//------------------------------------------------
+// prints 
+
+print (preFire, 'images pre-fire');
+print (postFire, 'images post-fire');
+print (imagePreFire, 'composite pre-fire');
+print (imagePreFire,'composite Pre-fire with ndvi');
+print(imagePostFire, 'compsite post-fire');
+print (imageIndex, 'image for index calculation');
+
+// spectral indexes 
+print (RBR, 'RBR');
+print (RdNBR, 'Rdnbr');
+print (BVI, 'BVI');
+print (dNBR, 'dNBR');
+
+// reclass 
+print (RBRclass, 'RBRclass');
+print (RdNBRclass, 'RdNBRclass');
+print (dNBRclass, 'dNBR classes usgs');
+print (dNBRclass2, 'dNBR classes Mediterranean');
+
+//------------------------------------------------
+// add elements to the map
+
+Map.addLayer (imageIndex, {}, 'image index calculation')
+
+// indexes
+Map.addLayer (RBR, visRBR, 'RBR')
+Map.addLayer (RdNBR, visRdNBR, 'RdNBR')
+Map.addLayer (BVI, visBVI, 'BVI')
+Map.addLayer(dNBR, visdNBR, 'dNBR')
+
+// reclass
+Map.addLayer(RBRclass, {}, 'reclassification RBR');
+Map.addLayer(RdNBRclass, {}, 'reclassification RdNBR');
+Map.addLayer(dNBRclass, {}, 'dNBR classes usgs');
+Map.addLayer(dNBRclass2, {}, 'dNBR classes mediterranean');
 
 
 
