@@ -455,7 +455,7 @@ var aAltRdNBRL = categoricalZonalStatistics(RdNBRclass,mfeLulucf);
 var aAltRdNBRL = categoricalZonalStatistics(dNBRclass,mfeLulucf);
 
 // dNBR Manso 
-var aAltRdNBRL = categoricalZonalStatistics(dNBRclass2,mfeLulucf);
+var aAltRdNBRL2 = categoricalZonalStatistics(dNBRclass2,mfeLulucf);
 
 //------------------------------------------------
 // prints 
