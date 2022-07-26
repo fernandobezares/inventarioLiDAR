@@ -50,53 +50,66 @@ Map.centerObject(zamora, 8)
 
 //----------- functions -----------------
 
-// mask cloud
+// SPECTRAL INDEXES 
 
+// mask cloud
 function maskS2clouds(image) {
+  
   var qa = image.select('QA60');
   var cloudBitMask = 1 << 10;
   var cirrusBitMask = 1 << 11;
   var mask = qa.bitwiseAnd(cloudBitMask).eq(0)
       .and(qa.bitwiseAnd(cirrusBitMask).eq(0));
+      
   return image.updateMask(mask);//.divide(10000);
 }
 
+// NDWI 
 // mask water: ndwi= land<0<=water
-
 function maskWater(image){
+  
   var waterNDWI = image.normalizedDifference(['B3','B8']).lt(0);
+  
   return image.updateMask(waterNDWI);
   }
 
 // B12 resample (optional)
-
 function resample(image){
+  
   var b12 = image.select('B12');
   var proj = image.select('B2').projection();
   var b12res = b12.resample('bilinear').reproject(proj).rename('B12res');
+  
   return image.addBands(b12res);
   }
 
 // NBR pre - post
-
 function addNBRpre(image) {
+  
   var NBR = image.normalizedDifference(['B8','B12']).rename('NBRpre');
+  
   return image.addBands(NBR);
   }
   
 function addNBRpost(image){
+  
   var NBR = image.normalizedDifference(['B8','B12']).rename('NBRpost');
+  
   return image.addBands(NBR);
   } 
-  
+
+// NDVI
 function addNDVI(image) {
+  
   var NDVI = image.normalizedDifference(['B8', 'B4']).rename('ndvi');
+  
   return image.addBands(NDVI);
 }
 
 
 // calcRBR
 function calcRBR (image){
+  
   var rbr = image.expression(
     '(NBRpre - NBRpost)/(NBRpre + 1.001)',
     {
@@ -122,7 +135,7 @@ function caclRdNBR(image){
   
   return rdnbr;
 }
-
+//  RECLASSIFICATION SEVERITY FUNCTIONS 
 // usgs dNBR reclass
 function usgsDNBR(dNBR){
   
@@ -156,6 +169,20 @@ function mansoDNBR (dNBR) {
 }
 
 
+// area calculator function
+
+function indexArea(image){
+  var ai = ee.Image.pixelArea().divide(10000).addBands(image);
+  var aIndexDict = ai.reduceRegion({
+    reducer: ee.Reducer.sum().group(1),
+    geometry: aoi,
+    scale: 10,
+    maxPixels: 1e10
+  });
+  return aIndexDict;
+};
+
+
 
 //------------- NBR calculation -----------------------
 
@@ -187,15 +214,12 @@ var postFire= ee.ImageCollection("COPERNICUS/S2_SR")
               
               
 
-
 // creation of composites (pre- and post-)
 var imagePreFire = preFire.median();
 var imagePostFire = postFire.median();
 
 // add ndvi to prefire
 var imagePreFire = addNDVI(imagePreFire);
-
-
 
 // merge of the pre- and post- images
 var imageIndex = imagePreFire.select('NBRpre').addBands(imagePostFire.select('NBRpost'));
@@ -204,7 +228,6 @@ var imageIndex = imagePreFire.select('NBRpre').addBands(imagePostFire.select('NB
 
 
 //------------ burn indexes calculation -------------
-
 var visBVI = {};
 var visRdNBR= {};
 var visdNBR= {};
@@ -234,8 +257,8 @@ var dNBR = imageIndex.select('NBRpre').subtract(imageIndex.select('NBRpost')).re
 
 
 // RBR: 
-// 1-low severity 
-// 2-  moderate 
+// 1- low severity 
+// 2- moderate 
 // 3- high
 
 var RBRclass= ee.Image(0)
@@ -246,7 +269,7 @@ var RBRclass= ee.Image(0)
               .clip(aoi);
 
 
-//RdNBR 
+// RdNBR 
 // 1- low severity 
 // 2- moderate 
 // 3- high
@@ -294,50 +317,33 @@ var RdNBRclass= ee.Image(BVI)
 // note: mfe for Sierra de la Culebra has been rasterized in QGIS (lulucf / species)
 
 
-var mfeEspecies= ee.Image('users/franciscogallego/mfeEspecies').rename('especies')
-print (mfeEspecies, 'mfeEspecies')
+var mfeEspecies= ee.Image('users/franciscogallego/mfeEspecies').rename('especies');
 
-var mfeLulucf= ee.Image('users/franciscogallego/mfeLulucf').rename('lulucf')
-print (mfeLulucf, 'mfeLulucf')
+var mfeLulucf= ee.Image('users/franciscogallego/mfeLulucf').rename('lulucf');
 
-var mfeData= mfeEspecies.addBands(mfeLulucf)
-print (mfeData, 'mfeData')
-Map.addLayer(mfeData, {}, 'lulucf mfe')
+var mfeData= mfeEspecies.addBands(mfeLulucf);
 
 
 //-------------------------areas calculation-------------------------
 
-//(1)----By severity class--
+// (1)----By severity class--
 
-// area calculator function
 
-var indexArea= function(image){
-  var ai= ee.Image.pixelArea().divide(10000).addBands(image)
-  var aIndexDict= ai.reduceRegion({
-    reducer: ee.Reducer.sum().group(1),
-    geometry: aoi,
-    scale: 10,
-    maxPixels: 1e10
-  })
-  return aIndexDict
-}
 
 // RBR
+var aRBR = ee.Dictionary(indexArea(RBRclass));
 
-var aRBR= ee.Dictionary(indexArea(RBRclass))
-print (aRBR,'area by class RBR')
 
 // RdNBR
+var aRdNBR = ee.Dictionary(indexArea(RdNBRclass));
 
-var aRdNBR= ee.Dictionary(indexArea(RdNBRclass))
-print (aRdNBR,'area by class RdNBR')
 
 // dNBR
-var adNBR= ee.Dictionary(indexArea(dNBRclass))
-print (adNBR, 'area by class dNBR')
+var adNBR = ee.Dictionary(indexArea(dNBRclass));
 
-var adNBR2= ee.Dictionary(indexArea(dNBRclass2))
-print (adNBR2, 'area by class dNBR Mediterranean')
+
+var adNBR2 = ee.Dictionary(indexArea(dNBRclass2));
+
 
 
 //(2)--- By severity class and lulucf value--
@@ -518,6 +524,17 @@ print (RdNBRclass, 'RdNBRclass');
 print (dNBRclass, 'dNBR classes usgs');
 print (dNBRclass2, 'dNBR classes Mediterranean');
 
+// mfe 
+print (mfeEspecies, 'mfeEspecies');
+print (mfeLulucf, 'mfeLulucf');
+print (mfeData, 'mfeData');
+
+// areas 
+print (aRBR,'area by class RBR');
+print (aRdNBR,'area by class RdNBR');
+print (adNBR, 'area by class dNBR');
+print (adNBR2, 'area by class dNBR Mediterranean');
+
 //------------------------------------------------
 // add elements to the map
 
@@ -535,6 +552,10 @@ Map.addLayer(RdNBRclass, {}, 'reclassification RdNBR');
 Map.addLayer(dNBRclass, {}, 'dNBR classes usgs');
 Map.addLayer(dNBRclass2, {}, 'dNBR classes mediterranean');
 
+// mfe
+Map.addLayer(mfeData, {}, 'lulucf mfe')
+
+//
 
 
 /*
