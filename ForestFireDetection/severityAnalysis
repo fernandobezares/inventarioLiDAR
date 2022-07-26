@@ -391,7 +391,7 @@ var RdNBRclass= ee.Image(0) //ee.Image(RdNBRclass).where... computes a lot (out 
 // 6- moderate-high 
 // 7- high
 
-var dNBRclass= usgsDNBR(dNBR).clip(aoi);
+var dNBRclass = usgsDNBR(dNBR).clip(aoi);
   
   
 // Manso et al: 
@@ -424,7 +424,7 @@ var mfeData = mfeEspecies.addBands(mfeLulucf);
 
 //-------------------------areas calculation-------------------------
 
-// (1)----By severity class--
+// 1. By severity class
 
 // RBR
 var aRBR = ee.Dictionary(indexArea(RBRclass));
@@ -439,9 +439,9 @@ var adNBR = ee.Dictionary(indexArea(dNBRclass));
 var adNBR2 = ee.Dictionary(indexArea(dNBRclass2));
 
 
-//(2)--- By severity class and lulucf value--
+// 2. By severity class and lulucf value
 
-//-- creation of the masks with the combination of lulucf classes and severity classes
+// creation of the masks with the combination of lulucf classes and severity classes
 
 // ------------------------------------------------
 // applying the functions 
@@ -510,10 +510,10 @@ print (aAltRdNBRL, 'RdNBR lulucf areas');
 print (aAltdNBRL, 'dNBR lulucf areas');
 print (aAltdNBRL2, 'dNBR2 lulucf areas');
 
-
+print(aAltdNBRL2.getDownloadURL('csv'))
 
 /*
-
+//----------------------------------------------------------------------
 // OLD METHOD STEP BY STEP 
 // get unique values form rasters
 
