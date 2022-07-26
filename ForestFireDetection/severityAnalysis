@@ -86,6 +86,8 @@ function addNBRpre(image) {
   return image.addBands(NBR);
   }
   
+  
+// post
 function addNBRpost(image){
   var NBR = image.normalizedDifference(['B8','B12']).rename('NBRpost');
   return image.addBands(NBR);
@@ -128,9 +130,10 @@ function caclRdNBR(image){
   return rdnbr;
 }
 
-//  RECLASSIFICATION SEVERITY FUNCTIONS 
-// usgs dNBR reclass
 
+//  RECLASSIFICATION SEVERITY FUNCTIONS 
+
+// usgs dNBR reclass
 function usgsDNBR(dNBR){
   
   var usgsReclass = ee.Image(0)
@@ -143,12 +146,11 @@ function usgsDNBR(dNBR){
     .where(dNBR.gt(0.660),7)
     .rename('dNBRclass');
   
-  return usgsReclass;
-  
-  
+  return usgsReclass; // returns Image
+
 }
 
-// 
+// Manso reclassification function 
 function mansoDNBR (dNBR) {
   
   var mansoReclass = ee.Image(0)
@@ -157,36 +159,41 @@ function mansoDNBR (dNBR) {
     .where (dNBR.gt(0.481), 3) 
     .rename('dNBRclass2');
     
-  return mansoReclass;
-  
-  
+  return mansoReclass; // returns Image
 }
+
 
 // ZONAL STATISTICS FUNCTIONS 
 
 // area calculator function
-
 function indexArea(image){
   var ai = ee.Image.pixelArea().divide(10000).addBands(image);
   var aIndexDict = ai.reduceRegion({
     reducer: ee.Reducer.sum().group(1),
     geometry: aoi,
     scale: 10,
-    maxPixels: 1e10
+    maxPixels: 1e13
   });
-  return aIndexDict;
-};
+  return aIndexDict; // returns dictionary
+}
 
-// extract values from lulucf raster
-
-var uniqueValues= function(image){
+// extract values from the first band of a raster
+function getUniqueValues (image){
+  
+  // get the first raster band
+  var bandName = ee.String(image.bandNames()).get(0)
+  
+  // computes frequency histogram
   var valDict= image.reduceRegion({
     reducer: ee.Reducer.frequencyHistogram(),
     geometry: aoi,
     scale: 10,
-    maxPixels: 1e10
-  })
-  return valDict
+    maxPixels: 1e13
+  });
+  
+  var uniques = ee.Dictionary(valDict.get(bandName)).keys().map(ee.Number.parse)
+  
+  return uniques; // returns list 
 }
 
 
@@ -196,7 +203,7 @@ var uniqueValues= function(image){
 
 // call the images and apply functions (masks and nbr)
 
-var preFire= ee.ImageCollection("COPERNICUS/S2_SR")
+var preFire = ee.ImageCollection("COPERNICUS/S2_SR")
               .filter(ee.Filter.bounds(zamora))
               .filterDate(starDatePre, finalDatePre)
               .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', cloudPixelPercentage))
@@ -210,7 +217,7 @@ var preFire= ee.ImageCollection("COPERNICUS/S2_SR")
 
 
 
-var postFire= ee.ImageCollection("COPERNICUS/S2_SR")
+var postFire = ee.ImageCollection("COPERNICUS/S2_SR")
               .filter(ee.Filter.bounds(zamora))
               .filterDate(startDatePost, finalDatePost)
               .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', cloudPixelPercentage))
@@ -218,7 +225,7 @@ var postFire= ee.ImageCollection("COPERNICUS/S2_SR")
               .map(maskWater)
               //.map(resample)
               .map(addNBRpost)
-              .select ('B.*', 'NBRpost')
+              .select ('B.*', 'NBRpost');
               
               
 
@@ -359,8 +366,7 @@ var adNBR2 = ee.Dictionary(indexArea(dNBRclass2));
 //-- creation of the masks with the combination of lulucf classes and severity classes
 
 
-
-var uvLulucf= ee.Dictionary(uniqueValues(mfeLulucf).get('lulucf')).keys().map(ee.Number.parse)
+var uvLulucf= getUniqueValues(mfeLulucf)
 print (uvLulucf,'unique values lulucf')
 
 var uvRBR= ee.Dictionary(uniqueValues(RBRclass).get('RBRclass')).keys().map(ee.Number.parse)
