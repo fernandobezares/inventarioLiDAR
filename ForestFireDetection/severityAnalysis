@@ -240,7 +240,50 @@ function getMasksByCrossedCategories(img1, img2){
   
 }
 
+// function for calculation the area of the bands of one Image holding binary masks in its bands 
+function calculateArea (img){
+  
+  // get area image in has
+  var imgArea = img.multiply(ee.Image.pixelArea()).divide(10000);
+  
+  // calculate the aggregated area .sum() for a Given Region
+  var areaD = imgArea.reduceRegion({
+    reducer: ee.Reducer.sum(),
+    geometry: aoi,
+    scale: 10,
+    maxPixels: 1e13
+    });
 
+  // the result of reduceRegion is a dictionary,
+  // so it is needed to convert it into FeatureCollection (to export it)
+  var dict = ee.Dictionary (areaD);
+  var key = ee.Dictionary(areaD).keys();
+  
+  // eliminate the geometry for better export
+  return ee.FeatureCollection(key.map(function(value){
+    return ee.Feature(null, {
+      'band': value,
+      'area': dict.get(value)
+    });
+  })
+  );
+}
+
+// Calculate the area given two rasters
+// the function finds the crossed areas between them and calclautes teh area in has 
+  
+function categoricalZonalStatistics (img1,img2){
+  
+  // get the multiband Image Mask
+  var mask = getMasksByCrossedCategories (img1,img2);
+  
+  // get area Values ready to export 
+  var area = calculateArea(mask);
+  
+  return area;
+  
+  
+}
 
 //
 
@@ -256,12 +299,9 @@ var preFire = ee.ImageCollection("COPERNICUS/S2_SR")
               .map(maskWater)
               //.map(resample)
               .map (addNBRpre)
-              .select ('B.*','NBRpre')
+              .select ('B.*','NBRpre');
               
-
-
-
-
+              
 var postFire = ee.ImageCollection("COPERNICUS/S2_SR")
               .filter(ee.Filter.bounds(zamora))
               .filterDate(startDatePost, finalDatePost)
@@ -423,121 +463,45 @@ var uvdNBR = getUniqueValues(dNBRclass);
 // dNBR Manso
 var uvdNBR2 = getUniqueValues(dNBRclass2);
 
-// generation of the masks
 
-//RBR and Lulucf
+// Masks Collections
 
-/*
-var RBRLulucf= ee.ImageCollection.fromImages(
-  uvRBR.map(function (x){
-    return uvLulucf.map(function (y){
-      var h= RBRclass
-      var z= mfeLulucf 
-      var mask= h.eq(ee.Number(x)).and(z.eq(ee.Number(y)))
-      return ee.Image(1).updateMask(mask)
-      .set ('RBRclass', x)
-      .set ('lulucfclass', y)
-      .rename (ee.String('RBR').cat(ee.String(x)).cat(ee.String('_Lulufc')).cat(ee.String(y)).replace('\\.0','','g'))
-      })
-        }).flatten()
-)
-*/
-
-var RBRLulucf ;
-
-//RBR and Lulucf
+// RBR and Lulucf
 var iRBRLulucf = getMasksByCrossedCategories(RBRclass, mfeLulucf);
 
-//RdNBR and Lulucf
+// RdNBR and Lulucf
 var iRdNBRLulucf = getMasksByCrossedCategories(RdNBRclass,mfeLulucf);
 
+// dNBR and Lulucf
+var idNBRLulucf = getMasksByCrossedCategories(dNBRclass,mfeLulucf);
+
+// dNBR and Lulucf
+var idNBR2Lulucf = getMasksByCrossedCategories(dNBRclass2,mfeLulucf);
 
 
-
-// check
-//Map.addLayer(iRdNBRLulucf.select('23_RdNBR2_Lulufc111'))
-// mask are created well => problem with area calculator
-
-//dNBR
-var dNBRLulucf= ee.ImageCollection.fromImages(
-  uvdNBR.map(function (x){
-    return uvLulucf.map(function (y){
-      var h= dNBRclass
-      var z= mfeLulucf 
-      var mask= h.eq(ee.Number(x)).and(z.eq(ee.Number(y)))
-      return ee.Image(1).updateMask(mask)
-      .set ('dNBRclass', x)
-      .set ('lulucfclass', y)
-      .rename (ee.String('dNBR').cat(ee.String(x)).cat(ee.String('_Lulufc')).cat(ee.String(y)).replace('\\.0','','g'))
-      })
-        }).flatten()
-)
-print (dNBRLulucf, 'masks combination of dNBR and Lulucf classes')
-
-var idNBRLulucf= dNBRLulucf.toBands()
-print (idNBRLulucf, 'mask dNBR-Lulucf image')
-
-var dNBR2Lulucf= ee.ImageCollection.fromImages(
-  uvdNBR2.map(function (x){ 
-    return uvLulucf.map(function (y){
-      var h= dNBRclass2
-      var z= mfeLulucf
-      var mask= h.eq(ee.Number(x)).and(z.eq(ee.Number(y)))
-      return ee.Image(1).updateMask(mask)
-      .set ('dNBRclass2', x)
-      .set ('lulucfclass', y)
-      .rename (ee.String('dNBR2').cat(ee.String(x)).cat(ee.String('_Lulufc')).cat(ee.String(y)).replace('\\.0','','g'))
-      })
-        }).flatten()
-)
-print (RdNBRLulucf, 'masks combination of dNBR2 and Lulucf classes')
-
-var idNBR2Lulucf= dNBR2Lulucf.toBands()
-print (idNBR2Lulucf, 'mask dNBR2-Lulucf image')
 
 // calculation of the areas function
 
-var aCalculator= function(image) {
-  var i=image.multiply(ee.Image.pixelArea()).divide(10000)
-  var areaD= i.reduceRegion({
-  reducer: ee.Reducer.sum(),
-  geometry: aoi,
-  scale: 10,
-  maxPixels: 1e10
-  })
-// the result of reduceRegion is a dictionary, so it is needed to convert it into FeatureCollection (to export it)
-var dict= ee.Dictionary (areaD)
-var key= ee.Dictionary(areaD).keys()
-
-return ee.FeatureCollection(key.map(function(value){
-  return ee.Feature(null, {
-    'band': value,
-    'area': dict.get(value)
-  })
-  })
-)}
-
 // RBR
-
-var aAltRBRL= ee.FeatureCollection (aCalculator(iRBRLulucf))
-print (aAltRBRL, 'RBR lulufc areas')
+var aAltRBRL = calculateArea(iRBRLulucf);
 
 // RdNBR
-
-var aAltRdNBRL= ee.FeatureCollection (aCalculator(iRdNBRLulucf))
-print (aAltRdNBRL, 'RdNBR lulucf areas')
+var aAltRdNBRL = calculateArea(iRdNBRLulucf);
 
 // dNBR
+var aAltRdNBRL = calculateArea(idNBRLulucf);
 
-var aAltRdNBRL= ee.FeatureCollection (aCalculator(idNBRLulucf))
-print (aAltRdNBRL, 'RdNBR lulucf areas')
+var aAltRdNBRL = calculateArea(idNBR2Lulucf);
 
-var aAltRdNBRL= ee.FeatureCollection (aCalculator(idNBR2Lulucf))
-print (aAltRdNBRL, 'RdNBR lulucf areas')
+// ------------------------------------------------
+// applying the functions 
+ var aAltRdNBRL2 = categoricalZonalStatistics(dNBRclass2,mfeLulucf)
+
+
 
 //------------------------------------------------
 // prints 
-
+/*
 print (preFire, 'images pre-fire');
 print (postFire, 'images post-fire');
 print (imagePreFire, 'composite pre-fire');
@@ -578,6 +542,20 @@ print (uvdNBR2, 'unique values dNBR2');
 // mask for the area combinations 
 print (iRBRLulucf, 'mask RBR-Lulucf image');
 print (iRdNBRLulucf, 'mask RdNBR-Lulucf image');
+print (idNBRLulucf, 'mask dNBR-Lulucf image');
+print (idNBR2Lulucf, 'mask dNBR2-Lulucf image');
+
+
+// area values 
+print (aAltRBRL, 'RBR lulufc areas');
+print (aAltRdNBRL, 'RdNBR lulucf areas');
+print (aAltRdNBRL, 'RdNBR lulucf areas');
+*/
+print (aAltRdNBRL, 'RdNBR lulucf areas');
+print (aAltRdNBRL2, 'RdNBR lulucf areas 2 ');
+
+
+/*
 //------------------------------------------------
 // add elements to the map
 
@@ -602,7 +580,7 @@ Map.addLayer(mfeData, {}, 'lulucf mfe')
 
 Map.addLayer(iRBRLulucf)
 
-
+*/
 /*
 //check - check alternative way:
 var imageArea= RdNBRclass.eq(2).and(mfeLulucf.eq(111)).multiply(ee.Image.pixelArea()).divide(10000)
