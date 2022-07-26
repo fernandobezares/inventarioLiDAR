@@ -516,12 +516,15 @@ var dwonloadButton = ui.Button({
   onClick: function(){
     var url = aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'})
     
+    window.open(url)
+    /*
     var downPanel = ui.Panel()
     var label = ui.Label(url)
     
     downPanel.add(label)
     
     Map.add(downPanel)
+    */
   
 }
 })
