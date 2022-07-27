@@ -23,4 +23,4 @@ Map.add(dwonloadButton)
 
 var functions = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
 
-print(functions)
+print(functions);
