@@ -246,13 +246,13 @@ function volumenArea(image){
   var vol = lidar.c1.vcc;
   
   var volArea = vol.unmask(0).addBands(image);
-  var aIndexDict = volArea.reduceRegion({
+  var volAreaDict = volArea.reduceRegion({
     reducer: ee.Reducer.sum().group(1),
     geometry: aoi,
     scale: 10,
     maxPixels: 1e13
   });
-  return aIndexDict; // returns dictionary
+  return volAreaDict; // returns dictionary
 }
 
 
