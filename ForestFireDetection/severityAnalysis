@@ -503,7 +503,7 @@ exports  = {
 'reclassifyIndexes':reclassifyIndexes,
 
 
-}
+};
 
 
 
