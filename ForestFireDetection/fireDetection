@@ -5,35 +5,32 @@ var firms = ee.ImageCollection("FIRMS"),
 
 //---------------aoi------------
 
-var regions= ee.FeatureCollection("FAO/GAUL_SIMPLIFIED_500m/2015/level2");
-//print (regions.aggregate_array('ADM2_NAME').distinct().sort(), 'name');
-//Map.addLayer(regions);
+var regions = ee.FeatureCollection("FAO/GAUL_SIMPLIFIED_500m/2015/level2");
 
-var region= ee.String('Castilla y León');
+var region = ee.String('Castilla y León');
 
 var cyl= regions.filter(ee.Filter.eq('ADM1_NAME', region));
-//print (cyl);
-//Map.addLayer (cyl);
+
 Map.centerObject(cyl, 8);
 
 
 //----------FIRMS--------
-var startDate= ee.Date ('2022-07-01');
-var finalDate= ee.Date ('2022-07-22');
+var startDate = ee.Date ('2022-07-01');
+var finalDate = ee.Date ('2022-07-22');
 
-var firmsCyl= firms
+var firmsCyl = firms
                 .filter(ee.Filter.bounds(cyl))
                 .filterDate(startDate, finalDate)
                 .select('T21');
                 
-print (firmsCyl, 'Firms cyl');
+
 //Map.addLayer (firmsCyl, firesVis, 'fires cyl');
 
 //--------------------
 
 // add a band with the adquisition time
 
-var firmBandDate= function(image){
+var firmBandDate = function(image){
   var doy= image.date().millis()
   var doyBand= ee.Image.constant(doy).toLong().rename('doy')
   doyBand= doyBand.updateMask(image.select('T21').mask())
@@ -49,18 +46,18 @@ print(firmDates, 'firmDates')
 
 // composite
 
-var imageComp= firmDates.mosaic()
+var imageComp = firmDates.mosaic()
 print (imageComp, 'mosaic of fires')
 Map.addLayer(imageComp, null, 'mosaic of fires')
 
-var imageMask= imageComp.gte(300).selfMask()
+var imageMask = imageComp.gte(300).selfMask()
 print (imageMask, 'image with integer bands')
 Map.addLayer(imageMask, null, 'image with integer bands')
 
 
 // raster to vector
-var perimeterFire= function(image){
-  var perim= image.addBands(ee.Image(1)).reduceToVectors({
+var perimeterFire = function(image){
+  var perim = image.addBands(ee.Image(1)).reduceToVectors({
     geometry: cyl,
     crs: image.projection(),
     scale: 1000,
@@ -68,9 +65,9 @@ var perimeterFire= function(image){
     eightConnected: false,
     labelProperty: 'fire',
     reducer: ee.Reducer.mean()
-  })
-  return ee.FeatureCollection(perim)
-}
+  });
+  return ee.FeatureCollection(perim);
+};
 
 var perimeters= perimeterFire(imageMask)
 print(perimeters, 'perimeters')
