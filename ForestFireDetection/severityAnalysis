@@ -452,53 +452,7 @@ var aAltdNBRL = categoricalZonalStatistics(dNBRclass,mfeLulucf);
 // dNBR Manso 
 var aAltdNBRL2 = categoricalZonalStatistics(dNBRclass2,mfeLulucf);
 
-//------------------------------------------------
-// prints 
-/*
-print (preFire, 'images pre-fire');
-print (postFire, 'images post-fire');
-print (imagePreFire, 'composite pre-fire');
-print (imagePreFire,'composite Pre-fire with ndvi');
-print(imagePostFire, 'compsite post-fire');
-print (imageIndex, 'image for index calculation');
 
-// spectral indexes 
-print (RBR, 'RBR');
-print (RdNBR, 'Rdnbr');
-print (BVI, 'BVI');
-print (dNBR, 'dNBR');
-
-// reclass 
-print (RBRclass, 'RBRclass');
-print (RdNBRclass, 'RdNBRclass');
-print (dNBRclass, 'dNBR classes usgs');
-print (dNBRclass2, 'dNBR classes Mediterranean');
-
-// mfe 
-print (mfeEspecies, 'mfeEspecies');
-print (mfeLulucf, 'mfeLulucf');
-print (mfeData, 'mfeData');
-
-// areas 
-print (aRBR,'area by class RBR');
-print (aRdNBR,'area by class RdNBR');
-print (adNBR, 'area by class dNBR');
-print (adNBR2, 'area by class dNBR Mediterranean');
-
-// unique values 
-print (uvLulucf,'unique values lulucf');
-print (uvRBR, 'unique values uvRBR');
-print (uvRdNBR, 'unique values RdNBR');
-print (uvdNBR, 'unique values dNBR');
-print (uvdNBR2, 'unique values dNBR2');
-
-// mask for the area combinations 
-print (iRBRLulucf, 'mask RBR-Lulucf image');
-print (iRdNBRLulucf, 'mask RdNBR-Lulucf image');
-print (idNBRLulucf, 'mask dNBR-Lulucf image');
-print (idNBR2Lulucf, 'mask dNBR2-Lulucf image');
-
-*/
 
 // area values 
 print (aAltRBRL, 'RBR lulufc areas');
@@ -507,7 +461,7 @@ print (aAltdNBRL, 'dNBR lulucf areas');
 print (aAltdNBRL2, 'dNBR2 lulucf areas');
 print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
-
+/*
 var dwonloadButton = ui.Button({
   label: 'Download CSV area',
   onClick: function(){
@@ -526,60 +480,6 @@ var dwonloadButton = ui.Button({
 Map.add(dwonloadButton)
 
 
-/*
-//----------------------------------------------------------------------
-// OLD METHOD STEP BY STEP 
-// get unique values form rasters
-
-// LULUCF
-var uvLulucf = getUniqueValues(mfeLulucf);
-
-// RBR
-var uvRBR = getUniqueValues(RBRclass);
-
-// RdNBR
-var uvRdNBR = getUniqueValues(RdNBRclass);
-
-// dNBR usgs
-var uvdNBR = getUniqueValues(dNBRclass);
-
-// dNBR Manso
-var uvdNBR2 = getUniqueValues(dNBRclass2);
-
-
-// Masks Collections
-
-// RBR and Lulucf
-var iRBRLulucf = getMasksByCrossedCategories(RBRclass, mfeLulucf);
-
-// RdNBR and Lulucf
-var iRdNBRLulucf = getMasksByCrossedCategories(RdNBRclass,mfeLulucf);
-
-// dNBR and Lulucf
-var idNBRLulucf = getMasksByCrossedCategories(dNBRclass,mfeLulucf);
-
-// dNBR and Lulucf
-var idNBR2Lulucf = getMasksByCrossedCategories(dNBRclass2,mfeLulucf);
-
-
-
-// calculation of the areas function
-
-// RBR
-var aAltRBRL = calculateArea(iRBRLulucf);
-
-// RdNBR
-var aAltRdNBRL = calculateArea(iRdNBRLulucf);
-
-// dNBR
-var aAltRdNBRL = calculateArea(idNBRLulucf);
-
-var aAltRdNBRL = calculateArea(idNBR2Lulucf);
-
-*/
-
-
-//------------------------------------------------
 // add elements to the map
 /*
 Map.addLayer (imageIndex, {}, 'image index calculation');
@@ -604,42 +504,5 @@ Map.addLayer(mfeData, {}, 'lulucf mfe');
 Map.addLayer(iRBRLulucf);
 
 */
-/*
-//check - check alternative way:
-var imageArea= RdNBRclass.eq(2).and(mfeLulucf.eq(111)).multiply(ee.Image.pixelArea()).divide(10000)
-print (imageArea, 'Image Area')
-var area= imageArea.reduceRegion({
-  reducer: ee.Reducer.sum(),
-  geometry: aoi,
-  scale: 10,
-  maxPixels: 1e10
-})
 
-//print (area, 'total area')
-//Map.addLayer(imageArea)
-*/
-
-//-----------------------export resutls--------------
-/*
-Export.image.toDrive({
-  image: iRBRLulucf.select('34_RBR3_Lulufc111'),
-  description: 'BurnedAreasSierraCulebra',
-  folder: 'GEE',
-  fileNamePrefix: 'RBR3L111',
-  scale: 10,
-  region: aoi,
-  maxPixels: 1e13,
-  fileFormat:'GeoTiff'
-  })
-*/
-
-
-/*
-Export.table.toDrive({
-  collection: aAltRBRL,
-  folder: 'GEE',
-  description:'AreasRBRLulucf',
-  fileFormat: 'CSV'
-});
-*/
 
