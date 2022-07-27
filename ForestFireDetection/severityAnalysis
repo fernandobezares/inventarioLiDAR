@@ -438,25 +438,17 @@ function getSpectralIndexes(date, userAOI){
   
 }
 // 
-var imageIndexes = getSpectralIndexes('2022-06-14',aoi);
-
-var recIndex = reclassifyIndexes(imageIndexes);
-Map.addLayer(imageIndexes);
-
-Map.addLayer(recIndex);
 
 
-var indexReclassificationMethods = {
+
+var indexReclassificationMethods ={
   'RBR':RBRrec,
   'RdNBR':RdNBRrec,
   'dNBR': usgsDNBR,
 //mansoDNBR
   };
 
-var nbr = indexReclassificationMethods.dNBR(imageIndexes.select('dNBR')).selfMask();
 
-print(nbr,'reclas');
-Map.addLayer(nbr,{},'RdNBR');
 
 function reclassifyIndexes(img) {
   // reclassifies the indexes in the image according to the reclassification methods
@@ -468,14 +460,27 @@ function reclassifyIndexes(img) {
     //get the reclassfication method from teh object
     var method = indexReclassificationMethods[indexName];
     
+    
     // reclassify the img 
     var reclassified = method(img.select(indexName));
+    
+    return reclassified;
     
   });
    var reclassImg = ee.Image.cat(list);
    
    return reclassImg;
 }
+
+var imageIndexes = getSpectralIndexes('2022-06-14',aoi);
+
+var recIndex = reclassifyIndexes(imageIndexes);
+Map.addLayer(imageIndexes);
+Map.addLayer(recIndex,{},'reclass');
+
+print('recIndex', recIndex)
+print(Object.keys(indexReclassificationMethods))
+
 
 //------------- NBR calculation -----------------------
 
