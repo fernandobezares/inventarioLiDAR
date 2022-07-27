@@ -40,12 +40,11 @@ var cloudPixelPercentage = 20;
 
 //---------- province of interest ---------
 var regions = ee.FeatureCollection("FAO/GAUL_SIMPLIFIED_500m/2015/level2");
-//print (regions.aggregate_array('ADM1_NAME').distinct().sort(), 'code description')
+
 
 var zamora = regions.filter(ee.Filter.and(ee.Filter.eq('ADM0_NAME', 'Spain'),ee.Filter.eq('ADM2_NAME', 'Zamora')))
-//print (zamora)
 
-//Map.addLayer(zamora, {'color': 'blue'}, 'province of interest')
+
 Map.centerObject(zamora, 8)
 
 //----------- functions -----------------
