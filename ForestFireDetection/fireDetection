@@ -9,7 +9,7 @@ var regions = ee.FeatureCollection("FAO/GAUL_SIMPLIFIED_500m/2015/level2");
 
 var region = ee.String('Castilla y León');
 
-var cyl= regions.filter(ee.Filter.eq('ADM1_NAME', region));
+var cyl = regions.filter(ee.Filter.eq('ADM1_NAME', region));
 
 Map.centerObject(cyl, 8);
 
@@ -25,7 +25,7 @@ var firmsCyl = firms
                 
 
 
-//--------------------
+//-------------------- Functions ----------------------------
 
 // add a band with the adquisition time
 
@@ -35,7 +35,7 @@ var firmBandDate = function(image){
   var doy = image.date().millis();
   
   // create a band with the date of the image in millis
-  var doyBand= ee.Image.constant(doy).toLong().rename('doy');
+  var doyBand = ee.Image.constant(doy).toLong().rename('doy');
   
   // mask by the T21 band values 
   doyBand = doyBand.updateMask(image.select('T21').mask());
@@ -43,22 +43,8 @@ var firmBandDate = function(image){
   return image.addBands(doyBand);
 };
 
-var firmDates = firmsCyl.map(firmBandDate);
-
-//Map.addLayer(firmDates, null, 'firmDates')
 
 //---------------------------------------
-
-// composite
-
-var imageComp = firmDates.mosaic()
-
-
-
-var imageMask = imageComp.gte(300).selfMask()
-
-
-
 // raster to vector
 var perimeterFire = function(image){
   var perim = image.addBands(ee.Image(1)).reduceToVectors({
@@ -73,23 +59,38 @@ var perimeterFire = function(image){
   return ee.FeatureCollection(perim);
 };
 
-var perimeters= perimeterFire(imageMask)
+
 
 
 
 /// featureCollection with date information
 
-var fireData= function(image, collection){
-  var red= image.reduceRegions({
+var fireData = function(image, collection){
+  
+  var red = image.reduceRegions({
     reducer:ee.Reducer.minMax(),
     collection: collection,
     scale: 1000,
     crs: image.projection()
-  })
-return ee.FeatureCollection(red)
-}
+  
+    
+  });
 
-var fireDate= fireData(imageComp, perimeters)
+return ee.FeatureCollection(red);
+
+  
+};
+// ------------------------------ Process------------------------------
+
+var firmDates = firmsCyl.map(firmBandDate);
+
+// composite
+var imageComp = firmDates.mosaic();
+var imageMask = imageComp.gte(300).selfMask();
+
+var perimeters= perimeterFire(imageMask);
+
+var fireDate = fireData(imageComp, perimeters);
 
 
 
@@ -98,7 +99,6 @@ exports = fireDate;
 
 
 // prints 
-
 print(firmDates, 'firmDates');
 print (imageComp, 'mosaic of fires');
 print (imageMask, 'image with integer bands');
@@ -106,8 +106,7 @@ print(perimeters, 'perimeters');
 print(fireDate, 'fires with reference date');
 
 // Maps
-
-Map.addLayer(imageComp, null, 'mosaic of fires')
-Map.addLayer(imageMask, null, 'image with integer bands')
-Map.addLayer(perimeters, null, 'fire perimeters')
-Map.addLayer(fireDate, null, 'fires with reference date')
+Map.addLayer(imageComp, null, 'mosaic of fires');
+Map.addLayer(imageMask, null, 'image with integer bands');
+Map.addLayer(perimeters, null, 'fire perimeters');
+Map.addLayer(fireDate, null, 'fires with reference date');
