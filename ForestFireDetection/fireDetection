@@ -139,13 +139,13 @@ function getFiresByMonth(date){
 // get the fires Collection
 var fires = getDates().map(getFiresByMonth);
 
-print('FIRE COLLECTION', fires);
-print('FIRE COLLECTION JULY', fires.get(6));
+// print('FIRE COLLECTION', fires);
+// print('FIRE COLLECTION JULY', fires.get(6));
 
 // Flatten the collection
 var fires = ee.FeatureCollection(fires).flatten();
 
-print('FIRE COLLECTION FLATTENED', fires);
+// print('FIRE COLLECTION FLATTENED', fires);
 
 // filter by month
 var firesJuly = fires.filter(
@@ -158,8 +158,8 @@ var firesJuly = fires.filter(
 
 // prints
 
-print('FIRE DATE COLLECTION',fires.aggregate_array('doy_max').map(function(date){return ee.Date(date)}));
-print('FIRES IN JULY', firesJuly);
+// print('FIRE DATE COLLECTION',fires.aggregate_array('doy_max').map(function(date){return ee.Date(date)}));
+// print('FIRES IN JULY', firesJuly);
 
 exports = fireDate;
 
