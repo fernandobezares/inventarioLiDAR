@@ -130,6 +130,31 @@ function caclRdNBR(image){
 
 //  RECLASSIFICATION SEVERITY FUNCTIONS 
 
+// RBR reclass
+function RBRrec(RBR){
+  
+  var reclass = ee.Image(0)
+                .where (RBR.gt(0.105), 1) 
+                .where (RBR.gt(0.2), 2) 
+                .where (RBR.gt(0.355), 3) 
+                .rename('RBRclass');
+  
+  return reclass;
+}
+
+// RdNBR reclass
+function RdNBRrec(RdNBR){
+  
+  var reclass = ee.Image(0) //ee.Image(RdNBRclass).where... computes a lot (out of memory)
+                .where (RdNBR.gt(0.230), 1) 
+                .where (RdNBR.gt(0.475), 2) 
+                .where (RdNBR.gt(0.835), 3) 
+                .rename('RdNBRclass');
+  
+  return reclass;
+  
+} 
+
 // usgs dNBR reclass
 function usgsDNBR(dNBR){
   
@@ -321,8 +346,6 @@ var imagePreFire = addNDVI(imagePreFire);
 var imageIndex = imagePreFire.select('NBRpre').addBands(imagePostFire.select('NBRpost'));
 
 
-
-
 //------------ burn indexes calculation -------------
 var visBVI = {};
 var visRdNBR= {};
@@ -354,12 +377,7 @@ var dNBR = imageIndex.select('NBRpre').subtract(imageIndex.select('NBRpost')).re
 // 2- moderate 
 // 3- high
 
-var RBRclass = ee.Image(0)
-              .where (RBR.gt(0.105), 1) 
-              .where (RBR.gt(0.2), 2) 
-              .where (RBR.gt(0.355), 3) 
-              .rename('RBRclass')
-              .clip(aoi);
+var RBRclass = RBRrec(RBR).clip(aoi);
 
 
 // RdNBR 
@@ -451,7 +469,6 @@ var aAltdNBRL = categoricalZonalStatistics(dNBRclass,mfeLulucf);
 
 // dNBR Manso 
 var aAltdNBRL2 = categoricalZonalStatistics(dNBRclass2,mfeLulucf);
-
 
 
 // area values 
