@@ -133,6 +133,11 @@ function caclRdNBR(image){
 // RBR reclass
 function RBRrec(RBR){
   
+  // reclassifies the index in severity classes
+  // 1- low severity 
+  // 2- moderate 
+  // 3- high
+  
   var reclass = ee.Image(0)
                 .where (RBR.gt(0.105), 1) 
                 .where (RBR.gt(0.2), 2) 
@@ -144,6 +149,12 @@ function RBRrec(RBR){
 
 // RdNBR reclass
 function RdNBRrec(RdNBR){
+  
+  // reclassifies the index in severity classes
+  // 1- low severity 
+  // 2- moderate 
+  // 3- high
+  
   
   var reclass = ee.Image(0) //ee.Image(RdNBRclass).where... computes a lot (out of memory)
                 .where (RdNBR.gt(0.230), 1) 
@@ -157,6 +168,16 @@ function RdNBRrec(RdNBR){
 
 // usgs dNBR reclass
 function usgsDNBR(dNBR){
+  
+  // // reclassifies the index in burnt severity according to usgs : 
+  // 1- regrowth high
+  // 2- regrowth low 
+  // 3- unburned 
+  // 4- low severity 
+  // 5- moderate--low 
+  // 6- moderate-high 
+  // 7- high
+
   
   var usgsReclass = ee.Image(0)
     .where(dNBR.lte(-0.250), 1)
@@ -174,6 +195,10 @@ function usgsDNBR(dNBR){
 
 // Manso reclassification function 
 function mansoDNBR (dNBR) {
+  
+  // 1- low severity 
+  // 2- moderate 
+  // 3- high
   
   var mansoReclass = ee.Image(0)
     .where (dNBR.gt(0.160), 1) 
@@ -373,45 +398,15 @@ var dNBR = imageIndex.select('NBRpre').subtract(imageIndex.select('NBRpost')).re
     //Map.addLayer(ee.Geometry(imports))
 
 // RBR: 
-// 1- low severity 
-// 2- moderate 
-// 3- high
-
 var RBRclass = RBRrec(RBR).clip(aoi);
 
-
 // RdNBR 
-// 1- low severity 
-// 2- moderate 
-// 3- high
-
-var RdNBRclass = ee.Image(0) //ee.Image(RdNBRclass).where... computes a lot (out of memory)
-              .where (RdNBR.gt(0.230), 1) 
-              .where (RdNBR.gt(0.475), 2) 
-              .where (RdNBR.gt(0.835), 3) 
-              .rename('RdNBRclass')
-              .clip(aoi);
-
+var RdNBRclass = RdNBRrec(RdNBR).clip(aoi);
 
 // dNBR Reclassifications
-
-// usgs: 
-// 1- regrowth high
-// 2- regrowth low 
-// 3- unburned 
-// 4- low severity 
-// 5- moderate--low 
-// 6- moderate-high 
-// 7- high
-
 var dNBRclass = usgsDNBR(dNBR).clip(aoi);
   
-  
 // Manso et al: 
-// 1- low severity 
-// 2- moderate 
-// 3- high
-
 var dNBRclass2 = mansoDNBR(dNBR).clip(aoi);
 
 // BVI 
