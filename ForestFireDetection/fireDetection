@@ -58,8 +58,6 @@ var perimeterFire = function(image){
 
 
 
-
-
 // featureCollection with date information
 
 var fireData = function(image, collection){
@@ -79,14 +77,17 @@ return ee.FeatureCollection(red);
 };
 // ------------------------------ Process------------------------------
 
+// add the dates to the firms image in aoi
 var firmDates = firmsCyl.map(firmBandDate);
 
 // composite
 var imageComp = firmDates.mosaic();
 var imageMask = imageComp.gte(300).selfMask();
 
+// obtain the perimeters of the forest fires
 var perimeters= perimeterFire(imageMask);
 
+// extract the fire data information
 var fireDate = fireData(imageComp, perimeters);
 
 
