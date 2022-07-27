@@ -118,9 +118,9 @@ function caclRdNBR(image){
   var rdnbr = image.expression(
     '(NBRpre - NBRpost) / (NBRpreAbs)**0.5',
     {
-    'NBRpre': imageIndex.select('NBRpre'),
-    'NBRpost': imageIndex.select('NBRpost'),
-    'NBRpreAbs': imageIndex.abs().select('NBRpre')
+    'NBRpre': image.select('NBRpre'),
+    'NBRpost': image.select('NBRpost'),
+    'NBRpreAbs': image.abs().select('NBRpre')
     })
   .rename('RdNBR');
   
@@ -245,7 +245,10 @@ function volumenArea(image){
   // call the vol dataset vol
   var vol = lidar.c1.vcc;
   
-  var volArea = vol.unmask(0).addBands(image);
+  // add the image bands to the volume image 
+  var volArea = vol.addBands(image);
+  
+  // compute the stats per group
   var volAreaDict = volArea.reduceRegion({
     reducer: ee.Reducer.sum().group(1),
     geometry: aoi,
@@ -370,6 +373,18 @@ function getSpectralIndexes(date, userAOI){
   // user defined area
   var aoi = userAOI;
   
+  // start date pre. 18 days before the fire event
+  var starDatePre = ee.Date(date).advance(-18,'day');
+  
+  // end dare pre. 3 days before teh fire event 
+  var finalDatePre = ee.Date(date).advance(-3,'day');
+  
+  // start date post
+  var startDatePost = ee.Date(date).advance(5,'day');
+  
+  // end date post fire
+  var finalDatePost = ee.Date(date).advance(20,'day'); 
+  
   // call the images and apply functions (masks and nbr)
   var preFire = ee.ImageCollection("COPERNICUS/S2_SR")
               .filter(ee.Filter.bounds(aoi))
@@ -421,10 +436,9 @@ function getSpectralIndexes(date, userAOI){
   return indexImage;
   
   
-  
-  
 }
-//
+// 
+print(getSpectralIndexes('2022-06-14',aoi))
 
 
 
