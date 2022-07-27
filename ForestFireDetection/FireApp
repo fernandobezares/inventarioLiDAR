@@ -21,6 +21,32 @@ Map.add(dwonloadButton)
 
 */
 
-var functions = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
+// import the functions 
+var fireDetection = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
+var severityAnalysis = require('users/cesefor/inventarioForestal:ForestFireDetection/fireDetection');
 
+// 
+// get the fires Collection
+var fires = fireDetection.getDates.map(fireDetection.getFiresByMonth())
+
+print(fires)
+// get the fires Collection
+var fires = getDates().map(getFiresByMonth);
+
+// print('FIRE COLLECTION', fires);
+// print('FIRE COLLECTION JULY', fires.get(6));
+
+// Flatten the collection
+var fires = ee.FeatureCollection(fires).flatten();
+
+// print('FIRE COLLECTION FLATTENED', fires);
+
+// filter by month
+var firesJuly = fires.filter(
+  ee.Filter.and(
+    ee.Filter.gte('doy_min',ee.Date('2022-07-01').millis()),
+    ee.Filter.lt('doy_min',ee.Date('2022-08-01').millis())
+    
+    )
+    );
 print(Object.keys(functions));
