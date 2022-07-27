@@ -161,6 +161,6 @@ var firesJuly = fires.filter(
 // print('FIRE DATE COLLECTION',fires.aggregate_array('doy_max').map(function(date){return ee.Date(date)}));
 // print('FIRES IN JULY', firesJuly);
 */
-exports = {'getDates':getDates, 'getFiresByMonth':getFiresByMonth};
+exports = {'getDates':getDates(), 'getFiresByMonth':getFiresByMonth()};
 
 
