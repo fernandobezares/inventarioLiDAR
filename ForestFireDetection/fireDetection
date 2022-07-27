@@ -14,7 +14,9 @@ var aoi = regions.filter(ee.Filter.eq('ADM1_NAME', region));
 // current time
 
 function getDates() {
+  // returns a date list with all the months between the reference date and today
   
+  // get date from today
   var now = Date.now();
   var eeNow = ee.Date(now);
   
@@ -37,23 +39,16 @@ function getDates() {
   
   });
 
-return dateList;
+return dateList; 
+
+  
 }
 
-;
 
 
 
 
-//----------FIRMS--------
-var startDate = ee.Date ('2022-07-01');
-var finalDate = ee.Date ('2022-07-22');
 
-var firmsCyl = firms
-                .filter(ee.Filter.bounds(aoi))
-                .filterDate(startDate, finalDate)
-                .select('T21');
-                
 
 
 //-------------------- Functions ----------------------------
@@ -79,7 +74,7 @@ var firmBandDate = function(image){
 // raster to vector
 var perimeterFire = function(image){
   var perim = image.addBands(ee.Image(1)).reduceToVectors({
-    geometry: cyl,
+    geometry: aoi,
     crs: image.projection(),
     scale: 1000,
     geometryType: 'polygon',
@@ -113,33 +108,53 @@ return ee.FeatureCollection(red);
 
 function getFiresByMonth(date){
   
+  // returns a list with a featureCollections with the polygons corresponding to the 
+  // thermal anomalies for each month
+  
+  
+  // get the date as initial date
+  var finalDate = ee.Date(date);
+  
+  // the final date is start date + 1 month
+  var startDate = finalDate.advance(-1,'month');
+  
+  var firmsAOI = firms
+                  .filter(ee.Filter.bounds(aoi))
+                  .filterDate(startDate, finalDate)
+                  .select('T21');
+                  
+    // add the dates to the firms image in aoi
+  var firmDates = firmsAOI.map(firmBandDate);
+  
+  // composite
+  var imageComp = firmDates.mosaic();
+  var imageMask = imageComp.gte(300).selfMask();
+  
+  // obtain the perimeters of the forest fires
+  var perimeters = perimeterFire(imageMask);
+  
+  // extract the fire data information
+  var fireDate = fireData(imageComp, perimeters);
+                
+  
+  return fireDate
   
 }
 // ------------------------------ Process------------------------------
 
-// add the dates to the firms image in aoi
-var firmDates = firmsCyl.map(firmBandDate);
 
-// composite
-var imageComp = firmDates.mosaic();
-var imageMask = imageComp.gte(300).selfMask();
+var fires = getDates().map(getFiresByMonth)
 
-// obtain the perimeters of the forest fires
-var perimeters= perimeterFire(imageMask);
-
-// extract the fire data information
-var fireDate = fireData(imageComp, perimeters);
+print(fires.get(0))
 
 
-
-
-exports = fireDate;
+//exports = fireDate;
 
 
 // prints 
 
 // dates 
-print(dateList);
+
 print(ee.Date(initDateFires)); 
 print(eeNow,timeDif);
 
