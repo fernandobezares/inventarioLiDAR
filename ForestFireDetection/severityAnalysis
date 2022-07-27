@@ -237,15 +237,16 @@ function indexArea(image){
 
 // calcualte the pine wood volume in a given area
 
-function indexArea(image){
+function volumenArea(image){
   
-  // call the wood volume dataset 
+  // call the lidar var script 
+  var lidar = require('users/cesefor/inventarioForestal:LidarApp/inc/LiDARVars');
   
-  var vol = require('')
+  // call the vol dataset vol
+  var vol = lidar.c1.vcc;
   
-  
-  var ai = ee.Image.pixelArea().divide(10000).addBands(image);
-  var aIndexDict = ai.reduceRegion({
+  var volArea = vcc.unmask(0).addBands(image);
+  var aIndexDict = volArea.reduceRegion({
     reducer: ee.Reducer.sum().group(1),
     geometry: aoi,
     scale: 10,
