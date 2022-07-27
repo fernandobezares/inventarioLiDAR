@@ -138,7 +138,7 @@ function getFiresByMonth(date){
 // ------------------------------ Process------------------------------
 
 // get teh fires Collection
-var fires = getDates().map(getFiresByMonth)
+var fires = getDates().map(getFiresByMonth);
 
 // Flatten the collection
 fires = ee.FeatureCollection(fires).flatten();
