@@ -22,16 +22,16 @@ Map.add(dwonloadButton)
 */
 
 // import the functions 
-var fireDetection = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
-var severityAnalysis = require('users/cesefor/inventarioForestal:ForestFireDetection/fireDetection');
+var severityAnalysis = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
+var fireDetection = require('users/cesefor/inventarioForestal:ForestFireDetection/fireDetection');
 
 // 
 // get the fires Collection
-var fires = fireDetection.getDates.map(fireDetection.getFiresByMonth())
+var fires = fireDetection.getDates().map(fireDetection.getFiresByMonth)
 
 print(fires)
 // get the fires Collection
-var fires = getDates().map(getFiresByMonth);
+//var fires = getDates().map(getFiresByMonth);
 
 // print('FIRE COLLECTION', fires);
 // print('FIRE COLLECTION JULY', fires.get(6));
@@ -49,4 +49,3 @@ var firesJuly = fires.filter(
     
     )
     );
-print(Object.keys(functions));
