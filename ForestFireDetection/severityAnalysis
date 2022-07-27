@@ -489,7 +489,21 @@ print(Object.keys(indexReclassificationMethods))
 */
 
 
-exports 
+exports  = {
+  // areas 
+'indexArea':indexArea,
+'volumenArea':volumenArea,
+'getUniqueValues':getUniqueValues,
+'getMasksByCrossedCategories':getMasksByCrossedCategories,
+'calculateArea':calculateArea,
+'categoricalZonalStatistics':categoricalZonalStatistics,
+// calculates the spectral indexes and returns a multiband Img
+'getSpectralIndexes':getSpectralIndexes,
+// reclasifies the espectral indexes form the function getSpectral indexes
+'reclassifyIndexes':reclassifyIndexes,
+
+
+}
 
 
 
