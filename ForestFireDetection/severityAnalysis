@@ -181,7 +181,7 @@ function indexArea(image){
 function getUniqueValues (image){
   
   // get the first raster band
-  var bandName = ee.String(image.bandNames().get(0))
+  var bandName = ee.String(image.bandNames().get(0));
   
   // computes frequency histogram
   var valDict= image.reduceRegion({
@@ -191,7 +191,7 @@ function getUniqueValues (image){
     maxPixels: 1e13
   });
   
-  var uniques = ee.Dictionary(valDict.get(bandName)).keys().map(ee.Number.parse)
+  var uniques = ee.Dictionary(valDict.get(bandName)).keys().map(ee.Number.parse);
   
   return uniques; // returns list 
 }
@@ -271,7 +271,6 @@ function calculateArea (img){
 
 // Calculate the area given two rasters
 // the function finds the crossed areas between them and calclautes teh area in has 
-  
 function categoricalZonalStatistics (img1,img2){
   
   // get the multiband Image Mask
@@ -348,7 +347,6 @@ var dNBR = imageIndex.select('NBRpre').subtract(imageIndex.select('NBRpost')).re
 
 //------------------- reclasification and clip to aoi of indexes-------------
 
-
 // determination of aoi //manually with a geometry
     //var imports= require('users/franciscogallego/Cesefor:Training/ForestFires')
     //print (imports.aoi,'aoi' )
@@ -359,7 +357,7 @@ var dNBR = imageIndex.select('NBRpre').subtract(imageIndex.select('NBRpost')).re
 // 2- moderate 
 // 3- high
 
-var RBRclass= ee.Image(0)
+var RBRclass = ee.Image(0)
               .where (RBR.gt(0.105), 1) 
               .where (RBR.gt(0.2), 2) 
               .where (RBR.gt(0.355), 3) 
@@ -372,7 +370,7 @@ var RBRclass= ee.Image(0)
 // 2- moderate 
 // 3- high
 
-var RdNBRclass= ee.Image(0) //ee.Image(RdNBRclass).where... computes a lot (out of memory)
+var RdNBRclass = ee.Image(0) //ee.Image(RdNBRclass).where... computes a lot (out of memory)
               .where (RdNBR.gt(0.230), 1) 
               .where (RdNBR.gt(0.475), 2) 
               .where (RdNBR.gt(0.835), 3) 
@@ -583,17 +581,17 @@ var aAltRdNBRL = calculateArea(idNBR2Lulucf);
 
 */
 
-/*
+
 //------------------------------------------------
 // add elements to the map
-
-Map.addLayer (imageIndex, {}, 'image index calculation')
+/*
+Map.addLayer (imageIndex, {}, 'image index calculation');
 
 // indexes
-Map.addLayer (RBR, visRBR, 'RBR')
-Map.addLayer (RdNBR, visRdNBR, 'RdNBR')
-Map.addLayer (BVI, visBVI, 'BVI')
-Map.addLayer(dNBR, visdNBR, 'dNBR')
+Map.addLayer (RBR, visRBR, 'RBR');
+Map.addLayer (RdNBR, visRdNBR, 'RdNBR');
+Map.addLayer (BVI, visBVI, 'BVI');
+Map.addLayer(dNBR, visdNBR, 'dNBR');
 
 // reclass
 Map.addLayer(RBRclass, {}, 'reclassification RBR');
@@ -602,11 +600,11 @@ Map.addLayer(dNBRclass, {}, 'dNBR classes usgs');
 Map.addLayer(dNBRclass2, {}, 'dNBR classes mediterranean');
 
 // mfe
-Map.addLayer(mfeData, {}, 'lulucf mfe')
+Map.addLayer(mfeData, {}, 'lulucf mfe');
 
 // Masks 
 
-Map.addLayer(iRBRLulucf)
+Map.addLayer(iRBRLulucf);
 
 */
 /*
