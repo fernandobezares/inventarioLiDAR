@@ -13,7 +13,8 @@ var aoi = regions.filter(ee.Filter.eq('ADM1_NAME', region));
 
 // current time
 
-function getDates () {
+function getDates() {
+  
   var now = Date.now();
   var eeNow = ee.Date(now);
   
