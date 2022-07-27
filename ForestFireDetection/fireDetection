@@ -24,7 +24,7 @@ var finalDate= ee.Date ('2022-07-22');
 var firmsCyl= firms
                 .filter(ee.Filter.bounds(cyl))
                 .filterDate(startDate, finalDate)
-                .select('T21')
+                .select('T21');
                 
 print (firmsCyl, 'Firms cyl');
 //Map.addLayer (firmsCyl, firesVis, 'fires cyl');
