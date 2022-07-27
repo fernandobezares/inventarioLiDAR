@@ -2,6 +2,26 @@
 var firms = ee.ImageCollection("FIRMS"),
     firesVis = {"min":325,"max":400,"palette":["red","orange","yellow"]};
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
+// current time
+var now = Date.now();
+var eeNow = ee.Date(now);
+
+// first firms date availability
+// var initDateFires = ee.Date(firms.first().get('system:time_start'));
+
+var initDateFires = ee.Date('2022');
+
+// get the time difference between the beggining of the firms dataset and now
+var timeDif = eeNow.difference(initDateFires,'months').ceil();
+
+// generate a list with all the increment of the months 
+var timeList = ee.List.sequence(1,timeDif);
+
+// get a list with all the dates from the beggining of the firms until now
+var dateList = timeList.map(function(months){
+  return initDateFires.advance(months,'months');
+});
+
 
 //---------------aoi------------
 var regions = ee.FeatureCollection("FAO/GAUL_SIMPLIFIED_500m/2015/level2");
@@ -75,6 +95,9 @@ return ee.FeatureCollection(red);
 
   
 };
+
+
+
 // ------------------------------ Process------------------------------
 
 // add the dates to the firms image in aoi
@@ -97,6 +120,13 @@ exports = fireDate;
 
 
 // prints 
+
+// dates 
+print(dateList);
+print(ee.Date(initDateFires)); 
+print(eeNow,timeDif);
+
+// fires
 print(firmDates, 'firmDates');
 print (imageComp, 'mosaic of fires');
 print (imageMask, 'image with integer bands');
