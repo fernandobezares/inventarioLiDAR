@@ -235,6 +235,27 @@ function indexArea(image){
   return aIndexDict; // returns dictionary
 }
 
+// calcualte the pine wood volume in a given area
+
+function indexArea(image){
+  
+  // call the wood volume dataset 
+  
+  var vol = require('')
+  
+  
+  var ai = ee.Image.pixelArea().divide(10000).addBands(image);
+  var aIndexDict = ai.reduceRegion({
+    reducer: ee.Reducer.sum().group(1),
+    geometry: aoi,
+    scale: 10,
+    maxPixels: 1e13
+  });
+  return aIndexDict; // returns dictionary
+}
+
+
+
 // extract values from the first band of a raster
 function getUniqueValues (image){
   
