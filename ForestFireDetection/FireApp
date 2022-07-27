@@ -1,5 +1,23 @@
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
+var now = Date.now();
+now = ee.Date(now);
+var nowYear = now.get('year').toInt();
+
+var years = ee.List.sequence(2020, nowYear)
+.map(function(n){return ee.String(n).replace('\\.0','')}).getInfo();
+
+
+var monthsObj = ee.Dictionary({
+  'Enero':'1', 'Febrero':'2', "Marzo":'3',
+  'Abril': '4', 'Mayo':'5', 'Junio':'6',
+  'Julio':'7','Agosto':'8','Septiembre':'9',
+  'Octubre':'10','Noviembre':'11','Diciembre':'12'
+});
+
+var months = ['Enero','Febrero', "Marzo",'Abril','Mayo','Junio',
+  'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
 /*
 var dwonloadButton = ui.Button({
   label: 'Download CSV area',
@@ -42,3 +60,36 @@ var firesJuly = fires.filter(
     
     )
     );
+
+
+var datePanel = ui.Panel({
+  layout: ui.Panel.Layout.flow('horizontal'),
+  style: {width: '300px'}
+});
+//widgets for the Map
+
+var yearSelector = ui.Select({
+  items:years,
+  placeholder:'Selecciona un año'
+});
+
+var monthSelector = ui.Select({
+  items:months,
+  placeholder:'Selecciona un mes'
+});
+
+datePanel.add(yearSelector).add(monthSelector)
+
+print(datePanel)
+
+
+
+var dateSelector = ui.DateSlider({
+  
+  start: ee.Date('2020-01-01'),
+  end:ee.Date('2023-01-01'),
+  value: ee.Date('2021-01-01'),
+  period: 28
+});
+
+print(dateSelector);
