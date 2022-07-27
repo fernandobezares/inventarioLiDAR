@@ -245,7 +245,7 @@ function volumenArea(image){
   // call the vol dataset vol
   var vol = lidar.c1.vcc;
   
-  var volArea = vcc.unmask(0).addBands(image);
+  var volArea = vol.unmask(0).addBands(image);
   var aIndexDict = volArea.reduceRegion({
     reducer: ee.Reducer.sum().group(1),
     geometry: aoi,
@@ -521,6 +521,9 @@ var mfeData = mfeEspecies.addBands(mfeLulucf);
 
 // RBR
 var aRBR = ee.Dictionary(indexArea(RBRclass));
+var volArea = ee.Dictionary(volumenArea(RBRclass));
+
+print('PINE WOOD VOL', volArea)
 
 // RdNBR
 var aRdNBR = ee.Dictionary(indexArea(RdNBRclass));
