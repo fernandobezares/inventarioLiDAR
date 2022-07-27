@@ -42,10 +42,10 @@ var cloudPixelPercentage = 20;
 var regions = ee.FeatureCollection("FAO/GAUL_SIMPLIFIED_500m/2015/level2");
 
 
-var zamora = regions.filter(ee.Filter.and(ee.Filter.eq('ADM0_NAME', 'Spain'),ee.Filter.eq('ADM2_NAME', 'Zamora')))
+var zamora = regions.filter(ee.Filter.and(ee.Filter.eq('ADM0_NAME', 'Spain'),ee.Filter.eq('ADM2_NAME', 'Zamora')));
 
 
-Map.centerObject(zamora, 8)
+Map.centerObject(zamora, 8);
 
 //----------- functions -----------------
 
