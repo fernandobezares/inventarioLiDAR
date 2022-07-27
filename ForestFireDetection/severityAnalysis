@@ -210,6 +210,17 @@ function mansoDNBR (dNBR) {
 }
 
 
+// BVI 
+/*
+var BVIclass= ee.Image(BVI)
+                  .where(BVI.gt(0.230), 1)
+                  .where(BVI.gt(0.475), 2)
+                  .where(BVI.gt(0.835), 3)
+                  .rename('RdNBRclass')
+                  .clip(aoi)
+*/
+
+
 // ZONAL STATISTICS FUNCTIONS 
 
 // area calculator function
@@ -331,12 +342,76 @@ function categoricalZonalStatistics (img1,img2){
   
 }
 
+function getSpectralIndexes(date, userAOI){
+  // inputs: date from the fire perimeters and user defined region
+  
+  // user defined area
+  var aoi = userAOI;
+  
+  // call the images and apply functions (masks and nbr)
+  var preFire = ee.ImageCollection("COPERNICUS/S2_SR")
+              .filter(ee.Filter.bounds(aoi))
+              .filterDate(starDatePre, finalDatePre)
+              .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', cloudPixelPercentage))
+              .map(maskS2clouds)
+              .map(maskWater)
+              //.map(resample)
+              .map (addNBRpre)
+              .select ('B.*','NBRpre');
+              
+              
+  var postFire = ee.ImageCollection("COPERNICUS/S2_SR")
+              .filter(ee.Filter.bounds(aoi))
+              .filterDate(startDatePost, finalDatePost)
+              .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', cloudPixelPercentage))
+              .map(maskS2clouds)
+              .map(maskWater)
+              //.map(resample)
+              .map(addNBRpost)
+              .select ('B.*', 'NBRpost');
+              
+
+  // creation of composites (pre- and post-)
+  var imagePreFire = preFire.median();
+  var imagePostFire = postFire.median();
+
+  // add ndvi to prefire
+   imagePreFire = addNDVI(imagePreFire);
+
+  // merge of the pre- and post- images
+  var imageIndex = imagePreFire.select('NBRpre').addBands(imagePostFire.select('NBRpost'));
+  
+  // RBR=(nbrpre-nbrpost/nbrpre+1.001)
+  var RBR = calcRBR(imageIndex).clip(aoi);
+  
+  // RdNBR = (NBRpre-NBRpost)/|(NBRpre)|^0.5
+  var RdNBR = caclRdNBR(imageIndex).clip(aoi);
+  
+  // BVI (burned vegetation index) = NDVIpre-fire - NBR post-fire
+  var BVI = imagePreFire.select('ndvi').subtract(imagePostFire.select('NBRpost')).rename('BVI');
+  
+  // dNBR (NBRpre - NBRpost)
+  var dNBR = imageIndex.select('NBRpre').subtract(imageIndex.select('NBRpost')).rename('dNBR');
+  
+  // create an Iamge with all the indexes
+  var indexImage = ee.Image.cat(imageIndex, RBR, RdNBR, BVI, dNBR);
+  
+  return indexImage;
+  
+  
+  
+  
+}
 //
+
+
+
+
+
 
 //------------- NBR calculation -----------------------
 
 // call the images and apply functions (masks and nbr)
-
 var preFire = ee.ImageCollection("COPERNICUS/S2_SR")
               .filter(ee.Filter.bounds(zamora))
               .filterDate(starDatePre, finalDatePre)
@@ -406,15 +481,6 @@ var dNBRclass = usgsDNBR(dNBR).clip(aoi);
 // Manso et al: 
 var dNBRclass2 = mansoDNBR(dNBR).clip(aoi);
 
-// BVI 
-/*
-var RdNBRclass= ee.Image(BVI)
-                  .where(BVI.gt(0.230), 1)
-                  .where(BVI.gt(0.475), 2)
-                  .where(BVI.gt(0.835), 3)
-                  .rename('RdNBRclass')
-                  .clip(aoi)
-*/
 
 //------------------ mfe rasters -----------------
 // note: mfe for Sierra de la Culebra has been rasterized in QGIS (lulucf / species)
