@@ -438,12 +438,32 @@ function getSpectralIndexes(date, userAOI){
   
 }
 // 
-print(getSpectralIndexes('2022-06-14',aoi))
+var imageIndexes = getSpectralIndexes('2022-06-14',aoi);
+
+Map.addLayer(imageIndexes);
 
 
 
+var indexReclassificationMethods = {
+  'RBR':RBRrec,
+'RdNBR':RdNBRrec,
+'dNBR': usgsDNBR,
+//mansoDNBR
+  };
 
+var nbr = indexReclassificationMethods.NBR(imageIndexes.select('dNBR')).selfMask();
 
+print(nbr,'reclas')
+Map.addLayer(nbr,{},'RdNBR')
+
+function reclassifyIndexes(img) {
+  // reclassifies the indexes in the image according to the reclassification methods
+  
+  // get index names
+  var indexNames = img.bandNames();
+  
+  
+}
 
 //------------- NBR calculation -----------------------
 
