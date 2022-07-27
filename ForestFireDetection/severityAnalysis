@@ -41,9 +41,7 @@ var cloudPixelPercentage = 20;
 //---------- province of interest ---------
 var regions = ee.FeatureCollection("FAO/GAUL_SIMPLIFIED_500m/2015/level2");
 
-
 var zamora = regions.filter(ee.Filter.and(ee.Filter.eq('ADM0_NAME', 'Spain'),ee.Filter.eq('ADM2_NAME', 'Zamora')));
-
 
 Map.centerObject(zamora, 8);
 
@@ -235,7 +233,7 @@ function getMasksByCrossedCategories(img1, img2){
       }).flatten()
 );
   
-  return maskCollection.toBands(); 
+  return maskCollection.toBands(); // returns an Image
   
 }
 
@@ -509,7 +507,7 @@ print (aAltdNBRL, 'dNBR lulucf areas');
 print (aAltdNBRL2, 'dNBR2 lulucf areas');
 print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
-/*
+
 var dwonloadButton = ui.Button({
   label: 'Download CSV area',
   onClick: function(){
@@ -527,7 +525,7 @@ var dwonloadButton = ui.Button({
 
 Map.add(dwonloadButton)
 
-*/
+
 /*
 //----------------------------------------------------------------------
 // OLD METHOD STEP BY STEP 
