@@ -39,7 +39,7 @@ function getDates() {
   
   });
 
-return dateList; 
+return ee.List(dateList); 
 
   
 }
@@ -139,8 +139,13 @@ function getFiresByMonth(date){
 // get the fires Collection
 var fires = getDates().map(getFiresByMonth);
 
+print('FIRE COLLECTION', fires);
+print('FIRE COLLECTION JULY', fires.get(6));
+
 // Flatten the collection
-fires = ee.FeatureCollection(fires).flatten();
+var fires = ee.FeatureCollection(fires).flatten();
+
+print('FIRE COLLECTION FLATTENED', fires);
 
 // filter by month
 var firesJuly = fires.filter(
@@ -152,31 +157,10 @@ var firesJuly = fires.filter(
     );
 
 // prints
-print('FIRE COLLECTION', fires);
-print('FIRE COLLECTION JULY', fires.get(6));
-print('FIRE COLLECTION FLATTENED', fires);
+
 print('FIRE DATE COLLECTION',fires.aggregate_array('doy_max').map(function(date){return ee.Date(date)}));
 print('FIRES IN JULY', firesJuly);
 
-//exports = fireDate;
+exports = fireDate;
 
 
-// prints 
-
-// dates 
-/*
-// fires
-print(firmDates, 'firmDates');
-print (imageComp, 'mosaic of fires');
-print (imageMask, 'image with integer bands');
-print(perimeters, 'perimeters');
-print(fireDate, 'fires with reference date');
-*/
-/*
-// Maps
-Map.centerObject(aoi, 8);
-Map.addLayer(imageComp, null, 'mosaic of fires');
-Map.addLayer(imageMask, null, 'image with integer bands');
-Map.addLayer(perimeters, null, 'fire perimeters');
-Map.addLayer(fireDate, null, 'fires with reference date');
-*/
