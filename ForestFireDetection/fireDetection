@@ -45,12 +45,6 @@ return dateList;
 }
 
 
-
-
-
-
-
-
 //-------------------- Functions ----------------------------
 
 // add a band with the adquisition time
