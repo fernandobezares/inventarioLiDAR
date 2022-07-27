@@ -372,9 +372,6 @@ var imageIndex = imagePreFire.select('NBRpre').addBands(imagePostFire.select('NB
 
 
 //------------ burn indexes calculation -------------
-var visBVI = {};
-var visRdNBR= {};
-var visdNBR= {};
 
 // RBR=(nbrpre-nbrpost/nbrpre+1.001)
 var RBR = calcRBR(imageIndex).clip(zamora);
