@@ -23,6 +23,9 @@ var visRBR = {"opacity":1,"bands":["RBR"],"min":-0.19869096176636125,"max":0.355
 
 // -----------------------------------------
 
+//                VARIABLES
+
+// -----------------------------------------
 // cloud pixel percentage 
 var cloudPixelPercentage = 20;
 
@@ -32,9 +35,20 @@ var regions = ee.FeatureCollection("FAO/GAUL_SIMPLIFIED_500m/2015/level2");
 
 var zamora = regions.filter(ee.Filter.and(ee.Filter.eq('ADM0_NAME', 'Spain'),ee.Filter.eq('ADM2_NAME', 'Zamora')));
 
-Map.centerObject(zamora, 8);
+
+//------------------ mfe rasters -----------------
+// note: mfe for Sierra de la Culebra has been rasterized in QGIS (lulucf / species)
+
+var mfeEspecies = ee.Image('users/franciscogallego/mfeEspecies').rename('especies');
+
+var mfeLulucf = ee.Image('users/franciscogallego/mfeLulucf').rename('lulucf');
+
+var mfeData = mfeEspecies.addBands(mfeLulucf);
+
+
 
 //----------- functions -----------------
+
 
 // SPECTRAL INDEXES 
 
@@ -263,6 +277,7 @@ function getUniqueValues (image){
     maxPixels: 1e13
   });
   
+  // list with the unique values
   var uniques = ee.Dictionary(valDict.get(bandName)).keys().map(ee.Number.parse);
   
   return uniques; // returns list 
@@ -438,7 +453,6 @@ var indexReclassificationMethods ={
   };
 
 
-
 function reclassifyIndexes(img) {
   // reclassifies the indexes in the image according to the reclassification methods
   
@@ -472,19 +486,11 @@ print(Object.keys(indexReclassificationMethods))
 
 
 
-//------------------ mfe rasters -----------------
-// note: mfe for Sierra de la Culebra has been rasterized in QGIS (lulucf / species)
-
-
-var mfeEspecies = ee.Image('users/franciscogallego/mfeEspecies').rename('especies');
-
-var mfeLulucf = ee.Image('users/franciscogallego/mfeLulucf').rename('lulucf');
-
-var mfeData = mfeEspecies.addBands(mfeLulucf);
 
 
 
-print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
+
+//print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
 /*
 var dwonloadButton = ui.Button({
@@ -504,29 +510,6 @@ var dwonloadButton = ui.Button({
 
 Map.add(dwonloadButton)
 
-
-// add elements to the map
-/*
-Map.addLayer (imageIndex, {}, 'image index calculation');
-
-// indexes
-Map.addLayer (RBR, visRBR, 'RBR');
-Map.addLayer (RdNBR, visRdNBR, 'RdNBR');
-Map.addLayer (BVI, visBVI, 'BVI');
-Map.addLayer(dNBR, visdNBR, 'dNBR');
-
-// reclass
-Map.addLayer(RBRclass, {}, 'reclassification RBR');
-Map.addLayer(RdNBRclass, {}, 'reclassification RdNBR');
-Map.addLayer(dNBRclass, {}, 'dNBR classes usgs');
-Map.addLayer(dNBRclass2, {}, 'dNBR classes mediterranean');
-
-// mfe
-Map.addLayer(mfeData, {}, 'lulucf mfe');
-
-// Masks 
-
-Map.addLayer(iRBRLulucf);
 
 */
 
