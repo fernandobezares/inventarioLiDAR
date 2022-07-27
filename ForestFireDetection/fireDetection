@@ -26,10 +26,10 @@ function getDates() {
   var initDateFires = ee.Date(initYear);
   
   // get the time difference between the beggining of the firms dataset and now
-  var timeDif = eeNow.difference(initDateFires,'months').ceil();
+  var timeDif = eeNow.difference(initDateFires,'months').floor();
   
   // generate a list with all the increment of the months 
-  var timeList = ee.List.sequence(1,timeDif);
+  var timeList = ee.List.sequence(0,timeDif);
   
   // get a list with all the dates from the beggining of the firms until now
   var dateList = timeList.map(function(months){
@@ -107,10 +107,11 @@ function getFiresByMonth(date){
   
   
   // get the date as initial date
-  var finalDate = ee.Date(date);
+  var startDate = ee.Date(date);
   
   // the final date is start date + 1 month
-  var startDate = finalDate.advance(-1,'month');
+  var finalDate = startDate.advance(1,'month');
+  
   
   var firmsAOI = firms
                   .filter(ee.Filter.bounds(aoi))
@@ -131,7 +132,7 @@ function getFiresByMonth(date){
   var fireDate = fireData(imageComp, perimeters);
                 
   
-  return fireDate
+  return fireDate;
   
 }
 // ------------------------------ Process------------------------------
@@ -139,29 +140,43 @@ function getFiresByMonth(date){
 
 var fires = getDates().map(getFiresByMonth)
 
-print(fires.get(0))
+print('FIRE COLLECTION', fires);
+print('FIRE COLLECTION JULY', fires.get(6));
 
+fires = ee.FeatureCollection(fires).flatten();
 
+print('FIRE COLLECTION FLATTENED', fires);
+
+print('FIRE DATE COLLECTION',fires.aggregate_array('doy_max').map(function(date){return ee.Date(date)}));
+
+var firesJuly = fires.filter(
+  ee.Filter.and(
+    ee.Filter.gte('doy_min',ee.Date('2022-07-01').millis()),
+    ee.Filter.lt('doy_min',ee.Date('2022-08-01').millis())
+    
+    )
+    );
+
+print('FIRES IN AUGUST', firesJuly);
 //exports = fireDate;
 
 
 // prints 
 
 // dates 
-
-print(ee.Date(initDateFires)); 
-print(eeNow,timeDif);
-
+/*
 // fires
 print(firmDates, 'firmDates');
 print (imageComp, 'mosaic of fires');
 print (imageMask, 'image with integer bands');
 print(perimeters, 'perimeters');
 print(fireDate, 'fires with reference date');
-
+*/
+/*
 // Maps
-Map.centerObject(cyl, 8);
+Map.centerObject(aoi, 8);
 Map.addLayer(imageComp, null, 'mosaic of fires');
 Map.addLayer(imageMask, null, 'image with integer bands');
 Map.addLayer(perimeters, null, 'fire perimeters');
 Map.addLayer(fireDate, null, 'fires with reference date');
+*/
