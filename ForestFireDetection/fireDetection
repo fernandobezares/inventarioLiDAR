@@ -24,22 +24,27 @@ var firmsCyl = firms
                 .select('T21');
                 
 
-//Map.addLayer (firmsCyl, firesVis, 'fires cyl');
 
 //--------------------
 
 // add a band with the adquisition time
 
 var firmBandDate = function(image){
-  var doy= image.date().millis()
-  var doyBand= ee.Image.constant(doy).toLong().rename('doy')
-  doyBand= doyBand.updateMask(image.select('T21').mask())
   
-  return image.addBands(doyBand)
-}
+  // get image adquisition time in millis
+  var doy = image.date().millis();
+  
+  // create a band with the date of the image in millis
+  var doyBand= ee.Image.constant(doy).toLong().rename('doy');
+  
+  // mask by the T21 band values 
+  doyBand = doyBand.updateMask(image.select('T21').mask());
+  
+  return image.addBands(doyBand);
+};
 
-var firmDates= firmsCyl.map(firmBandDate)
-print(firmDates, 'firmDates')
+var firmDates = firmsCyl.map(firmBandDate);
+
 //Map.addLayer(firmDates, null, 'firmDates')
 
 //---------------------------------------
@@ -47,12 +52,11 @@ print(firmDates, 'firmDates')
 // composite
 
 var imageComp = firmDates.mosaic()
-print (imageComp, 'mosaic of fires')
-Map.addLayer(imageComp, null, 'mosaic of fires')
+
+
 
 var imageMask = imageComp.gte(300).selfMask()
-print (imageMask, 'image with integer bands')
-Map.addLayer(imageMask, null, 'image with integer bands')
+
 
 
 // raster to vector
@@ -70,8 +74,8 @@ var perimeterFire = function(image){
 };
 
 var perimeters= perimeterFire(imageMask)
-print(perimeters, 'perimeters')
-Map.addLayer(perimeters, null, 'fire perimeters')
+
+
 
 /// featureCollection with date information
 
@@ -86,8 +90,24 @@ return ee.FeatureCollection(red)
 }
 
 var fireDate= fireData(imageComp, perimeters)
-print(fireDate, 'fires with reference date')
-Map.addLayer(fireDate, null, 'fires with reference date')
+
+
 
 
 exports = fireDate;
+
+
+// prints 
+
+print(firmDates, 'firmDates');
+print (imageComp, 'mosaic of fires');
+print (imageMask, 'image with integer bands');
+print(perimeters, 'perimeters');
+print(fireDate, 'fires with reference date');
+
+// Maps
+
+Map.addLayer(imageComp, null, 'mosaic of fires')
+Map.addLayer(imageMask, null, 'image with integer bands')
+Map.addLayer(perimeters, null, 'fire perimeters')
+Map.addLayer(fireDate, null, 'fires with reference date')
