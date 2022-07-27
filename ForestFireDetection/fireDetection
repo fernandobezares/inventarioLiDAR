@@ -60,7 +60,7 @@ var perimeterFire = function(image){
 
 
 
-/// featureCollection with date information
+// featureCollection with date information
 
 var fireData = function(image, collection){
   
