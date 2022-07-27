@@ -4,14 +4,11 @@ var firms = ee.ImageCollection("FIRMS"),
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 //---------------aoi------------
-
 var regions = ee.FeatureCollection("FAO/GAUL_SIMPLIFIED_500m/2015/level2");
-
 var region = ee.String('Castilla y León');
-
 var cyl = regions.filter(ee.Filter.eq('ADM1_NAME', region));
 
-Map.centerObject(cyl, 8);
+
 
 
 //----------FIRMS--------
@@ -106,6 +103,7 @@ print(perimeters, 'perimeters');
 print(fireDate, 'fires with reference date');
 
 // Maps
+Map.centerObject(cyl, 8);
 Map.addLayer(imageComp, null, 'mosaic of fires');
 Map.addLayer(imageMask, null, 'image with integer bands');
 Map.addLayer(perimeters, null, 'fire perimeters');
