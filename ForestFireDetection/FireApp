@@ -1,6 +1,3 @@
-/**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = /* color: #98ff00 */ee.Geometry.MultiPoint();
-/***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
 
@@ -54,7 +51,7 @@ var title = ui.Label({
 
 
 // You can even add panels to other panels
-var dropdownPanel = ui.Panel({
+var datePanel = ui.Panel({
   layout: ui.Panel.Layout.flow('horizontal'),
 });
 
@@ -72,6 +69,28 @@ var monthSelector = ui.Select({
 // loading button 
 var loadButton = ui.Button('Cargar');
 
+// description Label
+
+var decriptionLabel = ui.Label({
+  value : 'Bienvenido ala herramienta de monitoreo de incenidos forestales. \n Primero seleccione un fecha para su análsis.'+
+  ' Después, marque un único incendio para su analisis.\n Finalmente, obtenga las estadisticas de superficie afectada.',
+  style: {
+    font: '10px',
+    whiteSpace :'pre',
+    textAlign :'centre',
+    
+  }
+    
+  });
+
+//
+var dateLabel = ui.Label( {
+  value:'Selecciona tus fechas de interés',
+  style:{font: '12px'}
+  
+});
+
+
 // add elements to the panel
 
 // You can add widgets to the panel
@@ -81,9 +100,9 @@ mainPanel.add(title);
 mainPanel.add(dropdownPanel);
 
 // añadir elementos en el panel
-dropdownPanel.add(yearSelector);
-dropdownPanel.add(monthSelector);
-dropdownPanel.add(loadButton);
+datePanel.add(yearSelector);
+datePanel.add(monthSelector);
+datePanel.add(loadButton);
 
 //-------------------------------------------------------------------------
 // Let's add a dropdown with the years
@@ -187,44 +206,34 @@ function select_area_stop(){
 // clear user selected area
 function clear_selected_area(){
     drawingTools.stop();
-    drawingTools.clear()
-    //drawingTools.layers().reset();
-    //bind_events_to_drawing_tools();
-    //if_user_geometry();
-}
-
-
-// do some interface tweaks when custom geometry is drawn
-function if_user_geometry(){
-  var layers_togo = Map.drawingTools().layers().length();
-  if(layers_togo){
+    drawingTools.clear();
+    drawingTools.layers().reset();
     
-  }else{
-       
-  }
 }
-
-/*
-// drawing tools bindings; events have to be rebind every time when .clear() is called (weird?)
-function bind_events_to_drawing_tools(){
-  Map.drawingTools().onDraw(if_user_geometry);
-  Map.drawingTools().onEdit(if_user_geometry);
-  Map.drawingTools().onErase(if_user_geometry);
-  Map.drawingTools().onLayerAdd(if_user_geometry);
-  Map.drawingTools().onLayerRemove(if_user_geometry);
-}
-
-
-bind_events_to_drawing_tools();
-
-*/
-
 
 // define Panel for the buttons 
 var areaPanel =  ui.Panel({
   layout: ui.Panel.Layout.flow('horizontal'),
 });
 
+
+// analysis Panel 
+var analysisPanel = ui.Panel({layout: ui.Panel.Layout.flow('vertical')});
+
+// Analysis Label
+var analysisLabel = ui.Label('Análisis');
+
+// IndexPanel 
+var indeXPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
+
+// IndexLabel
+var indexLabel = ui.Label('Sleelciona un índice para tu análisis');
+
+// Area Panel
+var areaPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
+
+// area Label 
+var areaLabel = ui.Label('compute ')
 // aply button 
 var Apply_button = ui.Button({
   label: 'Apply',
