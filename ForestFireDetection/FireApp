@@ -1,24 +1,6 @@
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
-var now = Date.now();
-now = ee.Date(now);
-var nowYear = now.get('year').toInt();
 
-var years = ee.List.sequence(2020, nowYear)
-.map(function(n){return ee.String(n).replace('\\.0','')}).getInfo();
-
-
-var monthsObj = ee.Dictionary({
-  'Enero':'1', 'Febrero':'2', "Marzo":'3',
-  'Abril': '4', 'Mayo':'5', 'Junio':'6',
-  'Julio':'7','Agosto':'8','Septiembre':'9',
-  'Octubre':'10','Noviembre':'11','Diciembre':'12'
-});
-
-var months = ['Enero','Febrero', "Marzo",'Abril','Mayo','Junio',
-  'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-
-var indexList = ['RBR','RdNBR','dNBR'];
 
 /*
 var dwonloadButton = ui.Button({
@@ -47,68 +29,13 @@ var fireDetection = require('users/cesefor/inventarioForestal:ForestFireDetectio
 
 // 
 // get the fires Collection
-var fires = fireDetection.getDates().map(fireDetection.getFiresByMonth);
 
-
-var fires = ee.FeatureCollection(fires).flatten();
-
-// print('FIRE COLLECTION FLATTENED', fires);
-
-// function for getting the dates of the sliders and creating a new date
-
-
-// getDate
-function getDate(){
-  
-}
-
-
-// function for  filtering the fire detecction collection
-function filterFires(date){
-  
-  
-}
-
-// filter by month
-var firesJuly = fires.filter(
-  ee.Filter.and(
-    ee.Filter.gte('doy_min',ee.Date('2022-07-01').millis()),
-    ee.Filter.lt('doy_min',ee.Date('2022-08-01').millis())
-    
-    )
-    );
 
 
 //-----------------------------------------------------------------------------
 
-var dateLabel = ui.Label('Selecciona fecha de interés')
-dateLabel.style().set({padding:'0px 0px 15px 0px'});
 
-var datePanel = ui.Panel({
-  layout: ui.Panel.Layout.flow('horizontal'),
-  style: {width: '300px'}
-});
-//widgets for the Map
 
-var yearSelector = ui.Select({
-  items:years,
-  placeholder:'Año'
-});
-
-var monthSelector = ui.Select({
-  items:months,
-  placeholder:'Mes'
-});
-
-datePanel.add(dateLabel).add(yearSelector).add(monthSelector);
-
-print(datePanel);
-
-var dateList = ee.List([yearSelector.getValue(),monthSelector.getValue()]);
-
-datelist.evaluate(function (list){
-  print(list)
-})
 
 
 // index selector 
@@ -117,13 +44,115 @@ var indexSelector = ui.Select({
   placeholder:'Indice'
 });
 
-//date Selector
-var dateSlider = ui.DateSlider({
-  
-  start: ee.Date('2020-01-01'),
-  end:ee.Date('2023-01-01'),
-  value: ee.Date('2021-01-01'),
-  period: 28
+// Panels are the main container widgets
+var mainPanel = ui.Panel({
+  style: {width: '300px'}
 });
 
+
+var title = ui.Label({
+  value: 'Forest Fore Detector',
+  style: {'fontSize': '24px'}
+});
+// You can add widgets to the panel
+mainPanel.add(title)
+
+// You can even add panels to other panels
+var dropdownPanel = ui.Panel({
+  layout: ui.Panel.Layout.flow('horizontal'),
+});
+mainPanel.add(dropdownPanel);
+
+var yearSelector = ui.Select({
+  placeholder: 'please wait..',
+  })
+
+var monthSelector = ui.Select({
+  placeholder: 'please wait..',
+  })
+
+var button = ui.Button('Load')
+dropdownPanel.add(yearSelector)
+dropdownPanel.add(monthSelector)
+dropdownPanel.add(button)
+
+
+// Let's add a dropdown with the years
+var years = ee.List.sequence(2014, 2020);
+var months = ee.List.sequence(1, 12);
+
+
+// 
+var now = Date.now();
+now = ee.Date(now);
+var nowYear = now.get('year').toInt();
+
+var years = ee.List.sequence(2020, nowYear)
+
+
+var monthsObj = ee.Dictionary({
+  'Enero':'1', 'Febrero':'2', "Marzo":'3',
+  'Abril': '4', 'Mayo':'5', 'Junio':'6',
+  'Julio':'7','Agosto':'8','Septiembre':'9',
+  'Octubre':'10','Noviembre':'11','Diciembre':'12'
+});
+
+var months = ee.List(['Enero','Febrero', "Marzo",'Abril','Mayo','Junio',
+  'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']);
+
+var indexList = ['RBR','RdNBR','dNBR'];
+
+// Dropdown items need to be strings
+var yearStrings = years.map(function(year){
+  return ee.Number(year).format('%04d');
+});
+
+
+// Evaluate the results and populate the dropdown
+yearStrings.evaluate(function(yearList) {
+  yearSelector.items().reset(yearList);
+  yearSelector.setPlaceholder('select a year');
+});
+
+months.evaluate(function(monthList) {
+  monthSelector.items().reset(monthList);
+  monthSelector.setPlaceholder('select a month');
+
+});
+
+// Define a function that triggers when any value is changed
+var loadFires = function() {
+  
+  var fires = fireDetection.getDates().map(fireDetection.getFiresByMonth);
+  fires = ee.FeatureCollection(fires).flatten();
+  
+  // get the value from the Selector
+  var year = yearSelector.getValue();
+  
+  //get the value from teh selector and get the month in number to make the date
+  var month = monthsObj.get(monthSelector.getValue());
+  
+  var startDate = ee.Date.fromYMD(
+    ee.Number.parse(year), ee.Number.parse(month), 1);
+  var endDate = startDate.advance(-1, 'month');
+  
+    // filter by month
+  var filtered = fires.filter(
+    ee.Filter.and(
+      ee.Filter.gte('doy_min',endDate.millis()),
+      ee.Filter.lt('doy_min',startDate.millis())
+      
+      )
+      );
+  print('startDate',startDate,'EndDate',endDate)
+  print(filtered)
+  //var nighttimeVis = {min: 0.0, max: 60.0}
+  var layerName = 'Fires ' + year + '-' + month;
+  Map.addLayer(filtered, {}, layerName);
+};
+
+button.onClick(loadFires);
+
+Map.setCenter(-4.74, 41.65, 8);
+ui.root.add(mainPanel);
 //print(dateSelector);
