@@ -51,7 +51,7 @@ var mainPanel = ui.Panel({
 
 
 var title = ui.Label({
-  value: 'Forest Fore Detector',
+  value: 'Forest Fire Detector',
   style: {'fontSize': '24px'}
 });
 // You can add widgets to the panel
@@ -148,7 +148,7 @@ var loadFires = function() {
   print(filtered);
   //var nighttimeVis = {min: 0.0, max: 60.0}
   var layerName = 'Fires ' + year + '-' + month;
-  Map.addLayer(filtered, {}, layerName);
+  Map.addLayer(ee.FeatureCollection(filtered), {}, layerName);
   
   return filtered;
 };
