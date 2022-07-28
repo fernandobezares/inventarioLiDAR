@@ -65,7 +65,7 @@ function getAOI(){
   
     // check if terhe are more than one polygon drawn
     if(mapPolygons.length() > 1){
-    
+    print(true)
     mapPolygons = ee.List([mapPolygons.get(0)]);
       
     }
