@@ -1,8 +1,5 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = 
-    /* color: #000000 */
-    /* shown: false */
-    ee.Geometry.Polygon(
+var geometry = /* color: #000000 */ee.Geometry.Polygon(
         [[[-6.510675694434866, 41.98761321159302],
           [-6.510675694434866, 41.79439869118675],
           [-6.082208897559866, 41.79439869118675],
@@ -110,11 +107,11 @@ function getDateFromFires(){
   return date;
 }
 
-var visIndex = {
+var visIndex = ee.Dictionary({
   'RBR':{min:-1,max:1, palette:['lightgreen', 'yellow', 'orange','red']},
   'RdNBR': {min:-1,max:1, palette:['lightgreen', 'yellow', 'orange','red']},
   'dNBR':{min:-1,max:-1, palette:['lightgreen', 'yellow', 'orange','red']},
-}
+})
   
 
 
@@ -147,9 +144,9 @@ function run (){
   var severityImg = severity.select(reclassIndexName);
   
   // add elements to the map
-  print(visIndex.indexName)
+  print(visIndex.get(indexName))
   
-  Map.addLayer(indexImg,visIndex.indexName,indexName);
+  Map.addLayer(indexImg,visIndex.get(indexName),indexName);
   Map.addLayer(severity,{},reclassIndexName);
   
   Map.centerObject(userAOI,13)
