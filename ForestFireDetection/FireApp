@@ -76,9 +76,14 @@ function getAOI(){
 }
 }
 
-function run (){
+function updateFires (){
   
+  var name = 'fires';
   
+  Map.forEach(function(lay){
+        lay.geometries().forEach(function(geom){
+          geom_list.push(geom);
+        });
   
 }
 
