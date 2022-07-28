@@ -76,13 +76,22 @@ function getAOI(){
 }
 }
 
-function updateFires (){
+function updateFires(){
   
-  var name = 'fires';
+  var name = 'Fires';
   
   Map.forEach(function(lay){
-        lay.geometries().forEach(function(geom){
-          geom_list.push(geom);
+    
+    // name of the layer
+    var nameFires = lay.getName();
+    
+    // match the string
+    var match = nameFires.match('name');
+    
+    if (match.length() > 0){
+      Map.layers().remove(lay);
+    }
+    
         });
   
 }
