@@ -229,7 +229,9 @@ var analysisLabel = ui.Label('Análisis');
 var indexPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
 
 // IndexLabel
-var indexLabel = ui.Label({value:'Selecciona un índice para tu análisis',style:{fontSize:'10px'}});
+var indexLabel = ui.Label({
+  value:'Selecciona un índice',
+  style:{fontSize:'10px',whiteSpace:'pre'}});
 
 // Area Panel
 var areaPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
@@ -265,10 +267,9 @@ var removeAreaButton = ui.Button({
 
 
 // index Button area button 
-var indexButton = ui.Button({
-  label: ' Indices',
-  items : indexList,
-  style : {textAlign: 'center'}
+var indexButton = ui.Select({
+  placeholder: ' Indices',
+  items : indexList
 });
 
 //------------------------------------------------------------------
