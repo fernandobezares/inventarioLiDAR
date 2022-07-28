@@ -49,6 +49,13 @@ function clear_selected_area(){
 }
 
 
+function run (){
+  
+  
+}
+
+
+
 //-----------------------------------------------------------------------------
 
 // index selector 
@@ -59,7 +66,7 @@ var indexSelector = ui.Select({
 
 // Panels are the main container widgets
 var mainPanel = ui.Panel({
-  style: {width: '350px'}
+  style: {width: '365px'}
 });
 
 // title 
@@ -91,20 +98,22 @@ var loadButton = ui.Button('Cargar');
 // description Label
 var decriptionLabel = ui.Label({
   value : 
-  'Bienvenido ala herramienta de monitoreo de incenidos forestales.\nPrimero seleccione un fecha para su análsis.'+
-  '\nDespués, marque un único incendio para su analisis.\nFinalmente, obtenga las estadisticas de superficie afectada.',
+  'Bienvenido a la herramienta de monitoreo de incenidos forestales.'+
+  '\n\t1)  seleccione un fecha para su análsis.'+
+  '\n\t2)  marque un único incendio para su analisis.'+
+  '\n\t3)  obtenga las estadisticas de superficie afectada.',
   style: {
     fontSize: '12px',
     whiteSpace :'pre',
     //textAlign :'centre',
-    margin: '0px 0px 10px 8px'// derecha arriba izquierda abajo
+    margin: '0px 0px 10px 8px'// arriba derecha izquierda abajo
   }
     
   });
 
 //date Label
 var dateLabel = ui.Label( {
-  value:'Selecciona tus fechas de interés',
+  value:'Selecciona tu fecha de interés',
   style:{fontSize: '16px'}
   
 });
@@ -230,14 +239,14 @@ var indexPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
 
 // IndexLabel
 var indexLabel = ui.Label({
-  value:'Selecciona un índice',
+  value:'Índice espectral',
   style:{fontSize:'10px',whiteSpace:'pre'}});
 
 // Area Panel
 var areaPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
 
 // area Label 
-var areaLabel = ui.Label('compute');
+var areaLabel = ui.Label('Define un área de estudio');
 // aply button 
 var Apply_button = ui.Button({
   label: 'Apply',
@@ -293,6 +302,9 @@ analysisPanel.add(areaPanel);
 areaPanel.add(selectAreaButton);
 areaPanel.add(removeAreaButton);
 areaPanel.add(Apply_button);
+
+
+
 
 
 
