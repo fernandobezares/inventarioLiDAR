@@ -1,13 +1,9 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = /* color: #ffff99 */ee.Geometry.MultiPolygon(
-        [[[[-5.6381323242187475, 42.167137127544976],
-           [-5.8413793945312475, 41.799643413372706],
-           [-5.1657202148437475, 41.664364474934295],
-           [-4.8910620117187475, 42.081578338856254]]],
-         [[[-4.4021704101562475, 42.11826053903432],
-           [-4.6493627929687475, 41.83648821748962],
-           [-3.7429907226562475, 41.664364474934295],
-           [-3.6935522460937475, 42.01223184761706]]]]);
+var geometry = /* color: #000000 */ee.Geometry.Polygon(
+        [[[-6.4401342773437475, 42.04079545257837],
+          [-6.4456274414062475, 41.799643413372706],
+          [-6.0336401367187475, 41.762777412869085],
+          [-5.8743383789062475, 41.983655409828366]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
@@ -61,31 +57,6 @@ function clear_selected_area(){
 
 function getAOI(){
   
-  /*
-  if (Map.drawingTools().layers().length() == 0 ){ alert('Seleccione un area de estudio')}
-  
-    var firstPolygon = Map.drawingTools().layers().get(0);
-    
-    var firstGeometry = firstPolygon.geometries().get(0);
-    
-    // check if there are more than one polygon drawn
-    if(Map.drawingTools().layers().length() > 1){
-      if(firstPolygon.geometries().length() > 1){
-    
-    
-    Map.drawingTools().layers().reset([ui.Map.GeometryLayer([firstGeometry])]);
-  
-      }
-      
-    }
-    
-    // generate a Colelction with the geometry
-    var aoi = ee.Feature(ee.List([firstGeometry]));
-    
-   
-  return aoi;
-  */
-  
   if(Map.drawingTools().layers().length() > 0){
       var geom_list = [];
       Map.drawingTools().layers().forEach(function(lay){
@@ -93,15 +64,15 @@ function getAOI(){
           geom_list.push(geom);
         });
       });
+      
       var geom_collection = ee.FeatureCollection(geom_list.map(function(geom){
         return ee.Feature(geom);
       }));
     
-    print(geom_collection)
     
-    Map.drawingTools().layers().reset([ui.Map.GeometryLayer([geom_list[0]])])
+    Map.drawingTools().layers().reset([ui.Map.GeometryLayer([geom_list[0]])]);
     
-    return geom_collection
+    return geom_collection.first();
 }
 }
 
@@ -267,6 +238,8 @@ var loadFires = function() {
   
   //var nighttimeVis = {min: 0.0, max: 60.0}
   var layerName = 'Fires ' + ee.String(year).getInfo() + '-' + monthName;
+  
+  print(Map.layers())
   Map.addLayer(ee.FeatureCollection(filtered), {}, layerName);
   
   return filtered;
