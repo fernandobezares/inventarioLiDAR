@@ -4,7 +4,7 @@ var firms = ee.ImageCollection("FIRMS"),
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //
 
-var initYear = '2022';
+var initYear = '2020';
 //---------------aoi------------
 var regions = ee.FeatureCollection("FAO/GAUL_SIMPLIFIED_500m/2015/level2");
 var region = ee.String('Castilla y León');
