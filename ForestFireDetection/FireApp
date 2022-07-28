@@ -48,10 +48,24 @@ function clear_selected_area(){
     
 }
 
-function getAOI(){}
+function getAOI(){
+  
+  {
+    if(Map.drawingTools().layers().length() > 0){
+      var geom_list = [];
+      Map.drawingTools().layers().forEach(function(lay){
+        lay.geometries().forEach(function(geom){
+          geom_list.push(geom);
+        });
+      });
+      var geom_collection = ee.FeatureCollection(geom_list.map(function(geom){
+        return ee.Feature(geom);
+      }));
+}
 
 
 function run (){
+  
   
   
 }
