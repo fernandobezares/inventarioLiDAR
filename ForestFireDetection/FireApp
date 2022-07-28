@@ -98,9 +98,10 @@ function updateFires(layer){
 //
 function run (){
   
-  var userAOI = getAOI()
+  var userAOI = getAOI();
   
-  var indexes = severityAnalysis.getSpectralIndexes()
+  
+  var indexes = severityAnalysis.getSpectralIndexes(date,userAOI)
   
   
   
