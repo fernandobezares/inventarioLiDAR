@@ -18,7 +18,7 @@ var monthsObj = ee.Dictionary({
 var months = ['Enero','Febrero', "Marzo",'Abril','Mayo','Junio',
   'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
-var indexList = 
+var indexList = ['']
 /*
 var dwonloadButton = ui.Button({
   label: 'Download CSV area',
