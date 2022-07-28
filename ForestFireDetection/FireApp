@@ -1,9 +1,9 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-6.4676000976562475, 42.01631314832609],
-          [-6.4676000976562475, 41.7586798823053],
-          [-5.9127905273437475, 41.7586798823053],
-          [-5.9127905273437475, 42.01631314832609]]], null, false);
+        [[[-6.5527441406249975, 42.0627195098024],
+          [-6.5527441406249975, 41.77148379656593],
+          [-5.8715917968749975, 41.77148379656593],
+          [-5.8715917968749975, 42.0627195098024]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
@@ -104,7 +104,12 @@ function getDateFromFires(){
   
   var firesSelected = fires.filterBounds(aoi);
   
-  var date = firesSelected.get('doy_min');
+  var date = firesSelected.aggregate_min('doy_min');
+  
+  print('fires',fires)
+  print('aoi',aoi),
+  print('firesSelected',firesSelected)
+  print('date',date)
   
   return date
 }
