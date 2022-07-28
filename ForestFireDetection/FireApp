@@ -54,12 +54,15 @@ function getAOI(){
   
     if(Map.drawingTools().layers().length() > 1){
     
-    mapPolygons = mapPolygons.get(0)
+    mapPolygons = mapPolygons.get(0);
       
     }
-      
+    // list for geometries  
     var geom_list = [];
-      mapPolygons.forEach(function(lay){
+    
+    // function for extracting the geometries of teh layers and obtaining a 
+    // featureCollection 
+    mapPolygons.forEach(function(lay){
         lay.geometries().forEach(function(geom){
           geom_list.push(geom);
         });
