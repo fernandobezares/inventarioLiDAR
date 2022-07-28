@@ -133,7 +133,7 @@ function run (){
   
   var severity = severityAnalysis.reclassifyIndexes(indexes);
   
-  //var severityImg = severity
+  var severityImg = severity.select(indexName+'class')
   
   
   
