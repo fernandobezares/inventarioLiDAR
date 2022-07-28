@@ -95,13 +95,37 @@ function updateFires(layer){
         });
   
 }
+
+function getDateFromFires(){
+  
+  var fires = loadFires();
+  
+  var aoi = getAOI();
+  
+  var firesSelected = fires.filterBounds(aoi);
+  
+  var date = fireSelected.get('doi_min');
+  
+  return date
+}
+
 //
 function run (){
   
+  // get user defined area
   var userAOI = getAOI();
   
+  // get date from the selected fire
+  var date = getDateFromFires();
   
-  var indexes = severityAnalysis.getSpectralIndexes(date,userAOI)
+  // retrieve the info from the index;
+  var indexes = severityAnalysis.getSpectralIndexes(date,userAOI);
+  
+  var index = indexes.select(indexButton.getValue());
+  
+  Map.addLayer(index);
+  
+  
   
   
   
