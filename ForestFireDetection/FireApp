@@ -18,7 +18,8 @@ var monthsObj = ee.Dictionary({
 var months = ['Enero','Febrero', "Marzo",'Abril','Mayo','Junio',
   'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
-var indexList = ['']
+var indexList = ['RBR','RdNBR','dNBR'];
+
 /*
 var dwonloadButton = ui.Button({
   label: 'Download CSV area',
@@ -63,6 +64,11 @@ var firesJuly = fires.filter(
     );
 
 
+//-----------------------------------------------------------------------------
+
+var dateLabel = ui.Label('Selecciona fecha de interés')
+dateLabel.style().set({padding:'0px 0px 15px 0px'});
+
 var datePanel = ui.Panel({
   layout: ui.Panel.Layout.flow('horizontal'),
   style: {width: '300px'}
@@ -71,19 +77,25 @@ var datePanel = ui.Panel({
 
 var yearSelector = ui.Select({
   items:years,
-  placeholder:'Selecciona un año'
+  placeholder:'Año'
 });
 
 var monthSelector = ui.Select({
   items:months,
-  placeholder:'Selecciona un mes'
+  placeholder:'Mes'
 });
 
-datePanel.add(yearSelector).add(monthSelector)
+datePanel.add(dateLabel).add(yearSelector).add(monthSelector);
 
-print(datePanel)
+print(datePanel);
 
 
+// index selector 
+
+var indexSelector = ui.Select({
+  items:indexList,
+  placeholder:'Indice'
+});
 
 var dateSelector = ui.DateSlider({
   
@@ -93,4 +105,4 @@ var dateSelector = ui.DateSlider({
   period: 28
 });
 
-print(dateSelector);
+//print(dateSelector);
