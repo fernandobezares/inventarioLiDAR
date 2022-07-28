@@ -163,8 +163,8 @@ function run (){
   
   var url = lulucfStats.getDownloadURL({format: 'csv',filename: 'lostwood per intensity areas'})
   
-  labelResult.setValue('Result lostWood per Area: ' + url)
-  
+  labelResult.setValue('Areas de cobertura de suelo afectadas por el incendio: ' +  lulucfStats.getInfo())
+  labelLinkResult.setValue('link de descarga : ' + url)
   
   
   
@@ -423,8 +423,8 @@ areaPanel.add(removeAreaButton);
 areaPanel.add(Apply_button);
 
 var labelResult = ui.Label();
-  
-analysisPanel.add(labelResult);
+var labelLinkResult = ui.Label();
+analysisPanel.add(labelResult).add(labelLinkResult);
 
 
 
