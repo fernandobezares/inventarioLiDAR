@@ -432,7 +432,7 @@ function getSpectralIndexes(date, userAOI){
   // create an Iamge with all the indexes
   var indexImage = ee.Image.cat(imageIndex, RBR, RdNBR, BVI, dNBR);
   
-  return indexImage. clip(aoi);
+  return indexImage.clip(aoi);
   
   
 }
@@ -448,8 +448,11 @@ var indexReclassificationMethods ={
   };
 
 
-function reclassifyIndexes(img) {
+function reclassifyIndexes(img,userAOI) {
   // reclassifies the indexes in the image according to the reclassification methods
+  
+  // user defined area
+  var aoi = userAOI;
   
   // get index names
   var indexNames = Object.keys(indexReclassificationMethods);
@@ -467,7 +470,7 @@ function reclassifyIndexes(img) {
   });
    var reclassImg = ee.Image.cat(list);
    
-   return reclassImg;
+   return reclassImg.clip(aoi);
 }
 
 
