@@ -1,13 +1,16 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = /* color: #d63000 */ee.Geometry.MultiPolygon(
-        [[[[-6.4648535156249975, 41.9979452327423],
-           [-6.4593603515624975, 41.8098802074943],
-           [-5.9704687499999975, 41.78121306247776],
-           [-5.9155371093749975, 41.92850747372618]]],
-         [[[-4.6548559570312475, 41.85490266995141],
-           [-4.4296362304687475, 41.92850747372618],
-           [-4.4461157226562475, 42.038755620688065],
-           [-4.5779516601562475, 41.969362379043936]]]]);
+var geometry = /* color: #0b4a8b */ee.Geometry.MultiPolygon(
+        [[[[-6.4840795898437475, 42.07138507301279],
+           [-6.3797094726562475, 41.76892321812752],
+           [-5.9018041992187475, 41.78121306247776],
+           [-5.8358862304687475, 41.977530217997085]]],
+         [[[-5.3085424804687475, 42.0795398166657],
+           [-5.5117895507812475, 41.81397446718161],
+           [-4.9954321289062475, 41.70333761326638],
+           [-4.8526098632812475, 41.9979452327423]]],
+         [[[-5.3689672851562475, 42.331816997026586],
+           [-5.9842016601562475, 42.27493924561419],
+           [-5.8743383789062475, 42.1121483126473]]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
@@ -67,7 +70,7 @@ function getAOI(){
     
     var first = Map.drawingTools().layers().get(0);
     
-    Map.drawingTools().layers().reset(first);
+    Map.drawingTools().layers().reset([first]);
   
     
     }
@@ -87,8 +90,9 @@ function getAOI(){
       });
       
     // generate a Colelction with the geometry
-    var aoi = ee.Feature(geom_list.first());
-
+    var aoi = ee.Feature(ee.List(geom_list).get(0));
+  
+    Map.drawingTools().layers().reset([geom_list[0]])
   return aoi;
 }
 
