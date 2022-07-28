@@ -3,11 +3,6 @@ var visRBR = {"opacity":1,"bands":["RBR"],"min":-0.19869096176636125,"max":0.355
     aoi = 
     /* color: #d63000 */
     /* shown: false */
-    /* displayProperties: [
-      {
-        "type": "rectangle"
-      }
-    ] */
     ee.Geometry.Polygon(
         [[[-6.460222874858383, 42.02504222621329],
           [-6.460222874858383, 41.805331233203134],
