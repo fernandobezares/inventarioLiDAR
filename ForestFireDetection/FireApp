@@ -285,7 +285,7 @@ var areaLabel = ui.Label('Define un área de estudio');
 var Apply_button = ui.Button({
   label: 'Apply',
   onClick: function(){
-      changeClsMethod(true);
+      getAOI();
   },
   style: {textAlign: 'center'}
 });
