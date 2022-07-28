@@ -7,8 +7,6 @@ var geometry = /* color: #000000 */ee.Geometry.Polygon(
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
-var aoi;
-
 /*
 var dwonloadButton = ui.Button({
   label: 'Download CSV area',
