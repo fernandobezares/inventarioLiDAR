@@ -124,13 +124,13 @@ function run (){
   var indexName = indexButton.getValue();
   
   // retrieve the info from the index;
-  var indexes = severityAnalysis.getSpectralIndexes(date,userAOI);
+  var indexes = severityAnalysis.getSpectralIndexes(date, userAOI);
   
   var indexImg = indexes.select(indexName);
   
-  var severity = severityAnalysis.reclassifyIndexes(indexes);
+  var severity = severityAnalysis.reclassifyIndexes(indexes, userAOI);
   
-  var severityImg = severity.clip(userAOI).select(indexName+'class')
+  var severityImg = severity.select(indexName+'class')
   
   // add elements to the map
   Map.addLayer(indexImg);
