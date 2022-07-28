@@ -100,7 +100,7 @@ function getDateFromFires(){
   
   var fires = loadFires();
   
-  var aoi = getAOI();
+  var aoi = getAOI().geometry();
   
   var firesSelected = fires.filterBounds(aoi);
   
@@ -113,7 +113,7 @@ function getDateFromFires(){
 function run (){
   
   // get user defined area
-  var userAOI = getAOI();
+  var userAOI = getAOI().geometry();
   
   // get date from the selected fire
   var date = getDateFromFires();
