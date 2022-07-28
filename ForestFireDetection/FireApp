@@ -1,10 +1,8 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-5.4458715820312475, 42.06730730825872],
-          [-5.6216528320312475, 41.84671912318483],
-          [-4.7811987304687475, 41.73613878747541],
-          [-4.7262670898437475, 42.09992209146377],
-          [-5.0228979492187475, 42.1121483126473]]]);
+var geometry = /* color: #ff00ff */ee.Geometry.Polygon(
+        [[[-5.3030493164062475, 42.05507244233168],
+          [-5.4843237304687475, 41.74843491122321],
+          [-4.9130346679687475, 41.67462285261692]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
@@ -58,39 +56,21 @@ function clear_selected_area(){
 
 function getAOI(){
   
-  
+    var firstPolygon = Map.drawingTools().layers().get(0);
+    
+    var firstGeometry = firstPolygon.geometries().get(0);
+    
     // check if terhe are more than one polygon drawn
     if(Map.drawingTools().layers().length() > 1){
     
-    var first = Map.drawingTools().layers().get(0);
     
-    Map.drawingTools().layers().reset([first]);
+    Map.drawingTools().layers().reset([ui.Map.GeometryLayer([firstGeometry])]);
   
     
     }
     
-    // list for geometries  
-    var geom_list = [];
-    
-    // function for extracting the geometries of teh layers and obtaining a 
-    // featureCollection 
-    Map.drawingTools().layers().forEach(function(lay){
-      
-      //get geoms from polygons
-      lay.geometries().forEach(function(geom){
-          // push the geom to the list
-          geom_list.push(geom);
-        });
-      });
-    
-    // get the first geometry
-    var firstGeom = ui.Map.GeometryLayer([geom_list[0]]);
-    
-    // reset the map 
-    Map.drawingTools().layers().reset([firstGeom]);
-    
     // generate a Colelction with the geometry
-    var aoi = ee.Feature(ee.List(geom_list).get(0));
+    var aoi = ee.Feature(ee.List([firstGeometry]));
   
     
   return aoi;
