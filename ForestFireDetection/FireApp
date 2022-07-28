@@ -137,7 +137,7 @@ function run (){
   
   
   
-  Map.addLayer(index);
+  Map.addLayer(indexImg);
   Map.addLayer(severity);
   
   
