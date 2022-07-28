@@ -80,7 +80,7 @@ function updateFires(){
   
   var name = 'Fires';
   
-  Map.forEach(function(lay){
+  Map.layers().forEach(function(lay){
     
     // name of the layer
     var nameFires = lay.getName();
