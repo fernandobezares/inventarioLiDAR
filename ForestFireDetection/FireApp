@@ -61,17 +61,15 @@ function clear_selected_area(){
 
 function getAOI(){
   
-  var mapPolygons = Map.drawingTools().layers();
   
     // check if terhe are more than one polygon drawn
-    if(mapPolygons.length() > 1){
-    print(true);
+    if(Map.drawingTools().layers().length() > 1){
     
-    mapPolygons = ui.data.ActiveList([mapPolygons.get(0)]);
+    var first = Map.drawingTools().layers().get(0);
     
-    Map.drawingTools().layers().reset([mapPolygons.get(0)])
+    Map.drawingTools().layers().reset(first);
+  
     
-    print(mapPolygons);
     }
     
     // list for geometries  
@@ -79,7 +77,7 @@ function getAOI(){
     
     // function for extracting the geometries of teh layers and obtaining a 
     // featureCollection 
-    mapPolygons.forEach(function(lay){
+    Map.drawingTools().layers().forEach(function(lay){
       
       //get geoms from polygons
       lay.geometries().forEach(function(geom){
@@ -89,10 +87,7 @@ function getAOI(){
       });
       
     // generate a Colelction with the geometry
-    var aoi = ee.FeatureCollection(geom_list.map(function(geom){
-        return ee.Feature(geom);
-      }));
-      print(aoi)
+    var aoi = ee.Feature(geom_list.first());
 
   return aoi;
 }
