@@ -47,12 +47,27 @@ var fireDetection = require('users/cesefor/inventarioForestal:ForestFireDetectio
 
 // 
 // get the fires Collection
-var fires = fireDetection.getDates().map(fireDetection.getFiresByMonth)
+var fires = fireDetection.getDates().map(fireDetection.getFiresByMonth);
 
 
 var fires = ee.FeatureCollection(fires).flatten();
 
 // print('FIRE COLLECTION FLATTENED', fires);
+
+// function for getting the dates of the sliders and creating a new date
+
+
+// getDate
+function getDate(){
+  
+}
+
+
+// function for  filtering the fire detecction collection
+function filterFires(date){
+  
+  
+}
 
 // filter by month
 var firesJuly = fires.filter(
@@ -89,15 +104,21 @@ datePanel.add(dateLabel).add(yearSelector).add(monthSelector);
 
 print(datePanel);
 
+var dateList = ee.List([yearSelector.getValue(),monthSelector.getValue()]);
+
+datelist.evaluate(function (list){
+  print(list)
+})
+
 
 // index selector 
-
 var indexSelector = ui.Select({
   items:indexList,
   placeholder:'Indice'
 });
 
-var dateSelector = ui.DateSlider({
+//date Selector
+var dateSlider = ui.DateSlider({
   
   start: ee.Date('2020-01-01'),
   end:ee.Date('2023-01-01'),
