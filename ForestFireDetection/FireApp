@@ -1,3 +1,9 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = /* color: #d63000 */ee.Geometry.Polygon(
+        [[[-6.1132910156249975, 42.356177445724725],
+          [-5.9704687499999975, 41.88762638709054],
+          [-5.1464941406249975, 42.07546257581642]]]);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
 
@@ -27,16 +33,10 @@ Map.add(dwonloadButton)
 var severityAnalysis = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
 var fireDetection = require('users/cesefor/inventarioForestal:ForestFireDetection/fireDetection');
 
-// 
-// get the fires Collection
 
 
 
 //-----------------------------------------------------------------------------
-
-
-
-
 
 // index selector 
 var indexSelector = ui.Select({
@@ -49,47 +49,60 @@ var mainPanel = ui.Panel({
   style: {width: '350px'}
 });
 
-
+// title 
 var title = ui.Label({
   value: 'Forest Fire Detector',
   style: {'fontSize': '24px'}
 });
-// You can add widgets to the panel
-mainPanel.add(title)
+
 
 // You can even add panels to other panels
 var dropdownPanel = ui.Panel({
   layout: ui.Panel.Layout.flow('horizontal'),
 });
-mainPanel.add(dropdownPanel);
 
+
+// year selector
 var yearSelector = ui.Select({
   placeholder: 'cargando ...',
-  })
-
+  });
+  
+// month selector start without vals
 var monthSelector = ui.Select({
   placeholder: 'cargando ...',
-  })
+  });
 
-var button = ui.Button('Cargar')
-dropdownPanel.add(yearSelector)
-dropdownPanel.add(monthSelector)
-dropdownPanel.add(button)
+// loading button 
+var loadButton = ui.Button('Cargar');
 
+// add elements to the panel
 
+// You can add widgets to the panel
+mainPanel.add(title);
+
+// añadir panel al panel principal
+mainPanel.add(dropdownPanel);
+
+// añadir elementos en el panel
+dropdownPanel.add(yearSelector);
+dropdownPanel.add(monthSelector);
+dropdownPanel.add(loadButton);
+
+//-------------------------------------------------------------------------
 // Let's add a dropdown with the years
 var years = ee.List.sequence(2014, 2020);
 var months = ee.List.sequence(1, 12);
 
 
-// 
+//get current date 
 var now = Date.now();
 now = ee.Date(now);
 var nowYear = now.get('year').toInt();
 
-var years = ee.List.sequence(2020, nowYear)
+// years
+var years = ee.List.sequence(2020, nowYear);
 
-
+// compare dates and month names
 var monthsObj = ee.Dictionary({
   'Enero':'1', 'Febrero':'2', "Marzo":'3',
   'Abril': '4', 'Mayo':'5', 'Junio':'6',
@@ -97,9 +110,11 @@ var monthsObj = ee.Dictionary({
   'Octubre':'10','Noviembre':'11','Diciembre':'12'
 });
 
+// monthNames
 var months = ee.List(['Enero','Febrero', "Marzo",'Abril','Mayo','Junio',
   'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']);
 
+// get Index List 
 var indexList = ['RBR','RdNBR','dNBR'];
 
 // Dropdown items need to be strings
@@ -145,8 +160,7 @@ var loadFires = function() {
       
       )
       );
-  print('startDate',startDate,'EndDate',endDate);
-  print(filtered);
+  
   //var nighttimeVis = {min: 0.0, max: 60.0}
   var layerName = 'Fires ' + ee.String(year).getInfo() + '-' + monthName;
   Map.addLayer(ee.FeatureCollection(filtered), {}, layerName);
@@ -154,8 +168,132 @@ var loadFires = function() {
   return filtered;
 };
 
-button.onClick(loadFires);
 
+// trigger onclick button
+loadButton.onClick(loadFires);
+
+var drawingTools = Map.drawingTools();
+
+
+
+// show selecting custom area (drawing) interface
+function select_area_start(){
+  drawingTools.setShape('polygon');
+  drawingTools.draw();
+}
+
+// hide selecting area interface
+function select_area_stop(){
+    drawingTools.stop();
+}
+
+// clear user selected area
+function clear_selected_area(){
+    drawingTools.stop();
+    drawingTools.layers().clear();
+    //bind_events_to_drawing_tools();
+    //if_user_geometry();
+}
+
+
+// do some interface tweaks when custom geometry is drawn
+function if_user_geometry(){
+  var layers_togo = Map.drawingTools().layers().length();
+  if(layers_togo){
+    
+  }else{
+       
+  }
+}
+
+/*
+// drawing tools bindings; events have to be rebind every time when .clear() is called (weird?)
+function bind_events_to_drawing_tools(){
+  Map.drawingTools().onDraw(if_user_geometry);
+  Map.drawingTools().onEdit(if_user_geometry);
+  Map.drawingTools().onErase(if_user_geometry);
+  Map.drawingTools().onLayerAdd(if_user_geometry);
+  Map.drawingTools().onLayerRemove(if_user_geometry);
+}
+
+
+bind_events_to_drawing_tools();
+
+*/
+
+
+// define Panel for the buttons 
+var areaPanel =  ui.Panel({
+  layout: ui.Panel.Layout.flow('horizontal'),
+});
+
+// aply button 
+var Apply_button = ui.Button({
+  label: 'Apply',
+  onClick: function(){
+      changeClsMethod(true);
+  },
+  style: {textAlign: 'center'}
+});
+
+// Select area button
+var selectAreaButton = ui.Button({
+  label: 'Select Area',
+  onClick: function() {
+    select_area_start();
+  },
+  style : {textAlign: 'center'},
+});
+
+// remove area button 
+var removeAreaButton = ui.Button({
+  label: 'Remove Area',
+  onClick: function() {
+    clear_selected_area();
+  },
+  style : {textAlign: 'center'}
+});
+
+//------------------------------------------------------------------
+// añadir panel al panel principal
+mainPanel.add(areaPanel);
+
+// añadir elementos en el panel
+areaPanel.add(selectAreaButton);
+areaPanel.add(removeAreaButton);
+areaPanel.add(Apply_button);
+
+
+
+// show histogram of productivity values in selected region
+var chist_button = ui.Button({
+  label: 'Calculate Area Histogram',
+  onClick: function() {
+    if(Map.drawingTools().layers().length() > 0){
+      var geom_list = [];
+      Map.drawingTools().layers().forEach(function(lay){
+        lay.geometries().forEach(function(geom){
+          geom_list.push(geom);
+        });
+      });
+      var geom_collection = ee.FeatureCollection(geom_list.map(function(geom){
+        return ee.Feature(geom);
+      }));
+      var chist = ui.Chart.image.histogram({
+        image: Map.layers().get(0).getEeObject(),
+        region: geom_collection.union(1),
+        maxPixels: 1e13,
+        scale: 10,
+        maxBuckets: 32
+      });
+      clsHistPanel.clear();
+      clsHistPanel.add(chist);
+    }
+  },
+  style : {textAlign: 'center'}    
+});
+
+
+// add element to Maps
 Map.setCenter(-4.74, 41.65, 8);
 ui.root.add(mainPanel);
-//print(dateSelector);
