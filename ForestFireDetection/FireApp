@@ -86,7 +86,7 @@ function updateFires(){
     var nameFires = lay.getName();
     
     // match the string
-    var match = nameFires.match('name');
+    var match = nameFires.match(name);
     
     if (match.length() > 0){
       Map.layers().remove(lay);
