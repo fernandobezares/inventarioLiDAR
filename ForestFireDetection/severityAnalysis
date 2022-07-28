@@ -418,10 +418,10 @@ function getSpectralIndexes(date, userAOI){
   var imageIndex = imagePreFire.select('NBRpre').addBands(imagePostFire.select('NBRpost'));
   
   // RBR=(nbrpre-nbrpost/nbrpre+1.001)
-  var RBR = calcRBR(imageIndex).clip(aoi);
+  var RBR = calcRBR(imageIndex);
   
   // RdNBR = (NBRpre-NBRpost)/|(NBRpre)|^0.5
-  var RdNBR = caclRdNBR(imageIndex).clip(aoi);
+  var RdNBR = caclRdNBR(imageIndex);
   
   // BVI (burned vegetation index) = NDVIpre-fire - NBR post-fire
   var BVI = imagePreFire.select('ndvi').subtract(imagePostFire.select('NBRpost')).rename('BVI');
@@ -432,7 +432,7 @@ function getSpectralIndexes(date, userAOI){
   // create an Iamge with all the indexes
   var indexImage = ee.Image.cat(imageIndex, RBR, RdNBR, BVI, dNBR);
   
-  return indexImage;
+  return indexImage. clip(aoi);
   
   
 }
