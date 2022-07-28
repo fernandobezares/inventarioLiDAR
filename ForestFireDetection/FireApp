@@ -112,11 +112,15 @@ function getDateFromFires(){
 //
 function run (){
   
+  if (Map.layers().length() > 0){
+    Map.layers.reset();
+  }
+  
   // get user defined area
   var userAOI = getAOI().geometry();
   
   // get date from the selected fire
-  var date = getDateFromFires();
+  var date = getDateFromFires(); // gets dates and loads the fire polygon
   
   // index name
   var indexName = indexButton.getValue();
@@ -130,8 +134,7 @@ function run (){
   
   var severityImg = severity.select(indexName+'class').clip(aoi)
   
-  
-  
+  // add elements to the map
   Map.addLayer(indexImg);
   Map.addLayer(severity);
   
