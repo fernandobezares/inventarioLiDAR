@@ -132,7 +132,7 @@ function run (){
   
   var severity = severityAnalysis.reclassifyIndexes(indexes);
   
-  var severityImg = severity.select(indexName+'class').clip(aoi)
+  var severityImg = severity.select(indexName+'class').clip(userAOI)
   
   // add elements to the map
   Map.addLayer(indexImg);
