@@ -135,7 +135,7 @@ function run (){
   // index name
   var indexName = indexButton.getValue();
   
-  var reclassIndexName = indexName +'class' 
+  var reclassIndexName = indexName +'class'; 
   
   // retrieve the info from the index;
   var indexes = severityAnalysis.getSpectralIndexes(date, userAOI);
@@ -147,12 +147,11 @@ function run (){
   var severityImg = severity.select(reclassIndexName);
   
   // add elements to the map
-  print(visIndex.get(indexName))
   
   Map.addLayer(indexImg,visIndex.get(indexName).getInfo(),indexName);
   Map.addLayer(severity,{},reclassIndexName);
   
-  Map.centerObject(userAOI,13)
+  Map.centerObject(userAOI,11);
   
   
   
