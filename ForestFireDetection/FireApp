@@ -76,7 +76,7 @@ function getAOI(){
 }
 }
 
-function updateFires(){
+function updateFires(layer){
   
   var name = 'Fires';
   
@@ -90,9 +90,9 @@ function updateFires(){
     
     if (match.length() > 0){
       Map.layers().remove(lay);
-    }
+    } 
     
-        });
+        })
   
 }
 
@@ -253,7 +253,8 @@ var loadFires = function() {
   //var nighttimeVis = {min: 0.0, max: 60.0}
   var layerName = 'Fires ' + ee.String(year).getInfo() + '-' + monthName;
   
-  print(Map.layers())
+  print(Map.layers());
+  
   Map.addLayer(ee.FeatureCollection(filtered), {}, layerName);
   
   return filtered;
