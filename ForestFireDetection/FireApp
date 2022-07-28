@@ -76,7 +76,7 @@ function getAOI(){
     
     // generate a Colelction with the geometry
     var aoi = ee.Feature(ee.List([firstGeometry]));
-    //print(aoi)
+    
     
   return aoi;
 }
