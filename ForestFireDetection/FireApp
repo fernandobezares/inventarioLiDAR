@@ -35,7 +35,9 @@ Map.add(dwonloadButton)
 var severityAnalysis = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
 var fireDetection = require('users/cesefor/inventarioForestal:ForestFireDetection/fireDetection');
 
-
+//rasters for stats analysis
+var mfeEspecies = ee.Image('users/franciscogallego/mfeEspecies').rename('especies');
+var mfeLulucf = ee.Image('users/franciscogallego/mfeLulucf').rename('lulucf');
 
 // show selecting custom area (drawing) interface
 function select_area_start(){
@@ -155,9 +157,15 @@ function run (){
   Map.centerObject(userAOI,11);
   
   
-  var lulucfStats = severityAnalysis.categoricalZonalStatistics (img1,severityImg);
+  var lulucfStats = severityAnalysis.categoricalZonalStatistics (mfeLulucf,severityImg);
 
   var lostWood = severityAnalysis.volumenArea(severityImg);
+  
+  var url = lostWood.getDownloadURL({format: 'csv',filename: 'lostwood per intensity areas'})
+  
+  labelResult.setValue('Result lostWood per Area' + url)
+  
+  
   
   
   
@@ -414,6 +422,9 @@ areaPanel.add(selectAreaButton);
 areaPanel.add(removeAreaButton);
 areaPanel.add(Apply_button);
 
+var labelResult = ui.Label();
+  
+analysisPanel.add(labelResult);
 
 
 
