@@ -97,6 +97,7 @@ function updateFires(layer){
   
 }
 
+
 function getDateFromFires(){
   
   var fires = loadFires();
@@ -152,6 +153,11 @@ function run (){
   Map.addLayer(severity,{},reclassIndexName);
   
   Map.centerObject(userAOI,11);
+  
+  
+  var lulucfStats = severityAnalysis.categoricalZonalStatistics (img1,severityImg);
+
+  var lostWood = severityAnalysis.volumenArea(severityImg);
   
   
   
