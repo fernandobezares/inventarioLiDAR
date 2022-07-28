@@ -104,7 +104,7 @@ function getDateFromFires(){
   
   var firesSelected = fires.filterBounds(aoi);
   
-  var date = firesSelected.get('doi_min');
+  var date = firesSelected.get('doy_min');
   
   return date
 }
