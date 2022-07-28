@@ -113,7 +113,7 @@ function getDateFromFires(){
 function run (){
   
   if (Map.layers().length() > 0){
-    Map.layers.reset();
+    Map.layers().reset();
   }
   
   // get user defined area
