@@ -1,9 +1,9 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-6.4401342773437475, 42.04079545257837],
-          [-6.4456274414062475, 41.799643413372706],
-          [-6.0336401367187475, 41.762777412869085],
-          [-5.8743383789062475, 41.983655409828366]]]);
+        [[[-2.9300024414062475, 41.84876510802715],
+          [-3.4298803710937475, 41.88967106316636],
+          [-3.4738256835937475, 41.475318647087946],
+          [-2.8915502929687475, 41.5164626218067]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
@@ -92,7 +92,7 @@ function updateFires(layer){
       Map.layers().remove(lay);
     } 
     
-        })
+        });
   
 }
 
