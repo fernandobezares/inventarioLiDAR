@@ -1,9 +1,9 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-2.9300024414062475, 41.84876510802715],
-          [-3.4298803710937475, 41.88967106316636],
-          [-3.4738256835937475, 41.475318647087946],
-          [-2.8915502929687475, 41.5164626218067]]]);
+        [[[-6.4950659179687475, 42.03585700741162],
+          [-6.4730932617187475, 41.75371957242432],
+          [-5.9732153320312475, 41.790590778468705],
+          [-5.9896948242187475, 42.10110212496468]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
@@ -104,7 +104,7 @@ function getDateFromFires(){
   
   var firesSelected = fires.filterBounds(aoi);
   
-  var date = fireSelected.get('doi_min');
+  var date = firesSelected.get('doi_min');
   
   return date
 }
@@ -333,7 +333,7 @@ var areaLabel = ui.Label('Define un área de estudio');
 var Apply_button = ui.Button({
   label: 'Apply',
   onClick: function(){
-      getAOI();
+      run();
   },
   style: {textAlign: 'center'}
 });
