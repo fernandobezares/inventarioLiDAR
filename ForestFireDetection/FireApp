@@ -46,7 +46,7 @@ var indexSelector = ui.Select({
 
 // Panels are the main container widgets
 var mainPanel = ui.Panel({
-  style: {width: '300px'}
+  style: {width: '350px'}
 });
 
 
@@ -64,14 +64,14 @@ var dropdownPanel = ui.Panel({
 mainPanel.add(dropdownPanel);
 
 var yearSelector = ui.Select({
-  placeholder: 'please wait..',
+  placeholder: 'cargando ...',
   })
 
 var monthSelector = ui.Select({
-  placeholder: 'please wait..',
+  placeholder: 'cargando ...',
   })
 
-var button = ui.Button('Load')
+var button = ui.Button('Cargar')
 dropdownPanel.add(yearSelector)
 dropdownPanel.add(monthSelector)
 dropdownPanel.add(button)
@@ -111,12 +111,12 @@ var yearStrings = years.map(function(year){
 // Evaluate the results and populate the dropdown
 yearStrings.evaluate(function(yearList) {
   yearSelector.items().reset(yearList);
-  yearSelector.setPlaceholder('select a year');
+  yearSelector.setPlaceholder('selecciona un año');
 });
 
 months.evaluate(function(monthList) {
   monthSelector.items().reset(monthList);
-  monthSelector.setPlaceholder('select a month');
+  monthSelector.setPlaceholder('selecciona un mes');
 
 });
 
@@ -130,7 +130,8 @@ var loadFires = function() {
   var year = yearSelector.getValue();
   
   //get the value from teh selector and get the month in number to make the date
-  var month = monthsObj.get(monthSelector.getValue());
+  var monthName = monthSelector.getValue();
+  var month = monthsObj.get(monthName);
   
   var startDate = ee.Date.fromYMD(
     ee.Number.parse(year), ee.Number.parse(month), 1);
@@ -147,7 +148,7 @@ var loadFires = function() {
   print('startDate',startDate,'EndDate',endDate);
   print(filtered);
   //var nighttimeVis = {min: 0.0, max: 60.0}
-  var layerName = 'Fires ' + year + '-' + month;
+  var layerName = 'Fires ' + ee.String(year).getInfo() + '-' + monthName;
   Map.addLayer(ee.FeatureCollection(filtered), {}, layerName);
   
   return filtered;
