@@ -50,7 +50,8 @@ function clear_selected_area(){
 
 function getAOI(){
   
-  {
+  var mapPolygons = Map.drawingTools().layers();
+  
     if(Map.drawingTools().layers().length() > 0){
       var geom_list = [];
       Map.drawingTools().layers().forEach(function(lay){
