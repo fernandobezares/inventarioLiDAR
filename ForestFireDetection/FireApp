@@ -50,21 +50,27 @@ function clear_selected_area(){
 
 function getAOI(){
   
+    
+    if (Map.drawingTools().layers().length() === 0){
+       alert('Seleccione un area de estudio')
+    }
+    
     var firstPolygon = Map.drawingTools().layers().get(0);
     
     var firstGeometry = firstPolygon.geometries().get(0);
     
     // check if terhe are more than one polygon drawn
     if(Map.drawingTools().layers().length() > 1){
-      if(firstPolygon.geometries().length() > 1)
+      if(firstPolygon.geometries().length() > 1){
     
     
     Map.drawingTools().layers().reset([ui.Map.GeometryLayer([firstGeometry])]);
   
     
-    } else{
-      alert('Seleccione un area de estudio')
+    } 
     }
+    
+    
     
     // generate a Colelction with the geometry
     var aoi = ee.Feature(ee.List([firstGeometry]));
