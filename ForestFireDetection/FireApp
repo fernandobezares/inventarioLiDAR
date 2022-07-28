@@ -70,7 +70,8 @@ function getAOI(){
     if(mapPolygons.length() > 1){
     print(true)
     mapPolygons = ui.data.ActiveList([mapPolygons.get(0)]);
-      
+    
+    print(mapPolygons)
     }
     
     // list for geometries  
@@ -92,6 +93,7 @@ function getAOI(){
         return ee.Feature(geom);
       }));
       print(aoi)
+  Map.drawingTools().layers().reset(mapPolygons)
   return aoi;
 }
 
