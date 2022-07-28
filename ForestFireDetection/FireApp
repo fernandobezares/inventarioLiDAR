@@ -1,9 +1,13 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = /* color: #d63000 */ee.Geometry.Polygon(
-        [[[-6.4648535156249975, 41.9979452327423],
-          [-6.4593603515624975, 41.8098802074943],
-          [-5.9704687499999975, 41.78121306247776],
-          [-5.9155371093749975, 41.92850747372618]]]);
+var geometry = /* color: #d63000 */ee.Geometry.MultiPolygon(
+        [[[[-6.4648535156249975, 41.9979452327423],
+           [-6.4593603515624975, 41.8098802074943],
+           [-5.9704687499999975, 41.78121306247776],
+           [-5.9155371093749975, 41.92850747372618]]],
+         [[[-4.6548559570312475, 41.85490266995141],
+           [-4.4296362304687475, 41.92850747372618],
+           [-4.4461157226562475, 42.038755620688065],
+           [-4.5779516601562475, 41.969362379043936]]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
@@ -60,7 +64,7 @@ function getAOI(){
   var mapPolygons = Map.drawingTools().layers();
   
     // check if terhe are more than one polygon drawn
-    if(Map.drawingTools().layers().length() > 1){
+    if(mapPolygons.length() > 1){
     
     mapPolygons = ee.List([mapPolygons.get(0)]);
       
