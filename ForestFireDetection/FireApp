@@ -1,3 +1,10 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = /* color: #98ff00 */ee.Geometry.Polygon(
+        [[[-4.4873144531249975, 42.10807316756955],
+          [-4.5642187499999975, 41.98161374468403],
+          [-4.1137792968749975, 41.91215818060466],
+          [-4.0643408203124975, 42.087693512486]]]);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
 
@@ -184,6 +191,7 @@ function select_area_stop(){
 // clear user selected area
 function clear_selected_area(){
     drawingTools.stop();
+    drawingTools.clear()
     //drawingTools.layers().reset();
     //bind_events_to_drawing_tools();
     //if_user_geometry();
