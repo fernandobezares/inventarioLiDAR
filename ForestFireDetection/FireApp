@@ -107,6 +107,16 @@ function getDateFromFires(){
   return date;
 }
 
+vis = {
+  'RBR':{min:,max:, palette:[]}
+  'RdNBR': {min:,max:, palette:[]}
+  'dNBR':{min:,max:, palette:[]}
+}
+  
+  
+}
+
+
 //
 function run (){
   
@@ -123,6 +133,8 @@ function run (){
   // index name
   var indexName = indexButton.getValue();
   
+  var reclassIndexName = indexName +'class' 
+  
   // retrieve the info from the index;
   var indexes = severityAnalysis.getSpectralIndexes(date, userAOI);
   
@@ -130,11 +142,11 @@ function run (){
   
   var severity = severityAnalysis.reclassifyIndexes(indexes, userAOI);
   
-  var severityImg = severity.select(indexName+'class');
+  var severityImg = severity.select(reclassIndexName);
   
   // add elements to the map
   Map.addLayer(indexImg,{},indexName);
-  Map.addLayer(severity,{},indexName +'class');
+  Map.addLayer(severity,{},reclassIndexName);
   
   
   
