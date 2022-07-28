@@ -52,24 +52,33 @@ function getAOI(){
   
   var mapPolygons = Map.drawingTools().layers();
   
+    // check if terhe are more than one polygon drawn
     if(Map.drawingTools().layers().length() > 1){
     
-    mapPolygons = mapPolygons.get(0);
+    mapPolygons = ee.List([mapPolygons.get(0)]);
       
     }
+    
     // list for geometries  
     var geom_list = [];
     
     // function for extracting the geometries of teh layers and obtaining a 
     // featureCollection 
     mapPolygons.forEach(function(lay){
-        lay.geometries().forEach(function(geom){
+      
+      //get geoms from polygons
+      lay.geometries().forEach(function(geom){
+          // push the geom to the list
           geom_list.push(geom);
         });
       });
-      var geom_collection = ee.FeatureCollection(geom_list.map(function(geom){
+      
+    // generate a Colelction with the geometry
+    var aoi = ee.FeatureCollection(geom_list.map(function(geom){
         return ee.Feature(geom);
       }));
+      
+  return aoi;
 }
 
 
