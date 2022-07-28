@@ -144,11 +144,13 @@ var loadFires = function() {
       
       )
       );
-  print('startDate',startDate,'EndDate',endDate)
-  print(filtered)
+  print('startDate',startDate,'EndDate',endDate);
+  print(filtered);
   //var nighttimeVis = {min: 0.0, max: 60.0}
   var layerName = 'Fires ' + year + '-' + month;
   Map.addLayer(filtered, {}, layerName);
+  
+  return filtered;
 };
 
 button.onClick(loadFires);
