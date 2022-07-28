@@ -106,11 +106,6 @@ function getDateFromFires(){
   
   var date = firesSelected.aggregate_min('doy_min');
   
-  print('fires',fires)
-  print('aoi',aoi),
-  print('firesSelected',firesSelected)
-  print('date',date)
-  
   return date
 }
 
@@ -133,7 +128,7 @@ function run (){
   
   var severity = severityAnalysis.reclassifyIndexes(indexes);
   
-  var severityImg = severity.select(indexName+'class')
+  var severityImg = severity.select(indexName+'class').clip(aoi)
   
   
   
