@@ -48,6 +48,8 @@ function clear_selected_area(){
     
 }
 
+function getAOI(){}
+
 
 function run (){
   
