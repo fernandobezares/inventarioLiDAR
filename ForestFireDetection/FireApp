@@ -1,9 +1,13 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-5.6820776367187475, 42.26071177950383],
-          [-5.8633520507812475, 41.60277988382193],
-          [-4.6493627929687475, 41.92237697969158],
-          [-5.1657202148437475, 42.25258035718651]]]);
+var geometry = /* color: #ffff99 */ee.Geometry.MultiPolygon(
+        [[[[-5.6381323242187475, 42.167137127544976],
+           [-5.8413793945312475, 41.799643413372706],
+           [-5.1657202148437475, 41.664364474934295],
+           [-4.8910620117187475, 42.081578338856254]]],
+         [[[-4.4021704101562475, 42.11826053903432],
+           [-4.6493627929687475, 41.83648821748962],
+           [-3.7429907226562475, 41.664364474934295],
+           [-3.6935522460937475, 42.01223184761706]]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
@@ -57,6 +61,7 @@ function clear_selected_area(){
 
 function getAOI(){
   
+  /*
   if (Map.drawingTools().layers().length() == 0 ){ alert('Seleccione un area de estudio')}
   
     var firstPolygon = Map.drawingTools().layers().get(0);
@@ -77,10 +82,28 @@ function getAOI(){
     // generate a Colelction with the geometry
     var aoi = ee.Feature(ee.List([firstGeometry]));
     
-    
+   
   return aoi;
+  */
+  
+  if(Map.drawingTools().layers().length() > 0){
+      var geom_list = [];
+      Map.drawingTools().layers().forEach(function(lay){
+        lay.geometries().forEach(function(geom){
+          geom_list.push(geom);
+        });
+      });
+      var geom_collection = ee.FeatureCollection(geom_list.map(function(geom){
+        return ee.Feature(geom);
+      }));
+    
+    print(geom_collection)
+    
+    Map.drawingTools().layers().reset([ui.Map.GeometryLayer([geom_list[0]])])
+    
+    return geom_collection
 }
-
+}
 
 function run (){
   
@@ -285,7 +308,7 @@ var areaLabel = ui.Label('Define un área de estudio');
 var Apply_button = ui.Button({
   label: 'Apply',
   onClick: function(){
-      print(getAOI());
+      getAOI();
   },
   style: {textAlign: 'center'}
 });
