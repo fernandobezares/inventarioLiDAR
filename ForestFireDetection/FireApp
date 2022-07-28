@@ -29,6 +29,25 @@ var fireDetection = require('users/cesefor/inventarioForestal:ForestFireDetectio
 
 
 
+// show selecting custom area (drawing) interface
+function select_area_start(){
+  drawingTools.setShape('polygon');
+  drawingTools.draw();
+}
+
+// hide selecting area interface
+function select_area_stop(){
+    drawingTools.stop();
+}
+
+// clear user selected area
+function clear_selected_area(){
+    drawingTools.stop();
+    drawingTools.clear();
+    drawingTools.layers().reset();
+    
+}
+
 
 //-----------------------------------------------------------------------------
 
@@ -70,23 +89,23 @@ var monthSelector = ui.Select({
 var loadButton = ui.Button('Cargar');
 
 // description Label
-
 var decriptionLabel = ui.Label({
-  value : 'Bienvenido ala herramienta de monitoreo de incenidos forestales. \n Primero seleccione un fecha para su análsis.'+
-  ' Después, marque un único incendio para su analisis.\n Finalmente, obtenga las estadisticas de superficie afectada.',
+  value : 
+  'Bienvenido ala herramienta de monitoreo de incenidos forestales.\nPrimero seleccione un fecha para su análsis.'+
+  '\nDespués, marque un único incendio para su analisis.\nFinalmente, obtenga las estadisticas de superficie afectada.',
   style: {
-    font: '10px',
+    fontSize: '12px',
     whiteSpace :'pre',
-    textAlign :'centre',
-    
+    //textAlign :'centre',
+    margin: '0px 0px 10px 8px'// derecha arriba izquierda abajo
   }
     
   });
 
-//
+//date Label
 var dateLabel = ui.Label( {
   value:'Selecciona tus fechas de interés',
-  style:{font: '12px'}
+  style:{fontSize: '16px'}
   
 });
 
@@ -97,7 +116,10 @@ var dateLabel = ui.Label( {
 mainPanel.add(title);
 
 // añadir panel al panel principal
-mainPanel.add(dropdownPanel);
+
+mainPanel.add(decriptionLabel),
+mainPanel.add(dateLabel);
+mainPanel.add(datePanel);
 
 // añadir elementos en el panel
 datePanel.add(yearSelector);
@@ -191,26 +213,6 @@ loadButton.onClick(loadFires);
 var drawingTools = Map.drawingTools();
 
 
-
-// show selecting custom area (drawing) interface
-function select_area_start(){
-  drawingTools.setShape('polygon');
-  drawingTools.draw();
-}
-
-// hide selecting area interface
-function select_area_stop(){
-    drawingTools.stop();
-}
-
-// clear user selected area
-function clear_selected_area(){
-    drawingTools.stop();
-    drawingTools.clear();
-    drawingTools.layers().reset();
-    
-}
-
 // define Panel for the buttons 
 var areaPanel =  ui.Panel({
   layout: ui.Panel.Layout.flow('horizontal'),
@@ -224,16 +226,16 @@ var analysisPanel = ui.Panel({layout: ui.Panel.Layout.flow('vertical')});
 var analysisLabel = ui.Label('Análisis');
 
 // IndexPanel 
-var indeXPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
+var indexPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
 
 // IndexLabel
-var indexLabel = ui.Label('Sleelciona un índice para tu análisis');
+var indexLabel = ui.Label({value:'Selecciona un índice para tu análisis',style:{fontSize:'10px'}});
 
 // Area Panel
 var areaPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
 
 // area Label 
-var areaLabel = ui.Label('compute ')
+var areaLabel = ui.Label('compute');
 // aply button 
 var Apply_button = ui.Button({
   label: 'Apply',
@@ -261,9 +263,30 @@ var removeAreaButton = ui.Button({
   style : {textAlign: 'center'}
 });
 
+
+// index Button area button 
+var indexButton = ui.Button({
+  label: ' Indices',
+  items : indexList,
+  style : {textAlign: 'center'}
+});
+
 //------------------------------------------------------------------
 // añadir panel al panel principal
-mainPanel.add(areaPanel);
+mainPanel.add(analysisPanel);
+
+// add elements to analysis Panel
+analysisPanel.add(analysisLabel);
+
+// add index Panel
+analysisPanel.add(indexPanel);
+
+// add elements to indexPanel
+indexPanel.add(indexLabel).add(indexButton);
+
+analysisPanel.add(areaLabel);
+// add areaPanel to analysis panel
+analysisPanel.add(areaPanel);
 
 // añadir elementos en el panel
 areaPanel.add(selectAreaButton);
