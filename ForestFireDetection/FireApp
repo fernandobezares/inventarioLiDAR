@@ -1,5 +1,8 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = /* color: #000000 */ee.Geometry.Polygon(
+var geometry = 
+    /* color: #000000 */
+    /* shown: false */
+    ee.Geometry.Polygon(
         [[[-6.510675694434866, 41.98761321159302],
           [-6.510675694434866, 41.79439869118675],
           [-6.082208897559866, 41.79439869118675],
@@ -144,6 +147,8 @@ function run (){
   var severityImg = severity.select(reclassIndexName);
   
   // add elements to the map
+  print(visIndex.indexName)
+  
   Map.addLayer(indexImg,visIndex.indexName,indexName);
   Map.addLayer(severity,{},reclassIndexName);
   
