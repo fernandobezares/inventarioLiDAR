@@ -123,7 +123,10 @@ function run (){
   
   var index = indexes.select(indexButton.getValue());
   
+  var severity = reclassifyIndexes(index);
+  
   Map.addLayer(index);
+  Map.addLayer(severity);
   
   
   
