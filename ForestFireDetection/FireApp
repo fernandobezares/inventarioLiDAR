@@ -123,12 +123,19 @@ function run (){
   // get date from the selected fire
   var date = getDateFromFires();
   
+  // index name
+  var indexName = indexButton.getValue();
+  
   // retrieve the info from the index;
   var indexes = severityAnalysis.getSpectralIndexes(date,userAOI);
   
-  var index = indexes.select(indexButton.getValue());
+  var indexImg = indexes.select(indexName);
   
-  var severity = severityAnalysis.reclassifyIndexes(index);
+  var severity = severityAnalysis.reclassifyIndexes(indexes);
+  
+  //var severityImg = severity
+  
+  
   
   Map.addLayer(index);
   Map.addLayer(severity);
