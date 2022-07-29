@@ -54,10 +54,10 @@ function printStats(stats){
   
   
   // get the names of the vars
-  for (var i=0; i < size; i++) {
-    
-    
+  for (var i = 0; i < size; i++) {
   panel.add(ui.Button({label: 'Button ' + i, style: {stretch: 'horizontal'}}));
+  
+  
 }
   
   
