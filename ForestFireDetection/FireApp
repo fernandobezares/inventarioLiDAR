@@ -49,7 +49,16 @@ function printStats(stats){
   //stats panel 
   var statsPanel = ui.Panel({layout: ui.Panel.Layout.flow('vertical')})
   
-  //
+  // get the size of the collection
+  var size = stats.size();
+  
+  
+  // get the names of the vars
+  for (var i=0; i < size; i++) {
+    
+    
+  panel.add(ui.Button({label: 'Button ' + i, style: {stretch: 'horizontal'}}));
+}
   
   
   
