@@ -1,13 +1,3 @@
-/**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = 
-    /* color: #000000 */
-    /* shown: false */
-    ee.Geometry.Polygon(
-        [[[-6.345145225190254, 42.3751400503645],
-          [-6.346518516205879, 42.25937877091178],
-          [-6.195456504487129, 42.272590375262226],
-          [-6.192709922455879, 42.354846457170275]]]);
-/***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
 /*
