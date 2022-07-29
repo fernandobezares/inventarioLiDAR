@@ -1,3 +1,14 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #000000 */
+    /* shown: false */
+    ee.Geometry.Polygon(
+        [[[-6.4428808593749975, 42.01427253070863],
+          [-6.4346411132812475, 41.80169090304103],
+          [-6.1215307617187475, 41.78940498372722],
+          [-6.0775854492187475, 41.92646404116729],
+          [-6.0968115234374975, 42.02243460832895]]]);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
 /*
@@ -183,10 +194,10 @@ function run (){
 
   var lostWood = severityAnalysis.volumenArea(severityImg);
   
-  //var url = lulucfStats.getDownloadURL({format: 'csv',filename: 'lostwood per intensity areas'})
+  var url = lulucfStats.getDownloadURL({format: 'csv',filename: 'lostwood per intensity areas'})
   
-  //labelResult.setValue('Areas de cobertura de suelo afectadas por el incendio: ' +  lulucfStats.getInfo())
-  //labelLinkResult.setValue('link de descarga : ' + url)
+  labelResult.setValue('Areas de cobertura de suelo afectadas por el incendio: ' +  lulucfStats.getInfo())
+  labelLinkResult.setValue('link de descarga : ' + url)
   
   print('lulucfStats',lulucfStats)
   
