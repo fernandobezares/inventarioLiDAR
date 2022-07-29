@@ -193,6 +193,7 @@ function run (){
   var lulucfStats = severityAnalysis.categoricalZonalStatistics (mfeLulucf,severityImg);
 
   var lostWood = severityAnalysis.volumenArea(severityImg);
+  print(lostwWood)
   
   var url = lulucfStats.getDownloadURL({format: 'csv',filename: 'lostwood per intensity areas'})
   
