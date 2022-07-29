@@ -118,11 +118,11 @@ var lidarVarNames = {
 };
 
 // translates name of the datasets to a clear version and reverses it 
-function translateNames(name,reverse = false){
+function translateNames(name, reverse = false){
   
   if (reverse) {
     
-    return Object.keys(object).find(key => object[key] === name);
+    return Object.keys(lidarVarNames).find(key => lidarVarNames[key] === name);
   } else {
     
     return lidarVarNames[name];
