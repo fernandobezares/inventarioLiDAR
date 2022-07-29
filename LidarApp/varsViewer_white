@@ -111,7 +111,7 @@ var lidarVarNames = {
 'mdav':'Modelo de Altura de Vegetación',
 'elev_95':'Percentil de 95% de altura de vegetación',
 'elev_75':'Percentil de 75% de altura de vegetación',
-'Canopy_Relief_Ratio':'CRR',
+'Canopy_Relief_Ratio':'Relación de cubierta de copa respecto a la estructura vertical',
 'vcc':'Volumen Con Corteza',
 'All_returns_above_heightbreak_div_Total_first_returns_100':'Retornos LiDAR por encima de altura de corte',
 'G':'Área Basimétrica',
