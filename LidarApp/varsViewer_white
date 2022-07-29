@@ -87,7 +87,10 @@ function checkCovers(cobertura){
   }
     
 }
- 
+
+
+
+
 /*
 var visualizations = {
   'fcc': {min:0,max:100,palette:['white','lightyellow','lightgreen','green']},
@@ -102,6 +105,33 @@ var visualizations = {
 };
 */
 // ['white','#7f0278']
+
+var lidarVarNames = {
+'fcc':'Fracción de Cabida Cubierta',
+'mdav':'Modelo de Altura de Vegetación',
+'elev_95':'Percentil de 95% de altura de vegetación',
+'elev_75':'Percentil de 75% de altura de vegetación',
+'Canopy_Relief_Ratio':'',
+'vcc':'Volumen Con Corteza',
+'All_returns_above_heightbreak_div_Total_first_returns_100':'Retornos LiDAR por encima de altura de corte',
+'G':'Área Basimétrica',
+};
+
+// translates name of the datasets to a clear version and reverses it 
+function translateNames(name,reverse = false){
+  
+  if (reverse) {
+    
+    return Object.keys(object).find(key => object[key] === name);
+  } else {
+    
+    return lidarVarNames[name];
+    
+  }
+  
+  
+}
+
 
 var visualizations = {
   'fcc': {min:0,max:100,palette:['white','lightgrey','#283758','	#c378e3']},
@@ -278,10 +308,15 @@ var coberturaSelect = ui.Select({
   //value: '1a Cobertura',
   style: {width: "95%"},
   onChange:function(cover){
+    
     buttonPanels.clear().add(coberturaSelect).add(loadingDatasetSelect);
-    // chechk the  type of LiDR Cover 
+    // check the  type of LiDR Cover 
     var datasets = checkDatasetCovers(cover);
-    ee.List(datasets).evaluate(function(list){
+    
+    // dataetsNames cleaner
+    var datasetsClean = translateNames(cover);
+    
+    ee.List(datasetsClean).evaluate(function(list){
       //print(list)
         datasetSelect = ui.Select({
           placeholder: 'Variables LiDAR',
@@ -289,6 +324,8 @@ var coberturaSelect = ui.Select({
           style: {width: "95%"},
           //value: 'All regions'
           onChange: function(image){
+            
+            image = translateNames(image,true);
             
             return displayImage(image,checkCovers(cover))}
         });
