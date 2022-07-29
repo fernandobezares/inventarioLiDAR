@@ -109,9 +109,9 @@ var visualizations = {
   'elev_95':{min:0,max:25,palette:['white','lightgrey','#283758','	#c378e3']},
   'elev_75':{min:0,max:20,palette:['white','lightgrey','#283758','	#c378e3']},
   'Canopy_Relief_Ratio': {min:0 ,max:1 ,palette:['white','lightgrey','#283758','	#c378e3']},
-  'vcc':{min:0,max:30,palette:['white','lightgrey','#283758','	#c378e3']},
+  'vcc':{min:0,max:600,palette:['white','lightgrey','#283758','	#c378e3']},
   'All_returns_above_heightbreak_div_Total_first_returns_100':{min:0,max:100,palette:['white','lightgrey','#283758','	#c378e3']},
-  'G': {min:0,max:4,palette:['white','lightgrey','#283758','	#c378e3']}, 
+  'G': {min:0,max:50,palette:['white','lightgrey','#283758','	#c378e3']}, 
   
 };
 
