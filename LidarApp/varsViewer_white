@@ -203,7 +203,7 @@ function displayImage(image,cover){
       Map.layers().reset();
       
       // remove the first elemento of the widgets
-      Map.widgets().remove(Map.widgets().get(0))
+      Map.widgets().remove(Map.widgets().get(0));
       
       
     } else{
@@ -235,7 +235,7 @@ function displayImage(image,cover){
       
       Map.widgets().insert(0,colorBar);
     
-    return colorBar
+    return colorBar;
 }
   
 
