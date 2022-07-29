@@ -125,7 +125,11 @@ function translateNames(name){
   // check if the name is in the keys 
   var reverse = ee.List(Object.keys(lidarVarNames)).contains(ee.String(name));
   
-  if (!reverse) {
+  if (reverse) {
+    
+    return lidarVarNames[name];
+    
+  } else {
     
     //return Object.keys(lidarVarNames).find(key => lidarVarNames[key] === name);
     Object.prototype.getKeyByValue = function( name ) {
@@ -140,9 +144,6 @@ function translateNames(name){
   };
     return lidarVarNames.getKeyByValue(name);
     
-  } else {
-    
-    return lidarVarNames[name];
     
   }
 }
