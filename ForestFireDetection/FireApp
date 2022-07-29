@@ -1,3 +1,13 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #000000 */
+    /* shown: false */
+    ee.Geometry.Polygon(
+        [[[-6.4456274414062475, 42.05711175036512],
+          [-6.4346411132812475, 41.799643413372706],
+          [-6.0061743164062475, 41.78326114091576],
+          [-5.9237768554687475, 41.97140443697838]]]);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
 /*
@@ -106,7 +116,7 @@ function getDateFromFires(){
 var visIndex = ee.Dictionary({
   'RBR':{min:-1,max:1, palette:['lightgreen', 'yellow', 'orange','red']},
   'RdNBR': {min:-1, max:1, palette:['lightgreen', 'yellow', 'orange','red']},
-  'dNBR':{min:-0.1,max:-1, palette:['lightgreen', 'yellow', 'orange','red']},
+  'dNBR':{min:-0.3,max:1, palette:['lightgreen', 'yellow', 'orange','red']},
 })
   
 
