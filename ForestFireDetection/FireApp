@@ -3,10 +3,12 @@ var geometry =
     /* color: #000000 */
     /* shown: false */
     ee.Geometry.Polygon(
-        [[[-6.4730932617187475, 42.02855547904738],
-          [-6.4621069335937475, 41.8037383272879],
-          [-5.9127905273437475, 41.7586798823053],
-          [-5.9512426757812475, 42.03263573213958]]]);
+        [[[-6.43768987747461, 41.98494054735079],
+          [-6.40473089309961, 41.825497322368456],
+          [-6.10535345169336, 41.819356939631675],
+          [-6.098486996615235, 41.864372738098375],
+          [-6.05866155716211, 41.916510510005914],
+          [-6.114966488802735, 41.971668821572244]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
@@ -38,6 +40,24 @@ var fireDetection = require('users/cesefor/inventarioForestal:ForestFireDetectio
 //rasters for stats analysis
 var mfeEspecies = ee.Image('users/franciscogallego/mfeEspecies').rename('especies');
 var mfeLulucf = ee.Image('users/franciscogallego/mfeLulucf').rename('lulucf');
+
+
+//---------------------------------------------------------------------------------------------
+
+
+function printStats(stats){
+  //stats panel 
+  var statsPanel = ui.Panel({layout: ui.Panel.Layout.flow('vertical')})
+  
+  //
+  
+  
+  
+  
+}
+
+
+
 
 // show selecting custom area (drawing) interface
 function select_area_start(){
@@ -171,6 +191,7 @@ function run (){
   //labelResult.setValue('Areas de cobertura de suelo afectadas por el incendio: ' +  lulucfStats.getInfo())
   //labelLinkResult.setValue('link de descarga : ' + url)
   
+  print('lulucfStats',lulucfStats)
   
   
   
