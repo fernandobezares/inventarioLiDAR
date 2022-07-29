@@ -129,45 +129,33 @@ function inverse(obj){
 }
 
 
-
-print(ee.List(Object.keys(lidarVarNames))).contains(ee.String(name))
 // translates name of the datasets to a clear version and reverses it 
 function translateNames(name){
   
   // check if the name is in the keys 
-  var reverse = ee.List(Object.keys(lidarVarNames)).contains(ee.String(name));
+  var reverse = ee.Dictionary(lidarVarNames).keys().contains(ee.String(name));
   
+  print(reverse)
   if (reverse) {
-    
+    print('por key')
     return lidarVarNames[name];
     
   } else {
+    print('por valor')
+    var inversed = inverse(lidarVarNames);
     
-    var inversed = inverse(lidarVarNames)
+    return inversed[name];
     
-    return inversed [name]
-    /*
     //return Object.keys(lidarVarNames).find(key => lidarVarNames[key] === name);
-    Object.prototype.getKeyByValue = function( name ) {
-      for( var prop in this ) {
-          if( this.hasOwnProperty( prop ) ) {
-               if( this[ prop ] === value )
-                   return prop;
-                   
-    
-          }
-      }
-  };
-  
-  return lidarVarNames.getKeyByValue(name);
-  */
     
     
+
     
   }
 }
-
-
+print(inverse(lidarVarNames))
+print(translateNames('Fracción de Cabida Cubierta'))
+print(translateNames('fcc'))
 var visualizations = {
   'fcc': {min:0,max:100,palette:['white','lightgrey','#283758','	#c378e3']},
   'mdav':{min:0,max:25,palette:['white','lightgrey','#283758','	#c378e3']},
@@ -348,10 +336,11 @@ var coberturaSelect = ui.Select({
     // check the  type of LiDR Cover 
     var datasets = checkDatasetCovers(cover);
     
+    
     // dataetsNames cleaner
-    var datasetsClean = datasets.map(translateNames(cover));
-    print(datasetsClean)
-    ee.List(datasetsClean).evaluate(function(list){
+    //var datasetsClean = ee.List(datasets).map(translateNames(cover));
+    //print(datasetsClean)
+    ee.List(datasets).evaluate(function(list){
       //print(list)
         datasetSelect = ui.Select({
           placeholder: 'Variables LiDAR',
@@ -360,7 +349,8 @@ var coberturaSelect = ui.Select({
           //value: 'All regions'
           onChange: function(image){
             
-            image = translateNames(image);
+            //print(image)
+            //image = translateNames(image);
             
             return displayImage(image,checkCovers(cover))}
         });
