@@ -1,8 +1,5 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = 
-    /* color: #000000 */
-    /* shown: false */
-    ee.Geometry.Polygon(
+var geometry = /* color: #000000 */ee.Geometry.Polygon(
         [[[-6.2396337890624975, 42.091769967449416],
           [-6.1792089843749975, 41.68898183504852],
           [-6.0418798828124975, 41.627420780956456],
@@ -193,7 +190,7 @@ function run (){
   var lulucfStats = severityAnalysis.categoricalZonalStatistics (mfeLulucf,severityImg);
 
   var lostWood = severityAnalysis.volumenArea(severityImg);
-  print(lostwWood)
+  print(lostWood)
   
   var url = lulucfStats.getDownloadURL({format: 'csv',filename: 'lostwood per intensity areas'})
   
