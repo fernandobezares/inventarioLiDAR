@@ -119,6 +119,18 @@ var lidarVarNames = {
   
 };
 
+function inverse(obj){
+  var retobj = {};
+  
+  for(var key in obj){
+    retobj[obj[key]] = key;
+  }
+  return retobj;
+}
+
+
+
+print(ee.List(Object.keys(lidarVarNames))).contains(ee.String(name))
 // translates name of the datasets to a clear version and reverses it 
 function translateNames(name){
   
@@ -131,6 +143,10 @@ function translateNames(name){
     
   } else {
     
+    var inversed = inverse(lidarVarNames)
+    
+    return inversed [name]
+    /*
     //return Object.keys(lidarVarNames).find(key => lidarVarNames[key] === name);
     Object.prototype.getKeyByValue = function( name ) {
       for( var prop in this ) {
@@ -142,7 +158,10 @@ function translateNames(name){
           }
       }
   };
-    return lidarVarNames.getKeyByValue(name);
+  
+  return lidarVarNames.getKeyByValue(name);
+  */
+    
     
     
   }
