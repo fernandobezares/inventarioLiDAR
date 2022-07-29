@@ -326,7 +326,7 @@ var coberturaSelect = ui.Select({
     
     
     // dataetsNames cleaner
-    var datasetsClean = ee.List(datasets).map(translateNames(cover)).getInfo();
+    var datasetsClean = datasets.map(translateNames(cover));
     print(datasetsClean)
     ee.List(datasets).evaluate(function(list){
       //print(list)
