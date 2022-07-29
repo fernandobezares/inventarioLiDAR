@@ -20,8 +20,8 @@ var c2 =  { "fcc" : ee.Image('users/cesefor/InventarioForestal/LiDAR/2C/FCC'),
            "elev_95" : ee.Image('users/cesefor/InventarioForestal/LiDAR/2C/Elev_P95'),
            "elev_75" : ee.Image('users/cesefor/InventarioForestal/LiDAR/2C/Elev_P75'),
            "All_returns_above_heightbreak_div_Total_first_returns_100" : ee.Image ('users/cesefor/InventarioForestal/LiDAR/2C/All_returns_above_heightbreak_div_Total_first_returns_100'), 
-           "Canopy_Relief_Ratio": ee.Image('users/cesefor/InventarioForestal/LiDAR/1C/Canopy_Relief_Ratio'),
-           "mdav": ee.Image('users/cesefor/InventarioForestal/LiDAR/2C/MDAV'),
+           "Canopy_Relief_Ratio": ee.Image('users/cesefor/InventarioForestal/LiDAR/2C/Canopy_Relief_Ratio'),
+           "mdav": ee.Image('users/cesefor/InventarioForestal/LiDAR/2C/mdav'),
            //.map(function(image){return image.updateMask(image.neq(0))}).mosaic(),
           
 };
