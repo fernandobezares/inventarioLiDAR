@@ -120,7 +120,10 @@ var lidarVarNames = {
 };
 
 // translates name of the datasets to a clear version and reverses it 
-function translateNames(name,reverse){
+function translateNames(name){
+  
+  // check if the name is in the keys 
+  var reverse = ee.List(Object.keys(lidarVarNames)).contains(ee.String(name)).not();
   
   if (reverse) {
     
@@ -326,8 +329,8 @@ var coberturaSelect = ui.Select({
     var datasets = checkDatasetCovers(cover);
     
     // dataetsNames cleaner
-    var datasetsClean = translateNames(cover,false);
-    
+    var datasetsClean = datasets.map(translateNames(cover));
+    print(datasetsClean)
     ee.List(datasetsClean).evaluate(function(list){
       //print(list)
         datasetSelect = ui.Select({
@@ -337,7 +340,7 @@ var coberturaSelect = ui.Select({
           //value: 'All regions'
           onChange: function(image){
             
-            image = translateNames(image,true);
+            image = translateNames(image);
             
             return displayImage(image,checkCovers(cover))}
         });
