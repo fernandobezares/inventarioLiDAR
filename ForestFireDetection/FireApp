@@ -39,7 +39,7 @@ var fireDetection = require('users/cesefor/inventarioForestal:ForestFireDetectio
 
 //rasters for stats analysis
 var mfeEspecies = ee.Image('users/franciscogallego/mfeEspecies').rename('especies');
-var mfeLulucf = ee.Image('users/franciscogallego/mfeLulucf').rename('lulucf');
+var mfeLulucf = ee.Image('users/franciscogallego/mfeLulucfCyl').rename('lulucf');
 
 
 //---------------------------------------------------------------------------------------------
