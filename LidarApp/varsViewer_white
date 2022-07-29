@@ -111,25 +111,37 @@ var lidarVarNames = {
 'mdav':'Modelo de Altura de Vegetación',
 'elev_95':'Percentil de 95% de altura de vegetación',
 'elev_75':'Percentil de 75% de altura de vegetación',
-'Canopy_Relief_Ratio':'',
+'Canopy_Relief_Ratio':'CRR',
 'vcc':'Volumen Con Corteza',
 'All_returns_above_heightbreak_div_Total_first_returns_100':'Retornos LiDAR por encima de altura de corte',
 'G':'Área Basimétrica',
+
+  
 };
 
 // translates name of the datasets to a clear version and reverses it 
-function translateNames(name, reverse = false){
+function translateNames(name,reverse){
   
   if (reverse) {
     
-    return Object.keys(lidarVarNames).find(key => lidarVarNames[key] === name);
+    //return Object.keys(lidarVarNames).find(key => lidarVarNames[key] === name);
+    Object.prototype.getKeyByValue = function( name ) {
+      for( var prop in this ) {
+          if( this.hasOwnProperty( prop ) ) {
+               if( this[ prop ] === value )
+                   return prop;
+                   
+    
+          }
+      }
+  };
+    return lidarVarNames.getKeyByValue(name);
+    
   } else {
     
     return lidarVarNames[name];
     
   }
-  
-  
 }
 
 
@@ -314,7 +326,7 @@ var coberturaSelect = ui.Select({
     var datasets = checkDatasetCovers(cover);
     
     // dataetsNames cleaner
-    var datasetsClean = translateNames(cover);
+    var datasetsClean = translateNames(cover,false);
     
     ee.List(datasetsClean).evaluate(function(list){
       //print(list)
