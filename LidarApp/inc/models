@@ -13,7 +13,7 @@ var pinus = mfe.filter(ee.Filter.inList('especie1',pinusList)).map(function(feat
 function VCC(All_returns_above_heightbreak_div_Total_first_returns_100,P75) {
   
   // Expression using named variables.
-    var vcc_pinos = '(-9.33) + 0.14* a + 0.907309* b';
+    var vcc_pinos = '((-9.33) + 0.14* a + 0.907309* b)*16';
     
     var vcc = ee.Image().expression({
         expression: vcc_pinos,
@@ -30,7 +30,7 @@ function VCC(All_returns_above_heightbreak_div_Total_first_returns_100,P75) {
 function G (All_returns_above_heightbreak_div_Total_first_returns_100,CRR) {
   
   // Expression using named variables.
-    var g_pinos = '(-1.01) + 0.03* a + 1.51* b';
+    var g_pinos = '((-1.01) + 0.03* a + 1.51* b)*16';
     
     var g = ee.Image().expression({
         expression: g_pinos,
