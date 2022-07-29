@@ -3,10 +3,10 @@ var geometry =
     /* color: #000000 */
     /* shown: false */
     ee.Geometry.Polygon(
-        [[[-6.4456274414062475, 42.05711175036512],
-          [-6.4346411132812475, 41.799643413372706],
-          [-6.0061743164062475, 41.78326114091576],
-          [-5.9237768554687475, 41.97140443697838]]]);
+        [[[-6.4730932617187475, 42.02855547904738],
+          [-6.4621069335937475, 41.8037383272879],
+          [-5.9127905273437475, 41.7586798823053],
+          [-5.9512426757812475, 42.03263573213958]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
@@ -117,7 +117,12 @@ var visIndex = ee.Dictionary({
   'RBR':{min:-1,max:1, palette:['lightgreen', 'yellow', 'orange','red']},
   'RdNBR': {min:-1, max:1, palette:['lightgreen', 'yellow', 'orange','red']},
   'dNBR':{min:-0.3,max:1, palette:['lightgreen', 'yellow', 'orange','red']},
-})
+  'RBRclass':{min:0,max:3, palette:['white', 'yellow', 'orange','red']},
+  'RdNBRclass': {min:0,max:3, palette:['white', 'yellow', 'orange','red']},
+  'dNBRclass':{min:0,max:6, palette:['white', 'lightyellow','yellow','orange','red','purple']},
+});
+
+
   
 
 
@@ -152,7 +157,7 @@ function run (){
   // add elements to the map
   
   Map.addLayer(indexImg,visIndex.get(indexName).getInfo(),indexName);
-  Map.addLayer(severity,{},reclassIndexName);
+  Map.addLayer(severityImg,visIndex.get(reclassIndexName).getInfo(),reclassIndexName);
   
   Map.centerObject(userAOI,11);
   
@@ -163,8 +168,8 @@ function run (){
   
   var url = lulucfStats.getDownloadURL({format: 'csv',filename: 'lostwood per intensity areas'})
   
-  labelResult.setValue('Areas de cobertura de suelo afectadas por el incendio: ' +  lulucfStats.getInfo())
-  labelLinkResult.setValue('link de descarga : ' + url)
+  //labelResult.setValue('Areas de cobertura de suelo afectadas por el incendio: ' +  lulucfStats.getInfo())
+  //labelLinkResult.setValue('link de descarga : ' + url)
   
   
   
