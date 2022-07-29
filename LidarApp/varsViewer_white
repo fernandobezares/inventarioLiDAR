@@ -131,31 +131,19 @@ function inverse(obj){
 
 // translates name of the datasets to a clear version and reverses it 
 function translateNames(name){
-  
-  // check if the name is in the keys 
-  var reverse = ee.Dictionary(lidarVarNames).keys().contains(ee.String(name));
-  
-  print(reverse)
-  if (reverse) {
-    print('por key')
-    return lidarVarNames[name];
-    
-  } else {
-    print('por valor')
-    var inversed = inverse(lidarVarNames);
-    
-    return inversed[name];
-    
-    //return Object.keys(lidarVarNames).find(key => lidarVarNames[key] === name);
-    
-    
 
-    
-  }
+   return lidarVarNames[name];
 }
-print(inverse(lidarVarNames))
-print(translateNames('Fracción de Cabida Cubierta'))
-print(translateNames('fcc'))
+
+// get teh orginal name of the layer to continue with the process 
+function getOriginalName(name){
+  
+  var inversed = inverse(lidarVarNames);
+    
+  return inversed[name];
+  
+}
+
 var visualizations = {
   'fcc': {min:0,max:100,palette:['white','lightgrey','#283758','	#c378e3']},
   'mdav':{min:0,max:25,palette:['white','lightgrey','#283758','	#c378e3']},
@@ -338,8 +326,8 @@ var coberturaSelect = ui.Select({
     
     
     // dataetsNames cleaner
-    //var datasetsClean = ee.List(datasets).map(translateNames(cover));
-    //print(datasetsClean)
+    var datasetsClean = ee.List(datasets).map(translateNames(cover)).getInfo();
+    print(datasetsClean)
     ee.List(datasets).evaluate(function(list){
       //print(list)
         datasetSelect = ui.Select({
@@ -349,8 +337,8 @@ var coberturaSelect = ui.Select({
           //value: 'All regions'
           onChange: function(image){
             
-            //print(image)
-            //image = translateNames(image);
+            print(image)
+            image = getOriginalName(image);
             
             return displayImage(image,checkCovers(cover))}
         });
