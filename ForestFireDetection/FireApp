@@ -1,10 +1,3 @@
-/**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-6.1407568359374975, 41.99386275353906],
-          [-6.0968115234374975, 41.67872574597566],
-          [-5.9210302734374975, 41.67872574597566],
-          [-5.8770849609374975, 41.985697009505984]]]);
-/***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
 /*
@@ -39,6 +32,10 @@ var mfeLulucf = ee.Image('users/cesefor/InventarioForestal/mfeLulucf').rename('l
 
 
 //---------------------------------------------------------------------------------------------
+
+
+  
+  
 
 
 function printStats(stats){
@@ -237,6 +234,7 @@ function run (){
   
   var severityImg = severity.select(reclassIndexName);
   
+  
   // add elements to the map
   
   Map.addLayer(indexImg,visIndex.get(indexName).getInfo(),indexName);
@@ -247,6 +245,8 @@ function run (){
   var loadingLabel = ui.Label({value:'Cargando estadísticas ...', style: {shown: true}});
   analysisPanel.add(loadingLabel);
   
+  // get mask area images for chart 
+  var maskArea = severityAnalysis.
   
   var lulucfStats = severityAnalysis.categoricalZonalStatistics (mfeLulucf,severityImg);
 
