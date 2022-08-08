@@ -1,3 +1,10 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = /* color: #000000 */ee.Geometry.Polygon(
+        [[[-6.0665991210937475, 41.901937745285885],
+          [-6.0665991210937475, 41.79554823777371],
+          [-5.9512426757812475, 41.79554823777371],
+          [-5.9512426757812475, 41.901937745285885]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
 /*
@@ -79,10 +86,12 @@ function printStats(stats){
   // get lulucf class 
   var lulucf = band.match('\\d\{3\}').get(0).getInfo();
   
-  var descripcion = cod.mfe.lulucf[lulucf];
+  print(lulucf)
+  
+  var descripcion = ee.Dictionary(cod).get('mfe').get('lulucf');
   
   //print(band,area)
-  print(lulucf);
+  ;
   
   
   resultsPanel.add(ui.Panel(
