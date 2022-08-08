@@ -84,11 +84,11 @@ function printStats(stats){
   
   
   // get lulucf class 
-  var lulucf = band.match('\\d\{3\}').get(0).getInfo();
+  var lulucfCode = band.match('\\d\{3\}').get(0).getInfo();
   
   print(lulucf)
   
-  var descripcion = ee.Dictionary(codMfe).get('lulucf');
+  var descripcion = ee.Dictionary(codMfe).get('lulucf').get('lulucfCode');
   
   //print(band,area)
   ;
