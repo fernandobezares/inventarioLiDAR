@@ -48,8 +48,8 @@ function printStats(stats){
   var headerResultsPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
   
   // labels 
-  var headerDescription = ui.Label({value: 'Clase', style: {stretch: 'horizontal'}});
-  var surfaceLabel = ui.Label({value: 'Superficie (ha)', style: {stretch: 'horizontal'}});
+  var headerDescription = ui.Label({value: 'Clase', style: {fontWeight: 'bold'}});
+  var surfaceLabel = ui.Label({value: 'Superficie (ha)', style: {fontWeight: 'bold'}});
   
   // get the size of the collection
   var size = ee.FeatureCollection(stats).size();
@@ -78,8 +78,8 @@ function printStats(stats){
   
   
   resultsPanel.add(ui.Panel({layout: ui.Panel.Layout.flow('horizontal')}))
-               .add(ui.Label({value: band, style: {stretch: 'horizontal'}}))
-               .add((ui.Label({value: area, style: {stretch: 'horizontal'}}))
+               .add(ui.Label({value: band, border : '1px solid black'}))
+               .add((ui.Label({value: area, border : '1px solid black'}))
     
     );
   
