@@ -40,6 +40,23 @@ var mfeLulucf = ee.Image('users/cesefor/InventarioForestal/mfeLulucf').rename('l
 
 //---------------------------------------------------------------------------------------------
 
+function areaChart (img1,img2){
+  
+  // get mask area images for chart 
+  var maskImg = severityAnalysis.getMasksByCrossedCategories(img1,img2);
+  
+  var areaImg = maskImg.multiply(ee.Image.pixelArea().divide(10000)).addBands(ee.Image(0).rename('Superfice quemada'));
+  
+  var areaChart = ui.Chart.image.byClass({
+    image : areaImg,
+    region: userAOI,
+    scale: 25,
+    reducer:ee.Reducer.sum(),
+    classBand:'Superficie quemada'
+  })
+  
+  print(areaChart)
+}
 
   
   
@@ -252,21 +269,8 @@ function run (){
   var loadingLabel = ui.Label({value:'Cargando estadísticas ...', style: {shown: true}});
   analysisPanel.add(loadingLabel);
   
-  // get mask area images for chart 
-  var maskImg = severityAnalysis.getMasksByCrossedCategories(mfeLulucf,severityImg);
   
-  var areaImg = maskImg.multiply(ee.Image.pixelArea().divide(10000)).addBands(ee.Image(0).rename('cero'));
-  
-  var areaChart = ui.Chart.image.byClass({
-    image : areaImg,
-    region: userAOI,
-    scale: 25,
-    reducer:ee.Reducer.sum(),
-    classBand:'Superficie quemada'
-  })
-  
-  print(areaChart)
-  //var lulucfStats = severityAnalysis.categoricalZonalStatistics (mfeLulucf,severityImg);
+  var lulucfStats = severityAnalysis.categoricalZonalStatistics (mfeLulucf,severityImg);
 
   //var lostWood = severityAnalysis.volumenArea(severityImg);
   //print(lostWood)
@@ -280,10 +284,11 @@ function run (){
   
   
   
-  //lulucfStats.evaluate(function(stats){return printStats(stats)});
-  //lulucfStats.evaluate(printStats(lulucfStats));
+  lulucfStats.evaluate(function(stats){return printStats(stats)});
+  lulucfStats.evaluate(printStats(lulucfStats));
   
-  
+  var url = indexImg.getDownloadURL({format: 'ZIPPED_GEO_TIFF',filename: 'index'})
+  print(url)
   
   loadingLabel.style().set({shown: false});
   
