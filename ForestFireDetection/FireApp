@@ -272,13 +272,13 @@ function run (){
     
   });
   
-   return location.assing(url);
+   return window.open(url);
     
   }
 });
   
   
-  print(url);
+  
   
   // add elements to the map
   
@@ -290,8 +290,8 @@ function run (){
   var loadingLabel = ui.Label({value:'Cargando estadísticas ...', style: {shown: true}});
   analysisPanel.add(imageDownloadButton);
   
-  
-  //var lulucfStats = severityAnalysis.categoricalZonalStatistics (mfeLulucf,severityImg);
+  /*
+  var lulucfStats = severityAnalysis.categoricalZonalStatistics (mfeLulucf,severityImg);
 
   //var lostWood = severityAnalysis.volumenArea(severityImg);
   //print(lostWood)
@@ -308,7 +308,7 @@ function run (){
   //lulucfStats.evaluate(function(stats){return printStats(stats)});
   lulucfStats.evaluate(printStats(lulucfStats));
   
-  
+  */
   
   loadingLabel.style().set({shown: false});
   
