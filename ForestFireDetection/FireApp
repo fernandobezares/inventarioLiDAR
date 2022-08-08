@@ -1,9 +1,9 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-6.172493353805974, 42.01970239945434],
-          [-6.167000189743474, 41.60619108549062],
-          [-5.787971869430974, 41.67597881739396],
-          [-5.738533392868474, 42.12979263460607]]]);
+        [[[-6.128548041305974, 41.982963222600986],
+          [-6.112068549118474, 41.74569096003799],
+          [-5.787971869430974, 41.76618014280518],
+          [-5.809944525680974, 41.999294364480434]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
