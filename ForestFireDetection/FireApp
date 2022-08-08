@@ -1,9 +1,9 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-6.1792089843749975, 41.914202071322606],
-          [-6.1847021484374975, 41.78326114091576],
-          [-5.9484960937499975, 41.75458209009992],
-          [-5.8825781249999975, 41.914202071322606]]]);
+        [[[-6.03432678222656, 41.87586822966341],
+          [-6.0363867187499975, 41.844161550116915],
+          [-5.961542358398435, 41.83648821748962],
+          [-5.88584959000801, 41.872259597589725]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
@@ -260,9 +260,9 @@ function run (){
   var areaChart = ui.Chart.image.byClass({
     image : areaImg,
     region: userAOI,
-    scale: 10,
+    scale: 25,
     reducer:ee.Reducer.sum(),
-    classBand:'cero'
+    classBand:'Superficie quemada'
   })
   
   print(areaChart)
@@ -276,7 +276,7 @@ function run (){
   //labelResult.setValue('Areas de cobertura de suelo afectadas por el incendio: ' +  lulucfStats.getInfo())
   //labelLinkResult.setValue('link de descarga : ' + url)
   
-  print('lulucfStats',lulucfStats);
+  //print('lulucfStats',lulucfStats);
   
   
   
