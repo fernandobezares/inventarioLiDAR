@@ -254,13 +254,21 @@ function run (){
   
   print('lulucfStats',lulucfStats);
   
+  var loadingLabel = ui.Label({value:'Cargando estadísticas ...', style: {shown: true}});
+   
+  analysisPanel.add(loadingLabel);
   //lulucfStats.evaluate(function(stats){return printStats(stats)});
   lulucfStats.evaluate(printStats(lulucfStats));
+  loadingLabel.style().set({shown: false});
   
 }
 
 
 //-----------------------------------------------------------------------------
+
+// mensaje de carga 
+
+
 
 // index selector 
 var indexSelector = ui.Select({
