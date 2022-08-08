@@ -59,7 +59,7 @@ var mfeCode = {
     '881' : 'Tierras con cobertura vegetal, que no se consideran dentro de las categorías Tierras forestales, Tierras de cultivo ni Pastizales. Arbolada',
     '882' : 'Tierras con cobertura vegetal, que no se consideran dentro de las categorías Tierras forestales, Tierras de cultivo ni Pastizales. Arbustiva',
     '883' : 'Tierras con cobertura vegetal, que no se consideran dentro de las categorías Tierras forestales, Tierras de cultivo ni Pastizales. Herbácea',
-    '400' : ' Otras tierras. Suelo desnudo, roca ,hielo, ...',
+    '400' : ' Otras tierras. Suelo desnudo, roca, hielo, ...',
     
   }
 
