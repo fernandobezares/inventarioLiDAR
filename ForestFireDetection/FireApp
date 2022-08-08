@@ -246,9 +246,20 @@ function run (){
   analysisPanel.add(loadingLabel);
   
   // get mask area images for chart 
-  var maskArea = severityAnalysis.
+  var maskImg = severityAnalysis.getMasksByCrossedCategories(mfeLulucf,severityImg);
   
-  var lulucfStats = severityAnalysis.categoricalZonalStatistics (mfeLulucf,severityImg);
+  var areaImg = maskImg.multiply(ee.Image.pixelArea().divede(10000)).addBand(ee.Image(0).rename('cero'));
+  
+  var areaChart = ui.Chart.image.byClass({
+    image : areaImg,
+    region: userAOI,
+    scale: 10,
+    reducer:ee.Reducer.sum(),
+    classBand:'cero'
+  })
+  
+  print(areaChart)
+  //var lulucfStats = severityAnalysis.categoricalZonalStatistics (mfeLulucf,severityImg);
 
   //var lostWood = severityAnalysis.volumenArea(severityImg);
   //print(lostWood)
@@ -263,7 +274,7 @@ function run (){
   
   
   //lulucfStats.evaluate(function(stats){return printStats(stats)});
-  lulucfStats.evaluate(printStats(lulucfStats));
+  //lulucfStats.evaluate(printStats(lulucfStats));
   
   
   
