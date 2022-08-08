@@ -1,10 +1,12 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-6.14327774049412, 41.99292970486355],
-          [-6.094525909439432, 41.85499047161191],
-          [-6.010065476042792, 41.848411140218566],
-          [-5.943463897720682, 41.83606445690294],
-          [-5.848020172134745, 41.99599163370441]]]);
+        [[[-5.9887872909861635, 41.96151529741099],
+          [-6.017464761377853, 41.96100773779864],
+          [-6.059872860873465, 41.95742564141214],
+          [-6.107576963837726, 41.79126351557364],
+          [-5.988812729358632, 41.75061199449845],
+          [-5.867251036103351, 41.81839099172248],
+          [-5.816027869363589, 41.90836821620265]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
@@ -268,7 +270,8 @@ function run (){
   label : 'Descargar imagen',
   onClick: function(){
     
-    var url = indexImg.multiply(1000).toInt8().getDownloadURL({
+  try {  
+    var url = indexImg.getDownloadURL({
     crs: 'EPSG:25830',
     scale: 10,
     region: userAOI.evaluate(function(geo){return geo}),
@@ -277,7 +280,13 @@ function run (){
     filename: 'index'
     
   });
-   print(url)
+   print(url)}
+   
+   catch (error){
+     
+     downloadPanel.add(ui.Label({value:error}))
+     
+   }
     
    return url;
     
