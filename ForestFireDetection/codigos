@@ -1,4 +1,5 @@
 var mfeCode = {
+  
   lulucf : {
     '100' : 'Tierras Forestales (FLs)',
     '110' : 'Tierra forestal de frondosas coherente con los umbrales de definición de Tierra Forestal',
