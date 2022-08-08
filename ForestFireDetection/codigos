@@ -69,4 +69,4 @@ var mfe = {
 };
 
 
-exports = mfeCode;
+exports = mfe;
