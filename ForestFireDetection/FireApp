@@ -1,9 +1,9 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-6.0665991210937475, 41.901937745285885],
-          [-6.0665991210937475, 41.79554823777371],
-          [-5.9512426757812475, 41.79554823777371],
-          [-5.9512426757812475, 41.901937745285885]]], null, false);
+        [[[-6.1407568359374975, 41.99386275353906],
+          [-6.0968115234374975, 41.67872574597566],
+          [-5.9210302734374975, 41.67872574597566],
+          [-5.8770849609374975, 41.985697009505984]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
@@ -194,7 +194,7 @@ function getDateFromFires(){
 }
 
 var visIndex = ee.Dictionary({
-  'RBR':{min:-1,max:1, palette:['lightgreen', 'yellow', 'orange','red']},
+  'RBR':{min:-1,max:1, palette:['green','lightgreen','white', 'yellow', 'orange','red']},
   'RdNBR': {min:-1, max:1, palette:['lightgreen', 'yellow', 'orange','red']},
   'dNBR':{min:-0.3,max:1, palette:['lightgreen', 'yellow', 'orange','red']},
   'RBRclass':{min:0,max:3, palette:['white', 'yellow', 'orange','red']},
@@ -244,6 +244,8 @@ function run (){
   
   Map.centerObject(userAOI,11);
   
+  var loadingLabel = ui.Label({value:'Cargando estadísticas ...', style: {shown: true}});
+  analysisPanel.add(loadingLabel);
   
   
   var lulucfStats = severityAnalysis.categoricalZonalStatistics (mfeLulucf,severityImg);
@@ -259,14 +261,14 @@ function run (){
   print('lulucfStats',lulucfStats);
   
   
+  
   //lulucfStats.evaluate(function(stats){return printStats(stats)});
   lulucfStats.evaluate(printStats(lulucfStats));
   
-  /*
-  var loadingLabel = ui.Label({value:'Cargando estadísticas ...', style: {shown: true}});
-  analysisPanel.add(loadingLabel);
+  
+  
   loadingLabel.style().set({shown: false});
-  */
+  
 }
 
 
