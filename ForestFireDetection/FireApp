@@ -42,6 +42,7 @@ var mfeLulucf = ee.Image('users/franciscogallego/mfeLulucfCyl').rename('lulucf')
 
 function printStats(stats){
   
+  print(stats)
   //stats panel 
   var resultsPanel = ui.Panel({layout: ui.Panel.Layout.flow('vertical')});
   var headerResultsPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
@@ -51,7 +52,7 @@ function printStats(stats){
   var surfaceLabel = ui.Label({value: 'Superficie (ha)', style: {stretch: 'horizontal'}});
   
   // get the size of the collection
-  var size = stats.size();
+  var size = ee.FeatureCollection(stats).size();
   
   // add items 
   resultsPanel.add(headerResultsPanel)
