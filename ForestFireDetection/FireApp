@@ -78,15 +78,16 @@ function printStats(stats){
   print(feat)
   
   // get band name 
-  var band = feat.getString('band').getInfo();
+  var band = feat.getString('band')//.getInfo();
   
   // get area stats 
   var area = feat.getNumber('area').format('%.2f').getInfo();  
   
   
   // get lulucf class 
-  var lulucf = band.match('\\d\\{3\\}');
-  print(band,area,lulucf);
+  var lulucf = band.match('\\d\{3\}');
+  //print(band,area)
+  print(lulucf);
   
   /*
   resultsPanel.add(ui.Panel(
