@@ -70,16 +70,16 @@ function printStats(stats){
   var feat = ee.Feature(stats.toList(1,j).get(0));
   print(feat)
     
-  var band = feat.get('band');
+  var band = feat.getString('band').getInfo();
   
-  var area = feat.get('area');  
+  var area = feat.getString('area').getInfo();  
   
   print(band,area);
   
   
   resultsPanel.add(ui.Panel({layout: ui.Panel.Layout.flow('horizontal')}))
-               .add(ui.Label({value: ee.String(band), style: {stretch: 'horizontal'}}))
-               .add((ui.Label({value: ee.String(area), style: {stretch: 'horizontal'}}))
+               .add(ui.Label({value: band, style: {stretch: 'horizontal'}}))
+               .add((ui.Label({value: area, style: {stretch: 'horizontal'}}))
     
     );
   
