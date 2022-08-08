@@ -3,10 +3,10 @@ var geometry =
     /* color: #000000 */
     /* shown: false */
     ee.Geometry.Polygon(
-        [[[-6.4593603515624975, 42.03059563833246],
-          [-6.4923193359374975, 41.79350055184409],
-          [-6.0034277343749975, 41.76892321812752],
-          [-5.9924414062499975, 42.00202745006484]]]);
+        [[[-6.172493353805974, 42.01970239945434],
+          [-6.167000189743474, 41.60619108549062],
+          [-5.787971869430974, 41.67597881739396],
+          [-5.738533392868474, 42.12979263460607]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
@@ -56,13 +56,16 @@ function printStats(stats){
   // get the size of the collection
   var size = stats.size();
   
+  var band = stats.get('band');
+  
+  var area = stats.get('area').round();
   
   // get the names of the vars
   for (var i = 0; i < size; i++) {
   
   analysisPanel.add(ui.Panel({layout: ui.Panel.Layout.flow('horizontal')}))
-               .add(ui.Label({value: 'Button ' + i, style: {stretch: 'horizontal'}}))
-               .add((ui.Label({value: 'Button ' + i, style: {stretch: 'horizontal'}}))
+               .add(ui.Label({value: ee.String(band), style: {stretch: 'horizontal'}}))
+               .add((ui.Label({value: ee.String(area), style: {stretch: 'horizontal'}}))
     
     );
   
@@ -214,8 +217,9 @@ function run (){
   //labelResult.setValue('Areas de cobertura de suelo afectadas por el incendio: ' +  lulucfStats.getInfo())
   //labelLinkResult.setValue('link de descarga : ' + url)
   
-  print('lulucfStats',lulucfStats)
+  print('lulucfStats',lulucfStats);
   
+  printStats(lulucfStats);
   
   
 }
