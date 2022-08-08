@@ -268,7 +268,7 @@ function run (){
   label : 'Descargar imagen',
   onClick: function(){
     
-    var url = indexImg.getDownloadURL({
+    var url = indexImg.multiply(1000).toInt8().getDownloadURL({
     crs: 'EPSG:25830',
     scale: 10,
     region: userAOI.evaluate(function(geo){return geo}),
