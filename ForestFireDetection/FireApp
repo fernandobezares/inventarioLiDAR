@@ -31,7 +31,7 @@ Map.add(dwonloadButton)
 // import the functions 
 var severityAnalysis = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
 var fireDetection = require('users/cesefor/inventarioForestal:ForestFireDetection/fireDetection');
-var cod = require('users/cesefor/inventarioForestal:ForestFireDetection/codigos');
+var codMfe = require('users/cesefor/inventarioForestal:ForestFireDetection/codigos');
 
 //rasters for stats analysis
 var mfeEspecies = ee.Image('users/franciscogallego/mfeEspecies').rename('especies');
@@ -88,7 +88,7 @@ function printStats(stats){
   
   print(lulucf)
   
-  var descripcion = ee.Dictionary(cod).get('mfe').get('lulucf');
+  var descripcion = ee.Dictionary(codMfe).get('lulucf');
   
   //print(band,area)
   ;
