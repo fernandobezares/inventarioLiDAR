@@ -29,10 +29,80 @@ var mfeCode = {
     '230' : 'Tierras de pastoreo y los pastizales dominados por vegetación herbácea',
     '240' : 'Tierras de pastoreo y pastizales quemados',
     '500' : 'Humedales (HLs)',
+    '510' : 'Turberas',
+    '520' : 'Tierras inundadas. Embalases, ríos y lagos con aumento sustancial de la superficie acuática',
+    '521' : 'Humedales interiores',
+    '522' : 'Humedales costeros',
+    '523' : 'Humedales mixtos',
+    '530' : 'Otros humedales. Lagos y ríos regulados en los que no se haya producido un incremento sustancial en la superficie acuática.',
+    '531' : 'Otros humedales interiores',
+    '532' : 'Otros humedales costeros',
+    '533' : 'Otros humedales mixtos',
+    '800' : 'Asentamiento artificial',
+    '810' : 'Zona residencia (urbana y rural)',
+    '820' : 'Zonas industriales o comerciales',
+    '821' : 'Zona industrial',
+    '822' : 'Zona comercial',
+    '830' : 'Puertos y aeropuertos',
+    '831' : 'Zonas portuarias',
+    '832' : 'Aeropuertos',
+    '833' : 'Otras zonas',
+    '840' : 'Infraestructuras de transporte',
+    '841' : 'Carreteras',
+    '842' : 'Ferrocarril no electrificado',
+    '849' : 'Otras',
+    '850' : 'Explotaciones mineras',
+    '860' : 'Escombreras y vertederos',
+    '870' : 'Zonas en construcción',
+    '832' : 'Aeropuertos',
+    '833' : 'Otras zonas',
+    
+    
     
     
   }
   
   
   
-}
+};
+
+SL	Toda la tierra desarrollada, incluidas las infraestructuras de transporte y los asentamientos humanos de cualquier tamaño, a menos que estén incluidos en otras categorías.		800
+Asentamientos o artificial	SLU	Zona residencial (urbana y rural)	810
+(Settlements)	Asentamientos urbanos		
+	(Urban units)		
+			
+	SLI	Zonas insutriales o comerciales	820
+	Zonas industriales o comerciales		
+	(Industrial or commercial units)		
+		Industrial	821
+		Comercial	822
+	SLP	Puertos y aeropuertos	830
+	Puertos y aeropuertos		
+	(Port areas and airports)		
+		Zonas portuarias	831
+		Aeropuertos	832
+		Otras	839
+	SLT	Infraestructuras de transporte.	840
+	Redes de transporte por tren y carretera		
+	(Road and rail transport networks)		
+		Carreteras	841
+		Ferrocarril no electrificado	842
+		Otras	849
+	SLM	Explotaciones mineras.	850
+	Minas		
+	(Mineral extraction sites)		
+	SLD	Escombreras y vertederos	860
+	Escombreras y vertederos		
+	(Dump sites)		
+	SLS	Zonas en construcción	870
+	Zonas en construcción		
+	(Construction sites)		
+	SLv	Tierras con cobertura vegetal, que no se consideran dentro de las categorías Tierras forestales, Tierras de cultivo ni Pastizales.	880
+	Vegetación		
+	(Vegetated areas)		
+		Arbolada	881
+		Arbustiva	882
+		Herbácea	883
+OL	Suelo desnudo, roca, hielo y todas aquellas zonas que no estén incluidas en ningunas de las otras cinco categorías anteriores: Tierras forestales, Tierras de cultivo, Pastizales, Humedales y Asentamientos o artificial.		400
+Otras tierras			
+(Otherland)			
