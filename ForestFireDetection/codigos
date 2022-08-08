@@ -1,0 +1,28 @@
+var mfeCode = {
+  lulucf : {
+    '100' : 'Tierras Forestales',
+    '110' : 'Tierra forestal de frondosas coherente con los umbrales de definición de Tierra Forestal',
+    '111' : 'Tierra forestal de frondosas igual o superior a los umbrales de definición de Tierra Forestal',
+    '112' : 'Tierra forestal de frondosas inferiir a los umbrales de definición de Tierra Forestal',
+    '120' : 'Tierra forestal de coníferas coherente con los umbrales de definición de Tierra Forestal',
+    '121' : 'Tierra forestal de coníferas igual o superior a los umbrales de definición de Tierra Forestal',
+    '122' : 'Tierra forestal de coníferas inferiir a los umbrales de definición de Tierra Forestal',
+    '130' : 'Tierra forestal de mixta coherente con los umbrales de definición de Tierra Forestal',
+    '131' : 'Tierra forestal de mixta igual o superior a los umbrales de definición de Tierra Forestal',
+    '132' : 'Tierra forestal de mixta inferiir a los umbrales de definición de Tierra Forestal',
+    '700' : 'Tierras de cultivo',
+    '710' : 'Tierra cultivada con cultivos leñosos perennes',
+    '711' : 'Olivar',
+    '712' : 'Viñedo',
+    '713' : 'Cítricos',
+    '714' : 'No Cítricos',
+    '715' : 'Olivar con otros cultivos leñosos',
+    '719' : 'Otros cultivos leñosos',
+    '720' : 'Tierra con cultivos anuales y multianuales',
+    
+    
+  }
+  
+  
+  
+}
