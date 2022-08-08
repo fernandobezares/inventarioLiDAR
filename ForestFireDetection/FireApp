@@ -1,3 +1,10 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = /* color: #000000 */ee.Geometry.Polygon(
+        [[[-6.1792089843749975, 41.914202071322606],
+          [-6.1847021484374975, 41.78326114091576],
+          [-5.9484960937499975, 41.75458209009992],
+          [-5.8825781249999975, 41.914202071322606]]]);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
 /*
@@ -248,7 +255,7 @@ function run (){
   // get mask area images for chart 
   var maskImg = severityAnalysis.getMasksByCrossedCategories(mfeLulucf,severityImg);
   
-  var areaImg = maskImg.multiply(ee.Image.pixelArea().divede(10000)).addBand(ee.Image(0).rename('cero'));
+  var areaImg = maskImg.multiply(ee.Image.pixelArea().divide(10000)).addBands(ee.Image(0).rename('cero'));
   
   var areaChart = ui.Chart.image.byClass({
     image : areaImg,
