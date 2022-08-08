@@ -54,9 +54,11 @@ var mfeCode = {
     '850' : 'Explotaciones mineras',
     '860' : 'Escombreras y vertederos',
     '870' : 'Zonas en construcción',
-    '832' : 'Aeropuertos',
-    '833' : 'Otras zonas',
-    
+    '880' : 'Tierras con cobertura vegetal, que no se consideran dentro de las categorías Tierras forestales, Tierras de cultivo ni Pastizales',
+    '881' : 'Tierras con cobertura vegetal, que no se consideran dentro de las categorías Tierras forestales, Tierras de cultivo ni Pastizales. Arbolada',
+    '882' : 'Tierras con cobertura vegetal, que no se consideran dentro de las categorías Tierras forestales, Tierras de cultivo ni Pastizales. Arbustiva',
+    '883' : 'Tierras con cobertura vegetal, que no se consideran dentro de las categorías Tierras forestales, Tierras de cultivo ni Pastizales. Herbácea',
+    '400' : ' Otras tierras. Suelo desnudo, roca ,hielo, ...',
     
     
     
