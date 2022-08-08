@@ -76,7 +76,7 @@ function printStats(stats){
   
   
   resultsPanel.add(ui.Panel({layout: ui.Panel.Layout.flow('horizontal')}))
-               .add([ui.Label({value: band}), ui.Label({value: area})])
+               .add(ui.Label({value: band}), ui.Label({value: area}))
     
     ;
   
