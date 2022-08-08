@@ -88,7 +88,7 @@ function printStats(stats){
   
   
   
-  var descripcion = codMfe.lulucf.lulucfCode;
+  var descripcion = codMfe.lulucf[lulucfCode];
   
   //print(band,area)
   print(descripcion)
