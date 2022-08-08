@@ -45,7 +45,7 @@ function printStats(stats){
   print('stats',stats)
   //stats panel 
   var resultsPanel = ui.Panel({layout: ui.Panel.Layout.flow('vertical')});
-  var headerResultsPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
+  var headerResultsPanel = ui.Panel({style: {width: '500px'},layout: ui.Panel.Layout.flow('horizontal')});
   
   // labels 
   var headerDescription = ui.Label({value: 'Clase', style: {fontWeight: 'bold'}});
@@ -56,9 +56,7 @@ function printStats(stats){
   print(size)
   
   // add items 
-  resultsPanel.add(headerResultsPanel)
-                  .add(headerDescription)
-                  .add(surfaceLabel)
+  resultsPanel.add(headerResultsPanel).add(headerDescription).add(surfaceLabel)
   
   
   
@@ -78,8 +76,8 @@ function printStats(stats){
   
   
   resultsPanel.add(ui.Panel({layout: ui.Panel.Layout.flow('horizontal')}))
-               .add(ui.Label({value: band, style: {border : '1px solid black'}}))
-               .add((ui.Label({value: area, style: {border : '1px solid black'}}))
+               .add(ui.Label({value: band}))
+               .add((ui.Label({value: area}))
     
     );
   
