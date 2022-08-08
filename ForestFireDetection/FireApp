@@ -42,7 +42,7 @@ var mfeLulucf = ee.Image('users/franciscogallego/mfeLulucfCyl').rename('lulucf')
 
 function printStats(stats){
   
-  print(stats)
+  print('stats',stats)
   //stats panel 
   var resultsPanel = ui.Panel({layout: ui.Panel.Layout.flow('vertical')});
   var headerResultsPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
@@ -53,6 +53,7 @@ function printStats(stats){
   
   // get the size of the collection
   var size = ee.FeatureCollection(stats).size();
+  print(size)
   
   // add items 
   resultsPanel.add(headerResultsPanel)
@@ -62,11 +63,11 @@ function printStats(stats){
   
   
   // get the names of the vars
-  for (var j = 0; j < size; j++) {
+  for (var j = 0; j < size.getInfo(); j++) {
     
   print(j)
   
-  var feat = ee.Feature(stats.toList(1,j).first());
+  var feat = ee.Feature(stats.toList(1,j).get(0));
   print(feat)
     
   var band = feat.get('band');
@@ -230,8 +231,8 @@ function run (){
   
   print('lulucfStats',lulucfStats);
   
-  lulucfStats.evaluate(function(stats){return printStats(stats)});
-  
+  //lulucfStats.evaluate(function(stats){return printStats(stats)});
+  lulucfStats.evaluate(printStats(lulucfStats))
   
 }
 
