@@ -78,15 +78,15 @@ function printStats(stats){
   
   
   resultsPanel.add(ui.Panel({layout: ui.Panel.Layout.flow('horizontal')}))
-               .add(ui.Label({value: band, border : '1px solid black'}))
-               .add((ui.Label({value: area, border : '1px solid black'}))
+               .add(ui.Label({value: band, style: {border : '1px solid black'}}))
+               .add((ui.Label({value: area, style: {border : '1px solid black'}}))
     
     );
   
   
 }
   
-  analysisPanel.add(resultsPanel)
+  analysisPanel.add(resultsPanel);
   
   
 }
