@@ -324,7 +324,10 @@ function run (){
 
 //-----------------------------------------------------------------------------
 
-// mensaje de carga 
+// mensaje de descarga 
+var downloadPanel = ui.Panel({
+  layout: ui.Panel.Layout.flow('horizontal')
+});
 
 // index selector 
 var indexSelector = ui.Select({
