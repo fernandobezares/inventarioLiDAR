@@ -1,15 +1,15 @@
 var mfeCode = {
   lulucf : {
-    '100' : 'Tierras Forestales',
+    '100' : 'Tierras Forestales (FLs)',
     '110' : 'Tierra forestal de frondosas coherente con los umbrales de definición de Tierra Forestal',
     '111' : 'Tierra forestal de frondosas igual o superior a los umbrales de definición de Tierra Forestal',
-    '112' : 'Tierra forestal de frondosas inferiir a los umbrales de definición de Tierra Forestal',
+    '112' : 'Tierra forestal de frondosas inferior a los umbrales de definición de Tierra Forestal',
     '120' : 'Tierra forestal de coníferas coherente con los umbrales de definición de Tierra Forestal',
     '121' : 'Tierra forestal de coníferas igual o superior a los umbrales de definición de Tierra Forestal',
-    '122' : 'Tierra forestal de coníferas inferiir a los umbrales de definición de Tierra Forestal',
+    '122' : 'Tierra forestal de coníferas inferior a los umbrales de definición de Tierra Forestal',
     '130' : 'Tierra forestal de mixta coherente con los umbrales de definición de Tierra Forestal',
     '131' : 'Tierra forestal de mixta igual o superior a los umbrales de definición de Tierra Forestal',
-    '132' : 'Tierra forestal de mixta inferiir a los umbrales de definición de Tierra Forestal',
+    '132' : 'Tierra forestal de mixta inferior a los umbrales de definición de Tierra Forestal',
     '700' : 'Tierras de cultivo',
     '710' : 'Tierra cultivada con cultivos leñosos perennes',
     '711' : 'Olivar',
@@ -19,6 +19,16 @@ var mfeCode = {
     '715' : 'Olivar con otros cultivos leñosos',
     '719' : 'Otros cultivos leñosos',
     '720' : 'Tierra con cultivos anuales y multianuales',
+    '721' : 'Arrozales',
+    '722' : 'Invernaderos',
+    '729' : 'Otros cultivos anuales',
+    '730' : 'Tierras de barbecho temporales',
+    '200' : 'Tierras de pastoreo y pastizales dominados por vegetación herbácea o arbustiva, así como con vegetación leñosa con FCC arbórea mayor o igual a 10%',
+    '210' : 'Tierras de pastoreo y los pastizales con vegetación leñosa con FCC arbórea ≥ 10%',
+    '220' : 'Tierras de pastoreo y los pastizales dominados por vegetación arbustiva',
+    '230' : 'Tierras de pastoreo y los pastizales dominados por vegetación herbácea',
+    '240' : 'Tierras de pastoreo y pastizales quemados',
+    '500' : 'Humedales (HLs)',
     
     
   }
