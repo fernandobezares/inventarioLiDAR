@@ -32,6 +32,8 @@ Map.add(dwonloadButton)
 var severityAnalysis = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
 var fireDetection = require('users/cesefor/inventarioForestal:ForestFireDetection/fireDetection');
 
+var cod = require('users/cesefor/inventarioForestal:ForestFireDetection/codigos');
+
 //rasters for stats analysis
 var mfeEspecies = ee.Image('users/franciscogallego/mfeEspecies').rename('especies');
 var mfeLulucf = ee.Image('users/franciscogallego/mfeLulucfCyl').rename('lulucf');
@@ -74,14 +76,19 @@ function printStats(stats){
   
   var feat = ee.Feature(stats.toList(1,j).get(0));
   print(feat)
-    
+  
+  // get band name 
   var band = feat.getString('band').getInfo();
   
+  // get area stats 
   var area = feat.getNumber('area').format('%.2f').getInfo();  
   
-  print(band,area);
   
+  // get lulucf class 
+  var lulucf = band.match('\\d\\{3\\}');
+  print(band,area,lulucf);
   
+  /*
   resultsPanel.add(ui.Panel(
     {layout: ui.Panel.Layout.flow('horizontal'),
      widgets: [
@@ -90,7 +97,7 @@ function printStats(stats){
         ]
   }))
                
-    
+    */
     ;
   
   
