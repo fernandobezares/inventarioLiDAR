@@ -214,9 +214,7 @@ function run (){
     Map.layers().reset();
   }
   
-  var loadingLabel = ui.Label({value:'Cargando estadísticas ...', style: {shown: true}});
-   
-  analysisPanel.add(loadingLabel);
+  
   
   // get user defined area
   var userAOI = getAOI().geometry();
@@ -263,8 +261,12 @@ function run (){
   
   //lulucfStats.evaluate(function(stats){return printStats(stats)});
   lulucfStats.evaluate(printStats(lulucfStats));
-  loadingLabel.style().set({shown: false});
   
+  /*
+  var loadingLabel = ui.Label({value:'Cargando estadísticas ...', style: {shown: true}});
+  analysisPanel.add(loadingLabel);
+  loadingLabel.style().set({shown: false});
+  */
 }
 
 
