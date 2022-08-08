@@ -88,10 +88,10 @@ function printStats(stats){
   
   
   
-  var descripcion = ee.Dictionary(ee.Dictionary(codMfe).get('lulucf')).get(lulucfCode);
+  var descripcion = codMfe.lulucf.lulucfCode;
   
   //print(band,area)
-  ;
+  print(descripcion)
   
   
   resultsPanel.add(ui.Panel(
