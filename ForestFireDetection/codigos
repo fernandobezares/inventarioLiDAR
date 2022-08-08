@@ -68,43 +68,4 @@ var mfeCode = {
   
 };
 
-SL	Toda la tierra desarrollada, incluidas las infraestructuras de transporte y los asentamientos humanos de cualquier tamaño, a menos que estén incluidos en otras categorías.		800
-Asentamientos o artificial	SLU	Zona residencial (urbana y rural)	810
-(Settlements)	Asentamientos urbanos		
-	(Urban units)		
-			
-	SLI	Zonas insutriales o comerciales	820
-	Zonas industriales o comerciales		
-	(Industrial or commercial units)		
-		Industrial	821
-		Comercial	822
-	SLP	Puertos y aeropuertos	830
-	Puertos y aeropuertos		
-	(Port areas and airports)		
-		Zonas portuarias	831
-		Aeropuertos	832
-		Otras	839
-	SLT	Infraestructuras de transporte.	840
-	Redes de transporte por tren y carretera		
-	(Road and rail transport networks)		
-		Carreteras	841
-		Ferrocarril no electrificado	842
-		Otras	849
-	SLM	Explotaciones mineras.	850
-	Minas		
-	(Mineral extraction sites)		
-	SLD	Escombreras y vertederos	860
-	Escombreras y vertederos		
-	(Dump sites)		
-	SLS	Zonas en construcción	870
-	Zonas en construcción		
-	(Construction sites)		
-	SLv	Tierras con cobertura vegetal, que no se consideran dentro de las categorías Tierras forestales, Tierras de cultivo ni Pastizales.	880
-	Vegetación		
-	(Vegetated areas)		
-		Arbolada	881
-		Arbustiva	882
-		Herbácea	883
-OL	Suelo desnudo, roca, hielo y todas aquellas zonas que no estén incluidas en ningunas de las otras cinco categorías anteriores: Tierras forestales, Tierras de cultivo, Pastizales, Humedales y Asentamientos o artificial.		400
-Otras tierras			
-(Otherland)			
+
