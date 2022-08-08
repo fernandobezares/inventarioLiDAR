@@ -214,11 +214,16 @@ function run (){
     Map.layers().reset();
   }
   
+  var loadingLabel = ui.Label({value:'Cargando estadísticas ...', style: {shown: true}});
+   
+  analysisPanel.add(loadingLabel);
+  
   // get user defined area
   var userAOI = getAOI().geometry();
   
   // get date from the selected fire
   var date = getDateFromFires(); // gets dates and loads the fire polygon
+  
   
   // index name
   var indexName = indexButton.getValue();
@@ -241,9 +246,7 @@ function run (){
   
   Map.centerObject(userAOI,11);
   
-  var loadingLabel = ui.Label({value:'Cargando estadísticas ...', style: {shown: true}});
-   
-  analysisPanel.add(loadingLabel);
+  
   
   var lulucfStats = severityAnalysis.categoricalZonalStatistics (mfeLulucf,severityImg);
 
