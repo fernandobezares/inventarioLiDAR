@@ -258,6 +258,27 @@ function run (){
   
   var severityImg = severity.select(reclassIndexName);
   
+  var imageDownloadButton  = ui.Button({
+  label : 'Descargar imagen',
+  onClick: function(){
+    
+    var url = indexImg.getDownloadURL({
+    crs: 'EPSG:25830',
+    scale: 10,
+    region: userAOI,
+    filePerBand: true,
+    format: "ZIPPED_GEO_TIFF",
+    filename: 'index'
+    
+  });
+  
+   return location.assing(url);
+    
+  }
+});
+  
+  
+  print(url);
   
   // add elements to the map
   
@@ -267,10 +288,10 @@ function run (){
   Map.centerObject(userAOI,11);
   
   var loadingLabel = ui.Label({value:'Cargando estadísticas ...', style: {shown: true}});
-  analysisPanel.add(loadingLabel);
+  analysisPanel.add(imageDownloadButton);
   
   
-  var lulucfStats = severityAnalysis.categoricalZonalStatistics (mfeLulucf,severityImg);
+  //var lulucfStats = severityAnalysis.categoricalZonalStatistics (mfeLulucf,severityImg);
 
   //var lostWood = severityAnalysis.volumenArea(severityImg);
   //print(lostWood)
@@ -284,11 +305,10 @@ function run (){
   
   
   
-  lulucfStats.evaluate(function(stats){return printStats(stats)});
+  //lulucfStats.evaluate(function(stats){return printStats(stats)});
   lulucfStats.evaluate(printStats(lulucfStats));
   
-  var url = indexImg.getDownloadURL({format: 'ZIPPED_GEO_TIFF',filename: 'index'})
-  print(url)
+  
   
   loadingLabel.style().set({shown: false});
   
@@ -337,6 +357,7 @@ var monthSelector = ui.Select({
 
 // loading button 
 var loadButton = ui.Button('Cargar');
+
 
 // description Label
 var decriptionLabel = ui.Label({
