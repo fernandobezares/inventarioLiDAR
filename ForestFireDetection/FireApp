@@ -53,29 +53,38 @@ function printStats(stats){
   // get the size of the collection
   var size = stats.size();
   
+  // add items 
+  resultsPanel.add(headerResultsPanel)
+                  .add(headerDescription)
+                  .add(surfaceLabel)
+  
   
   
   // get the names of the vars
-  for (var i = 0; i < size; i++) {
+  for (var j = 0; j < size; j++) {
+    
+  print(j)
   
-  var feat = ee.Feature(stats.toList(1,i).first());
+  var feat = ee.Feature(stats.toList(1,j).first());
+  print(feat)
     
   var band = feat.get('band');
   
-  var area = ee.Number(feat.get('area')).round();  
+  var area = feat.get('area');  
   
-  analysisPanel.add(ui.Panel({layout: ui.Panel.Layout.flow('horizontal')}))
+  print(band,area);
+  
+  
+  resultsPanel.add(ui.Panel({layout: ui.Panel.Layout.flow('horizontal')}))
                .add(ui.Label({value: ee.String(band), style: {stretch: 'horizontal'}}))
                .add((ui.Label({value: ee.String(area), style: {stretch: 'horizontal'}}))
     
     );
   
   
-  
-  
 }
   
-  
+  analysisPanel.add(resultsPanel)
   
   
 }
@@ -220,7 +229,7 @@ function run (){
   
   print('lulucfStats',lulucfStats);
   
-  printStats(lulucfStats);
+  //printStats(lulucfStats);
   
   
 }
