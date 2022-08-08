@@ -53,12 +53,16 @@ function printStats(stats){
   // get the size of the collection
   var size = stats.size();
   
-  var band = stats.get('band');
   
-  var area = ee.Number(stats.get('area')).round();
   
   // get the names of the vars
   for (var i = 0; i < size; i++) {
+  
+  var feat = ee.Feature(stats.toList(1,i).first());
+    
+  var band = feat.get('band');
+  
+  var area = ee.Number(feat.get('area')).round();  
   
   analysisPanel.add(ui.Panel({layout: ui.Panel.Layout.flow('horizontal')}))
                .add(ui.Label({value: ee.String(band), style: {stretch: 'horizontal'}}))
