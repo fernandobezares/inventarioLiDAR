@@ -72,7 +72,7 @@ function printStats(stats){
     
   var band = feat.getString('band').getInfo();
   
-  var area = feat.getString('area').getInfo();  
+  var area = feat.getNumber('area').format('%.2f').getInfo();  
   
   print(band,area);
   
