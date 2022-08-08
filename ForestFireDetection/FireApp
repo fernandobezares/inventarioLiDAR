@@ -85,7 +85,7 @@ function printStats(stats){
   
   
   // get lulucf class 
-  var lulucf = band.match('\\d\{3\}').get(0);
+  var lulucf = band.match('\\d\{3\}').get(0).getInfo();
   
   var descripcion = cod.mfe.lulucf[lulucf];
   
@@ -96,7 +96,7 @@ function printStats(stats){
   resultsPanel.add(ui.Panel(
     {layout: ui.Panel.Layout.flow('horizontal'),
      widgets: [
-        ui.Label({value: lulucf.getInfo()}),
+        ui.Label({value: descripcion}),
         ui.Label({value: area})
         ]
   }))
