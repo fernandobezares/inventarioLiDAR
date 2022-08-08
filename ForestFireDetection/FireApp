@@ -3,10 +3,12 @@ var geometry = /* color: #000000 */ee.Geometry.Polygon(
         [[[-5.9887872909861635, 41.96151529741099],
           [-6.017464761377853, 41.96100773779864],
           [-6.059872860873465, 41.95742564141214],
-          [-6.2579523300486635, 41.80047790867471],
-          [-5.986066147327382, 41.74805058309157],
-          [-5.867251036103351, 41.81839099172248],
-          [-5.816027869363589, 41.90836821620265]]]);
+          [-6.111696836884601, 41.81122635958294],
+          [-5.997052475452382, 41.77878077451484],
+          [-5.923274680350579, 41.78475700135898],
+          [-5.893343565400226, 41.83936851815013],
+          [-5.870272864480777, 41.928805391683014],
+          [-5.932948104366549, 41.95692097544467]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
@@ -282,13 +284,15 @@ function run (){
   });
    print(url);
    
-   downloadPanel.widgets().reset().add(ui.Label({value:'Copie el link en el navegador:\n'+ url, style:{ whiteSpace: 'pre'}}))
+   downloadPanel.widgets().reset()
+   downloadPanel.add(ui.Label({value:'Copie el link en el navegador:\n'+ url, style:{ whiteSpace: 'pre'}}))
   
     
   }
    catch (error){
      
-     downloadPanel.widgets().reset().add(ui.Label({value:'Área demasiado grande, reduzca el área de estudio para descargar la imagen',style:{color:'red'}}))
+     downloadPanel.widgets().reset()
+     downloadPanel.add(ui.Label({value:'Área demasiado grande, reduzca el área de estudio para descargar la imagen',style:{color:'red'}}))
      
    }
     
