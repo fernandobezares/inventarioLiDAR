@@ -232,33 +232,14 @@ var visIndex = ee.Dictionary({
 //
 function run (){
   
-  var imageDownloadButton  = ui.Button({
-  label : 'Descargar imagen',
-  onClick: function(){
-    
-    var url = indexImg.getDownloadURL({
-    crs: 'EPSG:25830',
-    scale: 10,
-    region: userAOI.evaluate(function(geo){return geo}),
-    filePerBand: true,
-    format: "ZIPPED_GEO_TIFF",
-    filename: 'index'
-    
-  });
-   print(url)
-    
-   return url;
-    
-  }
-});
   
   
   if (Map.layers().length() > 0){
     Map.layers().reset();
   }
   
-  if (analysisPanel.widgets().length() > 0){
-    analysisPanel.widgets().reset();
+  if (downloadPanel.widgets().length() > 0){
+    downloadPanel.widgets().reset();
   }
   
   // get user defined area
@@ -282,7 +263,26 @@ function run (){
   
   var severityImg = severity.select(reclassIndexName);
   
-  
+  // 
+  var imageDownloadButton  = ui.Button({
+  label : 'Descargar imagen',
+  onClick: function(){
+    
+    var url = indexImg.getDownloadURL({
+    crs: 'EPSG:25830',
+    scale: 10,
+    region: userAOI.evaluate(function(geo){return geo}),
+    filePerBand: true,
+    format: "ZIPPED_GEO_TIFF",
+    filename: 'index'
+    
+  });
+   print(url)
+    
+   return url;
+    
+  }
+});
   
   
   
@@ -295,7 +295,7 @@ function run (){
   Map.centerObject(userAOI,11);
   
   var loadingLabel = ui.Label({value:'Cargando estadísticas ...', style: {shown: true}});
-  analysisPanel.add(imageDownloadButton);
+  downloadPanel.add(imageDownloadButton);
   
   /*
   var lulucfStats = severityAnalysis.categoricalZonalStatistics (mfeLulucf,severityImg);
