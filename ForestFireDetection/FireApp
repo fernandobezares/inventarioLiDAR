@@ -1,8 +1,5 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = 
-    /* color: #000000 */
-    /* shown: false */
-    ee.Geometry.Polygon(
+var geometry = /* color: #000000 */ee.Geometry.Polygon(
         [[[-6.172493353805974, 42.01970239945434],
           [-6.167000189743474, 41.60619108549062],
           [-5.787971869430974, 41.67597881739396],
@@ -58,7 +55,7 @@ function printStats(stats){
   
   var band = stats.get('band');
   
-  var area = stats.get('area').round();
+  var area = ee.Number(stats.get('area')).round();
   
   // get the names of the vars
   for (var i = 0; i < size; i++) {
