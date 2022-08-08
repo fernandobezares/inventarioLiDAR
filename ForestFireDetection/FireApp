@@ -1,10 +1,10 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = /* color: #000000 */ee.Geometry.Polygon(
         [[[-6.106535474245118, 41.9380050348595],
-          [-6.1559785085274195, 41.762117589661194],
-          [-5.903375549216747, 41.762112384684066],
+          [-6.0571015554024195, 41.815362223477095],
+          [-5.963800353904247, 41.81330996987682],
           [-5.914339208980059, 41.83364190974308],
-          [-5.859424949283393, 41.982933084760354]]]);
+          [-5.941686884079087, 41.931984171082235]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
@@ -110,6 +110,7 @@ function printStats(stats){
   analysisPanel.add(resultsPanel);
   
   
+  return 
 }
 
 
@@ -253,7 +254,7 @@ function run (){
   print('lulucfStats',lulucfStats);
   
   //lulucfStats.evaluate(function(stats){return printStats(stats)});
-  lulucfStats.evaluate(function(stats){ return printStats(stats)});
+  lulucfStats.evaluate(printStats(lulucfStats));
   
 }
 
