@@ -86,7 +86,7 @@ function printStats(stats){
   // get lulucf class 
   var lulucfCode = band.match('\\d\{3\}').get(0).getInfo();
   
-  
+  // get intensity 
   
   var descripcion = codMfe.lulucf[lulucfCode];
   
