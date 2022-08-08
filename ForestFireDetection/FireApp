@@ -44,8 +44,14 @@ var mfeLulucf = ee.Image('users/franciscogallego/mfeLulucfCyl').rename('lulucf')
 
 
 function printStats(stats){
+  
   //stats panel 
-  var statsPanel = ui.Panel({layout: ui.Panel.Layout.flow('vertical')})
+  var resultsPanel = ui.Panel({layout: ui.Panel.Layout.flow('vertical')});
+  var headerResultsPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
+  
+  // labels 
+  var headerDescription = ui.Label({value: 'Clase', style: {stretch: 'horizontal'}});
+  var surfaceLabel = ui.Label({value: 'Superficie (ha)', style: {stretch: 'horizontal'}});
   
   // get the size of the collection
   var size = stats.size();
@@ -53,7 +59,14 @@ function printStats(stats){
   
   // get the names of the vars
   for (var i = 0; i < size; i++) {
-  panel.add(ui.Button({label: 'Button ' + i, style: {stretch: 'horizontal'}}));
+  
+  analysisPanel.add(ui.Panel({layout: ui.Panel.Layout.flow('horizontal')}))
+               .add(ui.Label({value: 'Button ' + i, style: {stretch: 'horizontal'}}))
+               .add((ui.Label({value: 'Button ' + i, style: {stretch: 'horizontal'}}))
+    
+    );
+  
+  
   
   
 }
@@ -107,6 +120,8 @@ function getAOI(){
 }
 
 function updateFires(layer){
+  
+  
   
   var name = 'Fires';
   
@@ -191,13 +206,13 @@ function run (){
   
   var lulucfStats = severityAnalysis.categoricalZonalStatistics (mfeLulucf,severityImg);
 
-  var lostWood = severityAnalysis.volumenArea(severityImg);
-  print(lostWood)
+  //var lostWood = severityAnalysis.volumenArea(severityImg);
+  //print(lostWood)
   
-  var url = lulucfStats.getDownloadURL({format: 'csv',filename: 'lostwood per intensity areas'})
+  //var url = lulucfStats.getDownloadURL({format: 'csv',filename: 'lostwood per intensity areas'})
   
-  labelResult.setValue('Areas de cobertura de suelo afectadas por el incendio: ' +  lulucfStats.getInfo())
-  labelLinkResult.setValue('link de descarga : ' + url)
+  //labelResult.setValue('Areas de cobertura de suelo afectadas por el incendio: ' +  lulucfStats.getInfo())
+  //labelLinkResult.setValue('link de descarga : ' + url)
   
   print('lulucfStats',lulucfStats)
   
