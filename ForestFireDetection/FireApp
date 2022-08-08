@@ -3,8 +3,8 @@ var geometry = /* color: #000000 */ee.Geometry.Polygon(
         [[[-5.9887872909861635, 41.96151529741099],
           [-6.017464761377853, 41.96100773779864],
           [-6.059872860873465, 41.95742564141214],
-          [-6.107576963837726, 41.79126351557364],
-          [-5.988812729358632, 41.75061199449845],
+          [-6.0382257675486635, 41.842437823468494],
+          [-5.957227035999257, 41.816661073091254],
           [-5.867251036103351, 41.81839099172248],
           [-5.816027869363589, 41.90836821620265]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
@@ -280,8 +280,12 @@ function run (){
     filename: 'index'
     
   });
-   print(url)}
+   print(url);
    
+   downloadPanel.add(ui.Label({value:'Copie el link en el navegador:\n'+ url, style:{ whiteSpace: 'pre'}}))
+  
+    
+  }
    catch (error){
      
      downloadPanel.add(ui.Label({value:'Área demasiado grande, reduzca el área de estudio para descargar la imagen'}))
