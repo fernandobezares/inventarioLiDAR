@@ -229,7 +229,7 @@ function run (){
   
   print('lulucfStats',lulucfStats);
   
-  lulucStats.evaluate(function(stats){return printStats(stats)});
+  lulucfStats.evaluate(function(stats){return printStats(stats)});
   
   
 }
