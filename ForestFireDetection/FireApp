@@ -32,7 +32,6 @@ Map.add(dwonloadButton)
 // import the functions 
 var severityAnalysis = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
 var fireDetection = require('users/cesefor/inventarioForestal:ForestFireDetection/fireDetection');
-
 var cod = require('users/cesefor/inventarioForestal:ForestFireDetection/codigos');
 
 //rasters for stats analysis
@@ -66,17 +65,17 @@ function printStats(stats){
  
   
   // add items 
-  resultsPanel.add(headerResultsPanel)
+  resultsPanel.add(headerResultsPanel);
   
   
   
   // get the names of the vars
   for (var j = 0; j < size.getInfo(); j++) {
     
-  print(j)
+  //print(j)
   
   var feat = ee.Feature(stats.toList(1,j).get(0));
-  print(feat)
+  //print(feat)
   
   // get band name 
   var band = feat.getString('band')//.getInfo();
@@ -86,20 +85,23 @@ function printStats(stats){
   
   
   // get lulucf class 
-  var lulucf = band.match('\\d\{3\}');
+  var lulucf = band.match('\\d\{3\}').get(0);
+  
+  var descripcion = cod.mfe.lulucf[lulucf];
+  
   //print(band,area)
   print(lulucf);
   
-  /*
+  
   resultsPanel.add(ui.Panel(
     {layout: ui.Panel.Layout.flow('horizontal'),
      widgets: [
-        ui.Label({value: band}),
+        ui.Label({value: lulucf.getInfo()}),
         ui.Label({value: area})
         ]
   }))
                
-    */
+    
     ;
   
   
@@ -251,7 +253,7 @@ function run (){
   print('lulucfStats',lulucfStats);
   
   //lulucfStats.evaluate(function(stats){return printStats(stats)});
-  lulucfStats.evaluate(printStats(lulucfStats))
+  lulucfStats.evaluate(function(stats){ return printStats(stats)});
   
 }
 
