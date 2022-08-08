@@ -1,9 +1,10 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-6.03432678222656, 41.87586822966341],
-          [-6.0363867187499975, 41.844161550116915],
-          [-5.961542358398435, 41.83648821748962],
-          [-5.88584959000801, 41.872259597589725]]]);
+        [[[-6.14327774049412, 41.99292970486355],
+          [-6.152890777603495, 41.75262103793565],
+          [-6.021051804167792, 41.757300987300034],
+          [-5.888532257095682, 41.752108779863086],
+          [-5.848020172134745, 41.99599163370441]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
 
@@ -231,11 +232,34 @@ var visIndex = ee.Dictionary({
 //
 function run (){
   
+  var imageDownloadButton  = ui.Button({
+  label : 'Descargar imagen',
+  onClick: function(){
+    
+    var url = indexImg.getDownloadURL({
+    crs: 'EPSG:25830',
+    scale: 10,
+    region: userAOI.evaluate(function(geo){return geo}),
+    filePerBand: true,
+    format: "ZIPPED_GEO_TIFF",
+    filename: 'index'
+    
+  });
+   print(url)
+    
+   return url;
+    
+  }
+});
+  
+  
   if (Map.layers().length() > 0){
     Map.layers().reset();
   }
   
-  
+  if (analysisPanel.widgets().length() > 0){
+    analysisPanel.widgets().reset();
+  }
   
   // get user defined area
   var userAOI = getAOI().geometry();
@@ -258,25 +282,7 @@ function run (){
   
   var severityImg = severity.select(reclassIndexName);
   
-  var imageDownloadButton  = ui.Button({
-  label : 'Descargar imagen',
-  onClick: function(){
-    
-    var url = indexImg.getDownloadURL({
-    crs: 'EPSG:25830',
-    scale: 10,
-    region: userAOI,
-    filePerBand: true,
-    format: "ZIPPED_GEO_TIFF",
-    filename: 'index'
-    
-  });
-   print(url)
-    
-   return window.open(url);
-    
-  }
-});
+  
   
   
   
@@ -319,8 +325,6 @@ function run (){
 //-----------------------------------------------------------------------------
 
 // mensaje de carga 
-
-
 
 // index selector 
 var indexSelector = ui.Select({
