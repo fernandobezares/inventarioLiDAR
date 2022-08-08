@@ -43,20 +43,27 @@ var mfeLulucf = ee.Image('users/franciscogallego/mfeLulucfCyl').rename('lulucf')
 function printStats(stats){
   
   print('stats',stats)
-  //stats panel 
-  var resultsPanel = ui.Panel({layout: ui.Panel.Layout.flow('vertical')});
-  var headerResultsPanel = ui.Panel({style: {width: '500px'},layout: ui.Panel.Layout.flow('horizontal')});
   
   // labels 
   var headerDescription = ui.Label({value: 'Clase', style: {fontWeight: 'bold'}});
   var surfaceLabel = ui.Label({value: 'Superficie (ha)', style: {fontWeight: 'bold'}});
   
+  //stats panel 
+  var resultsPanel = ui.Panel({layout: ui.Panel.Layout.flow('vertical')});
+  var headerResultsPanel = ui.Panel({ 
+    widgets: [
+      headerDescription,
+      surfaceLabel
+    ],
+    layout: ui.Panel.Layout.flow('horizontal')});
+  
+
   // get the size of the collection
   var size = ee.FeatureCollection(stats).size();
-  print(size)
+ 
   
   // add items 
-  resultsPanel.add(headerResultsPanel).add(headerDescription).add(surfaceLabel)
+  resultsPanel.add(headerResultsPanel)
   
   
   
@@ -75,8 +82,14 @@ function printStats(stats){
   print(band,area);
   
   
-  resultsPanel.add(ui.Panel({layout: ui.Panel.Layout.flow('horizontal')}))
-               .add(ui.Label({value: band}), ui.Label({value: area}))
+  resultsPanel.add(ui.Panel(
+    {layout: ui.Panel.Layout.flow('horizontal'),
+     widgets: [
+        ui.Label({value: band}),
+        ui.Label({value: area})
+        ]
+  }))
+               
     
     ;
   
