@@ -271,7 +271,8 @@ function run (){
     filename: 'index'
     
   });
-  
+   print(url)
+    
    return window.open(url);
     
   }
