@@ -1,25 +1,3 @@
-//print(aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'}));
-
-/*
-var dwonloadButton = ui.Button({
-  label: 'Download CSV area',
-  onClick: function(){
-    var url = aAltdNBRL2.getDownloadURL({format: 'csv',filename: 'dNBR2 lulucf areas'})
-    
-    var downPanel = ui.Panel()
-    var label = ui.Label(url)
-    
-    downPanel.add(label)
-    
-    Map.add(downPanel)
-  
-}
-})
-
-Map.add(dwonloadButton)
-
-
-*/
 
 // import the functions 
 var severityAnalysis = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
