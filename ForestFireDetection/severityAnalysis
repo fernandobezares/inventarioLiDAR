@@ -371,7 +371,7 @@ function getAlternativeCollection(collection,aoi){
   // get if the image is pre orpost fire
   var mode = collection.aggregate_array('mode').get(0);
   
-  print('mode',mode)
+  print('mode', mode)
   // get col length
   var colLength = collection.size();
   print('collection',collection)
@@ -473,6 +473,7 @@ function getSpectralIndexes(date, userAOI){
               .map(maskWater)
               //.map(resample)
               .map (addNBRpre)
+              .map(function(image){return image.set('mode','pre')})
               .select ('B.*','NBRpre');
               
               
@@ -484,6 +485,7 @@ function getSpectralIndexes(date, userAOI){
               .map(maskWater)
               //.map(resample)
               .map(addNBRpost)
+              .map(function(image){return image.set('mode','post')})
               .select ('B.*', 'NBRpost');
   
   print('preFire',preFire)
