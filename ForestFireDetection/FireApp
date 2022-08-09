@@ -56,9 +56,9 @@ function areaChart (img1,img2){
     scale: 25,
     reducer:ee.Reducer.sum(),
     classBand:'Superficie quemada'
-  })
+  });
   
-  print(areaChart)
+  print(areaChart);
 }
 
   
