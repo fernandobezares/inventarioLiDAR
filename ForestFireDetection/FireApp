@@ -133,7 +133,7 @@ var severityLegend = ui.Panel({
   style: {
     position: 'bottom-left',
     padding: '8px 15px',
-    height :'90px',
+    height :'200px',
     width : '200px'
   }
 });
@@ -183,7 +183,7 @@ var makeRow = function(color, name) {
 // create lists for the legend representation
 
 
-var Class = cod.reclassIndex;
+var Class = cod.reclassIndex[indexName];
 var color = visIndex.get(indexName).getInfo()['palette'];
 var elements = visIndex.get(indexName).getInfo()['max'];
 
