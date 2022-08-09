@@ -3,10 +3,10 @@ var geometry =
     /* color: #000000 */
     /* shown: false */
     ee.Geometry.Polygon(
-        [[[-6.1544897460937475, 42.038755620688065],
-          [-6.1874487304687475, 41.62536773241477],
-          [-5.7315161132812475, 41.67462285261692],
-          [-5.7919409179687475, 42.03059563833246]]]);
+        [[[-5.729302456818292, 42.056420342196766],
+          [-5.7282724885565734, 42.01332557175302],
+          [-5.671280911408136, 42.017406802279424],
+          [-5.667161038361261, 42.05540068526454]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -195,7 +195,7 @@ function getDateFromFires(){
 
 var visIndex = ee.Dictionary({
   'RBR':{min:-1,max:1, palette:['green','white','red']},
-  'RdNBR': {min:-1, max:1, palette:['green','white','red']},
+  'RdNBR': {min:-1, max:2, palette:['green','white','red']},
   'dNBR':{min:-0.3,max:1, palette:['lightgreen', 'yellow', 'orange','red']},
   'RBRclass':{min:0,max:3, palette:['white', 'yellow', 'orange','red']},
   'RdNBRclass': {min:0,max:3, palette:['white', 'yellow', 'orange','red']},
