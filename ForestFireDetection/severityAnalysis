@@ -383,7 +383,7 @@ function getAlternativeCollection(collection,aoi){
   var startDate = ee.Date(range.get('min'));
   var endDate = ee.Date(range.get('max'));
   
-  print(startDate)
+  print(startDate);
   
   // if it is pre fire
   if (mode === 'pre'){
@@ -407,7 +407,7 @@ function getAlternativeCollection(collection,aoi){
               .select ('B.*','NBRpre');
   
     }else{
-      return collection;
+      return ee.ImageCollection(collection);
     }
     
     
@@ -432,15 +432,12 @@ function getAlternativeCollection(collection,aoi){
               .select ('B.*','NBRpost');
     }else{
       
-      return collection
+      return ee.ImageCollection(collection)
     }
       
       
     }
-    
-    
-    
-    
+  
     return ee.ImageCollection(newCol);
     
     
