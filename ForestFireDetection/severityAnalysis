@@ -369,7 +369,7 @@ function categoricalZonalStatistics (img1,img2){
 function getAlternativeCollection(collection,aoi){
   
   // get if the image is pre orpost fire
-  var mode = collection.aggregate_array('mode')[0];
+  var mode = collection.get('mode');
   
   print('mode', mode)
   // get col length
@@ -474,7 +474,6 @@ function getSpectralIndexes(date, userAOI){
               //.map(resample)
               .map (addNBRpre)
               .set('mode','pre')
-              .map(function(image){return image.set('mode','pre')})
               .select ('B.*','NBRpre');
               
               
@@ -486,7 +485,7 @@ function getSpectralIndexes(date, userAOI){
               .map(maskWater)
               //.map(resample)
               .map(addNBRpost)
-              .map(function(image){return image.set('mode','post')})
+              .set('mode','post')
               .select ('B.*', 'NBRpost');
   
   print('preFire',preFire)
