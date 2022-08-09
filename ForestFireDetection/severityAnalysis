@@ -371,6 +371,7 @@ function getAlternativeCollection(collection,aoi){
   // get if the image is pre orpost fire
   var mode = collection.aggregate_array('mode').get(0);
   
+  print('mode')
   // get col length
   var colLength = collection.size();
   print('collection',collection)
