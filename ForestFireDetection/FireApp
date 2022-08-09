@@ -129,6 +129,20 @@ var visIndex = ee.Dictionary({
 
 // leyenda mfe
 
+function adjustLegendHeight(nameIndex){
+  if (nameIndex === 'dNBRclass'){
+    
+    severityLegend.style().set({height: '200px'})
+  
+    
+  }else {
+    
+    severityLegend.style().set({height: '100px'})
+    
+  }
+  
+} 
+
 
 // set position of panel
 var severityLegend = ui.Panel({
@@ -137,7 +151,7 @@ var severityLegend = ui.Panel({
     position: 'bottom-left',
     padding: '8px 15px',
     height :'200px',
-    width : '200px'
+    width : '100px'
   }
 });
  
@@ -190,10 +204,6 @@ var Class = cod.reclassIndex[indexName];
 var color = visIndex.get(indexName).getInfo()['palette'];
 var elements = visIndex.get(indexName).getInfo()['max'];
 
-print(Class)
-print(indexName)
-print(cod.reclassIndex[indexName])
-
 
 // create a legend for the palette 
 for (var i = 0; i < elements; i++){
@@ -203,7 +213,7 @@ for (var i = 0; i < elements; i++){
   severityLegend.add(makeRow(color[i], nameLabel));
   
 }  
-  return severityLegend
+  return severityLegend;
 }
 
 
@@ -395,22 +405,25 @@ function run (){
   }
 });
   
-  
+  // create the continuos legend
   var indexLegend = createColorBar(indexName, '', 
   visIndex.get(indexName).getInfo()['palette'], 
   visIndex.get(indexName).getInfo()['min'], 
   visIndex.get(indexName).getInfo()['max']);
   
-  var severityIndexLegend = categoricalLegend(reclassIndexName)
+  // create the categorical legend
+  var severityIndexLegend = categoricalLegend(reclassIndexName);
   
-  
+  // adjust the legend according to the idnex represented
+  adjustLegendHeight(reclassIndexName);
   
   // add elements to the map
-  
   Map.addLayer(indexImg,visIndex.get(indexName).getInfo(),indexName);
+  Map.addLayer(severityImg,visIndex.get(reclassIndexName).getInfo(),reclassIndexName);
+  
+  // add legends to the map
   Map.add(indexLegend)
   Map.add(severityIndexLegend)
-  Map.addLayer(severityImg,visIndex.get(reclassIndexName).getInfo(),reclassIndexName);
   
   Map.centerObject(userAOI,11);
   
