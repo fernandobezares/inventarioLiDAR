@@ -68,9 +68,9 @@ var codigos = {
   },
   
   reclassIndex:{
-    "RBRreclass" :['Baja' ,'Moderada', 'Alta'],
-    "RdNBRreclass":['Baja' ,'Moderada', 'Alta'],
-    "DNBRreclass" : ['Alto rebrote',"Bajo rebrote","No quemado", "Baja", "Moderada - Baja",  "Moderada - Alta", "Alta"]
+    "RBRclass" :['Baja' ,'Moderada', 'Alta'],
+    "RdNBRclass":['Baja' ,'Moderada', 'Alta'],
+    "DNBRclass" : ['Alto rebrote',"Bajo rebrote","No quemado", "Baja", "Moderada - Baja",  "Moderada - Alta", "Alta"]
 } 
 
 
