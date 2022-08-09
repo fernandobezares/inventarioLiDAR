@@ -371,18 +371,17 @@ function getAlternativeCollection(collection,aoi){
   // get if the image is pre orpost fire
   var mode = collection.aggregate_array('mode').get(0);
   
-  print('mode')
+  print('mode',mode)
   // get col length
   var colLength = collection.size();
   print('collection',collection)
   print('porpertynames',collection.propertyNames())
   // get col date range
-  var range = collection.reduceColumns(ee.Reducer.minMax(), ['system:time_start'])
-  print('Date range: ', ee.Date(range.get('min')), ee.Date(range.get('max')))
+  var range = collection.get('date_range')
 
   
-  var startDate = ee.Date(range.get('min'));
-  var endDate = ee.Date(range.get('max'));
+  var startDate = ee.Date(range[0]);
+  var endDate = ee.Date(range[1]);
   
   print(startDate);
   
