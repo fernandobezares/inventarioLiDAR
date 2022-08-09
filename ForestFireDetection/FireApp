@@ -1,8 +1,5 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = 
-    /* color: #000000 */
-    /* shown: false */
-    ee.Geometry.Polygon(
+var geometry = /* color: #000000 */ee.Geometry.Polygon(
         [[[-6.4071752929687475, 42.00202745006484],
           [-6.4016821289062475, 41.8098802074943],
           [-6.1325170898437475, 41.8098802074943],
@@ -186,7 +183,7 @@ var makeRow = function(color, name) {
 // create lists for the legend representation
 
 
-var Class = cod.reclassIndex.visIndex;
+var Class = cod.reclassIndex.indexName;
 var color = visIndex.get(indexName).getInfo()['palette'];
 var elements = visIndex.get(indexName).getInfo()['max'];
 
