@@ -459,7 +459,7 @@ var loadFires = function() {
   
   var startDate = ee.Date.fromYMD(
     ee.Number.parse(year), ee.Number.parse(month), 1);
-  var endDate = startDate.advance(-1, 'month');
+  var endDate = startDate.advance(1, 'month');
   
     // filter by month
   var filtered = fires.filter(
