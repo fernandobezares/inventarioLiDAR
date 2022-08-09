@@ -1,12 +1,9 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = 
-    /* color: #000000 */
-    /* shown: false */
-    ee.Geometry.Polygon(
-        [[[-6.458063649361542, 41.986207784703424],
-          [-6.433344411080292, 41.80834517922572],
-          [-6.117487477486542, 41.79401286612848],
-          [-6.076288747017792, 41.96578900576882]]]);
+var geometry = /* color: #000000 */ee.Geometry.Polygon(
+        [[[-5.0338842773437475, 40.280682910032176],
+          [-5.0668432617187475, 40.14644883139732],
+          [-4.8855688476562475, 40.17163797282136],
+          [-4.8581030273437475, 40.284873440029635]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -116,6 +113,41 @@ function printStats(stats){
   return 
 }
 
+
+// function for creating the legend
+function createColorBar(titleText, unit, palette, min, max) {
+  // Legend Title
+  var title = ui.Label({
+    value: titleText + ' ' + unit , 
+    style: {fontWeight: 'bold', textAlign: 'center', stretch: 'horizontal'}});
+
+  // Colorbar
+  var legend = ui.Thumbnail({
+    image: ee.Image.pixelLonLat().select(0),
+    params: {
+      bbox: [0, 0, 1, 0.1],
+      dimensions: '200x20',
+      format: 'png', 
+      min: 0, max: 1,
+      palette: palette},
+    style: {stretch: 'horizontal', margin: '8px 8px', maxHeight: '40px'},
+  });
+  
+  // Legend Labels
+  var labels = ui.Panel({
+    widgets: [
+      ui.Label(min, {margin: '4px 10px',textAlign: 'left', stretch: 'horizontal'}),
+      ui.Label((min+max)/2, {margin: '4px 20px', textAlign: 'center', stretch: 'horizontal'}),
+      ui.Label(max, {margin: '4px 10px',textAlign: 'right', stretch: 'horizontal'})],
+    layout: ui.Panel.Layout.flow('horizontal')});
+  
+  // Create a panel with all 3 widgets
+  var legendPanel = ui.Panel({
+    widgets: [title, legend, labels],
+    style: {position: 'bottom-center', padding: '8px 15px'}
+  });
+  return legendPanel;
+}
 
 
 
@@ -233,17 +265,22 @@ function run (){
   // retrieve the info from the index;
   var indexes = severityAnalysis.getSpectralIndexes(date, userAOI);
   
+  // get index image from name
   var indexImg = indexes.select(indexName);
   
+  // reclassify the image in severity classes
   var severity = severityAnalysis.reclassifyIndexes(indexes, userAOI);
   
+  // select the reclasification index
   var severityImg = severity.select(reclassIndexName);
   
-  // 
+  //  load teh button 
   var imageDownloadButton  = ui.Button({
   label : 'Descargar imagen',
   onClick: function(){
-    
+  
+  
+  // try loading the download image button 
   try {  
     
     var url = severityImg.getDownloadURL({
@@ -260,7 +297,7 @@ function run (){
    downloadPanel.widgets().reset();
    downloadPanel.add(ui.Label({value:'Copie el link en el navegador:\n'+ url, style:{ whiteSpace: 'pre'}}));
   
-    
+  // if it doesnt work thrown an error  
   }
    catch (error){
      
@@ -275,11 +312,18 @@ function run (){
 });
   
   
+  var indexLegend = createColorBar(indexName, '', 
+  visIndex.get(indexName).getInfo(), 
+  visIndex.get(indexName).getInfo()['min'], 
+  visIndex.get(indexName).getInfo()['max']);
+  
+  
   
   
   // add elements to the map
   
   Map.addLayer(indexImg,visIndex.get(indexName).getInfo(),indexName);
+  Map.add(indexLegend)
   Map.addLayer(severityImg,visIndex.get(reclassIndexName).getInfo(),reclassIndexName);
   
   Map.centerObject(userAOI,11);
