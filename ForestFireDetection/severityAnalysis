@@ -384,7 +384,8 @@ function getAlternativeCollection(collection,aoi){
   var newCol
   
   // if it is pre fire
-  if (mode === 'pre'){
+  if (mode == 'pre'){
+    print('in pre')
     // the collection is empty
     if(colLength === 0) {
       
@@ -414,7 +415,7 @@ function getAlternativeCollection(collection,aoi){
     }
     
     
-  }else if (mode === 'post'){
+  }else if (mode =='post'){
     
     if (colLength === 0){
       
