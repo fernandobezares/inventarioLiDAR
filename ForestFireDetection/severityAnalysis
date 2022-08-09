@@ -446,8 +446,8 @@ function getAlternativeCollection(collection,aoi){
   
 function createTrueColorComposite(image){
   
-  var sigma = image.select('B4','B3','B2').reduceRegion({reducer:ee.Reducer.stdDev(),geometry : aoi,bestEffort:true});
-  var mean = image.select('B4','B3','B2').reduceRegion({reducer:ee.Reducer.mean(),geometry: aoi, bestEffort:true});
+  var sigma = image.select('B4','B3','B2').reduceRegion({reducer:ee.Reducer.stdDev(),scale:30, geometry : aoi,bestEffort:true});
+  var mean = image.select('B4','B3','B2').reduceRegion({reducer:ee.Reducer.mean(),scale:30 ,geometry: aoi, bestEffort:true});
   
   print(mean,sigma);
   
