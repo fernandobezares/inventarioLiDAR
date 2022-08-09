@@ -392,14 +392,14 @@ function getAlternativeCollection(collection,aoi){
       print('pre - 0 in')
       
       // start date pre. 18 days before the fire event
-      starDate = startDate.advance(-52,'day');
+      startDate = startDate.advance(-52,'day');
       
       // end dare pre. 3 days before teh fire event 
       
       print ('new Start date', startDate)
        newCol = ee.ImageCollection("COPERNICUS/S2_SR")
               .filter(ee.Filter.bounds(aoi))
-              .filterDate(starDate, endDate)
+              .filterDate(startDate, endDate)
               .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', cloudPixelPercentage))
               .map(maskS2clouds)
               .map(maskWater)
@@ -421,11 +421,11 @@ function getAlternativeCollection(collection,aoi){
       
       
       // end date post fire
-      var finalDate = ee.Date(endDate).advance(40,'day');
+      var finalDate = endDate.advance(40,'day');
       
       newCol = ee.ImageCollection("COPERNICUS/S2_SR")
               .filter(ee.Filter.bounds(aoi))
-              .filterDate(starDate, finalDate)
+              .filterDate(startDate, finalDate)
               .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', cloudPixelPercentage))
               .map(maskS2clouds)
               .map(maskWater)
