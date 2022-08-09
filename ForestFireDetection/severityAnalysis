@@ -377,11 +377,11 @@ function getAlternativeCollection(collection,aoi){
   print('collection',collection)
   print('porpertynames',collection.propertyNames())
   // get col date range
-  var range = collection.get('date_range')
+  var range = ee.List(collection.get('date_range'))
   print(range)
   
-  var startDate = ee.Date(range[0]);
-  var endDate = ee.Date(range[1]);
+  var startDate = ee.Date(range.getNumber(0));
+  var endDate = ee.Date(range.getNumber(1));
   
   print(startDate);
   
