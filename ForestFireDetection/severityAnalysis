@@ -375,9 +375,12 @@ function getAlternativeCollection(collection,aoi){
   var colLength = collection.size();
   
   // get col date range
+  var range = collection.reduceColumns(ee.Reducer.minMax(), ['system:time_start'])
+  print('Date range: ', ee.Date(range.get('min')), ee.Date(range.get('max')))
+
   
-  var startDate = ee.Date(collection.aggregate_array('date_range').get(0));
-  var endDate = ee.Date(collection.aggregate_array('date_range').get(1));
+  var startDate = ee.Date(range.get('min'));
+  var endDate = ee.Date(range.get('max'));
   
   print(startDate)
   
