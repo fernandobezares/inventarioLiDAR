@@ -422,8 +422,8 @@ function run (){
   Map.addLayer(severityImg,visIndex.get(reclassIndexName).getInfo(),reclassIndexName);
   
   // add legends to the map
-  Map.add(indexLegend)
-  Map.add(severityIndexLegend)
+  Map.add(indexLegend);
+  Map.add(severityIndexLegend);
   
   Map.centerObject(userAOI,11);
   
