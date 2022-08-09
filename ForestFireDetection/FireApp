@@ -1,5 +1,8 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = /* color: #000000 */ee.Geometry.Polygon(
+var geometry = 
+    /* color: #000000 */
+    /* shown: false */
+    ee.Geometry.Polygon(
         [[[-6.4071752929687475, 42.00202745006484],
           [-6.4016821289062475, 41.8098802074943],
           [-6.1325170898437475, 41.8098802074943],
