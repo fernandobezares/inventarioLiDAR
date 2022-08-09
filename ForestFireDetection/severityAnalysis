@@ -379,6 +379,7 @@ function getAlternativeCollection(collection,aoi){
   var startDate = ee.Date(collection.aggregate_array('date_range').get(0));
   var endDate = ee.Date(collection.aggregate_array('date_range').get(1));
   
+  print(startDate)
   
   // if it is pre fire
   if (mode === 'pre'){
@@ -386,10 +387,10 @@ function getAlternativeCollection(collection,aoi){
     if(colLength === 0) {
       
       // start date pre. 18 days before the fire event
-      starDate = ee.Date(date).advance(-52,'day');
+      starDate = startDate.advance(-52,'day');
       
       // end dare pre. 3 days before teh fire event 
-      finalDate = ee.Date(date).advance(-3,'day');
+      finalDate = endDate;
       
       var newCol = ee.ImageCollection("COPERNICUS/S2_SR")
               .filter(ee.Filter.bounds(aoi))
@@ -411,10 +412,10 @@ function getAlternativeCollection(collection,aoi){
     if (colLength === 0){
       
       // start date post
-      startDate = ee.Date(date).advance(5,'day');
+      startDate = starDate;
   
       // end date post fire
-      finalDate = ee.Date(date).advance(40,'day');
+      finalDate = endDate.advance(40,'day');
       
       newCol = ee.ImageCollection("COPERNICUS/S2_SR")
               .filter(ee.Filter.bounds(aoi))
