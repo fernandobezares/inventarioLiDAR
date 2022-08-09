@@ -473,6 +473,7 @@ function getSpectralIndexes(date, userAOI){
               .map(maskWater)
               //.map(resample)
               .map (addNBRpre)
+              .set('mode','pre')
               .map(function(image){return image.set('mode','pre')})
               .select ('B.*','NBRpre');
               
