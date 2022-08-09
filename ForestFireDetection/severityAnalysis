@@ -369,7 +369,7 @@ function categoricalZonalStatistics (img1,img2){
 function getAlternativeCollection(collection,aoi){
   
   // get if the image is pre orpost fire
-  var mode = collection.aggregate_array('mode').get(0);
+  var mode = collection.aggregate_array('mode')[0];
   
   print('mode', mode)
   // get col length
