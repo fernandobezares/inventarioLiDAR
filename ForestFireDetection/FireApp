@@ -1,9 +1,10 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-5.0338842773437475, 40.280682910032176],
-          [-5.0668432617187475, 40.14644883139732],
-          [-4.8855688476562475, 40.17163797282136],
-          [-4.8581030273437475, 40.284873440029635]]]);
+        [[[-6.4181616210937475, 41.99182141573336],
+          [-6.4401342773437475, 41.869221357525994],
+          [-6.1270239257812475, 41.762777412869085],
+          [-5.9347631835937475, 41.94689542129734],
+          [-6.3467504882812475, 41.999986374138906]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -246,6 +247,10 @@ function run (){
     Map.layers().reset();
   }
   
+  if (Map.widgets().length() > 0){
+    Map.widgets().reset();
+  }
+  
   if (downloadPanel.widgets().length() > 0){
     downloadPanel.widgets().reset();
   }
@@ -313,7 +318,7 @@ function run (){
   
   
   var indexLegend = createColorBar(indexName, '', 
-  visIndex.get(indexName).getInfo(), 
+  visIndex.get(indexName).getInfo()['palette'], 
   visIndex.get(indexName).getInfo()['min'], 
   visIndex.get(indexName).getInfo()['max']);
   
