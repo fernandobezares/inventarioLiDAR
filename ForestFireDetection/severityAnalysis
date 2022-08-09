@@ -481,7 +481,9 @@ function getSpectralIndexes(date, userAOI){
               //.map(resample)
               .map(addNBRpost)
               .select ('B.*', 'NBRpost');
-              
+  
+  print('preFire',preFire)
+  print('postFire',postFire)
 
   // creation of composites (pre- and post-)
   var imagePreFire = preFire.median();
