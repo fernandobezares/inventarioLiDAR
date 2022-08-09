@@ -114,7 +114,7 @@ function printStats(stats){
   
   return 
 }
-
+//-------------------------------------------------------------------------------------------------------------------------------
 // FUNCTION TO DISPLAY LEGENDS 
 
 // dictionary with the visualizations 
@@ -237,7 +237,7 @@ function createColorBar(titleText, unit, palette, min, max) {
   return legendPanel;
 }
 
-
+//---------------------------------------------------------------------------------------------------------------------
 
 // show selecting custom area (drawing) interface
 function select_area_start(){
@@ -371,8 +371,8 @@ function run (){
     filename: 'index'
     
   });
-   print(url);
    
+   //
    downloadPanel.widgets().reset();
    downloadPanel.add(ui.Label({value:'Copie el link en el navegador:\n'+ url, style:{ whiteSpace: 'pre'}}));
   
@@ -396,6 +396,7 @@ function run (){
   visIndex.get(indexName).getInfo()['min'], 
   visIndex.get(indexName).getInfo()['max']);
   
+  var severityIndexLegend = categoricalLegend(reclassIndexName)
   
   
   
@@ -403,6 +404,7 @@ function run (){
   
   Map.addLayer(indexImg,visIndex.get(indexName).getInfo(),indexName);
   Map.add(indexLegend)
+  Map.add(severityIndexLegend)
   Map.addLayer(severityImg,visIndex.get(reclassIndexName).getInfo(),reclassIndexName);
   
   Map.centerObject(userAOI,11);
