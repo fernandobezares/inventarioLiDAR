@@ -163,7 +163,7 @@ var makeRow = function(color, name) {
       // Create the label that is actually the colored box.
       var colorBox = ui.Label({
         style: {
-          backgroundColor: '#' + color,
+          backgroundColor: color,
           // Use padding to give the box height and width.
           padding: '8px',
           margin: '0 0 4px 0'
@@ -182,22 +182,24 @@ var makeRow = function(color, name) {
         layout: ui.Panel.Layout.Flow('horizontal')
       });
 };
- 
+ function categoricalLegend(indexName){
 // create lists for the legend representation
-var mfeClass = ['Coníferas','Frondosas'];
-var mfeColor = ['defade','b3d9b3'];
-var elements = 2;
+
+
+var Class = ['Coníferas','Frondosas'];
+var color = visIndex.get(indexName).getInfo()['palette'];
+var elements = visIndex.get(indexName).getInfo()['max'];
 
 // create a legend for the palette 
 for (var i = 0; i < elements; i++){
   
-  var nameLabel = '| '+ mfeClass[i] ;
+  var nameLabel = '| '+ Class[i] ;
   
-  mfeLegend.add(makeRow(mfeColor[i], nameLabel));
+  severityLegend.add(makeRow(color[i], nameLabel));
   
 }  
-
-
+  return severityLegend
+}
 
 
 // function for creating the legend
