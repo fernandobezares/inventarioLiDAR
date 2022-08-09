@@ -310,8 +310,8 @@ function getMasksByCrossedCategories(img1, img2){
 
         //return mask
           return ee.Image(1).updateMask(mask)
-          .set ('bnImg1', class1)
-          .set ('bnImg2', class2)
+          .set (bnImg1, class1)
+          .set (bnImg2, class2)
           .rename(newName);
           });
           
