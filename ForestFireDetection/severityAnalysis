@@ -378,18 +378,17 @@ function getAlternativeCollection(collection,aoi){
   // get col length
   var colLength = collection.size().getInfo();
   
-  print( startDate,endDate,colLength,mode)
+  //print( startDate,endDate,colLength,mode)
   
   
   var newCol
   
   // if it is pre fire
   if (mode == 'pre'){
-    print('in pre')
+    
     // the collection is empty
     if(colLength === 0) {
       
-      print('pre - 0 in')
       
       // start date pre. 18 days before the fire event
       startDate = startDate.advance(-52,'day');
@@ -445,7 +444,19 @@ function getAlternativeCollection(collection,aoi){
     
   }
   
+function createTrueColorComposite(image){
   
+  var sigma = image.select('B4','B3','B2').reduceRegion({reducer:ee.Reducer.stdDev(),geometry : aoi,bestEffort:true});
+  var mean = image.select('B4','B3','B2').reduceRegion({reducer:ee.Reducer.mean(),geometry: aoi, bestEffort:true});
+  
+  print(mean,sigma);
+  
+  var trueColor = image.visualize({bands: ['B4', 'B3','B2'], max: mean + sigma , min: mean - sigma});
+  
+  return trueColor
+}
+  
+
   
 
 function getSpectralIndexes(date, userAOI){
@@ -494,18 +505,18 @@ function getSpectralIndexes(date, userAOI){
               .set('endDate',finalDatePost)
               .select ('B.*', 'NBRpost');
   
-  print('preFire',preFire)
-  print('postFire',postFire)
   
-  preFire = getAlternativeCollection(preFire,aoi)
-  postFire = getAlternativeCollection(postFire,aoi)
+  preFire = getAlternativeCollection(preFire,aoi);
+  postFire = getAlternativeCollection(postFire,aoi);
   
-  print('preFire2',preFire)
-  print('postFire2',postFire)
   // creation of composites (pre- and post-)
   var imagePreFire = preFire.median();
   var imagePostFire = postFire.median();
-
+  
+  // composites
+  var truePre = createTrueColorComposite(imagePreFire).rename('True Color Pre');
+  var truePost = createTrueColorComposite(imagePostFire).rename('True Color Post');
+  
   // add ndvi to prefire
    imagePreFire = addNDVI(imagePreFire);
 
@@ -525,7 +536,7 @@ function getSpectralIndexes(date, userAOI){
   var dNBR = imageIndex.select('NBRpre').subtract(imageIndex.select('NBRpost')).rename('dNBR');
   
   // create an Iamge with all the indexes
-  var indexImage = ee.Image.cat(imageIndex, RBR, RdNBR, BVI, dNBR);
+  var indexImage = ee.Image.cat(imageIndex, RBR, RdNBR, BVI, dNBR, truePre,truePost);
   
   return indexImage.clip(aoi);
   
