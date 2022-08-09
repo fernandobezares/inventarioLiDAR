@@ -455,6 +455,7 @@ function createTrueColorComposite(image){
   mean = mean.get('B4').getInfo();
   var trueColor = image.visualize({bands: ['B4', 'B3','B2'], max: mean + sigma , min: mean - sigma});
   
+  
   print('trueColor',trueColor)
   return trueColor;
 }
@@ -517,8 +518,8 @@ function getSpectralIndexes(date, userAOI){
   var imagePostFire = postFire.median();
   
   // composites
-  var truePre = createTrueColorComposite(imagePreFire).rename('True Color Pre');
-  var truePost = createTrueColorComposite(imagePostFire).rename('True Color Post');
+  var truePre = createTrueColorComposite(imagePreFire).rename(['vis-red-pre','vis-green-pre','vis-blue-pre']);
+  var truePost = createTrueColorComposite(imagePostFire).rename(['vis-red-post','vis-green-post','vis-blue-post']);
   
   // add ndvi to prefire
    imagePreFire = addNDVI(imagePreFire);
