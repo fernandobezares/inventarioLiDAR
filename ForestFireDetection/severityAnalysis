@@ -377,7 +377,8 @@ function getAlternativeCollection(collection,aoi){
   var endDate = collection.get('endDate');
   // get col length
   var colLength = collection.size();
-
+  
+  var newCol
   
   // if it is pre fire
   if (mode === 'pre'){
@@ -390,7 +391,7 @@ function getAlternativeCollection(collection,aoi){
       // end dare pre. 3 days before teh fire event 
       var finalDate = endDate;
       
-      var newCol = ee.ImageCollection("COPERNICUS/S2_SR")
+       newCol = ee.ImageCollection("COPERNICUS/S2_SR")
               .filter(ee.Filter.bounds(aoi))
               .filterDate(starDate, finalDate)
               .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', cloudPixelPercentage))
@@ -399,6 +400,7 @@ function getAlternativeCollection(collection,aoi){
               //.map(resample)
               .map (addNBRpre)
               .select ('B.*','NBRpre');
+          
   
     }else{
       return ee.ImageCollection(collection);
