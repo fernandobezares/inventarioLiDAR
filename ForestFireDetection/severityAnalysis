@@ -372,21 +372,67 @@ function getAlternativeCollection(collection){
   var mode = collection.aggregate_array('mode').get(0);
   
   // get col length
-  var colLength = collection.size()
+  var colLength = collection.size();
+  
+  // get col date range
+  
+  var startDate = ee.Date(collection.get('date_range').get(0));
+  var endDate = ee.Date(collection.get('date_range').get(1));
+  
   
   // if it is pre fire
   if (mode === 'pre'){
     // the collection is empty
     if(colLength === 0) {
       
+      // start date pre. 18 days before the fire event
+      starDate = ee.Date(date).advance(-52,'day');
+      
+      // end dare pre. 3 days before teh fire event 
+      finalDate = ee.Date(date).advance(-3,'day');
+  
+    }else{
+      return collection;
+    }
+    
+    
+  }else if (mode === 'post'){
+    
+    if (colLength === 0){
+      
+      // start date post
+      startDate = ee.Date(date).advance(5,'day');
+  
+      // end date post fire
+      finalDatePost = ee.Date(date).advance(40,'day');
+    }else{
+      
+      return collection
+    }
+      
       
     }
+    
+    var newCol = ee.ImageCollection("COPERNICUS/S2_SR")
+              .filter(ee.Filter.bounds(aoi))
+              .filterDate(starDatePre, finalDatePre)
+              .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', cloudPixelPercentage))
+              .map(maskS2clouds)
+              .map(maskWater)
+              //.map(resample)
+              .map (addNBRpre)
+              .map(function(image){return image.set('mode','pre')})
+              .select ('B.*','NBRpre');
+    
+    
+    return newCol;
+    
     
   }
   
   
   
-}
+
 
 
 function getCollections (date, userAOI){
@@ -416,7 +462,7 @@ function getCollections (date, userAOI){
               .map(maskWater)
               //.map(resample)
               .map (addNBRpre)
-              //.map(function(image){return image.set('mode','pre')})
+              .map(function(image){return image.set('mode','pre')})
               .select ('B.*','NBRpre');
               
               
@@ -428,10 +474,11 @@ function getCollections (date, userAOI){
               .map(maskWater)
               //.map(resample)
               .map(addNBRpost)
-              //.map(function(image){return image.set('mode','post')})
+              .map(function(image){return image.set('mode','post')})
               .select ('B.*', 'NBRpost');
               
-
+  
+  
   // creation of composites (pre- and post-)
   var imagePreFire = preFire.median();
   var imagePostFire = postFire.median();
@@ -484,7 +531,12 @@ function getSpectralIndexes(date, userAOI){
   
   print('preFire',preFire)
   print('postFire',postFire)
-
+  
+  preFire = getAlternativeCollection(preFire)
+  postFire = getAlternativeCollection(postFire)
+  
+  print('preFire2',preFire)
+  print('postFire2',postFire)
   // creation of composites (pre- and post-)
   var imagePreFire = preFire.median();
   var imagePostFire = postFire.median();
