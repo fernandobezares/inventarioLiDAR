@@ -374,7 +374,7 @@ function getAlternativeCollection(collection,aoi){
   // get col length
   var colLength = collection.size();
   print('collection',collection)
-  
+  print('porpertynames',collection.propertyNames())
   // get col date range
   var range = collection.reduceColumns(ee.Reducer.minMax(), ['system:time_start'])
   print('Date range: ', ee.Date(range.get('min')), ee.Date(range.get('max')))
