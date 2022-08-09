@@ -149,9 +149,7 @@ function getAOI(){
 }
 }
 
-function updateFires(layer){
-  
-  
+function updateFires(){
   
   var name = 'Fires';
   
@@ -201,8 +199,6 @@ var visIndex = ee.Dictionary({
 
 //
 function run (){
-  
-  
   
   if (Map.layers().length() > 0){
     Map.layers().reset();
@@ -467,13 +463,16 @@ var loadFires = function() {
   //var nighttimeVis = {min: 0.0, max: 60.0}
   var layerName = 'Fires ' + ee.String(year).getInfo() + '-' + monthName;
   
-  
+ 
   if (Map.layers().length()>0){
+    
     Map.layers().reset();
     Map.addLayer(ee.FeatureCollection(filtered), {}, layerName);
   } else {
   Map.addLayer(ee.FeatureCollection(filtered), {}, layerName);
   }
+  
+ 
   
   return filtered;
 };
