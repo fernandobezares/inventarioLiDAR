@@ -366,6 +366,82 @@ function categoricalZonalStatistics (img1,img2){
   
 }
 
+function getAlternativeCollection(collection){
+  
+  // get if the image is pre orpost fire
+  var mode = collection.aggregate_array('mode').get(0);
+  
+  // get col length
+  var colLength = collection.size()
+  
+  // if it is pre fire
+  if (mode === 'pre'){
+    // the collection is empty
+    if(colLength === 0) {
+      
+      
+    }
+    
+  }
+  
+  
+  
+}
+
+
+function getCollections (date, userAOI){
+  // inputs: date from the fire perimeters and user defined region
+  
+  // user defined area
+  var aoi = userAOI;
+  
+  // start date pre. 18 days before the fire event
+  var starDatePre = ee.Date(date).advance(-18,'day');
+  
+  // end dare pre. 3 days before teh fire event 
+  var finalDatePre = ee.Date(date).advance(-3,'day');
+  
+  // start date post
+  var startDatePost = ee.Date(date).advance(5,'day');
+  
+  // end date post fire
+  var finalDatePost = ee.Date(date).advance(20,'day'); 
+  
+  // call the images and apply functions (masks and nbr)
+  var preFire = ee.ImageCollection("COPERNICUS/S2_SR")
+              .filter(ee.Filter.bounds(aoi))
+              .filterDate(starDatePre, finalDatePre)
+              .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', cloudPixelPercentage))
+              .map(maskS2clouds)
+              .map(maskWater)
+              //.map(resample)
+              .map (addNBRpre)
+              //.map(function(image){return image.set('mode','pre')})
+              .select ('B.*','NBRpre');
+              
+              
+  var postFire = ee.ImageCollection("COPERNICUS/S2_SR")
+              .filter(ee.Filter.bounds(aoi))
+              .filterDate(startDatePost, finalDatePost)
+              .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', cloudPixelPercentage))
+              .map(maskS2clouds)
+              .map(maskWater)
+              //.map(resample)
+              .map(addNBRpost)
+              //.map(function(image){return image.set('mode','post')})
+              .select ('B.*', 'NBRpost');
+              
+
+  // creation of composites (pre- and post-)
+  var imagePreFire = preFire.median();
+  var imagePostFire = postFire.median();
+
+  // add ndvi to prefire
+   imagePreFire = addNDVI(imagePreFire);
+  
+  
+}
+
 function getSpectralIndexes(date, userAOI){
   // inputs: date from the fire perimeters and user defined region
   
