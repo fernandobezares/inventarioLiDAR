@@ -418,8 +418,8 @@ function run (){
   // add elements to the map
   Map.addLayer(indexImg,visIndex.get(indexName).getInfo(),indexName);
   Map.addLayer(severityImg,visIndex.get(reclassIndexName).getInfo(),reclassIndexName);
-  Map.addLayer(indexImg,{bands:['vis-red-pre','vis-green-pre','vis-blue-pre']},'True Color Pre');
-  Map.addLayer(indexImg,{bands:['vis-red-post','vis-green-post','vis-blue-post']},'True Color Post');
+  Map.addLayer(indexes,{bands:['vis-red-pre','vis-green-pre','vis-blue-pre']},'True Color Pre');
+  Map.addLayer(indexes,{bands:['vis-red-post','vis-green-post','vis-blue-post']},'True Color Post');
   
   // add legends to the map
   Map.add(indexLegend);
