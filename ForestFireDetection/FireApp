@@ -499,9 +499,13 @@ var loadFires = function() {
   //var nighttimeVis = {min: 0.0, max: 60.0}
   var layerName = 'Fires ' + ee.String(year).getInfo() + '-' + monthName;
   
-  print(Map.layers());
   
+  if (Map.layers().length()>0){
+    Map.layers().reset();
+    Map.addLayer(ee.FeatureCollection(filtered), {}, layerName);
+  } else {
   Map.addLayer(ee.FeatureCollection(filtered), {}, layerName);
+  }
   
   return filtered;
 };
