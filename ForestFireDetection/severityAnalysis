@@ -366,7 +366,7 @@ function categoricalZonalStatistics (img1,img2){
   
 }
 
-function getAlternativeCollection(collection){
+function getAlternativeCollection(collection,aoi){
   
   // get if the image is pre orpost fire
   var mode = collection.aggregate_array('mode').get(0);
@@ -436,7 +436,7 @@ function getAlternativeCollection(collection){
     
     
     
-    return newCol;
+    return ee.ImageCollection(newCol);
     
     
   }
@@ -487,8 +487,8 @@ function getSpectralIndexes(date, userAOI){
   print('preFire',preFire)
   print('postFire',postFire)
   
-  preFire = getAlternativeCollection(preFire)
-  postFire = getAlternativeCollection(postFire)
+  preFire = getAlternativeCollection(preFire,aoi)
+  postFire = getAlternativeCollection(postFire,aoi)
   
   print('preFire2',preFire)
   print('postFire2',postFire)
