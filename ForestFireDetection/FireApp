@@ -422,8 +422,8 @@ function run (){
   // add elements to the map
   Map.addLayer(indexImg,visIndex.get(indexName).getInfo(),indexName);
   Map.addLayer(severityImg,visIndex.get(reclassIndexName).getInfo(),reclassIndexName);
-  //Map.addLayer(indexImg.select('True Color Pre'));
-  //Map.addLayer(indexImg.select('True Color Post'));
+  Map.addLayer(indexImg.select('True Color Pre'),{},'True Color Pre');
+  Map.addLayer(indexImg.select('True Color Post'),{},'True Color Post');
   
   // add legends to the map
   Map.add(indexLegend);
