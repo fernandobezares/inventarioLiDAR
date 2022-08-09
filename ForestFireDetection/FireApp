@@ -147,7 +147,7 @@ var severityLegend = ui.Panel({
   style: {
     position: 'bottom-left',
     padding: '8px 15px',
-    height :'200px',
+    height :'300px',
     width : '100px'
   }
 });
@@ -195,7 +195,7 @@ var makeRow = function(color, name) {
 };
  function categoricalLegend(indexName){
   
-  adjustLegendHeight(indexName)
+  //adjustLegendHeight(indexName)
   
   
   // create lists for the legend representation
