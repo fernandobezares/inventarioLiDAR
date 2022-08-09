@@ -475,17 +475,6 @@ function reclassifyIndexes(img,userAOI) {
 
 
 
-/*
-var imageIndexes = getSpectralIndexes('2022-06-14',aoi);
-
-var recIndex = reclassifyIndexes(imageIndexes);
-Map.addLayer(imageIndexes);
-Map.addLayer(recIndex,{},'reclass');
-
-print('recIndex', recIndex)
-print(Object.keys(indexReclassificationMethods))
-*/
-
 
 exports  = {
   // areas 
