@@ -447,7 +447,7 @@ function getSpectralIndexes(date, userAOI){
   var aoi = userAOI;
   
   // start date pre. 18 days before the fire event
-  var starDatePre = ee.Date(date).advance(-18,'day');
+  var startDatePre = ee.Date(date).advance(-18,'day');
   
   // end dare pre. 3 days before teh fire event 
   var finalDatePre = ee.Date(date).advance(-3,'day');
@@ -461,14 +461,14 @@ function getSpectralIndexes(date, userAOI){
   // call the images and apply functions (masks and nbr)
   var preFire = ee.ImageCollection("COPERNICUS/S2_SR")
               .filter(ee.Filter.bounds(aoi))
-              .filterDate(starDatePre, finalDatePre)
+              .filterDate(startDatePre, finalDatePre)
               .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', cloudPixelPercentage))
               .map(maskS2clouds)
               .map(maskWater)
               //.map(resample)
               .map (addNBRpre)
               .set('mode','pre')
-              .set('startDate',starDatePre)
+              .set('startDate',startDatePre)
               .set('endDate',finalDatePre)
               .select ('B.*','NBRpre');
               
@@ -482,7 +482,7 @@ function getSpectralIndexes(date, userAOI){
               //.map(resample)
               .map(addNBRpost)
               .set('mode','post')
-              .set('startDate',starDatePost)
+              .set('startDate',startDatePost)
               .set('endDate',finalDatePost)
               .select ('B.*', 'NBRpost');
   
