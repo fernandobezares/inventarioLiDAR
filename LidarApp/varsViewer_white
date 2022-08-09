@@ -480,7 +480,7 @@ Map.onTileLoaded(function(){
   if (layers.get(0).getShown()){
     
   
-      //check if teh weidhget list contains the legennd if not add it
+      //check if teh widget list contains the legennd if not add it
      if (Map.widgets().contains(mfeLegend)){} else {Map.add(mfeLegend)}
    
   } else {
