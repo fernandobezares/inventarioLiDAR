@@ -371,19 +371,13 @@ function getAlternativeCollection(collection,aoi){
   // get if the image is pre orpost fire
   var mode = collection.get('mode');
   
-  print('mode', mode)
+  // start date 
+  
+  var startDate = collection.get('startDate');
+  var endDate = collection.get('endDate');
   // get col length
   var colLength = collection.size();
-  print('collection',collection)
-  print('porpertynames',collection.propertyNames())
-  // get col date range
-  var range = ee.List(collection.get('date_range'))
-  print(range)
-  
-  var startDate = ee.Date(range.getNumber(0));
-  var endDate = ee.Date(range.getNumber(1));
-  
-  print(startDate);
+
   
   // if it is pre fire
   if (mode === 'pre'){
@@ -391,10 +385,10 @@ function getAlternativeCollection(collection,aoi){
     if(colLength === 0) {
       
       // start date pre. 18 days before the fire event
-      starDate = startDate.advance(-52,'day');
+      var starDate = startDate.advance(-52,'day');
       
       // end dare pre. 3 days before teh fire event 
-      finalDate = endDate;
+      var finalDate = endDate;
       
       var newCol = ee.ImageCollection("COPERNICUS/S2_SR")
               .filter(ee.Filter.bounds(aoi))
@@ -474,6 +468,8 @@ function getSpectralIndexes(date, userAOI){
               //.map(resample)
               .map (addNBRpre)
               .set('mode','pre')
+              .set('startDate',starDatePre)
+              .set('endDate',finalDatePre)
               .select ('B.*','NBRpre');
               
               
@@ -486,6 +482,8 @@ function getSpectralIndexes(date, userAOI){
               //.map(resample)
               .map(addNBRpost)
               .set('mode','post')
+              .set('startDate',starDatePost)
+              .set('endDate',finalDatePost)
               .select ('B.*', 'NBRpost');
   
   print('preFire',preFire)
