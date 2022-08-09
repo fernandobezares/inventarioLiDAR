@@ -403,6 +403,8 @@ function getAlternativeCollection(collection,aoi){
               //.map(resample)
               .map (addNBRpre)
               .select ('B.*','NBRpre');
+        
+        print(newCol)
           
   
     }else{
