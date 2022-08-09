@@ -13,7 +13,7 @@ var geometry =
 // import the functions 
 var severityAnalysis = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
 var fireDetection = require('users/cesefor/inventarioForestal:ForestFireDetection/fireDetection');
-var codMfe = require('users/cesefor/inventarioForestal:ForestFireDetection/codigos');
+var cod = require('users/cesefor/inventarioForestal:ForestFireDetection/codigos');
 
 //rasters for stats analysis
 var mfeEspecies = ee.Image('users/cesefor/InventarioForestal/mfeEspecies').rename('especies');
@@ -89,7 +89,7 @@ function printStats(stats){
   
   // get intensity 
   
-  var descripcion = codMfe.lulucf[lulucfCode];
+  var descripcion = cod.mfe.lulucf[lulucfCode];
   
   //print(band,area)
   print(descripcion)
@@ -186,7 +186,7 @@ var makeRow = function(color, name) {
 // create lists for the legend representation
 
 
-var Class = ['Coníferas','Frondosas'];
+var Class = cod.reclassIndex.visIndex;
 var color = visIndex.get(indexName).getInfo()['palette'];
 var elements = visIndex.get(indexName).getInfo()['max'];
 
