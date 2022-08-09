@@ -183,9 +183,14 @@ var makeRow = function(color, name) {
 // create lists for the legend representation
 
 
-var Class = cod.reclassIndex.indexName;
+var Class = cod.reclassIndex;
 var color = visIndex.get(indexName).getInfo()['palette'];
 var elements = visIndex.get(indexName).getInfo()['max'];
+
+print(Class)
+print(indexName)
+print(cod.reclassIndex[indexName])
+
 
 // create a legend for the palette 
 for (var i = 0; i < elements; i++){
