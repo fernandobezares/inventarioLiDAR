@@ -373,8 +373,8 @@ function getAlternativeCollection(collection,aoi){
   
   // start date 
   
-  var startDate = collection.get('startDate');
-  var endDate = collection.get('endDate');
+  var startDate = ee.Date(collection.get('startDate'));
+  var endDate = ee.Date(collection.get('endDate'));
   // get col length
   var colLength = collection.size().getInfo();
   
@@ -421,7 +421,7 @@ function getAlternativeCollection(collection,aoi){
       
       
       // end date post fire
-      var finalDate = endDate.advance(40,'day');
+      var finalDate = ee.Date(endDate).advance(40,'day');
       
       newCol = ee.ImageCollection("COPERNICUS/S2_SR")
               .filter(ee.Filter.bounds(aoi))
