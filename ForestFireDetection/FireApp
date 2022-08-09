@@ -1,3 +1,13 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #000000 */
+    /* shown: false */
+    ee.Geometry.Polygon(
+        [[[-6.1544897460937475, 42.038755620688065],
+          [-6.1874487304687475, 41.62536773241477],
+          [-5.7315161132812475, 41.67462285261692],
+          [-5.7919409179687475, 42.03059563833246]]]);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
 var severityAnalysis = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
@@ -184,8 +194,8 @@ function getDateFromFires(){
 }
 
 var visIndex = ee.Dictionary({
-  'RBR':{min:-1,max:1, palette:['green','lightgreen','white', 'yellow', 'orange','red']},
-  'RdNBR': {min:-1, max:1, palette:['lightgreen', 'yellow', 'orange','red']},
+  'RBR':{min:-1,max:1, palette:['green','white','red']},
+  'RdNBR': {min:-1, max:1, palette:['green','white','red']},
   'dNBR':{min:-0.3,max:1, palette:['lightgreen', 'yellow', 'orange','red']},
   'RBRclass':{min:0,max:3, palette:['white', 'yellow', 'orange','red']},
   'RdNBRclass': {min:0,max:3, palette:['white', 'yellow', 'orange','red']},
