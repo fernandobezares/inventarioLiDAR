@@ -18,6 +18,8 @@ var cod = require('users/cesefor/inventarioForestal:ForestFireDetection/codigos'
 var mfeEspecies = ee.Image('users/cesefor/InventarioForestal/mfeEspecies').rename('especies');
 var mfeLulucf = ee.Image('users/cesefor/InventarioForestal/mfeLulucf').rename('lulucf');
 
+// add fv 
+var fv = require('users/cesefor/inventarioForestal:LidarApp/inc/FeatureViewLidar');
 
 //---------------------------------------------------------------------------------------------
 
@@ -390,6 +392,8 @@ function run (){
   Map.addLayer(indexes,{bands:['vis-red-pre','vis-green-pre','vis-blue-pre']},'True Color Pre');
   Map.addLayer(indexes,{bands:['vis-red-post','vis-green-post','vis-blue-post']},'True Color Post');
   
+  Map.add(fv.cylPStyled);
+  Map.add(fv.cylStyled);
   // add legends to the map
   Map.add(indexLegend);
   //Map.add(severityIndexLegend);
@@ -695,6 +699,25 @@ analysisPanel.add(downloadPanel)
 
 
 
+
+Map.onClick(function(coords){
+  var point = ee.Geometry.Point(coords.lon, coords.lat);
+  // get the second element in the Map.Layers list and reduce it to first()
+  var reduce = Map.layers().get(1).getEeObject().reduce(ee.Reducer.first());
+  print ('layers 0', Map.layers().get(1).getEeObject());
+  var sampledPoint = reduce.reduceRegion(ee.Reducer.first(), point, 10);
+  var computedValue = sampledPoint.get('first');
+  show_loading('Loading...');
+  computedValue.evaluate(function(result){
+    valuePanel.clear();
+    if(result === null){
+      valuePanel.add(ui.Label('Selected pixel has no value', {textAlign: 'center', width: '98%'}));
+
+    }else{
+      valuePanel.add(ui.Label(result.toFixed(2),{textAlign: 'center', width: '98%'}));
+    }
+  });
+});
 
 
 
