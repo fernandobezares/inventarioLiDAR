@@ -14,7 +14,7 @@ Map.add(fv.cylPStyled);
 Map.add(fv.cylStyled);
 
 //  fontsize sections
-var fontSizeSections = '16px';
+var fontSizeSections = '15px';
 var marginTitles = '15px 0px 5px 8px';
 
 var drawingTools = Map.drawingTools();
