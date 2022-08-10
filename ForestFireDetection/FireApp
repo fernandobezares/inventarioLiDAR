@@ -3,10 +3,10 @@ var geometry =
     /* color: #000000 */
     /* shown: false */
     ee.Geometry.Polygon(
-        [[[-7.0169165039062475, 42.03263573213958],
-          [-7.0169165039062475, 41.91828965640867],
-          [-6.8850805664062475, 41.91828965640867],
-          [-6.8850805664062475, 42.03263573213958]]], null, false);
+        [[[-6.754332075330036, 41.964619664807756],
+          [-6.754332075330036, 41.93167999108823],
+          [-6.703176984998005, 41.93167999108823],
+          [-6.703176984998005, 41.964619664807756]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -760,10 +760,10 @@ Map.onClick(function(coords){
       var reduce = object//.get(0).getEeObject().reduce(ee.Reducer.first());
       var name = object.getName();
       
-      var list = ee.List(['Provincias','Castilla y León','True Color Pre','True Color Post']);
+      var list = ee.List([ee.String('Provincias'),'Castilla y León','True Color Pre','True Color Post']);
       print ('layers 0', reduce)//Map.layers().get(1).getEeObject());;
-      print(list.filter(ee.Filter.listContains(name)))
-      if (list.filter(ee.Filter.listContains(name))){
+      print(list.filter(ee.Filter.listContains('item',name)))
+      if (list.filter(ee.Filter.listContains('item',name))){
         
       }else{
         print('EEOBJECT',reduce.getEeObject());
