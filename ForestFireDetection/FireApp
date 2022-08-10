@@ -3,10 +3,10 @@ var geometry =
     /* color: #000000 */
     /* shown: false */
     ee.Geometry.Polygon(
-        [[[-6.754332075330036, 41.964619664807756],
-          [-6.754332075330036, 41.93167999108823],
-          [-6.703176984998005, 41.93167999108823],
-          [-6.703176984998005, 41.964619664807756]]], null, false);
+        [[[-6.750461311933229, 41.96374037078657],
+          [-6.750461311933229, 41.93769609639865],
+          [-6.701022835370729, 41.93769609639865],
+          [-6.701022835370729, 41.96374037078657]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -760,12 +760,13 @@ Map.onClick(function(coords){
       var reduce = object//.get(0).getEeObject().reduce(ee.Reducer.first());
       var name = object.getName();
       print(name)
-      var list = ee.List(['Provincias','Castilla y León','True Color Pre','True Color Post']);
+      var list = ee.List(['Provincias','Castilla y León','True Color Pre','True Color Post']).map(function(s){return ee.String(s)});
       print ('layers 0', reduce)//Map.layers().get(1).getEeObject());;
-      var cond = ee.Algorithms.If(list.contains(ee.String(name)), true, false)
-      if (cond){
+      var cond = ee.Algorithms.If(list.contains(ee.String(name)), 'yes', 'no')
+      print(cond)
+      if (cond == 'yes'){
         
-        print(false)
+        print('yes')
         
       }else{
         print('EEOBJECT',reduce.getEeObject());
