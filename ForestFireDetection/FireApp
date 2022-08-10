@@ -392,6 +392,7 @@ function run (){
   Map.addLayer(indexes,{bands:['vis-red-pre','vis-green-pre','vis-blue-pre']},'True Color Pre');
   Map.addLayer(indexes,{bands:['vis-red-post','vis-green-post','vis-blue-post']},'True Color Post');
   
+  //add feeature views to the map
   Map.add(fv.cylPStyled);
   Map.add(fv.cylStyled);
   // add legends to the map
