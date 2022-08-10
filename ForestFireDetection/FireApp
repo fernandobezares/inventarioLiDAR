@@ -3,10 +3,10 @@ var geometry =
     /* color: #000000 */
     /* shown: false */
     ee.Geometry.Polygon(
-        [[[-6.600673294675265, 42.13856008616314],
-          [-6.600673294675265, 42.092209171126626],
-          [-6.504542923581515, 42.092209171126626],
-          [-6.504542923581515, 42.13856008616314]]], null, false);
+        [[[-4.7152807617187475, 40.436148433792866],
+          [-4.7152807617187475, 40.37758884759524],
+          [-4.6328833007812475, 40.37758884759524],
+          [-4.6328833007812475, 40.436148433792866]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -393,9 +393,7 @@ function run (){
   Map.addLayer(indexes,{bands:['vis-red-pre','vis-green-pre','vis-blue-pre']},'True Color Pre');
   Map.addLayer(indexes,{bands:['vis-red-post','vis-green-post','vis-blue-post']},'True Color Post');
   
-  //add feeature views to the map
-  Map.add(fv.cylPStyled);
-  Map.add(fv.cylStyled);
+  
   // add legends to the map
   Map.add(indexLegend);
   //Map.add(severityIndexLegend);
