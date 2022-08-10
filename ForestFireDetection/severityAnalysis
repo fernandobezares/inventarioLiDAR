@@ -1,14 +1,3 @@
-/**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var visRBR = {"opacity":1,"bands":["RBR"],"min":-0.19869096176636125,"max":0.35520329206573686,"gamma":1},
-    aoi = 
-    /* color: #d63000 */
-    /* shown: false */
-    ee.Geometry.Polygon(
-        [[[-6.460222874858383, 42.02504222621329],
-          [-6.460222874858383, 41.805331233203134],
-          [-5.979571019389633, 41.805331233203134],
-          [-5.979571019389633, 42.02504222621329]]], null, false);
-/***** End of imports. If edited, may not auto-convert in the playground. *****/
 // global variables 
 
 // AOI Defined by external script
@@ -446,8 +435,8 @@ function getAlternativeCollection(collection,aoi){
   
 function createTrueColorComposite(image){
   
-  var sigma = image.select('B4','B3','B2').reduceRegion({reducer:ee.Reducer.sampleStdDev(),scale:10, geometry : aoi,bestEffort:true});
-  var mean = image.select('B4','B3','B2').reduceRegion({reducer:ee.Reducer.mean(),scale:10 ,geometry: aoi, bestEffort:true});
+  var sigma = image.select('B4','B3','B2').reduceRegion({reducer:ee.Reducer.sampleStdDev(),scale:30, geometry : aoi,bestEffort:true});
+  var mean = image.select('B4','B3','B2').reduceRegion({reducer:ee.Reducer.mean(),scale:30 ,geometry: aoi, bestEffort:true});
   
   print(mean,sigma);
   
