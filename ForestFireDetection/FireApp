@@ -175,7 +175,7 @@ function categoricalLegend(indexName){
       }
   });
 
-  severityLegend.style().set({position:bottom-left})
+  //severityLegend.style().set({position:'bottom-left'})
   // Add the title to the panel
   severityLegend.add(severityLegendTitle);
   
