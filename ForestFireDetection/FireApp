@@ -1,15 +1,9 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = 
-    /* color: #000000 */
-    /* shown: false */
-    ee.Geometry.Polygon(
-        [[[-6.975488416926394, 42.01351800762565],
-          [-6.981668226496707, 41.94307577338648],
-          [-6.805886976496707, 41.9405220558475],
-          [-6.779794447199832, 42.00433430917508],
-          [-6.869058363215457, 41.9859629349115],
-          [-6.934289686457644, 41.98953556189325],
-          [-6.959008924738894, 42.01708908785389]]]);
+var geometry = /* color: #000000 */ee.Geometry.Polygon(
+        [[[-6.1407568359374975, 42.01427253070863],
+          [-6.1407568359374975, 41.822162201456585],
+          [-5.7946874999999975, 41.822162201456585],
+          [-5.7946874999999975, 42.01427253070863]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -25,6 +19,9 @@ var mfeLulucf = ee.Image('users/cesefor/InventarioForestal/mfeLulucf').rename('l
 var fv = require('users/cesefor/inventarioForestal:LidarApp/inc/FeatureViewLidar');
 Map.add(fv.cylPStyled);
 Map.add(fv.cylStyled);
+
+//  fontsize sections
+var fontSizeSections = '16px';
 
 var drawingTools = Map.drawingTools();
 //---------------------------------------------------------------------------------------------
@@ -558,7 +555,7 @@ var decriptionLabel = ui.Label({
 //date Label
 var dateLabel = ui.Label( {
   value:'Selecciona tu fecha de interés',
-  style:{fontSize: '16px'}
+  style:{fontSize: fontSizeSections}
   
 });
 
@@ -641,7 +638,7 @@ var areaPanel =  ui.Panel({
 var analysisPanel = ui.Panel({layout: ui.Panel.Layout.flow('vertical')});
 
 // Analysis Label
-var analysisLabel = ui.Label('Análisis');
+var analysisLabel = ui.Label({value:'Selecciona un índice espectral de quemado', style: { fontSize:fontSizeSections}});
 
 // IndexPanel 
 var indexPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
@@ -655,10 +652,10 @@ var indexLabel = ui.Label({
 var areaPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
 
 // area Label 
-var areaLabel = ui.Label('Define un área de estudio');
+var areaLabel = ui.Label({value:'Define un área de estudio', style: { fontSize:fontSizeSections}});
 // aply button 
 var Apply_button = ui.Button({
-  label: 'Apply',
+  label: 'Aplicar',
   onClick: function(){
       run();
   },
@@ -667,7 +664,7 @@ var Apply_button = ui.Button({
 
 // Select area button
 var selectAreaButton = ui.Button({
-  label: 'Select Area',
+  label: 'Seleccionar Área',
   onClick: function() {
     select_area_start();
   },
@@ -676,7 +673,7 @@ var selectAreaButton = ui.Button({
 
 // remove area button 
 var removeAreaButton = ui.Button({
-  label: 'Remove Area',
+  label: 'Borrar Área',
   onClick: function() {
     clear_selected_area();
   },
@@ -686,7 +683,7 @@ var removeAreaButton = ui.Button({
 
 // index Button area button 
 var indexButton = ui.Select({
-  placeholder: ' Indices',
+  placeholder: 'Indices',
   items : indexList
 });
 
@@ -711,7 +708,8 @@ analysisPanel.add(analysisLabel);
 analysisPanel.add(indexPanel);
 
 // add elements to indexPanel
-indexPanel.add(indexLabel).add(indexButton);
+//indexPanel.add(indexLabel).add(indexButton);
+indexPanel.add(indexButton)
 
 analysisPanel.add(areaLabel);
 // add areaPanel to analysis panel
