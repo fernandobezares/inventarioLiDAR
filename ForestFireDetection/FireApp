@@ -3,10 +3,10 @@ var geometry =
     /* color: #000000 */
     /* shown: false */
     ee.Geometry.Polygon(
-        [[[-6.750461311933229, 41.96374037078657],
-          [-6.750461311933229, 41.93769609639865],
-          [-6.701022835370729, 41.93769609639865],
-          [-6.701022835370729, 41.96374037078657]]], null, false);
+        [[[-6.713452353846973, 42.26201045939975],
+          [-6.707959189784473, 42.23405487840958],
+          [-6.656804099452442, 42.236596806792626],
+          [-6.657834067714161, 42.2569285479864]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -750,6 +750,12 @@ Map.onClick(function(coords){
   });
 });
 */
+function cc(reduce){
+  
+ 
+        
+  
+}
 
 Map.onClick(function(coords){
   var point = ee.Geometry.Point(coords.lon, coords.lat);
@@ -761,14 +767,16 @@ Map.onClick(function(coords){
       var name = object.getName();
       print(name)
       var list = ee.List(['Provincias','Castilla y León','True Color Pre','True Color Post']).map(function(s){return ee.String(s)});
-      print ('layers 0', reduce)//Map.layers().get(1).getEeObject());;
-      var cond = ee.Algorithms.If(list.contains(ee.String(name)), 'yes', 'no')
+      //print ('layers 0', reduce)//Map.layers().get(1).getEeObject());;
+      
+      var cond = ee.Algorithms.If(list.contains(ee.String(name)),'yes','no');
+      
       print(cond)
-      if (cond == 'yes'){
+      print(ee.Algorithms.IsEqual(ee.String(cond), ee.String('no')))
+      
+      if (ee.String(cond).equals(ee.String('no'))){
         
-        print('yes')
-        
-      }else{
+        print(reduce)
         print('EEOBJECT',reduce.getEeObject());
         var sampledPoint = reduce.getEeObject().reduceRegion(ee.Reducer.first(), point, 10);
        
@@ -784,7 +792,12 @@ Map.onClick(function(coords){
             valuePanel.add(ui.Label(result.toFixed(2),{textAlign: 'center', width: '98%'}));
           }
         });
+        
       }
+      
+      
+        
+      
     });
 });
     
