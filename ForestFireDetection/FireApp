@@ -159,7 +159,7 @@ function categoricalLegend(indexName){
   print('setting cond',setting.cond,setting[cond])
  
   var severityLegend = ui.Panel({
-    layout: ui.Panel.Layout.absolute(),
+    layout: ui.Panel.Layout.flow('vertical'),
     style:setting.cond
   });
   
@@ -175,7 +175,7 @@ function categoricalLegend(indexName){
       }
   });
 
-  //severityLegend.style().set({position:'bottom-left'})
+  severityLegend.style().set({position:'bottom-left'})
   // Add the title to the panel
   severityLegend.add(severityLegendTitle);
   
