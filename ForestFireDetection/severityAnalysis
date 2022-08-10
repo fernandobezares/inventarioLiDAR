@@ -14,24 +14,6 @@
 // cloud pixel percentage 
 var cloudPixelPercentage = 20;
 
-
-//---------- province of interest ---------
-var regions = ee.FeatureCollection("FAO/GAUL_SIMPLIFIED_500m/2015/level2");
-
-var zamora = regions.filter(ee.Filter.and(ee.Filter.eq('ADM0_NAME', 'Spain'),ee.Filter.eq('ADM2_NAME', 'Zamora')));
-
-
-//------------------ mfe rasters -----------------
-// note: mfe for Sierra de la Culebra has been rasterized in QGIS (lulucf / species)
-
-var mfeEspecies = ee.Image('users/franciscogallego/mfeEspecies').rename('especies');
-
-var mfeLulucf = ee.Image('users/franciscogallego/mfeLulucf').rename('lulucf');
-
-var mfeData = mfeEspecies.addBands(mfeLulucf);
-
-
-
 //----------- functions -----------------
 function getAOI(){
   
