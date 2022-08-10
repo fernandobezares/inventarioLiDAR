@@ -762,7 +762,7 @@ Map.onClick(function(coords){
       
       var list = ee.List(['Provincias','Castilla y León','True Color Pre','True Color Post']);
       print ('layers 0', reduce)//Map.layers().get(1).getEeObject());;
-      
+      print(list.filter(ee.Filter.listContains(name)))
       if (list.filter(ee.Filter.listContains(name))){
         
       }else{
