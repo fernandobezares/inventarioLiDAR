@@ -762,8 +762,8 @@ Map.onClick(function(coords){
       
       var list = ee.List([ee.String('Provincias'),'Castilla y León','True Color Pre','True Color Post']);
       print ('layers 0', reduce)//Map.layers().get(1).getEeObject());;
-      print(list.filter(ee.Filter.listContains('item',name)))
-      if (list.filter(ee.Filter.listContains('item',name))){
+      print(list.filter(ee.Filter.listContains(name,'item')))
+      if (list.filter(ee.Filter.listContains(name,'item'))){
         
       }else{
         print('EEOBJECT',reduce.getEeObject());
