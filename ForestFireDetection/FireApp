@@ -759,11 +759,13 @@ Map.onClick(function(coords){
     function(object){
       var reduce = object//.get(0).getEeObject().reduce(ee.Reducer.first());
       var name = object.getName();
-      
-      var list = ee.List([ee.String('Provincias'),'Castilla y León','True Color Pre','True Color Post']);
+      print(name)
+      var list = ee.List(['Provincias','Castilla y León','True Color Pre','True Color Post']);
       print ('layers 0', reduce)//Map.layers().get(1).getEeObject());;
-      print(list.filter(ee.Filter.listContains(name,'item')))
-      if (list.filter(ee.Filter.listContains(name,'item'))){
+      var cond = ee.Algorithms.If(list.contains(ee.String(name)), true, false)
+      if (cond){
+        
+        print(false)
         
       }else{
         print('EEOBJECT',reduce.getEeObject());
