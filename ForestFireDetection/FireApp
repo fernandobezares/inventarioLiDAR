@@ -3,10 +3,10 @@ var geometry =
     /* color: #000000 */
     /* shown: false */
     ee.Geometry.Polygon(
-        [[[-6.993435966447851, 42.037666408470514],
-          [-6.993435966447851, 41.915154587035374],
-          [-6.757229911760351, 41.915154587035374],
-          [-6.757229911760351, 42.037666408470514]]], null, false);
+        [[[-6.9455053710937475, 42.01631314832609],
+          [-6.9564916992187475, 41.92237697969158],
+          [-6.8466284179687475, 41.91828965640867],
+          [-6.8246557617187475, 41.999986374138906]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -391,7 +391,7 @@ function run (){
   
   // add legends to the map
   Map.add(indexLegend);
-  Map.add(severityIndexLegend);
+  //Map.add(severityIndexLegend);
   
   
   /*
