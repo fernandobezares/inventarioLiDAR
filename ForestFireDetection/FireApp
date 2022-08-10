@@ -140,19 +140,7 @@ var makeRow = function(color, name) {
 function categoricalLegend(indexName){
   
     // set position of panel
-  var severityLegendShort = ui.Panel({
-    layout: ui.Panel.Layout.Flow('vertical'),
-    style: {
-      position: 'bottom-left',
-      padding: '8px 15px',
-      height :'100px',
-      width : '150px'
-    }
-  });
-   
-   
-  
-  var cond = ee.Algorithms.If(indexName == 'dNBRclass','long','short');
+    var cond = ee.Algorithms.If(indexName == 'dNBRclass','long','short');
   print(cond)
 } 
   var setting = {
@@ -170,6 +158,7 @@ function categoricalLegend(indexName){
     }
   };
   print('setting cond',setting.cond,setting[cond])
+ 
   var severityLegend = ui.Panel({
     layout: ui.Panel.Layout.Flow('vertical'),
     style:setting.cond
