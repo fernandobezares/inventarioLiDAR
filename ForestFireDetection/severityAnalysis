@@ -211,7 +211,7 @@ var BVIclass= ee.Image(BVI)
 // ZONAL STATISTICS FUNCTIONS 
 
 // area calculator function
-function indexArea(image){
+function indexArea(image,aoi){
   var ai = ee.Image.pixelArea().divide(10000).addBands(image);
   var aIndexDict = ai.reduceRegion({
     reducer: ee.Reducer.sum().group(1),
@@ -224,7 +224,7 @@ function indexArea(image){
 
 // calcualte the pine wood volume in a given area
 
-function volumenArea(image){
+function volumenArea(image,aoi){
   
   // call the lidar var script 
   var lidar = require('users/cesefor/inventarioForestal:LidarApp/inc/LiDARVars');
@@ -248,7 +248,7 @@ function volumenArea(image){
 
 
 // extract values from the first band of a raster
-function getUniqueValues (image){
+function getUniqueValues (image,aoi){
   
   // get the first raster band
   var bandName = ee.String(image.bandNames().get(0));
@@ -312,7 +312,7 @@ function getMasksByCrossedCategories(img1, img2){
 }
 
 // function for calculation the area of the bands of one Image holding binary masks in its bands 
-function calculateArea (img){
+function calculateArea (img,aoi){
   
   // get area image in has
   var imgArea = img.multiply(ee.Image.pixelArea()).divide(10000);
@@ -342,13 +342,13 @@ function calculateArea (img){
 
 // Calculate the area given two rasters
 // the function finds the crossed areas between them and calclautes teh area in has 
-function categoricalZonalStatistics (img1,img2){
+function categoricalZonalStatistics (img1,img2,aoi){
   
   // get the multiband Image Mask
   var mask = getMasksByCrossedCategories (img1,img2);
   
   // get area Values ready to export 
-  var area = calculateArea(mask);
+  var area = calculateArea(mask,aoi);
   
   return area;
   
@@ -433,7 +433,7 @@ function getAlternativeCollection(collection,aoi){
     
   }
   
-function createTrueColorComposite(image){
+function createTrueColorComposite(image,aoi){
   
   var sigma = image.select('B4','B3','B2').reduceRegion({reducer:ee.Reducer.sampleStdDev(),scale:30, geometry : aoi,bestEffort:true});
   var mean = image.select('B4','B3','B2').reduceRegion({reducer:ee.Reducer.mean(),scale:30 ,geometry: aoi, bestEffort:true});
