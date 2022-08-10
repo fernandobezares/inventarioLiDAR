@@ -734,7 +734,7 @@ areaPanel.add(Apply_button);
 
 var labelResult = ui.Label();
 var labelLinkResult = ui.Label();
-analysisPanel.add(labelResult).add(labelLinkResult);
+//analysisPanel.add(labelResult).add(labelLinkResult);
 analysisPanel.add(downloadPanel)
 
 
