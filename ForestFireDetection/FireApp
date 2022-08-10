@@ -114,7 +114,7 @@ var severityLegend = ui.Panel({
     position: 'bottom-left',
     padding: '8px 15px',
     height :'200px',
-    width : '100px'
+    width : '150px'
   }
 });
  
@@ -221,6 +221,7 @@ function createColorBar(titleText, unit, palette, min, max) {
 
 // show selecting custom area (drawing) interface
 function select_area_start(){
+  drawingTools.layers().reset()
   drawingTools.setShape('polygon');
   drawingTools.draw();
 }
