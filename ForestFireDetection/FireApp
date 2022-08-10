@@ -436,6 +436,7 @@ function run (){
   
   // create the continuos legend
   var indexLegend = createColorBar(indexName, '', 
+  
   visIndex.get(indexName).getInfo()['palette'], 
   visIndex.get(indexName).getInfo()['min'], 
   visIndex.get(indexName).getInfo()['max']);
