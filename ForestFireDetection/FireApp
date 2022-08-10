@@ -1,11 +1,8 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = 
-    /* color: #000000 */
-    /* shown: false */
-    ee.Geometry.Polygon(
-        [[[-6.283177779433569, 41.72619239625475],
-          [-6.230992720839819, 41.689284185773396],
-          [-6.237859175917944, 41.73029200054943]]]);
+var geometry = /* color: #0b4a8b */ee.Geometry.Polygon(
+        [[[-6.2863256835937475, 41.91215818060466],
+          [-6.3797094726562475, 41.98161374468403],
+          [-6.3577368164062475, 41.822162201456585]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -270,25 +267,7 @@ function getAOI(){
 }
 }
 // ---------------------------------------------------------------------------
-function updateFires(){
-  
-  var name = 'Fires';
-  
-  Map.layers().forEach(function(lay){
-    
-    // name of the layer
-    var nameFires = lay.getName();
-    
-    // match the string
-    var match = nameFires.match(name);
-    
-    if (match.length() > 0){
-      Map.layers().remove(lay);
-    } 
-    
-        });
-  
-}
+
 
 // function to fetch the dates from the FIRMS datset 
 function getDateFromFires(){
@@ -304,9 +283,59 @@ function getDateFromFires(){
   return date;
 }
 
+// Define a function that triggers when any value is changed
+var loadFires = function() {
+  
+  var fires = fireDetection.getDates().map(fireDetection.getFiresByMonth);
+  fires = ee.FeatureCollection(fires).flatten();
+  
+  // get the value from the Selector
+  var year = yearSelector.getValue();
+  
+  //get the value from teh selector and get the month in number to make the date
+  var monthName = monthSelector.getValue();
+  var month = monthsObj.get(monthName);
+  
+  var startDate = ee.Date.fromYMD(
+    ee.Number.parse(year), ee.Number.parse(month), 1);
+  var endDate = startDate.advance(1, 'month');
+  
+    // filter by month
+  var filtered = fires.filter(
+    ee.Filter.and(
+      ee.Filter.gte('doy_min',startDate.millis()),
+      ee.Filter.lt('doy_min',endDate.millis())
+      
+      )
+      );
+  
+  //var nighttimeVis = {min: 0.0, max: 60.0}
+  var layerName = 'Fires ' + ee.String(year).getInfo() + '-' + monthName;
+  
+  
+ 
+  if (Map.layers().length()>0){
+    
+    Map.layers().reset();
+    Map.addLayer(ee.FeatureCollection(filtered), {}, layerName);
+    Map.add(fv.cylPStyled);
+    Map.add(fv.cylStyled);
+  } else {
+    
+    Map.addLayer(ee.FeatureCollection(filtered), {}, layerName);
+    Map.add(fv.cylPStyled);
+    Map.add(fv.cylStyled);
+  }
+
+  
+  return filtered;
+};
+
 
 //
 function run (){
+  
+  Map.DrawingTools.layers().get(0).setShown(false)
   
   if (Map.layers().length() > 0){
     Map.layers().reset();
@@ -568,52 +597,6 @@ months.evaluate(function(monthList) {
 
 });
 
-// Define a function that triggers when any value is changed
-var loadFires = function() {
-  
-  var fires = fireDetection.getDates().map(fireDetection.getFiresByMonth);
-  fires = ee.FeatureCollection(fires).flatten();
-  
-  // get the value from the Selector
-  var year = yearSelector.getValue();
-  
-  //get the value from teh selector and get the month in number to make the date
-  var monthName = monthSelector.getValue();
-  var month = monthsObj.get(monthName);
-  
-  var startDate = ee.Date.fromYMD(
-    ee.Number.parse(year), ee.Number.parse(month), 1);
-  var endDate = startDate.advance(1, 'month');
-  
-    // filter by month
-  var filtered = fires.filter(
-    ee.Filter.and(
-      ee.Filter.gte('doy_min',startDate.millis()),
-      ee.Filter.lt('doy_min',endDate.millis())
-      
-      )
-      );
-  
-  //var nighttimeVis = {min: 0.0, max: 60.0}
-  var layerName = 'Fires ' + ee.String(year).getInfo() + '-' + monthName;
-  
-  
- 
-  if (Map.layers().length()>0){
-    
-    Map.layers().reset();
-    Map.addLayer(ee.FeatureCollection(filtered), {}, layerName);
-    Map.add(fv.cylPStyled);
-    Map.add(fv.cylStyled);
-  } else {
-  Map.addLayer(ee.FeatureCollection(filtered), {}, layerName);
-  Map.add(fv.cylPStyled);
-  Map.add(fv.cylStyled);
-  }
-
-  
-  return filtered;
-};
 
 
 // trigger onclick button
@@ -681,7 +664,7 @@ var indexButton = ui.Select({
   items : indexList
 });
 
-
+/*
 // panel for showing the values: show values click
 var valuePanel = ui.Panel(ui.Label('Clique para inspeccionar', {textAlign: 'center', width: '270px' }));
 valuePanel.style().set({
@@ -689,7 +672,7 @@ valuePanel.style().set({
   width: '290px',
   shown:false
 });
-
+*/
 
 //------------------------------------------------------------------
 // añadir panel al panel principal
@@ -719,9 +702,9 @@ analysisPanel.add(labelResult).add(labelLinkResult);
 analysisPanel.add(downloadPanel)
 
 
-Map.style().set('cursor', 'crosshair');
+//Map.style().set('cursor', 'crosshair');
 
-Map.add(valuePanel);
+//Map.add(valuePanel);
 
 
 
@@ -787,8 +770,6 @@ Map.onClick(function(coords){
         });
   
     } catch (error){}
-      
-        
       
     });
 });
