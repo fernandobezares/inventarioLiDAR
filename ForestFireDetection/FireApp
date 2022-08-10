@@ -723,7 +723,67 @@ Map.onClick(function(coords){
 
 
 
+// show loading / calculating message
+function show_loading(loading_msg){
+  valuePanel.clear();
+  valuePanel.style().set({shown:true});
+  valuePanel.add(ui.Label(loading_msg, {color: 'gray', textAlign: 'center', width: '98%'}));
+  
+}
 
+// panel for showing the values: show values click
+var valuePanel = ui.Panel(ui.Label('Clique para inspeccionar', {textAlign: 'center', width: '280px' }));
+valuePanel.style().set({
+  position: 'top-center',
+  width: '280px',
+  shown:false
+});
+/*
+Map.onClick(function(coords){
+  var point = ee.Geometry.Point(coords.lon, coords.lat);
+  // get the second element in the Map.Layers list and reduce it to first()
+  var reduce = Map.layers().get(1).getEeObject().reduce(ee.Reducer.first());
+  print ('layers 0', Map.layers().get(1).getEeObject());
+  var sampledPoint = reduce.reduceRegion(ee.Reducer.first(), point, 10);
+  var computedValue = sampledPoint.get('first');
+  show_loading('Cargando...');
+  computedValue.evaluate(function(result){
+    valuePanel.clear();
+    if(result === null){
+      valuePanel.add(ui.Label('El pixel seleccionado no tiene valor', {textAlign: 'center', width: '98%'}));
+
+    }else{
+      valuePanel.add(ui.Label(result.toFixed(2),{textAlign: 'center', width: '98%'}));
+    }
+  });
+});
+*/
+
+Map.onClick(function(coords){
+  var point = ee.Geometry.Point(coords.lon, coords.lat);
+  valuePanel.clear();
+  // get the second element in the Map.Layers list and reduce it to first()
+  Map.layers().forEach(
+    function(object){
+      var reduce = object.getEeObject().reduce(ee.Reducer.first());
+      var name = object.getName();
+      print ('layers 0', Map.layers().get(1).getEeObject());
+      
+      var sampledPoint = reduce.reduceRegion(ee.Reducer.first(), point, 10);
+      var computedValue = sampledPoint.get('first');
+      show_loading('Cargando...');
+      computedValue.evaluate(function(result){
+        
+        if(result === null){
+          valuePanel.add(ui.Label('El pixel seleccionado no tiene valor', {textAlign: 'center', width: '98%'}));
+    
+        }else{
+          valuePanel.add(ui.Label(result.toFixed(2),{textAlign: 'center', width: '98%'}));
+        }
+  });
+});
+    })
+  
 
 // add element to Maps
 Map.setCenter(-4.74, 41.65, 8);
