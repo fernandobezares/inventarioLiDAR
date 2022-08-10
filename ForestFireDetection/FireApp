@@ -123,22 +123,6 @@ var visIndex = ee.Dictionary({
   'dNBRclass':{min:0,max:6, palette:['white', 'lightyellow','yellow','orange','red','purple']},
 });
 
-// leyenda mfe
-
-function adjustLegendHeight(nameIndex){
-  if (nameIndex === 'dNBRclass'){
-    
-    severityLegend.style().set({height: '200px', width: '100px',position: 'bottom-left',padding: '8px 15px'});
-  
-    
-  }else {
-    
-    severityLegend.style().set({height: '100px', width: '100px', position: 'bottom-left',padding: '8px 15px'});
-    
-  }
-  
-} 
-
 
 // set position of panel
 var severityLegend = ui.Panel({
@@ -426,11 +410,11 @@ function run (){
   Map.add(severityIndexLegend);
   
   Map.centerObject(userAOI,11);
-  
+  /*
   var loadingLabel = ui.Label({value:'Cargando estadísticas ...', style: {shown: true}});
   downloadPanel.add(imageDownloadButton);
   
-  /*
+  
   var lulucfStats = severityAnalysis.categoricalZonalStatistics (mfeLulucf,severityImg);
 
   //var lostWood = severityAnalysis.volumenArea(severityImg);
@@ -448,9 +432,10 @@ function run (){
   //lulucfStats.evaluate(function(stats){return printStats(stats)});
   lulucfStats.evaluate(printStats(lulucfStats));
   
-  */
+  
   
   loadingLabel.style().set({shown: false});
+  */
   
 }
 
