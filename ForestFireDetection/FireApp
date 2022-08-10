@@ -1,3 +1,10 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = /* color: #000000 */ee.Geometry.Polygon(
+        [[[-6.3110449218749975, 41.91828965640867],
+          [-6.3110449218749975, 41.83239539719553],
+          [-6.0913183593749975, 41.83239539719553],
+          [-6.0913183593749975, 41.91828965640867]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
 var severityAnalysis = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
@@ -409,7 +416,7 @@ function run (){
    
    //
    downloadPanel.widgets().reset();
-   downloadPanel.add(ui.Label({value:'Click para descargar:\n', style:{ whiteSpace: 'pre'}})).setUrl(url);
+   downloadPanel.add(ui.Label({value:'Click para descargar:\n', style:{ whiteSpace: 'pre'}}).setUrl(url));
   
   // if it doesnt work thrown an error  
   }
@@ -505,7 +512,7 @@ var mainPanel = ui.Panel({
 
 // title 
 var title = ui.Label({
-  value: 'Forest Fire Detector',
+  value: 'Forest Fire Detector 🔥',
   style: {fontSize: '24px',
           margin:'5px 0px 10px 5px'}
 });
