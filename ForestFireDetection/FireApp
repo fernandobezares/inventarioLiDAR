@@ -3,10 +3,10 @@ var geometry =
     /* color: #000000 */
     /* shown: false */
     ee.Geometry.Polygon(
-        [[[-6.713452353846973, 42.26201045939975],
-          [-6.707959189784473, 42.23405487840958],
-          [-6.656804099452442, 42.236596806792626],
-          [-6.657834067714161, 42.2569285479864]]]);
+        [[[-5.583880225345896, 42.27038053931846],
+          [-5.609629431888865, 42.23658262070058],
+          [-5.554697791263865, 42.22743119731727],
+          [-5.550921240970896, 42.26148810619673]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -398,8 +398,8 @@ function run (){
   // add elements to the map
   Map.addLayer(indexImg,visIndex.get(indexName).getInfo(),indexName);
   Map.addLayer(severityImg,visIndex.get(reclassIndexName).getInfo(),reclassIndexName);
-  Map.addLayer(indexes,{bands:['vis-red-pre','vis-green-pre','vis-blue-pre']},'True Color Pre');
-  Map.addLayer(indexes,{bands:['vis-red-post','vis-green-post','vis-blue-post']},'True Color Post');
+  Map.addLayer(indexes,{bands:['vis-red-pre','vis-green-pre','vis-blue-pre']},'True Color Pre',0);
+  Map.addLayer(indexes,{bands:['vis-red-post','vis-green-post','vis-blue-post']},'True Color Post',0);
   
   
   // add legends to the map
@@ -684,10 +684,10 @@ var indexButton = ui.Select({
 
 
 // panel for showing the values: show values click
-var valuePanel = ui.Panel(ui.Label('Clique para inspeccionar', {textAlign: 'center', width: '280px' }));
+var valuePanel = ui.Panel(ui.Label('Clique para inspeccionar', {textAlign: 'center', width: '270px' }));
 valuePanel.style().set({
   position: 'top-center',
-  width: '280px',
+  width: '290px',
   shown:false
 });
 
@@ -730,16 +730,17 @@ Map.add(valuePanel);
 
 
 
-/*
 Map.onClick(function(coords){
+  show_loading('Cargando...')
   var point = ee.Geometry.Point(coords.lon, coords.lat);
   // get the second element in the Map.Layers list and reduce it to first()
-  var reduce = Map.layers().get(1).getEeObject().reduce(ee.Reducer.first());
-  print ('layers 0', Map.layers().get(1).getEeObject());
+  var reduce = Map.layers().get(4).getEeObject().reduce(ee.Reducer.first());
+  print ('layers 0', Map.layers().get(4).getEeObject());
   var sampledPoint = reduce.reduceRegion(ee.Reducer.first(), point, 10);
   var computedValue = sampledPoint.get('first');
   show_loading('Cargando...');
   computedValue.evaluate(function(result){
+    print('eval')
     valuePanel.clear();
     if(result === null){
       valuePanel.add(ui.Label('El pixel seleccionado no tiene valor', {textAlign: 'center', width: '98%'}));
@@ -749,14 +750,8 @@ Map.onClick(function(coords){
     }
   });
 });
-*/
-function cc(reduce){
-  
- 
-        
-  
-}
 
+/*
 Map.onClick(function(coords){
   var point = ee.Geometry.Point(coords.lon, coords.lat);
   valuePanel.clear();
@@ -766,21 +761,19 @@ Map.onClick(function(coords){
       var reduce = object//.get(0).getEeObject().reduce(ee.Reducer.first());
       var name = object.getName();
       print(name)
-      var list = ee.List(['Provincias','Castilla y León','True Color Pre','True Color Post']).map(function(s){return ee.String(s)});
+      var list = ['Provincias','Castilla y León','True Color Pre','True Color Post'];//).map(function(s){return ee.String(s)});
       //print ('layers 0', reduce)//Map.layers().get(1).getEeObject());;
       
-      var cond = ee.Algorithms.If(list.contains(ee.String(name)),'yes','no');
-      
-      print(cond)
-      print(ee.Algorithms.IsEqual(ee.String(cond), ee.String('no')))
-      
-      if (ee.String(cond).equals(ee.String('no'))){
-        
-        print(reduce)
-        print('EEOBJECT',reduce.getEeObject());
-        var sampledPoint = reduce.getEeObject().reduceRegion(ee.Reducer.first(), point, 10);
        
+       
+      try {  
+    
+        print(reduce);
+        print('EEOBJECT',reduce.getEeObject().reduce(ee.Reducer.first()));
+        var sampledPoint = reduce.getEeObject().reduce(ee.Reducer.first()).reduceRegion(ee.Reducer.first(), point, 10);
+        print('sampledpoint', sampledPoint);
         var computedValue = sampledPoint.get('first');
+        print('computed Value', computedValue)
         print('cargando')
         show_loading('Cargando...');
         computedValue.evaluate(function(result){
@@ -789,19 +782,18 @@ Map.onClick(function(coords){
             valuePanel.add(ui.Label('El pixel seleccionado no tiene valor', {textAlign: 'center', width: '98%'}));
       
           }else{
-            valuePanel.add(ui.Label(result.toFixed(2),{textAlign: 'center', width: '98%'}));
+            valuePanel.add(ui.Label(name + ':    '+ result.toFixed(2),{textAlign: 'center', width: '98%'}));
           }
         });
-        
-      }
-      
+  
+    } catch (error){}
       
         
       
     });
 });
     
-  
+  */
 
 // add element to Maps
 Map.setCenter(-4.74, 41.65, 8);
