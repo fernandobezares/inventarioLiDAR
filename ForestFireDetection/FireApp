@@ -395,7 +395,7 @@ function run (){
   // select the reclasification index
   var severityImg = severity.select(reclassIndexName);
   
-  //  load teh button 
+  //  load the button 
   var imageDownloadButton  = ui.Button({
   label : 'Descargar imagen',
   onClick: function(){
@@ -415,14 +415,14 @@ function run (){
   });
    
    //
-   downloadPanel.widgets().reset();
-   downloadPanel.add(ui.Label({value:'Click para descargar:\n', style:{ whiteSpace: 'pre'}}).setUrl(url));
+   downloadPanel.widgets().remove(imageDownloadButton);
+   downloadPanel.add(ui.Label({value:'Descargar dataset: Severidad de Incendio\n', style:{ whiteSpace: 'pre'}}).setUrl(url));
   
   // if it doesnt work thrown an error  
   }
    catch (error){
      
-     downloadPanel.widgets().reset()
+     downloadPanel.widgets().remove(imageDownloadButton)
      downloadPanel.add(ui.Label({value:'Área demasiado grande, reduzca el área de estudio para descargar la imagen',style:{color:'red'}}))
      
    }
@@ -432,7 +432,7 @@ function run (){
   }
 });
   
-  downloadPanel.add(imageDownloadButton);
+  downloadPanel.add(downloadLabel).add(imageDownloadButton);
   
   // create the continuos legend
   var indexLegend = createColorBar(indexName, '', 
@@ -498,6 +498,8 @@ function run (){
 var downloadPanel = ui.Panel({
   layout: ui.Panel.Layout.flow('horizontal')
 });
+
+var downloadLabel = ui.Label({value:'Descarga tus resultados', style:{ whiteSpace: 'pre',fontSize:fontSizeSections, margin: marginTitles}})
 
 // index selector 
 var indexSelector = ui.Select({
