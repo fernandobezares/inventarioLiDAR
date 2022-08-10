@@ -20,7 +20,8 @@ var mfeLulucf = ee.Image('users/cesefor/InventarioForestal/mfeLulucf').rename('l
 
 // add fv 
 var fv = require('users/cesefor/inventarioForestal:LidarApp/inc/FeatureViewLidar');
-
+Map.add(fv.cylPStyled);
+Map.add(fv.cylStyled);
 //---------------------------------------------------------------------------------------------
 
 function printStats(stats){
