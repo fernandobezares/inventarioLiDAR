@@ -1,8 +1,9 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = /* color: #0b4a8b */ee.Geometry.Polygon(
-        [[[-6.2863256835937475, 41.91215818060466],
-          [-6.3797094726562475, 41.98161374468403],
-          [-6.3577368164062475, 41.822162201456585]]]);
+var geometry = /* color: #000000 */ee.Geometry.Polygon(
+        [[[-6.849081789040865, 42.470241473213456],
+          [-6.849081789040865, 42.374441851875936],
+          [-6.769430910134615, 42.374441851875936],
+          [-6.769430910134615, 42.470241473213456]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -18,6 +19,8 @@ var mfeLulucf = ee.Image('users/cesefor/InventarioForestal/mfeLulucf').rename('l
 var fv = require('users/cesefor/inventarioForestal:LidarApp/inc/FeatureViewLidar');
 Map.add(fv.cylPStyled);
 Map.add(fv.cylStyled);
+
+var drawingTools = Map.drawingTools();
 //---------------------------------------------------------------------------------------------
 
 function printStats(stats){
@@ -106,32 +109,7 @@ var visIndex = ee.Dictionary({
 });
 
 
-// set position of panel
-var severityLegend = ui.Panel({
-  layout: ui.Panel.Layout.Flow('vertical'),
-  style: {
-    position: 'bottom-left',
-    padding: '8px 15px',
-    height :'200px',
-    width : '150px'
-  }
-});
- 
 
-// Create legend title
-var severityLegendTitle = ui.Label({
-  value: 'Severidad de Incendio',
-  style: {
-    fontWeight: 'bold',
-    fontSize: '18px',
-    margin: '0 0 10px 0',
-    padding: '0'
-    }
-});
-
-
-// Add the title to the panel
-severityLegend.add(severityLegendTitle);
  
 // Creates and styles 1 row of the legend.
 var makeRow = function(color, name) {
@@ -158,9 +136,46 @@ var makeRow = function(color, name) {
         layout: ui.Panel.Layout.Flow('horizontal')
       });
 };
- function categoricalLegend(indexName){
+
+function categoricalLegend(indexName){
   
-  //adjustLegendHeight(indexName)
+    // set position of panel
+  var severityLegendShort = ui.Panel({
+    layout: ui.Panel.Layout.Flow('vertical'),
+    style: {
+      position: 'bottom-left',
+      padding: '8px 15px',
+      height :'100px',
+      width : '150px'
+    }
+  });
+   
+   var severityLegendLong = ui.Panel({
+    layout: ui.Panel.Layout.Flow('vertical'),
+    style: {
+      position: 'bottom-left',
+      padding: '8px 15px',
+      height :'300px',
+      width : '150px'
+    }
+  });
+  
+  var severityLegend = ee.Algorithms.If(indexName == 'dNBR',severityLegendLong,severityLegendShort);
+  
+  // Create legend title
+  var severityLegendTitle = ui.Label({
+    value: 'Severidad de Incendio',
+    style: {
+      fontWeight: 'bold',
+      fontSize: '18px',
+      margin: '0 0 10px 0',
+      padding: '0'
+      }
+  });
+
+
+  // Add the title to the panel
+  severityLegend.add(severityLegendTitle);
   
   
   // create lists for the legend representation
@@ -410,6 +425,8 @@ function run (){
   }
 });
   
+  downloadPanel.add(imageDownloadButton);
+  
   // create the continuos legend
   var indexLegend = createColorBar(indexName, '', 
   visIndex.get(indexName).getInfo()['palette'], 
@@ -430,11 +447,14 @@ function run (){
   Map.addLayer(indexes,{bands:['vis-red-post','vis-green-post','vis-blue-post']},'True Color Post',0);
   
   
+  
   // add legends to the map
   Map.add(indexLegend);
   Map.add(severityIndexLegend);
   
-  downloadPanel.add(imageDownloadButton);
+ 
+  
+  
   /*
   var loadingLabel = ui.Label({value:'Cargando estadísticas ...', style: {shown: true}});
   
@@ -598,11 +618,8 @@ months.evaluate(function(monthList) {
 });
 
 
-
 // trigger onclick button
 loadButton.onClick(loadFires);
-
-var drawingTools = Map.drawingTools();
 
 
 // define Panel for the buttons 
