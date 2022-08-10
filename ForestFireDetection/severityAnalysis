@@ -1,3 +1,4 @@
+
 // global variables 
 
 // AOI Defined by external script
@@ -32,7 +33,26 @@ var mfeData = mfeEspecies.addBands(mfeLulucf);
 
 
 //----------- functions -----------------
-
+function getAOI(){
+  
+  if(Map.drawingTools().layers().length() > 0){
+      var geom_list = [];
+      Map.drawingTools().layers().forEach(function(lay){
+        lay.geometries().forEach(function(geom){
+          geom_list.push(geom);
+        });
+      });
+      
+      var geom_collection = ee.FeatureCollection(geom_list.map(function(geom){
+        return ee.Feature(geom);
+      }));
+    
+    
+    Map.drawingTools().layers().reset([ui.Map.GeometryLayer([geom_list[0]])]);
+    
+    return geom_collection.first();
+}
+}
 
 // SPECTRAL INDEXES 
 
@@ -211,11 +231,11 @@ var BVIclass= ee.Image(BVI)
 // ZONAL STATISTICS FUNCTIONS 
 
 // area calculator function
-function indexArea(image,aoi){
+function indexArea(image){
   var ai = ee.Image.pixelArea().divide(10000).addBands(image);
   var aIndexDict = ai.reduceRegion({
     reducer: ee.Reducer.sum().group(1),
-    geometry: aoi,
+    geometry: getAOI().geometry(),
     scale: 10,
     maxPixels: 1e13
   });
@@ -224,7 +244,7 @@ function indexArea(image,aoi){
 
 // calcualte the pine wood volume in a given area
 
-function volumenArea(image,aoi){
+function volumenArea(image){
   
   // call the lidar var script 
   var lidar = require('users/cesefor/inventarioForestal:LidarApp/inc/LiDARVars');
@@ -238,7 +258,7 @@ function volumenArea(image,aoi){
   // compute the stats per group
   var volAreaDict = volArea.reduceRegion({
     reducer: ee.Reducer.sum().group(1),
-    geometry: aoi,
+    geometry: getAOI().geometry(),
     scale: 10,
     maxPixels: 1e13
   });
@@ -256,7 +276,7 @@ function getUniqueValues (image,aoi){
   // computes frequency histogram
   var valDict= image.reduceRegion({
     reducer: ee.Reducer.frequencyHistogram(),
-    geometry: aoi,
+    geometry: getAOI().geometry(),
     scale: 10,
     maxPixels: 1e13
   });
@@ -312,7 +332,7 @@ function getMasksByCrossedCategories(img1, img2){
 }
 
 // function for calculation the area of the bands of one Image holding binary masks in its bands 
-function calculateArea (img,aoi){
+function calculateArea (img){
   
   // get area image in has
   var imgArea = img.multiply(ee.Image.pixelArea()).divide(10000);
@@ -320,7 +340,7 @@ function calculateArea (img,aoi){
   // calculate the aggregated area .sum() for a Given Region
   var areaD = imgArea.reduceRegion({
     reducer: ee.Reducer.sum(),
-    geometry: aoi,
+    geometry: getAOI().geometry(),
     scale: 10,
     maxPixels: 1e13
     });
@@ -342,20 +362,20 @@ function calculateArea (img,aoi){
 
 // Calculate the area given two rasters
 // the function finds the crossed areas between them and calclautes teh area in has 
-function categoricalZonalStatistics (img1,img2,aoi){
+function categoricalZonalStatistics (img1,img2){
   
   // get the multiband Image Mask
   var mask = getMasksByCrossedCategories (img1,img2);
   
   // get area Values ready to export 
-  var area = calculateArea(mask,aoi);
+  var area = calculateArea(mask);
   
   return area;
   
   
 }
 
-function getAlternativeCollection(collection,aoi){
+function getAlternativeCollection(collection){
   
   // get if the image is pre orpost fire
   var mode = collection.get('mode').getInfo();
@@ -386,7 +406,7 @@ function getAlternativeCollection(collection,aoi){
       
       
        newCol = ee.ImageCollection("COPERNICUS/S2_SR")
-              .filter(ee.Filter.bounds(aoi))
+              .filter(ee.Filter.bounds(getAOI().geometry()))
               .filterDate(startDate, endDate)
               .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', cloudPixelPercentage))
               .map(maskS2clouds)
@@ -412,7 +432,7 @@ function getAlternativeCollection(collection,aoi){
       var finalDate = endDate.advance(40,'day');
       
       newCol = ee.ImageCollection("COPERNICUS/S2_SR")
-              .filter(ee.Filter.bounds(aoi))
+              .filter(ee.Filter.bounds(getAOI().geometry()))
               .filterDate(startDate, finalDate)
               .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', cloudPixelPercentage))
               .map(maskS2clouds)
@@ -433,10 +453,10 @@ function getAlternativeCollection(collection,aoi){
     
   }
   
-function createTrueColorComposite(image,aoi){
+function createTrueColorComposite(image){
   
-  var sigma = image.select('B4','B3','B2').reduceRegion({reducer:ee.Reducer.sampleStdDev(),scale:30, geometry : aoi,bestEffort:true});
-  var mean = image.select('B4','B3','B2').reduceRegion({reducer:ee.Reducer.mean(),scale:30 ,geometry: aoi, bestEffort:true});
+  var sigma = image.select('B4','B3','B2').reduceRegion({reducer:ee.Reducer.sampleStdDev(),scale:10, geometry : getAOI().geometry(),bestEffort:true});
+  var mean = image.select('B4','B3','B2').reduceRegion({reducer:ee.Reducer.mean(),scale:10 ,geometry: getAOI().geometry(), bestEffort:true});
   
   print(mean,sigma);
   
