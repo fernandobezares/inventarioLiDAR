@@ -398,6 +398,7 @@ function run (){
   
   // adjust the legend according to the index represented
   //adjustLegendHeight(reclassIndexName);
+  Map.centerObject(userAOI,11);
   
   // add elements to the map
   Map.addLayer(indexImg,visIndex.get(indexName).getInfo(),indexName);
@@ -409,7 +410,7 @@ function run (){
   Map.add(indexLegend);
   Map.add(severityIndexLegend);
   
-  Map.centerObject(userAOI,11);
+  
   /*
   var loadingLabel = ui.Label({value:'Cargando estadísticas ...', style: {shown: true}});
   downloadPanel.add(imageDownloadButton);
