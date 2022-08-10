@@ -1,12 +1,9 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = 
-    /* color: #000000 */
-    /* shown: false */
-    ee.Geometry.Polygon(
-        [[[-6.085216820036461, 41.901180261119926],
-          [-6.085216820036461, 41.8531217298553],
-          [-5.987713157927086, 41.8531217298553],
-          [-5.987713157927086, 41.901180261119926]]], null, false);
+var geometry = /* color: #000000 */ee.Geometry.Polygon(
+        [[[-6.1599829101562475, 42.00202745006484],
+          [-6.1654760742187475, 41.83444184005749],
+          [-5.8084204101562475, 41.85490266995141],
+          [-5.8029272460937475, 42.018353700468936]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
