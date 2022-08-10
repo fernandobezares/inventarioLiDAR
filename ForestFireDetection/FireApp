@@ -142,7 +142,7 @@ function categoricalLegend(indexName){
     // set position of panel
     var cond = ee.Algorithms.If(indexName == 'dNBRclass','long','short');
   print(cond)
-} 
+ 
   var setting = {
     long:{
       position: 'bottom-left',
