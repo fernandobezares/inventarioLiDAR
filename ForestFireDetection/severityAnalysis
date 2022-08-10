@@ -395,7 +395,7 @@ function getAlternativeCollection(collection,aoi){
       
       // end dare pre. 3 days before teh fire event 
       
-      print ('new Start date', startDate)
+      
        newCol = ee.ImageCollection("COPERNICUS/S2_SR")
               .filter(ee.Filter.bounds(aoi))
               .filterDate(startDate, endDate)
