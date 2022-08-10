@@ -1,9 +1,12 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-5.2100457261834325, 40.333733959917936],
-          [-5.215427269809766, 40.166148836827375],
-          [-4.867300042145571, 40.18660918591415],
-          [-4.861970151218461, 40.35006070116056]]]);
+var geometry = 
+    /* color: #000000 */
+    /* shown: false */
+    ee.Geometry.Polygon(
+        [[[-6.404263702535135, 41.24127655391888],
+          [-6.387734420595574, 41.16464780764434],
+          [-6.232419818498564, 41.172686948476745],
+          [-6.210520131787615, 41.228698398877]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -110,8 +113,8 @@ var severityLegend = ui.Panel({
   style: {
     position: 'bottom-left',
     padding: '8px 15px',
-    height :'300px',
-    width : '2000px'
+    height :'200px',
+    width : '100px'
   }
 });
  
