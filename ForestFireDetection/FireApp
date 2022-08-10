@@ -1,12 +1,5 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = 
-    /* color: #000000 */
-    /* shown: false */
-    ee.Geometry.Polygon(
-        [[[-5.583880225345896, 42.27038053931846],
-          [-5.609629431888865, 42.23658262070058],
-          [-5.554697791263865, 42.22743119731727],
-          [-5.550921240970896, 42.26148810619673]]]);
+var geometry = /* color: #00ffff */ee.Geometry.MultiPoint();
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -683,13 +676,6 @@ var indexButton = ui.Select({
 });
 
 
-// panel for showing the values: show values click
-var valuePanel = ui.Panel(ui.Label('Clique para inspeccionar', {textAlign: 'center', width: '270px' }));
-valuePanel.style().set({
-  position: 'top-center',
-  width: '290px',
-  shown:false
-});
 
 
 //------------------------------------------------------------------
@@ -720,33 +706,42 @@ analysisPanel.add(labelResult).add(labelLinkResult);
 analysisPanel.add(downloadPanel)
 
 
+
+
+// panel for showing the values: show values click
+var valuePanel = ui.Panel(ui.Label('Clique para inspeccionar', {textAlign: 'center', width: '270px' }));
+valuePanel.style().set({
+  position: 'top-center',
+  width: '290px',
+  shown:false
+});
+
+
 Map.style().set('cursor', 'crosshair');
 
 Map.add(valuePanel);
 
 
-
-
-
-
-
 Map.onClick(function(coords){
-  show_loading('Cargando...')
+  
   var point = ee.Geometry.Point(coords.lon, coords.lat);
   // get the second element in the Map.Layers list and reduce it to first()
   var reduce = Map.layers().get(4).getEeObject().reduce(ee.Reducer.first());
   print ('layers 0', Map.layers().get(4).getEeObject());
   var sampledPoint = reduce.reduceRegion(ee.Reducer.first(), point, 10);
   var computedValue = sampledPoint.get('first');
+
   show_loading('Cargando...');
   computedValue.evaluate(function(result){
-    print('eval')
+    print('eval',result)
     valuePanel.clear();
+    valuePanel.add(ui.Label(result,{textAlign: 'center', width: '98%'}));
+    caluePanel.style().set({shown:true})
     if(result === null){
       valuePanel.add(ui.Label('El pixel seleccionado no tiene valor', {textAlign: 'center', width: '98%'}));
 
     }else{
-      valuePanel.add(ui.Label(result.toFixed(2),{textAlign: 'center', width: '98%'}));
+      valuePanel.add(ui.Label(result,{textAlign: 'center', width: '98%'}));
     }
   });
 });
