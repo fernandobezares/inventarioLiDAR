@@ -601,9 +601,7 @@ var loadFires = function() {
   Map.add(fv.cylPStyled);
   Map.add(fv.cylStyled);
   }
-  
-  
- 
+
   
   return filtered;
 };
