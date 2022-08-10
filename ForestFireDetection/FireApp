@@ -262,7 +262,7 @@ function getAOI(){
     return geom_collection.first();
 }
 }
-
+// ---------------------------------------------------------------------------
 function updateFires(){
   
   var name = 'Fires';
@@ -590,7 +590,20 @@ var loadFires = function() {
   //var nighttimeVis = {min: 0.0, max: 60.0}
   var layerName = 'Fires ' + ee.String(year).getInfo() + '-' + monthName;
   
- 
+  
+  if (Map.layers().contains(filtered)){
+    Map.layers().remove(ee.FeatureCollection(filtered))
+    Map.addLayer(ee.FeatureCollection(filtered), {}, layerName);
+  
+    
+
+   
+  } else {
+    
+    Map.addLayer(ee.FeatureCollection(filtered), {}, layerName)
+    
+  }
+ /*
   if (Map.layers().length()>0){
     
     Map.layers().reset();
@@ -602,6 +615,7 @@ var loadFires = function() {
   Map.add(fv.cylPStyled);
   Map.add(fv.cylStyled);
   }
+  */
   
  
   
