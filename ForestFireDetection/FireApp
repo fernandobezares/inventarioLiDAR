@@ -1,9 +1,12 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-6.388093350496555, 41.22067656936906],
-          [-6.382600186434055, 41.174176935937204],
-          [-6.250764248934055, 41.18347950528182],
-          [-6.264497159090305, 41.215511574783875]]]);
+var geometry = 
+    /* color: #000000 */
+    /* shown: false */
+    ee.Geometry.Polygon(
+        [[[-6.085216820036461, 41.901180261119926],
+          [-6.085216820036461, 41.8531217298553],
+          [-5.987713157927086, 41.8531217298553],
+          [-5.987713157927086, 41.901180261119926]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -18,26 +21,6 @@ var mfeLulucf = ee.Image('users/cesefor/InventarioForestal/mfeLulucf').rename('l
 
 //---------------------------------------------------------------------------------------------
 
-function areaChart (img1,img2){
-  
-  // get mask area images for chart 
-  var maskImg = severityAnalysis.getMasksByCrossedCategories(img1,img2);
-  
-  var areaImg = maskImg.multiply(ee.Image.pixelArea().divide(10000)).addBands(ee.Image(0).rename('Superfice quemada'));
-  
-  var areaChart = ui.Chart.image.byClass({
-    image : areaImg,
-    region: userAOI,
-    scale: 25,
-    reducer:ee.Reducer.sum(),
-    classBand:'Superficie quemada'
-  });
-  
-  print(areaChart);
-}
-
-  
-  
 function printStats(stats){
   
   print('stats',stats)
@@ -131,7 +114,7 @@ var severityLegend = ui.Panel({
     position: 'bottom-left',
     padding: '8px 15px',
     height :'300px',
-    width : '100px'
+    width : '2000px'
   }
 });
  
