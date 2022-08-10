@@ -393,10 +393,10 @@ function run (){
   Map.add(indexLegend);
   //Map.add(severityIndexLegend);
   
-  
+  downloadPanel.add(imageDownloadButton);
   /*
   var loadingLabel = ui.Label({value:'Cargando estadísticas ...', style: {shown: true}});
-  downloadPanel.add(imageDownloadButton);
+  
   
   
   var lulucfStats = severityAnalysis.categoricalZonalStatistics (mfeLulucf,severityImg);
