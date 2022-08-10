@@ -221,7 +221,7 @@ function createColorBar(titleText, unit, palette, min, max) {
 
 // show selecting custom area (drawing) interface
 function select_area_start(){
-  drawingTools.layers().reset()
+  //drawingTools.layers().reset()
   drawingTools.setShape('polygon');
   drawingTools.draw();
 }
