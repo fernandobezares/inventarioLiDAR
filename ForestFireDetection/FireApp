@@ -597,8 +597,12 @@ var loadFires = function() {
     
     Map.layers().reset();
     Map.addLayer(ee.FeatureCollection(filtered), {}, layerName);
+    Map.add(fv.cylPStyled);
+    Map.add(fv.cylStyled);
   } else {
   Map.addLayer(ee.FeatureCollection(filtered), {}, layerName);
+  Map.add(fv.cylPStyled);
+  Map.add(fv.cylStyled);
   }
   
  
