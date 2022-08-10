@@ -22,6 +22,7 @@ Map.add(fv.cylStyled);
 
 //  fontsize sections
 var fontSizeSections = '16px';
+var marginTitles = '15px 0px 5px 8px';
 
 var drawingTools = Map.drawingTools();
 //---------------------------------------------------------------------------------------------
@@ -512,7 +513,8 @@ var mainPanel = ui.Panel({
 // title 
 var title = ui.Label({
   value: 'Forest Fire Detector',
-  style: {'fontSize': '24px'}
+  style: {fontSize: '24px',
+          margin:'5px 0px 10px 5px'}
 });
 
 
@@ -555,7 +557,9 @@ var decriptionLabel = ui.Label({
 //date Label
 var dateLabel = ui.Label( {
   value:'Selecciona tu fecha de interés',
-  style:{fontSize: fontSizeSections}
+  style:{fontSize: fontSizeSections,
+          margin:marginTitles
+  }
   
 });
 
@@ -638,7 +642,10 @@ var areaPanel =  ui.Panel({
 var analysisPanel = ui.Panel({layout: ui.Panel.Layout.flow('vertical')});
 
 // Analysis Label
-var analysisLabel = ui.Label({value:'Selecciona un índice espectral de quemado', style: { fontSize:fontSizeSections}});
+var analysisLabel = ui.Label({value:'Selecciona un índice espectral de quemado', 
+style: { fontSize:fontSizeSections,
+         margin:marginTitles
+}});
 
 // IndexPanel 
 var indexPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
@@ -652,7 +659,10 @@ var indexLabel = ui.Label({
 var areaPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
 
 // area Label 
-var areaLabel = ui.Label({value:'Define un área de estudio', style: { fontSize:fontSizeSections}});
+var areaLabel = ui.Label({value:'Define un área de estudio', 
+style: { fontSize:fontSizeSections,
+         margin:marginTitles
+}});
 // aply button 
 var Apply_button = ui.Button({
   label: 'Aplicar',
