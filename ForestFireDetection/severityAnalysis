@@ -522,6 +522,10 @@ function getSpectralIndexes(date, userAOI){
   preFire = getAlternativeCollection(preFire,aoi);
   postFire = getAlternativeCollection(postFire,aoi);
   
+  print('preFire',preFire)
+  print('Postfire', postFire)
+  
+  
   // creation of composites (pre- and post-)
   var imagePreFire = preFire.median();
   var imagePostFire = postFire.median();
