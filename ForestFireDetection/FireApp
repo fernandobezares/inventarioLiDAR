@@ -220,7 +220,7 @@ function createColorBar(titleText, unit, palette, min, max) {
 
 // show selecting custom area (drawing) interface
 function select_area_start(){
-  drawingTools.layers().reset()
+  drawingTools.layers().reset();
   drawingTools.setShape('polygon');
   drawingTools.draw();
 }
@@ -335,7 +335,7 @@ var loadFires = function() {
 //
 function run (){
   
-  Map.DrawingTools.layers().get(0).setShown(false)
+  drawingTools.layers().forEach(function(element){return element.setShown(false)});
   
   if (Map.layers().length() > 0){
     Map.layers().reset();
@@ -432,7 +432,7 @@ function run (){
   
   // add legends to the map
   Map.add(indexLegend);
-  //Map.add(severityIndexLegend);
+  Map.add(severityIndexLegend);
   
   downloadPanel.add(imageDownloadButton);
   /*
