@@ -3,10 +3,10 @@ var geometry =
     /* color: #000000 */
     /* shown: false */
     ee.Geometry.Polygon(
-        [[[-6.2478735351562475, 41.93463737868109],
-          [-6.2478735351562475, 41.82011536602659],
-          [-6.1050512695312475, 41.82011536602659],
-          [-6.1050512695312475, 41.93463737868109]]], null, false);
+        [[[-6.8864538574218725, 42.03263573213958],
+          [-6.8754675292968725, 41.91624589659079],
+          [-6.7793371582031225, 41.94893819930059],
+          [-6.7614843749999975, 42.02141440591733]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -224,7 +224,7 @@ function createColorBar(titleText, unit, palette, min, max) {
 
 // show selecting custom area (drawing) interface
 function select_area_start(){
-  //drawingTools.layers().reset()
+  drawingTools.layers().reset()
   drawingTools.setShape('polygon');
   drawingTools.draw();
 }
@@ -764,10 +764,11 @@ Map.onClick(function(coords){
       print ('layers 0', reduce)//Map.layers().get(1).getEeObject());;
       
       if (list.contains(name)){}else{
-        print('reduce',reduce.getEeObject());
+        print('EEOBJECT',reduce.getEeObject());
         var sampledPoint = reduce.getEeObject().reduceRegion(ee.Reducer.first(), point, 10);
        
         var computedValue = sampledPoint.get('first');
+        print('cargando')
         show_loading('Cargando...');
         computedValue.evaluate(function(result){
           
