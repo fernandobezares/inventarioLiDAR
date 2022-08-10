@@ -397,7 +397,7 @@ function getAlternativeCollection(collection){
               .map (addNBRpre)
               .select ('B.*','NBRpre');
         
-        print(newCol)
+    
           
   
     }else{
