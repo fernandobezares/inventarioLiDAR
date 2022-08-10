@@ -1,10 +1,12 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-6.084095354797308, 41.90237554252965],
-          [-6.085468645812933, 41.85227210320948],
-          [-5.981785174133245, 41.851760641174316],
-          [-5.987964983703558, 41.92996677347656],
-          [-6.077915545226995, 41.9335425411542]]]);
+var geometry = 
+    /* color: #000000 */
+    /* shown: false */
+    ee.Geometry.Polygon(
+        [[[-6.2478735351562475, 41.93463737868109],
+          [-6.2478735351562475, 41.82011536602659],
+          [-6.1050512695312475, 41.82011536602659],
+          [-6.1050512695312475, 41.93463737868109]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -755,24 +757,31 @@ Map.onClick(function(coords){
   // get the second element in the Map.Layers list and reduce it to first()
   Map.layers().forEach(
     function(object){
-      var reduce = object.getEeObject().reduce(ee.Reducer.first());
+      var reduce = object//.get(0).getEeObject().reduce(ee.Reducer.first());
       var name = object.getName();
-      print ('layers 0', Map.layers().get(1).getEeObject());
       
-      var sampledPoint = reduce.reduceRegion(ee.Reducer.first(), point, 10);
-      var computedValue = sampledPoint.get('first');
-      show_loading('Cargando...');
-      computedValue.evaluate(function(result){
-        
-        if(result === null){
-          valuePanel.add(ui.Label('El pixel seleccionado no tiene valor', {textAlign: 'center', width: '98%'}));
-    
-        }else{
-          valuePanel.add(ui.Label(result.toFixed(2),{textAlign: 'center', width: '98%'}));
-        }
-  });
+      var list = ee.List(['Provincias','Castilla y León','True Color Pre','True Color Post']);
+      print ('layers 0', reduce)//Map.layers().get(1).getEeObject());;
+      
+      if (list.contains(name)){}else{
+        print('reduce',reduce.getEeObject());
+        var sampledPoint = reduce.getEeObject().reduceRegion(ee.Reducer.first(), point, 10);
+       
+        var computedValue = sampledPoint.get('first');
+        show_loading('Cargando...');
+        computedValue.evaluate(function(result){
+          
+          if(result === null){
+            valuePanel.add(ui.Label('El pixel seleccionado no tiene valor', {textAlign: 'center', width: '98%'}));
+      
+          }else{
+            valuePanel.add(ui.Label(result.toFixed(2),{textAlign: 'center', width: '98%'}));
+          }
+        });
+      }
+    });
 });
-    })
+    
   
 
 // add element to Maps
