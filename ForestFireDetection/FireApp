@@ -3,10 +3,10 @@ var geometry =
     /* color: #000000 */
     /* shown: false */
     ee.Geometry.Polygon(
-        [[[-6.8864538574218725, 42.03263573213958],
-          [-6.8754675292968725, 41.91624589659079],
-          [-6.7793371582031225, 41.94893819930059],
-          [-6.7614843749999975, 42.02141440591733]]]);
+        [[[-6.4291479492187475, 42.00202745006484],
+          [-6.4401342773437475, 41.80169090304103],
+          [-5.8963110351562475, 41.78121306247776],
+          [-5.9457495117187475, 41.94893819930059]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -758,12 +758,14 @@ Map.onClick(function(coords){
   Map.layers().forEach(
     function(object){
       var reduce = object//.get(0).getEeObject().reduce(ee.Reducer.first());
-      var name = object.getName();
+      var name = object.getName().getInfo();
       
       var list = ee.List(['Provincias','Castilla y León','True Color Pre','True Color Post']);
       print ('layers 0', reduce)//Map.layers().get(1).getEeObject());;
       
-      if (list.contains(name)){}else{
+      if (list.filter(ee.Filter.listContains(name))){
+        
+      }else{
         print('EEOBJECT',reduce.getEeObject());
         var sampledPoint = reduce.getEeObject().reduceRegion(ee.Reducer.first(), point, 10);
        
