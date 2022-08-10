@@ -1,12 +1,10 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = 
-    /* color: #000000 */
-    /* shown: false */
-    ee.Geometry.Polygon(
-        [[[-4.7152807617187475, 40.436148433792866],
-          [-4.7152807617187475, 40.37758884759524],
-          [-4.6328833007812475, 40.37758884759524],
-          [-4.6328833007812475, 40.436148433792866]]], null, false);
+var geometry = /* color: #000000 */ee.Geometry.Polygon(
+        [[[-6.084095354797308, 41.90237554252965],
+          [-6.085468645812933, 41.85227210320948],
+          [-5.981785174133245, 41.851760641174316],
+          [-5.987964983703558, 41.92996677347656],
+          [-6.077915545226995, 41.9335425411542]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -591,19 +589,7 @@ var loadFires = function() {
   var layerName = 'Fires ' + ee.String(year).getInfo() + '-' + monthName;
   
   
-  if (Map.layers().contains(filtered)){
-    Map.layers().remove(ee.FeatureCollection(filtered))
-    Map.addLayer(ee.FeatureCollection(filtered), {}, layerName);
-  
-    
-
-   
-  } else {
-    
-    Map.addLayer(ee.FeatureCollection(filtered), {}, layerName)
-    
-  }
- /*
+ 
   if (Map.layers().length()>0){
     
     Map.layers().reset();
@@ -615,7 +601,7 @@ var loadFires = function() {
   Map.add(fv.cylPStyled);
   Map.add(fv.cylStyled);
   }
-  */
+  
   
  
   
