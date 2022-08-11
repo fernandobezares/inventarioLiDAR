@@ -1,9 +1,9 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-6.0391333007812475, 41.82011536602656],
-          [-6.0391333007812475, 41.78735710154102],
-          [-5.9979345703124975, 41.78735710154102],
-          [-5.9979345703124975, 41.82011536602656]]], null, false);
+        [[[-6.0803320312499975, 41.822162201456585],
+          [-6.0803320312499975, 41.80578568611274],
+          [-6.0638525390624975, 41.80578568611274],
+          [-6.0638525390624975, 41.822162201456585]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -515,7 +515,7 @@ function run (){
   onClick: function(){
   
   var lulucfStats = severityAnalysis.categoricalZonalStatistics(mfeLulucf,severityImg);
-  lulucfStats.evaluate(printStats(ee.List([lulucfStats,reclassIndexName])))
+  lulucfStats.evaluate(function()printStats(ee.List([lulucfStats,reclassIndexName])))
 
   // try loading the download image button 
   try {  
