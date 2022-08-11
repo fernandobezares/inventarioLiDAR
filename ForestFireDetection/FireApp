@@ -1,3 +1,13 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #000000 */
+    /* shown: false */
+    ee.Geometry.Polygon(
+        [[[-6.9015600585937475, 42.01631314832609],
+          [-6.9125463867187475, 41.90602611575717],
+          [-6.7038061523437475, 41.914202071322606],
+          [-6.7038061523437475, 42.02447496404512]]]);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
 var severityAnalysis = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
@@ -391,7 +401,7 @@ function run (){
   // get date from the selected fire
   var date = getDateFromFires(); // gets dates and loads the fire polygon
   
-  
+  Map.drawingTools().layers().get(0).getEeObject().setShown(false)
   // index name
   var indexName = indexButton.getValue();
   
@@ -573,7 +583,7 @@ var decriptionLabel = ui.Label({
 
 //date Label
 var dateLabel = ui.Label( {
-  value:'Selecciona tu fecha de interés',
+  value:'1. Selecciona tu fecha de interés',
   style:{fontSize: fontSizeSections,
           margin:marginTitles
   }
@@ -659,7 +669,7 @@ var areaPanel =  ui.Panel({
 var analysisPanel = ui.Panel({layout: ui.Panel.Layout.flow('vertical')});
 
 // Analysis Label
-var analysisLabel = ui.Label({value:'Selecciona un índice espectral de quemado', 
+var analysisLabel = ui.Label({value:'2. Selecciona un índice espectral de quemado', 
 style: { fontSize:fontSizeSections,
          margin:marginTitles
 }});
@@ -677,17 +687,25 @@ var areaPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
 
 
 // area Label 
-var areaLabel = ui.Label({value:'Define un área de estudio', 
+var areaLabel = ui.Label({value:'3. Define un área de estudio', 
+style: { fontSize:fontSizeSections,
+         margin:marginTitles
+}});
+
+// area Label 
+var applyLabel = ui.Label({value:'4. Realiza tu consulta', 
 style: { fontSize:fontSizeSections,
          margin:marginTitles
 }});
 
 // Apply Panel
-var applyPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
+var applyPanel = ui.Panel({layout: ui.Panel.Layout.flow('vertical')});
+
+
 
 // aply button 
 var Apply_button = ui.Button({
-  label: 'Aplicar',
+  label: 'Run',
   onClick: function(){
       run();
   },
@@ -755,7 +773,7 @@ areaPanel.add(selectAreaButton);
 areaPanel.add(removeAreaButton);
 
 analysisPanel.add(applyPanel);
-applyPanel.add(Apply_button);
+applyPanel.add(applyLabel).add(Apply_button);
 
 
 var labelResult = ui.Label();
