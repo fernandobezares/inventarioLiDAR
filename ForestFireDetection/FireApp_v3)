@@ -26,7 +26,7 @@ var marginTitles = '20px 0px 5px 8px';
 
 var drawingTools = Map.drawingTools();
 //---------------------------------------------------------------------------------------------
- 
+ print(ee.Dictionary(cod_ser.get('mfe')).get('lulucf').get('100'))
 function printStats(stats,indexName){
   
   //print('stats',stats)
