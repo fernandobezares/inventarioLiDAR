@@ -1,0 +1,933 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = /* color: #000000 */ee.Geometry.Polygon(
+        [[[-6.090045879187258, 41.819066880552356],
+          [-6.090045879187258, 41.80883155445595],
+          [-6.074939678015383, 41.80883155445595],
+          [-6.074939678015383, 41.819066880552356]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+
+// import the functions 
+var severityAnalysis = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
+var fireDetection = require('users/cesefor/inventarioForestal:ForestFireDetection/fireDetection');
+var cod = require('users/cesefor/inventarioForestal:ForestFireDetection/codigos');
+
+//rasters for stats analysis
+var mfeEspecies = ee.Image('users/cesefor/InventarioForestal/mfeEspecies').rename('especies');
+var mfeLulucf = ee.Image('users/cesefor/InventarioForestal/mfeLulucf').rename('lulucf');
+
+// add fv 
+var fv = require('users/cesefor/inventarioForestal:LidarApp/inc/FeatureViewLidar');
+Map.add(fv.cylPStyled);
+Map.add(fv.cylStyled);
+
+//  fontsize sections
+var fontSizeSections = '15px';
+var marginTitles = '20px 0px 5px 8px';
+
+var drawingTools = Map.drawingTools();
+//---------------------------------------------------------------------------------------------
+ 
+function printStats(stats,indexName){
+  
+  //print('stats',stats)
+  
+  // labels 
+  var headerDescription = ui.Label({value: 'Clase', style: {fontWeight: 'bold'}});
+  var surfaceLabel = ui.Label({value: 'Superficie (ha)', style: {fontWeight: 'bold'}});
+  var resultsLabel = ui.Label({value: 'Tabla de Resultados', style: {margin: marginTitles,fontSize:fontSizeSections}});
+
+  
+  //stats panel 
+  var resultsPanel = ui.Panel({layout: ui.Panel.Layout.flow('vertical')});
+  var headerResultsPanel = ui.Panel({ 
+    widgets: [
+      headerDescription,
+      surfaceLabel
+    ],
+    layout: ui.Panel.Layout.flow('horizontal')});
+  
+
+  // get the size of the collection
+  var size = ee.FeatureCollection(stats).size();
+ 
+  
+  // add items 
+  resultsPanel.add(resultsLabel).add(headerResultsPanel);
+  
+  
+  
+  // get the names of the vars
+  for (var j = 0; j < size.getInfo(); j++) {
+    
+  //print(j)
+  
+  var feat = ee.Feature(stats.toList(1,j).get(0));
+  //print(feat)
+  
+  // get band name 
+  var band = feat.getString('band')//.getInfo();
+  
+  // get area stats 
+  var area = feat.getNumber('area').format('%.2f').getInfo();  
+  
+  
+  // get lulucf class 
+  var lulucfCode = band.match('\\d\{3\}').get(0).getInfo();
+  
+  
+  //print(band)
+  //var severityCode = band.match('\\(\\?\\<\\=class\\)\\d\{1\}').get(0).getInfo();
+  var severityCode = band.match('class\\d\{1\}')
+                          .getString(0).match('\\d\{1\}')
+                           .get(0).getInfo();
+  
+  //print(severityCode)
+  
+  
+  // get intensity 
+  var descripcion = cod.mfe.lulucf[lulucfCode];
+  
+  var sevDes = cod.reclassIndex[indexName][severityCode];
+  //print(sevDes)
+  
+  descripcion = descripcion + '\nSeveridad: ' + sevDes+'.';
+  //print(descripcion)
+  resultsPanel.add(ui.Panel(
+    {layout: ui.Panel.Layout.flow('horizontal'),
+     widgets: [
+        ui.Label({value: descripcion,style:{whiteSpace: 'pre',position:'middle-left',fontSize:'12px'}}),
+        ui.Label({value: area, style:{position:'bottom-right',fontSize:'12px',fontWeight: 'bold'}})
+        ]
+  }))
+               
+    
+    ;
+  
+  
+}
+  
+  analysisPanel.add(resultsPanel);
+  
+  
+  return 
+}
+//-------------------------------------------------------------------------------------------------------------------------------
+// FUNCTION TO DISPLAY LEGENDS 
+
+// dictionary with the visualizations 
+var visIndex = ee.Dictionary({
+  'RBR':{min:-1,max:1, palette:['green','white','red']},
+  'RdNBR': {min:-1, max:1.5, palette:['green','white','red']},
+  'dNBR':{min:-0.3,max:1, palette:['green','white','red']},
+  'RBRclass':{min:0,max:3, palette:['white', 'yellow', 'orange','red']},
+  'RdNBRclass': {min:0,max:3, palette:['white', 'yellow', 'orange','red']},
+  'dNBRclass':{min:0,max:6, palette:['green','lightgreen','white','yellow','orange','red','purple']},
+});
+
+
+
+ 
+// Creates and styles 1 row of the legend.
+var makeRow = function(color, name) {
+ 
+      // Create the label that is actually the colored box.
+      var colorBox = ui.Label({
+        style: {
+          backgroundColor: color,
+          // Use padding to give the box height and width.
+          padding: '8px',
+          margin: '0 0 4px 0'
+        }
+      });
+ 
+      // Create the label filled with the description text.
+      var description = ui.Label({
+        value: name,
+        style: {margin: '0 0 4px 6px'}
+      });
+    
+      // return the panel
+      return ui.Panel({
+        widgets: [colorBox, description ],
+        layout: ui.Panel.Layout.Flow('horizontal')
+      });
+};
+
+function categoricalLegend(indexName){
+  
+    // set position of panel
+    var cond = ee.Algorithms.If(indexName == 'dNBRclass','long','short');
+  
+ 
+  var setting = {
+    long:{
+      position: 'bottom-left',
+      padding: '8px 15px',
+      height :'300px',
+      width : '150px'
+    },
+  short:{
+      position: 'bottom-left',
+      padding: '8px 15px',
+      height :'100px',
+      width : '150px'
+    }
+  };
+  
+  //print('setting cond',setting.cond,setting[cond])
+ 
+  var severityLegend = ui.Panel({
+    layout: ui.Panel.Layout.flow('vertical'),
+    style:setting.cond
+  });
+  
+  
+  // Create legend title
+  var severityLegendTitle = ui.Label({
+    value: 'Severidad de Incendio',
+    style: {
+      fontWeight: 'bold',
+      fontSize: '18px',
+      margin: '0 0 10px 0',
+      padding: '0'
+      }
+  });
+
+  severityLegend.style().set({position:'bottom-left'})
+  // Add the title to the panel
+  severityLegend.add(severityLegendTitle);
+  
+  
+  // create lists for the legend representation
+  var Class = cod.reclassIndex[indexName];
+  var color = visIndex.get(indexName).getInfo()['palette'];
+  var elements = visIndex.get(indexName).getInfo()['max'];
+  
+  
+  // create a legend for the palette 
+  for (var i = 0; i < elements + 1; i++){
+    
+    var nameLabel = '| '+ Class[i] ;
+    
+    severityLegend.add(makeRow(color[i], nameLabel));
+    
+}  
+  return severityLegend;
+}
+
+
+// function for creating the legend
+function createColorBar(titleText, unit, palette, min, max) {
+  // Legend Title
+  var title = ui.Label({
+    value: titleText + ' ' + unit , 
+    style: {fontWeight: 'bold', textAlign: 'center', stretch: 'horizontal'}});
+
+  // Colorbar
+  var legend = ui.Thumbnail({
+    image: ee.Image.pixelLonLat().select(0),
+    params: {
+      bbox: [0, 0, 1, 0.1],
+      dimensions: '200x20',
+      format: 'png', 
+      min: 0, max: 1,
+      palette: palette},
+    style: {stretch: 'horizontal', margin: '8px 8px', maxHeight: '40px'},
+  });
+  
+  // Legend Labels
+  var labels = ui.Panel({
+    widgets: [
+      ui.Label(min, {margin: '4px 10px',textAlign: 'left', stretch: 'horizontal'}),
+      ui.Label((min+max)/2, {margin: '4px 20px', textAlign: 'center', stretch: 'horizontal'}),
+      ui.Label(max, {margin: '4px 10px',textAlign: 'right', stretch: 'horizontal'})],
+    layout: ui.Panel.Layout.flow('horizontal')});
+  
+  // Create a panel with all 3 widgets
+  var legendPanel = ui.Panel({
+    widgets: [title, legend, labels],
+    style: {position: 'bottom-center', padding: '8px 15px'}
+  });
+  return legendPanel;
+}
+
+//---------------------------------------------------------------------------------------------------------------------
+
+// show selecting custom area (drawing) interface
+function select_area_start(){
+  drawingTools.layers().reset();
+  drawingTools.setShape('polygon');
+  drawingTools.draw();
+}
+
+// hide selecting area interface
+function select_area_stop(){
+    drawingTools.stop();
+}
+
+// clear user selected area
+function clear_selected_area(){
+    drawingTools.stop();
+    drawingTools.clear();
+    drawingTools.layers().reset();
+    
+}
+
+// show loading / calculating message
+function show_loading(loading_msg){
+  valuePanel.clear();
+  //valuePanel.style().set({shown:true});
+  valuePanel.add(ui.Label({value:loading_msg, style: {color: 'grey', textAlign: 'center', width: '98%'}}));
+  
+}
+
+function getAOI(){
+  
+  if(Map.drawingTools().layers().length() > 0){
+      var geom_list = [];
+      Map.drawingTools().layers().forEach(function(lay){
+        lay.geometries().forEach(function(geom){
+          geom_list.push(geom);
+        });
+      });
+      
+      var geom_collection = ee.FeatureCollection(geom_list.map(function(geom){
+        return ee.Feature(geom);
+      }));
+    
+    
+    Map.drawingTools().layers().reset([ui.Map.GeometryLayer([geom_list[0]])]);
+    
+    return geom_collection.first();
+}
+}
+// ---------------------------------------------------------------------------
+
+
+// function to fetch the dates from the FIRMS datset 
+function getDateFromFires(){
+  
+  var fires = loadFires();
+  
+  var aoi = getAOI().geometry();
+  
+  var firesSelected = fires.filterBounds(aoi);
+  
+  var date = firesSelected.aggregate_min('doy_min');
+  
+  return date;
+}
+
+// Define a function that triggers when any value is changed
+var loadFires = function() {
+  
+  var fires = fireDetection.getDates().map(fireDetection.getFiresByMonth);
+  fires = ee.FeatureCollection(fires).flatten();
+  
+  // get the value from the Selector
+  var year = yearSelector.getValue();
+  
+  //get the value from the selector and get the month in number to make the date
+  var monthName = monthSelector.getValue();
+  var month = monthsObj.get(monthName);
+  
+  var startDate = ee.Date.fromYMD(
+    ee.Number.parse(year), ee.Number.parse(month), 1);
+  var endDate = startDate.advance(1, 'month');
+  
+    // filter by month
+  var filtered = fires.filter(
+    ee.Filter.and(
+      ee.Filter.gte('doy_min',startDate.millis()),
+      ee.Filter.lt('doy_min',endDate.millis())
+      
+      )
+      );
+  
+  //var nighttimeVis = {min: 0.0, max: 60.0}
+  var layerName = 'Fires ' + ee.String(year).getInfo() + '-' + monthName;
+  
+  
+ 
+  if (Map.layers().length()>0){
+    
+    Map.layers().reset();
+    Map.addLayer(ee.FeatureCollection(filtered), {}, layerName);
+    Map.add(fv.cylPStyled);
+    Map.add(fv.cylStyled);
+  } else {
+    
+    Map.addLayer(ee.FeatureCollection(filtered), {}, layerName);
+    Map.add(fv.cylPStyled);
+    Map.add(fv.cylStyled);
+  }
+
+  
+  return filtered;
+};
+
+function checkIfParametersAreLoaded (){
+  
+  
+  
+  var layersLength = ee.Number(Map.layers().length()).getInfo();
+  var isSelected = indexButton.getValue();
+  
+  var drawingToolsLen = ee.Number(drawingTools.layers().length()).getInfo();
+  
+
+  // check if fires are loaded
+  if(layersLength < 3){ alert('❌ Seleccione una fecha para los incendios y presione "Cargar" '  )
+    throw ''
+  }  
+  // check if index is selected
+  if(isSelected === null){alert('❌ Seleccione un indice espectral')
+    throw ''
+  }
+  
+  if(drawingToolsLen != 1){alert('❌ Seleccione un area de estudio')
+    throw ''
+  }
+  
+  //var enablebutton = ee.Algorithms.If(firesLoaded && indexSelected && geometryImport, Apply_button.setDisabled(false), Apply_button.setDisabled(true));
+
+}
+//
+function run (){
+  
+  
+  
+  if (Map.layers().length() > 0){
+    Map.layers().reset();
+  }
+  
+  if (Map.widgets().length() > 0){
+    Map.widgets().reset();
+  }
+  
+  if (downloadPanel.widgets().length() > 0){
+    downloadPanel.widgets().reset();
+  }
+  
+  if (metricsPanel.widgets().length() > 0){
+    metricsPanel.widgets().reset();
+  }
+  
+  // get user defined area
+  var userAOI = getAOI().geometry();
+  
+  // get date from the selected fire
+  var date = getDateFromFires(); // gets dates and loads the fire polygon
+  
+  // index name
+  var indexName = indexButton.getValue();
+  
+  var reclassIndexName = indexName +'class'; 
+  
+  
+  // retrieve the info from the index;
+  var indexes = severityAnalysis.getSpectralIndexes(date, userAOI);
+  
+  // get index image from name
+  var indexImg = indexes.select(indexName);
+  
+  // reclassify the image in severity classes
+  var severity = severityAnalysis.reclassifyIndexes(indexes, userAOI);
+  
+  // select the reclasification index
+  var severityImg = severity.select(reclassIndexName);
+  
+  
+  //  load the button 
+  var imageDownloadButton  = ui.Button({
+  label : 'Descargar imagen',
+  onClick: function(){
+  
+  
+  // try loading the download image button 
+  try {   
+    
+    var url = severityImg.getDownloadURL({
+    crs: 'EPSG:25830',
+    scale: 10,
+    region: userAOI.evaluate(function(geo){return geo}),
+    filePerBand: true,
+    format: "ZIPPED_GEO_TIFF",
+    filename: 'index'
+    
+  });
+   
+   //
+   downloadPanel.widgets().remove(imageDownloadButton);
+   downloadPanel.add(ui.Label({value:'🌍  Imagen: Severidad de Incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(url));
+  
+  // if it doesnt work thrown an error  
+  }
+   catch (error){
+     
+     downloadPanel.widgets().remove(imageDownloadButton)
+     downloadPanel.add(ui.Label({value:'Área demasiado grande, reduzca el área de estudio para descargar la imagen',style:{color:'red'}}))
+     
+   }
+    
+   return url;
+    
+  }
+});
+  
+  downloadPanel.add(downloadLabel).add(imageDownloadButton);
+  
+  // create the continuos legend
+  var indexLegend = createColorBar(indexName, '', 
+  
+  visIndex.get(indexName).getInfo()['palette'], 
+  visIndex.get(indexName).getInfo()['min'], 
+  visIndex.get(indexName).getInfo()['max']);
+  
+  // create the categorical legend
+  var severityIndexLegend = categoricalLegend(reclassIndexName);
+  
+  // adjust the legend according to the index represented
+  //adjustLegendHeight(reclassIndexName);
+  Map.centerObject(userAOI,11);
+  
+  // add elements to the map
+  Map.addLayer(indexImg,visIndex.get(indexName).getInfo(),indexName);
+  Map.addLayer(severityImg,visIndex.get(reclassIndexName).getInfo(),reclassIndexName);
+  Map.addLayer(indexes,{bands:['vis-red-pre','vis-green-pre','vis-blue-pre']},'True Color Pre',0);
+  Map.addLayer(indexes,{bands:['vis-red-post','vis-green-post','vis-blue-post']},'True Color Post',0);
+  
+  
+  
+  // add legends to the map
+  Map.add(indexLegend);
+  Map.add(severityIndexLegend);
+  
+ 
+  
+  
+  
+  //var loadingLabel = ui.Label({value:'Cargando estadísticas ...', style: {shown: true}});
+  
+   //  load the button 
+  var imagePrintStatsButton  = ui.Button({
+  label : 'Obtener Estadisticas (lento)',
+  onClick: function(){
+  
+  var lulucfStats = severityAnalysis.categoricalZonalStatistics(mfeLulucf,severityImg);
+  
+
+  // try loading the download image button 
+  try {  
+    //lulucfStats.evaluate(printStats(lulucfStats,reclassIndexName));
+    var url = lulucfStats.getDownloadURL({format: 'csv',filename: 'areas_afectadas_por_incendio'})
+   
+   //
+   metricsPanel.widgets().remove(imagePrintStatsButton);
+   metricsPanel.add(ui.Label({value:'🌍  Archivo: Areas afectadas por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(url));
+  
+   
+  // if it doesnt work thrown an error  
+  }
+   catch (error){
+     
+     metricsPanel.widgets().remove(imagePrintStatsButton);
+     metricsPanel.add(ui.Label({value:'🌍  Archivo: Areas afectadas por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(url));
+      lulucfStats.evaluate(printStats(lulucfStats,reclassIndexName));
+   }
+  
+   lulucfStats.evaluate(printStats(lulucfStats,reclassIndexName));  
+   return url;
+    
+  }
+  
+  
+});
+
+  metricsPanel.add(metricsLabel).add(imagePrintStatsButton);
+
+  /*
+  var lulucfStats = severityAnalysis.categoricalZonalStatistics(mfeLulucf,severityImg);
+
+  //var lostWood = severityAnalysis.volumenArea(severityImg);
+  //print(lostWood)
+  
+  //var url = lulucfStats.getDownloadURL({format: 'csv',filename: 'lostwood per intensity areas'})
+  
+  //labelResult.setValue('Areas de cobertura de suelo afectadas por el incendio: ' +  lulucfStats.getInfo())
+  //labelLinkResult.setValue('link de descarga : ' + url)
+  
+  //print('lulucfStats',lulucfStats);
+  
+  
+  
+  
+  
+  lulucfStats.evaluate(printStats(lulucfStats,reclassIndexName));
+  
+  
+  
+  //loadingLabel.style().set({shown: false});
+  
+  */
+}
+
+
+//-----------------------------------------------------------------------------
+
+// mensaje de descarga 
+var downloadPanel = ui.Panel({
+  layout: ui.Panel.Layout.flow('vertical')
+});
+
+var downloadLabel = ui.Label({value:'5. Descarga tus resultados', style:{ whiteSpace: 'pre',fontSize:fontSizeSections, margin: marginTitles}})
+
+// mensaje de descarga 
+var metricsPanel = ui.Panel({
+  layout: ui.Panel.Layout.flow('vertical')
+});
+
+var metricsLabel =  ui.Label({value: '6. Metricas del incendio', style: {margin: marginTitles,fontSize:fontSizeSections}})
+
+
+
+
+// Panels are the main container widgets
+var mainPanel = ui.Panel({
+  style: {width: '365px'}
+});
+
+// title 
+var title = ui.Label({
+  value: 'Forest Fire Detector 🔥',
+  style: {fontSize: '24px',
+          margin:'5px 0px 10px 5px'}
+});
+
+
+// You can even add panels to other panels
+var datePanel = ui.Panel({
+  layout: ui.Panel.Layout.flow('horizontal'),
+});
+
+
+// year selector
+var yearSelector = ui.Select({
+  placeholder: 'cargando ...',
+  });
+  
+// month selector start without vals
+var monthSelector = ui.Select({
+  placeholder: 'cargando ...',
+  });
+
+// loading button 
+var loadButton = ui.Button('Cargar');
+
+
+// description Label
+var decriptionLabel = ui.Label({
+  value : 
+  'Bienvenido a la herramienta de monitoreo de incenidos forestales.'+
+  '\n\t1)  seleccione un fecha para su análsis.'+
+  '\n\t2)  marque un único incendio para su analisis.'+
+  '\n\t3)  obtenga las estadisticas de superficie afectada.',
+  style: {
+    fontSize: '12px',
+    whiteSpace :'pre',
+    //textAlign :'centre',
+    margin: '0px 0px 10px 8px'// arriba derecha izquierda abajo
+  }
+    
+  });
+
+//date Label
+var dateLabel = ui.Label( {
+  value:'1. Selecciona tu fecha de interés y carga los incendios identificados',
+  style:{fontSize: fontSizeSections,
+          margin:marginTitles
+  }
+  
+});
+
+
+// add elements to the panel
+
+// You can add widgets to the panel
+mainPanel.add(title);
+
+// añadir panel al panel principal
+
+//mainPanel.add(decriptionLabel),
+mainPanel.add(dateLabel);
+mainPanel.add(datePanel);
+
+// añadir elementos en el panel
+datePanel.add(yearSelector);
+datePanel.add(monthSelector);
+datePanel.add(loadButton);
+
+//-------------------------------------------------------------------------
+// Let's add a dropdown with the years
+var years = ee.List.sequence(2014, 2020);
+var months = ee.List.sequence(1, 12);
+
+
+//get current date 
+var now = Date.now();
+now = ee.Date(now);
+var nowYear = now.get('year').toInt();
+
+// years
+var years = ee.List.sequence(2020, nowYear);
+
+// compare dates and month names
+var monthsObj = ee.Dictionary({
+  'Enero':'1', 'Febrero':'2', "Marzo":'3',
+  'Abril': '4', 'Mayo':'5', 'Junio':'6',
+  'Julio':'7','Agosto':'8','Septiembre':'9',
+  'Octubre':'10','Noviembre':'11','Diciembre':'12'
+});
+
+// monthNames
+var months = ee.List(['Enero','Febrero', "Marzo",'Abril','Mayo','Junio',
+  'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']);
+
+// get Index List 
+var indexList = ['RBR','RdNBR','dNBR'];
+
+// Dropdown items need to be strings
+var yearStrings = years.map(function(year){
+  return ee.Number(year).format('%04d');
+});
+
+
+// Evaluate the results and populate the dropdown
+yearStrings.evaluate(function(yearList) {
+  yearSelector.items().reset(yearList);
+  yearSelector.setPlaceholder('selecciona un año');
+});
+
+months.evaluate(function(monthList) {
+  monthSelector.items().reset(monthList);
+  monthSelector.setPlaceholder('selecciona un mes');
+
+});
+
+
+// trigger onclick button
+loadButton.onClick(loadFires);
+
+
+// define Panel for the buttons 
+var areaPanel =  ui.Panel({
+  layout: ui.Panel.Layout.flow('horizontal'),
+});
+
+
+// analysis Panel 
+var analysisPanel = ui.Panel({layout: ui.Panel.Layout.flow('vertical')});
+
+// Analysis Label
+var analysisLabel = ui.Label({value:'2. Selecciona un índice espectral de quemado', 
+style: { fontSize:fontSizeSections,
+         margin:marginTitles
+}});
+
+// IndexPanel 
+var indexPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
+
+// IndexLabel
+var indexLabel = ui.Label({
+  value:'Índice espectral',
+  style:{fontSize:'10px',whiteSpace:'pre'}});
+
+// Area Panel
+var areaPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
+
+
+// area Label 
+var areaLabel = ui.Label({value:'3. Define un área de interés sobre un incendio', 
+style: { fontSize:fontSizeSections,
+         margin:marginTitles
+}});
+
+// area Label 
+var applyLabel = ui.Label({value:'4. Realiza tu consulta', 
+style: { fontSize:fontSizeSections,
+         margin:marginTitles
+}});
+
+// Apply Panel
+var applyPanel = ui.Panel({layout: ui.Panel.Layout.flow('vertical')});
+
+
+
+// aply button 
+var Apply_button = ui.Button({
+  label: 'Run',
+  onClick: function(){
+      checkIfParametersAreLoaded();
+      
+      //loadLabel.style().set({shown:true});
+      run()
+      //Apply_button.setLabel('Run');
+  },
+  style: {textAlign: 'center'}
+});
+
+
+// Select area button
+var selectAreaButton = ui.Button({
+  label: 'Seleccionar Área',
+  onClick: function() {
+  
+  select_area_start();
+  
+  },
+  style : {textAlign: 'center'},
+});
+
+// remove area button 
+var removeAreaButton = ui.Button({
+  label: 'Borrar Área',
+  onClick: function() {
+    clear_selected_area();
+  },
+  style : {textAlign: 'center'}
+});
+
+
+// index Button area button 
+var indexButton = ui.Select({
+  placeholder: 'Indices',
+  items : indexList
+});
+
+
+// panel for showing the values: show values click
+var valuePanel = ui.Panel();
+valuePanel.style().set({
+  position: 'top-center',
+  width: '290px',
+ 
+});
+
+var loadLabel = ui.Label({
+value: 'Cargando... Este proceso puede llevar unos minutos.',
+style:{shown: false, textAlign: 'center', width: '270px' }});
+
+
+//------------------------------------------------------------------
+// añadir panel al panel principal
+mainPanel.add(analysisPanel);
+
+// add elements to analysis Panel
+analysisPanel.add(analysisLabel);
+
+// add index Panel
+analysisPanel.add(indexPanel);
+
+// add elements to indexPanel
+//indexPanel.add(indexLabel).add(indexButton);
+indexPanel.add(indexButton);
+
+analysisPanel.add(areaLabel);
+// add areaPanel to analysis panel
+analysisPanel.add(areaPanel);
+
+// añadir elementos en el panel
+areaPanel.add(selectAreaButton);
+areaPanel.add(removeAreaButton);
+
+analysisPanel.add(applyPanel);
+applyPanel.add(applyLabel).add(Apply_button);
+
+analysisPanel.add(valuePanel.add(loadLabel));
+
+var labelResult = ui.Label();
+var labelLinkResult = ui.Label();
+//analysisPanel.add(labelResult).add(labelLinkResult);
+analysisPanel.add(downloadPanel);
+analysisPanel.add(metricsPanel);
+
+
+//Map.style().set('cursor', 'crosshair');
+
+//Map.add(valuePanel);
+
+/*
+Map.onClick(function(coords){
+  show_loading('Cargando...')
+  var point = ee.Geometry.Point(coords.lon, coords.lat);
+  // get the second element in the Map.Layers list and reduce it to first()
+  var reduce = Map.layers().get(4).getEeObject().reduce(ee.Reducer.first());
+  print ('layers 0', Map.layers().get(4).getEeObject());
+  var sampledPoint = reduce.reduceRegion(ee.Reducer.first(), point, 10);
+  var computedValue = sampledPoint.get('first');
+  show_loading('Cargando...');
+  computedValue.evaluate(function(result){
+    print('eval',result)
+    valuePanel.style().set({shown:true});
+    valuePanel.clear();
+    if(result === null){
+      valuePanel.add(ui.Label('El pixel seleccionado no tiene valor', {textAlign: 'center', width: '98%'}));
+
+    }else{
+      valuePanel.add(ui.Label(result.toFixed(2),{textAlign: 'center', width: '98%'}));
+    }
+  });
+});
+
+
+
+
+
+  
+
+
+
+Map.onClick(function(coords){
+  var point = ee.Geometry.Point(coords.lon, coords.lat);
+  valuePanel.clear();
+  // get the second element in the Map.Layers list and reduce it to first()
+  Map.layers().forEach(
+    function(object){
+      var reduce = object//.get(0).getEeObject().reduce(ee.Reducer.first());
+      var name = object.getName();
+      print(name)
+      var list = ['Provincias','Castilla y León','True Color Pre','True Color Post'];//).map(function(s){return ee.String(s)});
+      //print ('layers 0', reduce)//Map.layers().get(1).getEeObject());;
+      
+       
+       
+      try {  
+    
+        print(reduce);
+        print('EEOBJECT',reduce.getEeObject().reduce(ee.Reducer.first()));
+        var sampledPoint = reduce.getEeObject().reduce(ee.Reducer.first()).reduceRegion(ee.Reducer.first(), point, 10);
+        print('sampledpoint', sampledPoint);
+        var computedValue = sampledPoint.get('first');
+        print('computed Value', computedValue)
+        print('cargando')
+        show_loading('Cargando...');
+        computedValue.evaluate(function(result){
+          
+          if(result === null){
+            valuePanel.add(ui.Label('El pixel seleccionado no tiene valor', {textAlign: 'center', width: '98%'}));
+      
+          }else{
+            valuePanel.add(ui.Label(name + ':    '+ result.toFixed(2),{textAlign: 'center', width: '98%'}));
+          }
+        });
+  
+    } catch (error){}
+      
+    });
+});
+    
+  */
+
+// add element to Maps
+Map.setCenter(-4.74, 41.65, 8);
+ui.root.add(mainPanel);
