@@ -27,7 +27,7 @@ var marginTitles = '20px 0px 5px 8px';
 var drawingTools = Map.drawingTools();
 //---------------------------------------------------------------------------------------------
 
-function printStats(stats){
+function printStats(stats,indexName){
   
   //print('stats',stats)
   
@@ -87,7 +87,7 @@ function printStats(stats){
   // get intensity 
   var descripcion = cod.mfe.lulucf[lulucfCode];
   
-  var sevDes = cod.reclassIndex[indexButton.getValue().getInfo()].get(severityCode);
+  var sevDes = cod.reclassIndex[indexName].get(severityCode);
   print(sevDes)
   
   descripcion = descripcion + '\nSeveridad: ' + sevDes+'.';
@@ -524,7 +524,7 @@ function run (){
   
   
   
-  lulucfStats.evaluate(printStats(lulucfStats));
+  lulucfStats.evaluate(printStats(lulucfStats,reclassIndexName));
   
   
   
