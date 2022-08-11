@@ -1,9 +1,9 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-5.997784205112486, 41.926426415990036],
-          [-5.997784205112486, 41.9162082653879],
-          [-5.978558130893736, 41.9162082653879],
-          [-5.978558130893736, 41.926426415990036]]], null, false);
+        [[[-6.1407568359374975, 41.83648821748962],
+          [-6.1407568359374975, 41.79554823777371],
+          [-6.0968115234374975, 41.79554823777371],
+          [-6.0968115234374975, 41.83648821748962]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -512,7 +512,7 @@ function run (){
   onClick: function(){
   
   var lulucfStats = severityAnalysis.categoricalZonalStatistics(mfeLulucf,severityImg);
-  lulucfStats.evaluate(printStats(lulucfStats,reclassIndexName));
+  
 
   // try loading the download image button 
   try {  
@@ -523,6 +523,7 @@ function run (){
    analysisPanel.widgets().remove(imagePrintStatsButton);
    analysisPanel.add(ui.Label({value:'🌍  Archivo: Areas afectadas por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(url));
   
+   lulucfStats.evaluate(printStats(lulucfStats,reclassIndexName));
   // if it doesnt work thrown an error  
   }
    catch (error){
@@ -531,10 +532,12 @@ function run (){
      analysisPanel.add(ui.Label({value:'🌍  Archivo: Areas afectadas por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(url));
   
    }
-    
+  
    return url;
     
   }
+  
+  
 });
 
   metricsPanel.add(metricsLabel).add(imagePrintStatsButton);
