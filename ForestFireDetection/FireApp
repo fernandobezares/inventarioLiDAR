@@ -1,3 +1,13 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #000000 */
+    /* shown: false */
+    ee.Geometry.Polygon(
+        [[[-6.1929418945312475, 41.90602611575717],
+          [-6.1929418945312475, 41.72589021905623],
+          [-5.8468725585937475, 41.72589021905623],
+          [-5.8468725585937475, 41.90602611575717]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
 var severityAnalysis = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
@@ -368,6 +378,7 @@ function checkIfParametersAreLoaded (){
 function run (){
   
   checkIfParametersAreLoaded()
+  show_loading('Cargando... Este proceso puede llevar unos minutos.')
   
   if (Map.layers().length() > 0){
     Map.layers().reset();
@@ -393,7 +404,6 @@ function run (){
   
   var reclassIndexName = indexName +'class'; 
   
-  show_loading('Cargando... Este proceso puede llevar unos minutos.')
   
   // retrieve the info from the index;
   var indexes = severityAnalysis.getSpectralIndexes(date, userAOI);
