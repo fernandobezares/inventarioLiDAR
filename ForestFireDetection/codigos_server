@@ -1,8 +1,8 @@
 var codigos = ee.Dictionary({  
   
-  mfe : ee.Dictionary({
+  'mfe' : ee.Dictionary({
     
-    lulucf : ee.Dictionary({
+    'lulucf' : ee.Dictionary({
       '100' : ee.String('Tierras Forestales (FLs)'),
       '110' : ee.String('Tierra forestal de frondosas coherente\ncon los umbrales de definición\nde Tierra Forestal'),
       '111' : ee.String('Tierra forestal de frondosas igual\nsuperior a los umbrales de definición\nde Tierra Forestal'),
@@ -67,10 +67,10 @@ var codigos = ee.Dictionary({
 
   }),
   
-  reclassIndex:ee.Dictionary({
-    "RBRclass" :['No quemado','Baja' ,'Moderada', 'Alta'],
-    "RdNBRclass":['No quemado','Baja' ,'Moderada', 'Alta'],
-    "dNBRclass" : ['Alto rebrote',"Bajo rebrote","No quemado", "Baja", "Moderada - Baja",  "Moderada - Alta", "Alta"]
+  'reclassIndex':ee.Dictionary({
+    "RBRclass" :ee.List(['No quemado','Baja' ,'Moderada', 'Alta']),
+    "RdNBRclass":ee.List(['No quemado','Baja' ,'Moderada', 'Alta']),
+    "dNBRclass" : ee.List(['Alto rebrote',"Bajo rebrote","No quemado", "Baja", "Moderada - Baja",  "Moderada - Alta", "Alta"])
 }) 
 
 });
