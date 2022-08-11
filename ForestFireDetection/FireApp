@@ -710,7 +710,7 @@ var Apply_button = ui.Button({
   onClick: function(){
       checkIfParametersAreLoaded();
       
-      ui.uitl.setTimeout(loadLabel.style().set({shown:true}),0.5);
+      ui.util.setTimeout(loadLabel.style().set({shown:true}),0.5);
       run();
       loadLabel.style().set({shown:false});
   },
