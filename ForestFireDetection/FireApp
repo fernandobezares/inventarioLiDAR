@@ -707,7 +707,27 @@ var Apply_button = ui.Button({
 var selectAreaButton = ui.Button({
   label: 'Seleccionar Área',
   onClick: function() {
-    select_area_start();
+  
+  select_area_start();
+  
+  var layersLength = ee.Number(Map.layers().length());
+  var isSelected = indexButton.getValue();
+  var drawingToolsLen = ee.Number(drawingTools.layers().length());
+  
+  // check if fires are loaded
+  var firesLoaded = ee.Algorithms.If(layersLength > 3, true, false);
+  
+  // check if index is selected
+  var indexSelected = ee.Algorithms.If(isSelected !== null, true, false);
+  
+  // 
+  var geometryImport = ee.Algorithms.If(drawingToolsLen == 1 , true, false);
+  
+  var enablebutton = ee.Algorithms.If(firesLoaded && indexSelected && geometryImport, Apply_button.setDisabled(false), Apply_button.setDisabled(true));
+
+    
+    
+    
   },
   style : {textAlign: 'center'},
 });
@@ -767,44 +787,12 @@ applyPanel.add(Apply_button);
 var labelResult = ui.Label();
 var labelLinkResult = ui.Label();
 //analysisPanel.add(labelResult).add(labelLinkResult);
-analysisPanel.add(downloadPanel)
+analysisPanel.add(downloadPanel);
 
 
 //Map.style().set('cursor', 'crosshair');
 
 //Map.add(valuePanel);
-
-var layersLength = ee.Number(Map.layers().length());
-var isSelected = indexButton.getValue();
-var drawingToolsLen = ee.Number(drawingTools.layers().length());
-var listForEnablingButton = ee.List([layersLength,isSelected,drawingToolsLen]);
-
-
-
-listForEnablingButton.evaluate(function(list){
-  
-  print(list)
-  
-  list = ee.List(list)
-  // check if fires are loaded
-  var firesLoaded = ee.Algorithms.If(list.get(0) > 3, true, false);
-  
-  // check if index is selected
-  var indexSelected = ee.Algorithms.If(list.get(1) !== null, true, false);
-  
-  // 
-  var geometryImport = ee.Algorithms.If(list.get(2) == 1 , true, false);
-  
-  var enablebutton = ee.Algorithms.If(firesLoaded && indexSelected && geometryImport, Apply_button.setDisabled(false), Apply_button.setDisabled(true));
- }
- );
-  
-  
-
-
-
-
-
 
 Map.onClick(function(coords){
   show_loading('Cargando...')
@@ -827,6 +815,35 @@ Map.onClick(function(coords){
     }
   });
 });
+
+
+var layersLength = ee.Number(Map.layers().length());
+var isSelected = indexButton.getValue();
+var drawingToolsLen = ee.Number(drawingTools.layers().length());
+var listForEnablingButton = ee.List([layersLength,isSelected,drawingToolsLen]);
+
+
+
+listForEnablingButton.evaluate(function(list){
+  
+  var layersLength = ee.Number(Map.layers().length());
+  var isSelected = indexButton.getValue();
+  var drawingToolsLen = ee.Number(drawingTools.layers().length());
+  
+  // check if fires are loaded
+  var firesLoaded = ee.Algorithms.If(layersLength > 3, true, false);
+  
+  // check if index is selected
+  var indexSelected = ee.Algorithms.If(isSelected !== null, true, false);
+  
+  // 
+  var geometryImport = ee.Algorithms.If(drawingToolsLen == 1 , true, false);
+  
+  var enablebutton = ee.Algorithms.If(firesLoaded && indexSelected && geometryImport, Apply_button.setDisabled(false), Apply_button.setDisabled(true));
+ }
+ );
+  
+
 
 /*
 Map.onClick(function(coords){
