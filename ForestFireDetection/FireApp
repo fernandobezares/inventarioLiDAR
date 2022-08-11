@@ -1,12 +1,16 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = 
-    /* color: #000000 */
-    /* shown: false */
+    /* color: #00ffff */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
     ee.Geometry.Polygon(
-        [[[-6.3110449218749975, 41.91828965640867],
-          [-6.3110449218749975, 41.83239539719553],
-          [-6.0913183593749975, 41.83239539719553],
-          [-6.0913183593749975, 41.91828965640867]]], null, false);
+        [[[-6.1874487304687475, 41.89376021898643],
+          [-6.1874487304687475, 41.71769018708443],
+          [-5.8468725585937475, 41.71769018708443],
+          [-5.8468725585937475, 41.89376021898643]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -317,7 +321,7 @@ var loadFires = function() {
   // get the value from the Selector
   var year = yearSelector.getValue();
   
-  //get the value from teh selector and get the month in number to make the date
+  //get the value from the selector and get the month in number to make the date
   var monthName = monthSelector.getValue();
   var month = monthsObj.get(monthName);
   
@@ -356,10 +360,20 @@ var loadFires = function() {
   return filtered;
 };
 
-function enableApplyButton (){
+function enableApplyButton (list){
   
   
   
+  // check if fires are loaded
+  var firesLoaded = ee.Algorithms.If(list.get(0) > 3, true, false);
+  
+  // check if index is selected
+  var indexSelected = ee.Algorithms.If(list.get(1) !== null, true, false);
+  
+  // 
+  var geometryImport = ee.Algorithms.If(list.get(2) == 1 , true, false);
+  
+  var enablebutton = ee.Algorithms.If(firesLoaded & indexSelected & geometryImport,Apply_button.setDisabled(false), Apply_button.setDisabled(true));
   
 }
 //
@@ -686,7 +700,7 @@ var Apply_button = ui.Button({
       run();
   },
   style: {textAlign: 'center'}
-});
+}).setDisabled(true);
 
 
 // Select area button
@@ -736,7 +750,7 @@ analysisPanel.add(indexPanel);
 
 // add elements to indexPanel
 //indexPanel.add(indexLabel).add(indexButton);
-indexPanel.add(indexButton)
+indexPanel.add(indexButton);
 
 analysisPanel.add(areaLabel);
 // add areaPanel to analysis panel
@@ -760,6 +774,32 @@ analysisPanel.add(downloadPanel)
 
 //Map.add(valuePanel);
 
+var layersLength = ee.Number(Map.layers().length());
+var isSelected = indexButton.getValue();
+var drawingToolsLen = ee.Number(drawingTools.layers().length());
+var listForEnablingButton = ee.List([layersLength,isSelected,drawingToolsLen]);
+
+
+
+listForEnablingButton.evaluate(function(list){
+  
+  print(list)
+  
+  list = ee.List(list)
+  // check if fires are loaded
+  var firesLoaded = ee.Algorithms.If(list.get(0) > 3, true, false);
+  
+  // check if index is selected
+  var indexSelected = ee.Algorithms.If(list.get(1) !== null, true, false);
+  
+  // 
+  var geometryImport = ee.Algorithms.If(list.get(2) == 1 , true, false);
+  
+  var enablebutton = ee.Algorithms.If(firesLoaded && indexSelected && geometryImport, Apply_button.setDisabled(false), Apply_button.setDisabled(true));
+ }
+ );
+  
+  
 
 
 
