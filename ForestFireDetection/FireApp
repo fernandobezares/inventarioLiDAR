@@ -364,17 +364,20 @@ function enableApplyButton (list){
   
   
   
-  // check if fires are loaded
-  var firesLoaded = ee.Algorithms.If(list.get(0) > 3, true, false);
+  var layersLength = ee.Number(Map.layers().length());
+  var isSelected = indexButton.getValue();
+  var drawingToolsLen = ee.Number(drawingTools.layers().length());
   
+  // check if fires are loaded
+  var firesLoaded = ee.Algorithms.If(layersLength > 3, true, alert('❌ Seleccione una fecha para los incendios'))
   // check if index is selected
-  var indexSelected = ee.Algorithms.If(list.get(1) !== null, true, false);
+  var indexSelected = ee.Algorithms.If(isSelected !== null, true, alert('❌ Seleccione un indice espectral'));
   
   // 
-  var geometryImport = ee.Algorithms.If(list.get(2) == 1 , true, false);
+  var geometryImport = ee.Algorithms.If(drawingToolsLen == 1 , true, alert('❌ Seleccione un area de estudio'));
   
-  var enablebutton = ee.Algorithms.If(firesLoaded & indexSelected & geometryImport,Apply_button.setDisabled(false), Apply_button.setDisabled(true));
-  
+  var enablebutton = ee.Algorithms.If(firesLoaded && indexSelected && geometryImport, Apply_button.setDisabled(false), Apply_button.setDisabled(true));
+
 }
 //
 function run (){
@@ -700,7 +703,7 @@ var Apply_button = ui.Button({
       run();
   },
   style: {textAlign: 'center'}
-}).setDisabled(true);
+}).setDisabled(false);
 
 
 // Select area button
@@ -800,27 +803,10 @@ Map.onClick(function(coords){
 
 
 
-/*
-listForEnablingButton.evaluate(function(list){
+
+
   
-  var layersLength = ee.Number(Map.layers().length());
-  var isSelected = indexButton.getValue();
-  var drawingToolsLen = ee.Number(drawingTools.layers().length());
-  
-  // check if fires are loaded
-  var firesLoaded = ee.Algorithms.If(layersLength > 3, true, false);
-  
-  // check if index is selected
-  var indexSelected = ee.Algorithms.If(isSelected !== null, true, false);
-  
-  // 
-  var geometryImport = ee.Algorithms.If(drawingToolsLen == 1 , true, false);
-  
-  var enablebutton = ee.Algorithms.If(firesLoaded && indexSelected && geometryImport, Apply_button.setDisabled(false), Apply_button.setDisabled(true));
- }
- );
-  
-*/
+
 
 /*
 Map.onClick(function(coords){
