@@ -96,7 +96,7 @@ function printStats(stats,indexName){
     {layout: ui.Panel.Layout.flow('horizontal'),
      widgets: [
         ui.Label({value: descripcion,style:{whiteSpace: 'pre',position:'middle-left',fontSize:'12px'}}),
-        ui.Label({value: area, stlyle:{position:'middle-right',fontSize:'12px'}})
+        ui.Label({value: area, style:{position:'middle-right',fontSize:'12px'}})
         ]
   }))
                
