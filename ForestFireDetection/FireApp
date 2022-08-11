@@ -74,7 +74,7 @@ function printStats(stats){
   // get lulucf class 
   var lulucfCode = band.match('\\d\{3\}').get(0).getInfo();
   
-  //var severityCode = band.match('class\\d\{1\}').get(0).getInfo();
+  var severityCode = band.match('\(\?\<\=class)\\d\{1\}').get(0).getInfo();
   
   // get intensity 
   
