@@ -356,11 +356,16 @@ var loadFires = function() {
   return filtered;
 };
 
-
+function enableApplyButton (){
+  
+  
+  
+  
+}
 //
 function run (){
   
-  drawingTools.layers().forEach(function(element){return element.setShown(false)});
+  
   
   if (Map.layers().length() > 0){
     Map.layers().reset();
@@ -664,11 +669,16 @@ var indexLabel = ui.Label({
 // Area Panel
 var areaPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
 
+
 // area Label 
 var areaLabel = ui.Label({value:'Define un área de estudio', 
 style: { fontSize:fontSizeSections,
          margin:marginTitles
 }});
+
+// Apply Panel
+var applyPanel = ui.Panel({layout: ui.Panel.Layout.flow('horizontal')});
+
 // aply button 
 var Apply_button = ui.Button({
   label: 'Aplicar',
@@ -677,6 +687,7 @@ var Apply_button = ui.Button({
   },
   style: {textAlign: 'center'}
 });
+
 
 // Select area button
 var selectAreaButton = ui.Button({
@@ -734,7 +745,10 @@ analysisPanel.add(areaPanel);
 // añadir elementos en el panel
 areaPanel.add(selectAreaButton);
 areaPanel.add(removeAreaButton);
-areaPanel.add(Apply_button);
+
+analysisPanel.add(applyPanel);
+applyPanel.add(Apply_button);
+
 
 var labelResult = ui.Label();
 var labelLinkResult = ui.Label();
