@@ -440,14 +440,14 @@ function createTrueColorComposite(image){
   var sigma = image.select('B4','B3','B2').reduceRegion({reducer:ee.Reducer.sampleStdDev(),scale:10, geometry : getAOI().geometry(),bestEffort:true});
   var mean = image.select('B4','B3','B2').reduceRegion({reducer:ee.Reducer.mean(),scale:10 ,geometry: getAOI().geometry(), bestEffort:true});
   
-  print(mean,sigma);
+  //print(mean,sigma);
   
   sigma = sigma.get('B4').getInfo();
   mean = mean.get('B4').getInfo();
   var trueColor = image.visualize({bands: ['B4', 'B3','B2'], max: mean + 2 * sigma , min: mean - 2 * sigma});
   
   
-  print('trueColor',trueColor)
+  //print('trueColor',trueColor)
   return trueColor;
 }
   
@@ -504,8 +504,8 @@ function getSpectralIndexes(date, userAOI){
   preFire = getAlternativeCollection(preFire,aoi);
   postFire = getAlternativeCollection(postFire,aoi);
   
-  print('preFire',preFire)
-  print('Postfire', postFire)
+  //print('preFire',preFire)
+  //print('Postfire', postFire)
   
   
   // creation of composites (pre- and post-)
