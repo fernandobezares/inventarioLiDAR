@@ -360,7 +360,7 @@ var loadFires = function() {
   return filtered;
 };
 
-function enableApplyButton (list){
+function checkIfParametersAreLoaded (){
   
   
   
@@ -376,7 +376,7 @@ function enableApplyButton (list){
   // 
   var geometryImport = ee.Algorithms.If(drawingToolsLen == 1 , true, alert('❌ Seleccione un area de estudio'));
   
-  var enablebutton = ee.Algorithms.If(firesLoaded && indexSelected && geometryImport, Apply_button.setDisabled(false), Apply_button.setDisabled(true));
+  //var enablebutton = ee.Algorithms.If(firesLoaded && indexSelected && geometryImport, Apply_button.setDisabled(false), Apply_button.setDisabled(true));
 
 }
 //
@@ -395,7 +395,7 @@ function run (){
   if (downloadPanel.widgets().length() > 0){
     downloadPanel.widgets().reset();
   }
-  
+  checkIfParametersAreLoaded()
   // get user defined area
   var userAOI = getAOI().geometry();
   
