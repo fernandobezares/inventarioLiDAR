@@ -1,9 +1,9 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-6.08925842285156, 41.83597662926563],
-          [-6.08925842285156, 41.795036322424394],
-          [-6.04531311035156, 41.795036322424394],
-          [-6.04531311035156, 41.83597662926563]]], null, false);
+        [[[-6.090045879187258, 41.819066880552356],
+          [-6.090045879187258, 41.80883155445595],
+          [-6.074939678015383, 41.80883155445595],
+          [-6.074939678015383, 41.819066880552356]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -34,7 +34,7 @@ function printStats(stats,indexName){
   // labels 
   var headerDescription = ui.Label({value: 'Clase', style: {fontWeight: 'bold'}});
   var surfaceLabel = ui.Label({value: 'Superficie (ha)', style: {fontWeight: 'bold'}});
-  var resultsLabel = ui.Label({value: '6. Metricas del incendio', style: {margin: marginTitles,fontSize:fontSizeSections}});
+  var resultsLabel = ui.Label({value: 'Tabla de Resultados', style: {margin: marginTitles,fontSize:fontSizeSections}});
 
   
   //stats panel 
@@ -408,7 +408,10 @@ function run (){
   if (downloadPanel.widgets().length() > 0){
     downloadPanel.widgets().reset();
   }
-
+  
+  if (metricsPanel.widgets().length() > 0){
+    metricsPanel.widgets().reset();
+  }
   
   // get user defined area
   var userAOI = getAOI().geometry();
@@ -520,16 +523,16 @@ function run (){
     var url = lulucfStats.getDownloadURL({format: 'csv',filename: 'areas_afectadas_por_incendio'})
    
    //
-   analysisPanel.widgets().remove(imagePrintStatsButton);
-   analysisPanel.add(ui.Label({value:'🌍  Archivo: Areas afectadas por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(url));
+   metricsPanel.widgets().remove(imagePrintStatsButton);
+   metricsPanel.add(ui.Label({value:'🌍  Archivo: Areas afectadas por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(url));
   
    
   // if it doesnt work thrown an error  
   }
    catch (error){
      
-     analysisPanel.widgets().remove(imagePrintStatsButton);
-     analysisPanel.add(ui.Label({value:'🌍  Archivo: Areas afectadas por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(url));
+     metricsPanel.widgets().remove(imagePrintStatsButton);
+     metricsPanel.add(ui.Label({value:'🌍  Archivo: Areas afectadas por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(url));
       lulucfStats.evaluate(printStats(lulucfStats,reclassIndexName));
    }
   
