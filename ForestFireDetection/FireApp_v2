@@ -408,10 +408,7 @@ function run (){
   if (downloadPanel.widgets().length() > 0){
     downloadPanel.widgets().reset();
   }
-  
-  if (metricsPanel.widgets().length() > 0){
-    metricsPanel.widgets().reset();
-  }
+
   
   // get user defined area
   var userAOI = getAOI().geometry();
