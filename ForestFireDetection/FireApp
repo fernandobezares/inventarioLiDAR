@@ -1,17 +1,3 @@
-/**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = 
-    /* color: #ff0000 */
-    /* displayProperties: [
-      {
-        "type": "rectangle"
-      }
-    ] */
-    ee.Geometry.Polygon(
-        [[[-6.4676000976562475, 41.987738543716326],
-          [-6.4676000976562475, 41.82011536602656],
-          [-6.1215307617187475, 41.82011536602656],
-          [-6.1215307617187475, 41.987738543716326]]], null, false);
-/***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
 var severityAnalysis = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
@@ -364,14 +350,15 @@ function checkIfParametersAreLoaded (){
   
   
   
-  var layersLength = ee.Number(Map.layers().length());
+  var layersLength = ee.Number(Map.layers().length()).getInfo();
   var isSelected = indexButton.getValue();
-  var drawingToolsLen = ee.Number(drawingTools.layers().length());
+  print(isSelected)
+  var drawingToolsLen = ee.Number(drawingTools.layers().length()).getInfo();
   
   // check if fires are loaded
-  var firesLoaded = ee.Algorithms.If(layersLength > 3, true, alert('❌ Seleccione una fecha para los incendios'))
+  var firesLoaded = ee.Algorithms.If(layersLength <= 3, true, alert('❌ Seleccione una fecha para los incendios'))
   // check if index is selected
-  var indexSelected = ee.Algorithms.If(isSelected !== null, true, alert('❌ Seleccione un indice espectral'));
+  var indexSelected = ee.Algorithms.If(isSelected === 'Indices', true, alert('❌ Seleccione un indice espectral'));
   
   // 
   var geometryImport = ee.Algorithms.If(drawingToolsLen == 1 , true, alert('❌ Seleccione un area de estudio'));
