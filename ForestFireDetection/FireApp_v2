@@ -523,16 +523,17 @@ function run (){
    analysisPanel.widgets().remove(imagePrintStatsButton);
    analysisPanel.add(ui.Label({value:'🌍  Archivo: Areas afectadas por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(url));
   
-   lulucfStats.evaluate(printStats(lulucfStats,reclassIndexName));
+   
   // if it doesnt work thrown an error  
   }
    catch (error){
      
      analysisPanel.widgets().remove(imagePrintStatsButton);
      analysisPanel.add(ui.Label({value:'🌍  Archivo: Areas afectadas por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(url));
-  
+      lulucfStats.evaluate(printStats(lulucfStats,reclassIndexName));
    }
   
+   lulucfStats.evaluate(printStats(lulucfStats,reclassIndexName));  
    return url;
     
   }
