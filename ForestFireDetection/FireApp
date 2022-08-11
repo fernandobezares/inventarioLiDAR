@@ -704,7 +704,7 @@ var Apply_button = ui.Button({
   onClick: function(){
       checkIfParametersAreLoaded();
       loadLabel.style().set({shown:true});
-      ui.util.setTimeout(run(), 0.1);
+      ui.util.setTimeout(run(), 1);
       loadLabel.style().set({shown:false});
   },
   style: {textAlign: 'center'}
