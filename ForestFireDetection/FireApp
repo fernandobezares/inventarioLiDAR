@@ -1,12 +1,9 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = 
-    /* color: #000000 */
-    /* shown: false */
-    ee.Geometry.Polygon(
-        [[[-6.191047282997688, 42.04279980579601],
-          [-6.191047282997688, 41.711503879158094],
-          [-5.692542644325813, 41.711503879158094],
-          [-5.692542644325813, 42.04279980579601]]], null, false);
+var geometry = /* color: #000000 */ee.Geometry.Polygon(
+        [[[-6.0913183593749975, 41.78735710154102],
+          [-6.0913183593749975, 41.71769018708443],
+          [-6.0144140624999975, 41.71769018708443],
+          [-6.0144140624999975, 41.78735710154102]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -511,6 +508,7 @@ function run (){
   //labelLinkResult.setValue('link de descarga : ' + url)
   
   //print('lulucfStats',lulucfStats);
+  
   
   
   
