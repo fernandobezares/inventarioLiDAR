@@ -26,7 +26,7 @@ var marginTitles = '20px 0px 5px 8px';
 
 var drawingTools = Map.drawingTools();
 //---------------------------------------------------------------------------------------------
- print(ee.Dictionary(cod_ser.get('mfe')).get('lulucf').get('100'))
+ print(ee.List(ee.Dictionary(cod_ser.get('reclassIndex')).get('RBRClass')).get(0))
 function printStats(stats,indexName){
   
   //print('stats',stats)
@@ -86,7 +86,7 @@ function printStats(stats,indexName){
   //print(cod_ser.get('mfe').get('lulucf'))
   
   // get intensity 
-  var descripcion = cod_ser.get('mfe').get('lulucf').get(lulucfCode);
+  var descripcion = ee.Dictionary(ee.Dictionary(cod_ser.get('mfe')).get('lulucf')).get(lulucfCode);
   
   var sevDes = cod_ser.get('reclassIndex').get('indexName').get(severityCode);
   //print(sevDes)
