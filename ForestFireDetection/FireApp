@@ -73,7 +73,7 @@ function printStats(stats){
   resultsPanel.add(ui.Panel(
     {layout: ui.Panel.Layout.flow('horizontal'),
      widgets: [
-        ui.Label({value: descripcion}),
+        ui.Label({value: descripcion,style:{whiteSpace: 'pre'}}),
         ui.Label({value: area})
         ]
   }))
