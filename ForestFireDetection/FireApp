@@ -710,13 +710,13 @@ var Apply_button = ui.Button({
   onClick: function(){
       checkIfParametersAreLoaded();
       
-      Apply_button.setLabel('Cargando...')
-      ui.util.setTimeout(function(){},1)
+      Apply_button.setLabel('Cargando...');
+      
       run();
-      Apply_button.setLabel('Run')
+      Apply_button.setLabel('Run');
   },
   style: {textAlign: 'center'}
-}).setDisabled(false);
+});
 
 
 // Select area button
