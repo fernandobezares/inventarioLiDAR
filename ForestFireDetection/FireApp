@@ -37,6 +37,8 @@ function printStats(stats){
   // labels 
   var headerDescription = ui.Label({value: 'Clase', style: {fontWeight: 'bold'}});
   var surfaceLabel = ui.Label({value: 'Superficie (ha)', style: {fontWeight: 'bold'}});
+  var resultsLabel = ui.Label({value: 'Metricas del incendio', style: {margin: marginTitles,fontSize:fontSizeSections}});
+  
   
   //stats panel 
   var resultsPanel = ui.Panel({layout: ui.Panel.Layout.flow('vertical')});
@@ -53,7 +55,7 @@ function printStats(stats){
  
   
   // add items 
-  resultsPanel.add(headerResultsPanel);
+  resultsPanel.add(resultsLabel).add(headerResultsPanel);
   
   
   
@@ -74,6 +76,8 @@ function printStats(stats){
   
   // get lulucf class 
   var lulucfCode = band.match('\\d\{3\}').get(0).getInfo();
+  
+  //var severityCode = band.match('class\\d\{1\}').get(0).getInfo();
   
   // get intensity 
   
@@ -491,12 +495,12 @@ function run (){
  
   
   
-  /*
-  var loadingLabel = ui.Label({value:'Cargando estadísticas ...', style: {shown: true}});
+  
+  //var loadingLabel = ui.Label({value:'Cargando estadísticas ...', style: {shown: true}});
   
   
   
-  var lulucfStats = severityAnalysis.categoricalZonalStatistics (mfeLulucf,severityImg);
+  var lulucfStats = severityAnalysis.categoricalZonalStatistics(mfeLulucf,severityImg);
 
   //var lostWood = severityAnalysis.volumenArea(severityImg);
   //print(lostWood)
@@ -510,13 +514,13 @@ function run (){
   
   
   
-  //lulucfStats.evaluate(function(stats){return printStats(stats)});
+  
   lulucfStats.evaluate(printStats(lulucfStats));
   
   
   
-  loadingLabel.style().set({shown: false});
-  */
+  //loadingLabel.style().set({shown: false});
+  
   
 }
 
