@@ -4,7 +4,7 @@ var codigos = ee.Dictionary({
     
     'lulucf' : ee.Dictionary({
       '100' : ee.String('Tierras Forestales (FLs)'),
-      '110' : ee.String('Tierra forestal de frondosas coherente\ncon los umbrales de definición\nde Tierra Forestal'),
+      '110' : 'Tierra forestal de frondosas coherente\ncon los umbrales de definición\nde Tierra Forestal',
       '111' : ee.String('Tierra forestal de frondosas igual\nsuperior a los umbrales de definición\nde Tierra Forestal'),
       '112' : ee.String('Tierra forestal de frondosas inferior\nlos umbrales de definición\nde Tierra Forestal'),
       '120' : ee.String('Tierra forestal de coníferas coherente\ncon los umbrales de definición\nde Tierra Forestal'),
