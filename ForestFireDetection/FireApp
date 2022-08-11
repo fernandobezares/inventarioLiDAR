@@ -34,7 +34,7 @@ function printStats(stats,indexName){
   // labels 
   var headerDescription = ui.Label({value: 'Clase', style: {fontWeight: 'bold'}});
   var surfaceLabel = ui.Label({value: 'Superficie (ha)', style: {fontWeight: 'bold'}});
-  var resultsLabel = ui.Label({value: '6. Metricas del incendio', style: {margin: marginTitles,fontSize:fontSizeSections}});
+  //var resultsLabel = ui.Label({value: '6. Metricas del incendio', style: {margin: marginTitles,fontSize:fontSizeSections}});
 
   
   //stats panel 
@@ -409,6 +409,9 @@ function run (){
     downloadPanel.widgets().reset();
   }
   
+  if (metricsPanel.widgets().length() > 0){
+    metricsPanel.widgets().reset();
+  }
   
   // get user defined area
   var userAOI = getAOI().geometry();
