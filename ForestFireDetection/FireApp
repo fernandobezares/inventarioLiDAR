@@ -362,11 +362,17 @@ function checkIfParametersAreLoaded (){
   
 
   // check if fires are loaded
-  if(layersLength < 3){ alert('❌ Seleccione una fecha para los incendios y presione "Cargar" '  )}
+  if(layersLength < 3){ alert('❌ Seleccione una fecha para los incendios y presione "Cargar" '  )
+    throw ''
+  }  
   // check if index is selected
-  if(isSelected === null){alert('❌ Seleccione un indice espectral')}
+  if(isSelected === null){alert('❌ Seleccione un indice espectral')
+    throw ''
+  }
   
-  if(drawingToolsLen != 1){alert('❌ Seleccione un area de estudio')}
+  if(drawingToolsLen != 1){alert('❌ Seleccione un area de estudio')
+    throw ''
+  }
   
   //var enablebutton = ee.Algorithms.If(firesLoaded && indexSelected && geometryImport, Apply_button.setDisabled(false), Apply_button.setDisabled(true));
 
