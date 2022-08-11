@@ -542,7 +542,7 @@ function run (){
    }
   
    //lulucfStats.evaluate(printStats(lulucfStats,reclassIndexName));  
-   return url;
+   return '';
     
   }
   
