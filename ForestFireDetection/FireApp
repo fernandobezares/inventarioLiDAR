@@ -352,16 +352,18 @@ function checkIfParametersAreLoaded (){
   
   var layersLength = ee.Number(Map.layers().length()).getInfo();
   var isSelected = indexButton.getValue();
-  print(isSelected)
+  
   var drawingToolsLen = ee.Number(drawingTools.layers().length()).getInfo();
   
+  print(layersLength)
+  print(isSelected)
+  print(drawingToolsLen)
   // check if fires are loaded
-  var firesLoaded = ee.Algorithms.If(layersLength <= 3, true, alert('❌ Seleccione una fecha para los incendios'))
+  if(layersLength < 3){ alert('❌ Seleccione una fecha para los incendios y presione "Cargar" '  )}
   // check if index is selected
-  var indexSelected = ee.Algorithms.If(isSelected === 'Indices', true, alert('❌ Seleccione un indice espectral'));
+  if(isSelected === null){alert('❌ Seleccione un indice espectral')}
   
-  // 
-  var geometryImport = ee.Algorithms.If(drawingToolsLen == 1 , true, alert('❌ Seleccione un area de estudio'));
+  if(drawingToolsLen != 1){alert('❌ Seleccione un area de estudio')}
   
   //var enablebutton = ee.Algorithms.If(firesLoaded && indexSelected && geometryImport, Apply_button.setDisabled(false), Apply_button.setDisabled(true));
 
@@ -369,7 +371,7 @@ function checkIfParametersAreLoaded (){
 //
 function run (){
   
-  
+  checkIfParametersAreLoaded()
   
   if (Map.layers().length() > 0){
     Map.layers().reset();
@@ -382,7 +384,7 @@ function run (){
   if (downloadPanel.widgets().length() > 0){
     downloadPanel.widgets().reset();
   }
-  checkIfParametersAreLoaded()
+  
   // get user defined area
   var userAOI = getAOI().geometry();
   
