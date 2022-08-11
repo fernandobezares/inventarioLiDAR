@@ -261,8 +261,8 @@ function clear_selected_area(){
 // show loading / calculating message
 function show_loading(loading_msg){
   valuePanel.clear();
-  valuePanel.style().set({shown:true});
-  valuePanel.add(ui.Label(loading_msg, {color: 'gray', textAlign: 'center', width: '98%'}));
+  //valuePanel.style().set({shown:true});
+  valuePanel.add(ui.Label({value:loading_msg, style: {color: 'gray', textAlign: 'center', width: '98%'}}));
   
 }
 
