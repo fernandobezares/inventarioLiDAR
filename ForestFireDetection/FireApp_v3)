@@ -27,9 +27,9 @@ var marginTitles = '20px 0px 5px 8px';
 var drawingTools = Map.drawingTools();
 //---------------------------------------------------------------------------------------------
  print(ee.List(ee.Dictionary(cod_ser.get('reclassIndex')).get('RBRclass')).get(ee.Number.parse('0')))
-function printStats(list){
-  var stats = list.get(0)
-  var indexName = list.get(1)
+function printStats(stats){
+  
+  var indexName = indexButton.getValue()+'class'
   //print('stats',stats)
   
   // labels 
@@ -89,7 +89,7 @@ function printStats(list){
   // get intensity 
   var descripcion = ee.Dictionary(ee.Dictionary(cod_ser.get('mfe')).get('lulucf')).get(lulucfCode);
   
-  var sevDes = ee.List(ee.Dictionary(cod_ser.get('reclassIndex')).get('RBRclass')).get(ee.Number.parse(severityCode));
+  var sevDes = ee.List(ee.Dictionary(cod_ser.get('reclassIndex')).get(indexName)).get(ee.Number.parse(severityCode));
   //print(sevDes)
   /*
   descripcion = descripcion + '\nSeveridad: ' + sevDes+'.';
@@ -108,7 +108,7 @@ function printStats(list){
   
   //analysisPanel.add(resultsPanel);
   
-  
+  print(statsForExport)
   return statsForExport
 }
 //-------------------------------------------------------------------------------------------------------------------------------
