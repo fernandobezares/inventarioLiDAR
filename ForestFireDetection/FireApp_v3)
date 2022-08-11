@@ -1,9 +1,12 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-6.0693457031249975, 41.82420897145983],
-          [-6.0693457031249975, 41.82011536602656],
-          [-6.0528662109374975, 41.82011536602656],
-          [-6.0528662109374975, 41.82420897145983]]], null, false);
+var geometry = 
+    /* color: #000000 */
+    /* shown: false */
+    ee.Geometry.Polygon(
+        [[[-6.093378295897156, 41.941530020614124],
+          [-6.093378295897156, 41.86384942504197],
+          [-5.956049194334656, 41.86384942504197],
+          [-5.956049194334656, 41.941530020614124]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -510,7 +513,7 @@ function run (){
   
    //  load the button 
   var imagePrintStatsButton  = ui.Button({
-  label : 'Obtener Estadisticas (lento)',
+  label : 'Obtener Estadisticas',
   onClick: function(){
   
   var lulucfStats = severityAnalysis.categoricalZonalStatistics(mfeLulucf,severityImg);
