@@ -1,0 +1,79 @@
+var codigos = {  
+  
+  mfe : {
+    
+    lulucf : {
+      '100' : 'Tierras Forestales (FLs)',
+      '110' : 'Tierra forestal de frondosas coherente\ncon los umbrales de definición\nde Tierra Forestal',
+      '111' : 'Tierra forestal de frondosas igual\nsuperior a los umbrales de definición\nde Tierra Forestal',
+      '112' : 'Tierra forestal de frondosas inferior\nlos umbrales de definición\nde Tierra Forestal',
+      '120' : 'Tierra forestal de coníferas coherente\ncon los umbrales de definición\nde Tierra Forestal',
+      '121' : 'Tierra forestal de coníferas igual\no superior a los umbrales de definición\nde Tierra Forestal',
+      '122' : 'Tierra forestal de coníferas inferior\na los umbrales de definición\nde Tierra Forestal',
+      '130' : 'Tierra forestal de mixta coherente con\nlos umbrales de definición\nde Tierra Forestal',
+      '131' : 'Tierra forestal de mixta igual o superior\na los umbrales de definición\nde Tierra Forestal',
+      '132' : 'Tierra forestal de mixta inferior\na los umbrales de definición\nde Tierra Forestal',
+      '700' : 'Tierras de cultivo',
+      '710' : 'Tierra cultivada con cultivos leñosos perennes',
+      '711' : 'Olivar',
+      '712' : 'Viñedo',
+      '713' : 'Cítricos',
+      '714' : 'No Cítricos',
+      '715' : 'Olivar con otros cultivos leñosos',
+      '719' : 'Otros cultivos leñosos',
+      '720' : 'Tierra con cultivos anuales y multianuales',
+      '721' : 'Arrozales',
+      '722' : 'Invernaderos',
+      '729' : 'Otros cultivos anuales',
+      '730' : 'Tierras de barbecho temporales',
+      '200' : 'Tierras de pastoreo y pastizales dominados por\nvegetación herbácea o arbustiva, así como con vegetación leñosa\ncon FCC arbórea mayor o igual a 10%',
+      '210' : 'Tierras de pastoreo y los pastizales con\nvegetación leñosa con FCC arbórea ≥ 10%',
+      '220' : 'Tierras de pastoreo y los pastizales\ndominados por vegetación arbustiva',
+      '230' : 'Tierras de pastoreo y los pastizales\ndominados por vegetación herbácea',
+      '240' : 'Tierras de pastoreo y pastizales quemados',
+      '500' : 'Humedales (HLs)',
+      '510' : 'Turberas',
+      '520' : 'Tierras inundadas. Embalases, ríos y lagos\ncon aumento sustancial de la superficie acuática',
+      '521' : 'Humedales interiores',
+      '522' : 'Humedales costeros',
+      '523' : 'Humedales mixtos',
+      '530' : 'Otros humedales. Lagos y ríos regulados sin\nincremento sustancial en la superficie acuática.',
+      '531' : 'Otros humedales interiores',
+      '532' : 'Otros humedales costeros',
+      '533' : 'Otros humedales mixtos',
+      '800' : 'Asentamiento artificial',
+      '810' : 'Zona residencia (urbana y rural)',
+      '820' : 'Zonas industriales o comerciales',
+      '821' : 'Zona industrial',
+      '822' : 'Zona comercial',
+      '830' : 'Puertos y aeropuertos',
+      '831' : 'Zonas portuarias',
+      '832' : 'Aeropuertos',
+      '833' : 'Otras zonas',
+      '840' : 'Infraestructuras de transporte',
+      '841' : 'Carreteras',
+      '842' : 'Ferrocarril no electrificado',
+      '849' : 'Otras',
+      '850' : 'Explotaciones mineras',
+      '860' : 'Escombreras y vertederos',
+      '870' : 'Zonas en construcción',
+      '880' : 'Tierras con cobertura vegetal,\nfuera de las categorías Tierras forestales,\nTierras de cultivo ni Pastizales',
+      '881' : 'Tierras con cobertura vegetal,\nfuera de las categorías Tierras forestales,\nTierras de cultivo ni Pastizales. Arbolada',
+      '882' : 'Tierras con cobertura vegetal,\nfuera de las categorías Tierras forestales,\nTierras de cultivo ni Pastizales. Arbustiva',
+      '883' : 'Tierras con cobertura vegetal,\nfuera de las categorías Tierras forestales,\nTierras de cultivo ni Pastizales. Herbácea',
+      '400' : 'Otras tierras. Suelo desnudo, roca, hielo, ...',
+      
+    }
+
+  },
+  
+  reclassIndex:{
+    "RBRclass" :['No quemado','Baja' ,'Moderada', 'Alta'],
+    "RdNBRclass":['No quemado','Baja' ,'Moderada', 'Alta'],
+    "dNBRclass" : ['Alto rebrote',"Bajo rebrote","No quemado", "Baja", "Moderada - Baja",  "Moderada - Alta", "Alta"]
+} 
+
+};
+
+
+exports = codigos;
