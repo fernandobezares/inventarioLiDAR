@@ -84,10 +84,11 @@ function printStats(stats){
   // get intensity 
   var descripcion = cod.mfe.lulucf[lulucfCode];
   
-  var sevDes = cod.reclassIndex[indexSelector.getValue().getInfo()].get(severityCode)
+  var sevDes = cod.reclassIndex[indexSelector.getValue().getInfo()].get(severityCode);
+  print(sevDes)
   
-  descripcion = descripcion + '\nSeveridad: ' + sevDes+'.'
-
+  descripcion = descripcion + '\nSeveridad: ' + sevDes+'.';
+  print(descripcion)
   resultsPanel.add(ui.Panel(
     {layout: ui.Panel.Layout.flow('horizontal'),
      widgets: [
