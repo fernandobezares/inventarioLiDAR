@@ -74,12 +74,19 @@ function printStats(stats){
   // get lulucf class 
   var lulucfCode = band.match('\\d\{3\}').get(0).getInfo();
   
+  
+  print(band)
   var severityCode = band.match('\(\?\<\=class)\\d\{1\}').get(0).getInfo();
   
-  // get intensity 
+  print(severityCode)
   
+  
+  // get intensity 
   var descripcion = cod.mfe.lulucf[lulucfCode];
   
+  var sevDes = cod.reclassIndex[indexSelector.getValue().getInfo()].get(severityCode)
+  
+  descripcion = descripcion + '\nSeveridad: ' + sevDes+'.'
 
   resultsPanel.add(ui.Panel(
     {layout: ui.Panel.Layout.flow('horizontal'),
