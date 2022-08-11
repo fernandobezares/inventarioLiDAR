@@ -106,7 +106,7 @@ function printStats(stats,indexName){
   
 }
   
-  metricsPanel.add(resultsPanel);
+  analysisPanel.add(resultsPanel);
   
   
   return 
@@ -526,7 +526,7 @@ function run (){
    metricsPanel.widgets().remove(imagePrintStatsButton);
    mericsPanel.add(ui.Label({value:'🌍  Archivo: Areas afectadas por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(url));
   
-   //lulucfStats.evaluate(printStats(lulucfStats,reclassIndexName));
+   lulucfStats.evaluate(printStats(lulucfStats,reclassIndexName));
   // if it doesnt work thrown an error  
   }
    catch (error){
