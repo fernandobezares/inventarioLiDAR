@@ -106,7 +106,7 @@ function printStats(stats,indexName){
   
 }
   
-  analysisPanel.add(resultsPanel);
+  metricsPanel.add(resultsPanel);
   
   
   return 
