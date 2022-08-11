@@ -81,22 +81,22 @@ function printStats(stats,indexName){
                           .getString(0).match('\\d\{1\}')
                            .get(0).getInfo();
   
-  print(severityCode)
+  //print(severityCode)
   
   
   // get intensity 
   var descripcion = cod.mfe.lulucf[lulucfCode];
   
   var sevDes = cod.reclassIndex[indexName][severityCode];
-  print(sevDes)
+  //print(sevDes)
   
   descripcion = descripcion + '\nSeveridad: ' + sevDes+'.';
-  print(descripcion)
+  //print(descripcion)
   resultsPanel.add(ui.Panel(
     {layout: ui.Panel.Layout.flow('horizontal'),
      widgets: [
         ui.Label({value: descripcion,style:{whiteSpace: 'pre',position:'middle-left',fontSize:'12px'}}),
-        ui.Label({value: area, style:{position:'middle-right',fontSize:'12px'}})
+        ui.Label({value: area, style:{position:'middle-right',fontSize:'12px',fontWeight: 'bold'}})
         ]
   }))
                
