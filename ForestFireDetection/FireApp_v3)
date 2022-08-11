@@ -61,13 +61,7 @@ function printStats(stats){
   
   // get the names of the vars
   var statsForExport = ee.FeatureCollection(stats).map(function(feat){
-   // for (var j = 0; j < size.getInfo(); j++) {
-    
-  //print(j)
-  
-  //var feat = ee.Feature(stats.toList(1,j).get(0));
-  //print(feat)
-  
+   
   // get band name 
   var band = feat.getString('band')//.getInfo();
   
@@ -110,7 +104,7 @@ function printStats(stats){
   
   //analysisPanel.add(resultsPanel);
   
-  print(statsForExport);
+  //print(statsForExport);
   urlStats = statsForExport.getDownloadURL({format: 'csv',filename: 'areas_afectadas_por_incendio'});
   
   
