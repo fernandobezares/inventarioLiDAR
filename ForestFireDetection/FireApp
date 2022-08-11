@@ -1,12 +1,9 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = 
-    /* color: #000000 */
-    /* shown: false */
-    ee.Geometry.Polygon(
-        [[[-6.1929418945312475, 41.90602611575717],
-          [-6.1929418945312475, 41.72589021905623],
-          [-5.8468725585937475, 41.72589021905623],
-          [-5.8468725585937475, 41.90602611575717]]], null, false);
+var geometry = /* color: #000000 */ee.Geometry.Polygon(
+        [[[-6.592443456771484, 42.467933440879406],
+          [-6.592443456771484, 42.41928981563409],
+          [-6.529272070052734, 42.41928981563409],
+          [-6.529272070052734, 42.467933440879406]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -377,8 +374,7 @@ function checkIfParametersAreLoaded (){
 //
 function run (){
   
-  checkIfParametersAreLoaded()
-  show_loading('Cargando... Este proceso puede llevar unos minutos.')
+  
   
   if (Map.layers().length() > 0){
     Map.layers().reset();
@@ -417,7 +413,6 @@ function run (){
   // select the reclasification index
   var severityImg = severity.select(reclassIndexName);
   
-  valuePanel.clear()
   
   //  load the button 
   var imageDownloadButton  = ui.Button({
@@ -707,7 +702,10 @@ var applyPanel = ui.Panel({layout: ui.Panel.Layout.flow('vertical')});
 var Apply_button = ui.Button({
   label: 'Run',
   onClick: function(){
+      checkIfParametersAreLoaded();
+      show_loading('Cargando... Este proceso puede llevar unos minutos.');
       run();
+      valuePanel.clear();
   },
   style: {textAlign: 'center'}
 }).setDisabled(false);
@@ -742,11 +740,11 @@ var indexButton = ui.Select({
 
 
 // panel for showing the values: show values click
-var valuePanel = ui.Panel(ui.Label('Clique para inspeccionar', {textAlign: 'center', width: '270px' }));
+var valuePanel = ui.Panel(ui.Label('', {textAlign: 'center', width: '270px' }));
 valuePanel.style().set({
   position: 'top-center',
   width: '290px',
-  shown:false
+ 
 });
 
 
