@@ -108,7 +108,7 @@ function printStats(stats,indexName){
   analysisPanel.add(resultsPanel);
   
   
-  return 
+  return statsForExport
 }
 //-------------------------------------------------------------------------------------------------------------------------------
 // FUNCTION TO DISPLAY LEGENDS 
