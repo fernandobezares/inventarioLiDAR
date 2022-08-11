@@ -703,9 +703,9 @@ var Apply_button = ui.Button({
   label: 'Run',
   onClick: function(){
       checkIfParametersAreLoaded();
-      loadLabel.setShown(true);
+      loadLabel.style().set({shown:true});
       ui.util.setTimeout(run(), 0.01);
-      loadLabel.setShown(false);
+      loadLabel.style().set({shown:false});
   },
   style: {textAlign: 'center'}
 }).setDisabled(false);
