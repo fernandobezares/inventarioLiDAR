@@ -515,7 +515,7 @@ function run (){
   onClick: function(){
   
   var lulucfStats = severityAnalysis.categoricalZonalStatistics(mfeLulucf,severityImg);
-  lulucfStats.evaluate(function()printStats(ee.List([lulucfStats,reclassIndexName])))
+  lulucfStats.evaluate(printStats(lulucfStats,rec))
 
   // try loading the download image button 
   try {  
