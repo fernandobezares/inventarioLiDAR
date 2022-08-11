@@ -91,7 +91,7 @@ function printStats(list){
   
   var sevDes = ee.List(ee.Dictionary(cod_ser.get('reclassIndex')).get('RBRclass')).get(ee.Number.parse(severityCode));
   //print(sevDes)
-  
+  /*
   descripcion = descripcion + '\nSeveridad: ' + sevDes+'.';
   //print(descripcion)
   resultsPanel.add(ui.Panel({
@@ -102,11 +102,11 @@ function printStats(list){
         ]
   })
   );
-               
+       */        
     return feat.set('lulucf',descripcion).set('severidad',sevDes);
 })
   
-  analysisPanel.add(resultsPanel);
+  //analysisPanel.add(resultsPanel);
   
   
   return statsForExport
