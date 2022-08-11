@@ -1,16 +1,16 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = 
-    /* color: #00ffff */
+    /* color: #ff0000 */
     /* displayProperties: [
       {
         "type": "rectangle"
       }
     ] */
     ee.Geometry.Polygon(
-        [[[-6.1874487304687475, 41.89376021898643],
-          [-6.1874487304687475, 41.71769018708443],
-          [-5.8468725585937475, 41.71769018708443],
-          [-5.8468725585937475, 41.89376021898643]]], null, false);
+        [[[-6.4676000976562475, 41.987738543716326],
+          [-6.4676000976562475, 41.82011536602656],
+          [-6.1215307617187475, 41.82011536602656],
+          [-6.1215307617187475, 41.987738543716326]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -710,24 +710,6 @@ var selectAreaButton = ui.Button({
   
   select_area_start();
   
-  var layersLength = ee.Number(Map.layers().length());
-  var isSelected = indexButton.getValue();
-  var drawingToolsLen = ee.Number(drawingTools.layers().length());
-  
-  // check if fires are loaded
-  var firesLoaded = ee.Algorithms.If(layersLength > 3, true, false);
-  
-  // check if index is selected
-  var indexSelected = ee.Algorithms.If(isSelected !== null, true, false);
-  
-  // 
-  var geometryImport = ee.Algorithms.If(drawingToolsLen == 1 , true, false);
-  
-  var enablebutton = ee.Algorithms.If(firesLoaded && indexSelected && geometryImport, Apply_button.setDisabled(false), Apply_button.setDisabled(true));
-
-    
-    
-    
   },
   style : {textAlign: 'center'},
 });
@@ -817,13 +799,8 @@ Map.onClick(function(coords){
 });
 
 
-var layersLength = ee.Number(Map.layers().length());
-var isSelected = indexButton.getValue();
-var drawingToolsLen = ee.Number(drawingTools.layers().length());
-var listForEnablingButton = ee.List([layersLength,isSelected,drawingToolsLen]);
 
-
-
+/*
 listForEnablingButton.evaluate(function(list){
   
   var layersLength = ee.Number(Map.layers().length());
@@ -843,7 +820,7 @@ listForEnablingButton.evaluate(function(list){
  }
  );
   
-
+*/
 
 /*
 Map.onClick(function(coords){
