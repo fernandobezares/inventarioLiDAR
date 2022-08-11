@@ -1,9 +1,9 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-6.592443456771484, 42.467933440879406],
-          [-6.592443456771484, 42.41928981563409],
-          [-6.529272070052734, 42.41928981563409],
-          [-6.529272070052734, 42.467933440879406]]], null, false);
+        [[[-6.0775854492187475, 41.90602611575717],
+          [-6.0775854492187475, 41.869221357525994],
+          [-5.9951879882812475, 41.869221357525994],
+          [-5.9951879882812475, 41.90602611575717]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -262,7 +262,7 @@ function clear_selected_area(){
 function show_loading(loading_msg){
   valuePanel.clear();
   //valuePanel.style().set({shown:true});
-  valuePanel.add(ui.Label({value:loading_msg, style: {color: 'gray', textAlign: 'center', width: '98%'}}));
+  valuePanel.add(ui.Label({value:loading_msg, style: {color: 'grey', textAlign: 'center', width: '98%'}}));
   
 }
 
@@ -703,9 +703,9 @@ var Apply_button = ui.Button({
   label: 'Run',
   onClick: function(){
       checkIfParametersAreLoaded();
-      show_loading('Cargando... Este proceso puede llevar unos minutos.');
-      run();
-      valuePanel.clear();
+      loadLabel.setShown(true);
+      ui.util.setTimeout(run(), 0.01);
+      loadLabel.setShown(false);
   },
   style: {textAlign: 'center'}
 }).setDisabled(false);
@@ -740,12 +740,16 @@ var indexButton = ui.Select({
 
 
 // panel for showing the values: show values click
-var valuePanel = ui.Panel(ui.Label('', {textAlign: 'center', width: '270px' }));
+var valuePanel = ui.Panel();
 valuePanel.style().set({
   position: 'top-center',
   width: '290px',
  
 });
+
+var loadLabel = ui.Label({
+value: 'Cargando... Este proceso puede llevar unos minutos.',
+style:{shown: false, textAlign: 'center', width: '270px' }});
 
 
 //------------------------------------------------------------------
@@ -773,7 +777,7 @@ areaPanel.add(removeAreaButton);
 analysisPanel.add(applyPanel);
 applyPanel.add(applyLabel).add(Apply_button);
 
-analysisPanel.add(valuePanel);
+analysisPanel.add(valuePanel.add(loadLabel));
 
 var labelResult = ui.Label();
 var labelLinkResult = ui.Label();
