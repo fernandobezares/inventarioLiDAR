@@ -1,9 +1,9 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-6.113327906467078, 41.86083080549809],
-          [-6.113327906467078, 41.839348753349675],
-          [-6.0669793346897345, 41.839348753349675],
-          [-6.0669793346897345, 41.86083080549809]]], null, false);
+        [[[-5.963630547009761, 41.86155604751735],
+          [-5.963630547009761, 41.855930556847426],
+          [-5.952300896130855, 41.855930556847426],
+          [-5.952300896130855, 41.86155604751735]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -76,7 +76,10 @@ function printStats(stats){
   
   
   print(band)
-  var severityCode = band.match('\(\?\<\=class\)\\d\{1\}').get(0).getInfo();
+  //var severityCode = band.match('\\(\\?\\<\\=class\\)\\d\{1\}').get(0).getInfo();
+  var severityCode = band.match('class\\d\{1\}')
+                          .getString(0).match('\\d\{1\}')
+                           .get(0).getInfo();
   
   print(severityCode)
   
