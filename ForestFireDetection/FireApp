@@ -37,7 +37,7 @@ function printStats(stats,indexName){
   // labels 
   var headerDescription = ui.Label({value: 'Clase', style: {fontWeight: 'bold'}});
   var surfaceLabel = ui.Label({value: 'Superficie (ha)', style: {fontWeight: 'bold'}});
-  var resultsLabel = ui.Label({value: 'Metricas del incendio', style: {margin: marginTitles,fontSize:fontSizeSections}});
+  var resultsLabel = ui.Label({value: '6. Metricas del incendio', style: {margin: marginTitles,fontSize:fontSizeSections}});
   
   
   //stats panel 
@@ -98,8 +98,8 @@ function printStats(stats,indexName){
   resultsPanel.add(ui.Panel(
     {layout: ui.Panel.Layout.flow('horizontal'),
      widgets: [
-        ui.Label({value: descripcion,style:{whiteSpace: 'pre'}}),
-        ui.Label({value: area})
+        ui.Label({value: descripcion,style:{whiteSpace: 'pre',position:'middle-left',fontSize:'12px'}}),
+        ui.Label({value: area, stlyle:{position:'middle-right',fontSize:'12px'}})
         ]
   }))
                
