@@ -3,10 +3,10 @@ var geometry =
     /* color: #000000 */
     /* shown: false */
     ee.Geometry.Polygon(
-        [[[-6.9015600585937475, 42.01631314832609],
-          [-6.9125463867187475, 41.90602611575717],
-          [-6.7038061523437475, 41.914202071322606],
-          [-6.7038061523437475, 42.02447496404512]]]);
+        [[[-6.4401342773437475, 41.99182141573336],
+          [-6.4401342773437475, 41.84876510802715],
+          [-6.2808325195312475, 41.84876510802715],
+          [-6.2808325195312475, 41.99182141573336]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -401,7 +401,12 @@ function run (){
   // get date from the selected fire
   var date = getDateFromFires(); // gets dates and loads the fire polygon
   
-  Map.drawingTools().layers().get(0).getEeObject().setShown(false)
+  Map.drawingTools().layers().forEach(function(lay){
+        print(lay)
+        lay.setShown(false)
+      });
+      
+      
   // index name
   var indexName = indexButton.getValue();
   
@@ -524,7 +529,7 @@ var downloadPanel = ui.Panel({
   layout: ui.Panel.Layout.flow('vertical')
 });
 
-var downloadLabel = ui.Label({value:'Descarga tus resultados', style:{ whiteSpace: 'pre',fontSize:fontSizeSections, margin: marginTitles}})
+var downloadLabel = ui.Label({value:'5. Descarga tus resultados', style:{ whiteSpace: 'pre',fontSize:fontSizeSections, margin: marginTitles}})
 
 // index selector 
 var indexSelector = ui.Select({
