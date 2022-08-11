@@ -10,7 +10,7 @@ var geometry = /* color: #000000 */ee.Geometry.Polygon(
 var severityAnalysis = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
 var fireDetection = require('users/cesefor/inventarioForestal:ForestFireDetection/fireDetection');
 var cod = require('users/cesefor/inventarioForestal:ForestFireDetection/codigos');
-
+var cod_ser = require('users/cesefor/inventarioForestal:ForestFireDetection/codigos_server');
 //rasters for stats analysis
 var mfeEspecies = ee.Image('users/cesefor/InventarioForestal/mfeEspecies').rename('especies');
 var mfeLulucf = ee.Image('users/cesefor/InventarioForestal/mfeLulucf').rename('lulucf');
@@ -86,9 +86,9 @@ function printStats(stats,indexName){
   
   
   // get intensity 
-  var descripcion = cod.mfe.lulucf[lulucfCode];
+  var descripcion = cod_serv.get('mfe').get('lulucf').get('lulucfCode');
   
-  var sevDes = cod.reclassIndex[indexName][severityCode];
+  var sevDes = cod_ser.reclassIndex[indexName][severityCode];
   //print(sevDes)
   
   descripcion = descripcion + '\nSeveridad: ' + sevDes+'.';
