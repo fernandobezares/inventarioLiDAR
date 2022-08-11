@@ -1,12 +1,8 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = 
-    /* color: #000000 */
-    /* shown: false */
-    ee.Geometry.Polygon(
-        [[[-6.060419311523435, 42.004068460519576],
-          [-6.060419311523435, 41.934637378681046],
-          [-5.950556030273435, 41.934637378681046],
-          [-5.950556030273435, 42.004068460519576]]], null, false);
+var geometry = /* color: #0b4a8b */ee.Geometry.Polygon(
+        [[[-4.379164918140314, 41.03092193025216],
+          [-4.351699097827814, 41.09304955686379],
+          [-4.423110230640314, 41.07234686913329]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -713,10 +709,9 @@ var Apply_button = ui.Button({
   onClick: function(){
       checkIfParametersAreLoaded();
       
-      Apply_button.setLabel('Cargando...');
-      
-      ui.util.setTimeout(run(),20000);
-      Apply_button.setLabel('Run');
+      //loadLabel.style().set({shown:true});
+      run()
+      //Apply_button.setLabel('Run');
   },
   style: {textAlign: 'center'}
 });
