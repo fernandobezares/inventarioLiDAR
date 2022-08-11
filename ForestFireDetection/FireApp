@@ -1,3 +1,10 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = /* color: #000000 */ee.Geometry.Polygon(
+        [[[-6.2506201171874975, 41.92442054315558],
+          [-6.2506201171874975, 41.85490266995141],
+          [-6.1407568359374975, 41.85490266995141],
+          [-6.1407568359374975, 41.92442054315558]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
 var severityAnalysis = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
@@ -703,10 +710,10 @@ var Apply_button = ui.Button({
   onClick: function(){
       checkIfParametersAreLoaded();
       
-      ui.util.setTimeout(function(){return loadLabel.style().set({shown:true})},0.5);
-      //ui.util.setTimeout()
+      Apply_button.setLabel('Cargando...')
+      ui.util.setTimeout(function(){},1)
       run();
-      loadLabel.style().set({shown:false});
+      Apply_button.setLabel('Run')
   },
   style: {textAlign: 'center'}
 }).setDisabled(false);
