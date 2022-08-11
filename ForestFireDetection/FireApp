@@ -1,9 +1,9 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-5.963630547009761, 41.86155604751735],
-          [-5.963630547009761, 41.855930556847426],
-          [-5.952300896130855, 41.855930556847426],
-          [-5.952300896130855, 41.86155604751735]]], null, false);
+        [[[-5.993086026908649, 41.90754996481635],
+          [-5.993086026908649, 41.89528436078283],
+          [-5.969740079643024, 41.89528436078283],
+          [-5.969740079643024, 41.90754996481635]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -87,7 +87,7 @@ function printStats(stats){
   // get intensity 
   var descripcion = cod.mfe.lulucf[lulucfCode];
   
-  var sevDes = cod.reclassIndex[indexSelector.getValue().getInfo()].get(severityCode);
+  var sevDes = cod.reclassIndex[indexButton.getValue().getInfo()].get(severityCode);
   print(sevDes)
   
   descripcion = descripcion + '\nSeveridad: ' + sevDes+'.';
@@ -543,11 +543,6 @@ var downloadPanel = ui.Panel({
 
 var downloadLabel = ui.Label({value:'5. Descarga tus resultados', style:{ whiteSpace: 'pre',fontSize:fontSizeSections, margin: marginTitles}})
 
-// index selector 
-var indexSelector = ui.Select({
-  items:indexList,
-  placeholder:'Indice'
-});
 
 // Panels are the main container widgets
 var mainPanel = ui.Panel({
