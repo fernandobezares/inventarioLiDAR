@@ -32,7 +32,7 @@ var drawingTools = Map.drawingTools();
 
 function printStats(stats){
   
-  print('stats',stats)
+  //print('stats',stats)
   
   // labels 
   var headerDescription = ui.Label({value: 'Clase', style: {fontWeight: 'bold'}});
@@ -79,10 +79,7 @@ function printStats(stats){
   
   var descripcion = cod.mfe.lulucf[lulucfCode];
   
-  //print(band,area)
-  print(descripcion)
-  
-  
+
   resultsPanel.add(ui.Panel(
     {layout: ui.Panel.Layout.flow('horizontal'),
      widgets: [
@@ -164,7 +161,8 @@ function categoricalLegend(indexName){
       width : '150px'
     }
   };
-  print('setting cond',setting.cond,setting[cond])
+  
+  //print('setting cond',setting.cond,setting[cond])
  
   var severityLegend = ui.Panel({
     layout: ui.Panel.Layout.flow('vertical'),
@@ -365,9 +363,7 @@ function checkIfParametersAreLoaded (){
   
   var drawingToolsLen = ee.Number(drawingTools.layers().length()).getInfo();
   
-  print(layersLength)
-  print(isSelected)
-  print(drawingToolsLen)
+
   // check if fires are loaded
   if(layersLength < 3){ alert('❌ Seleccione una fecha para los incendios y presione "Cargar" '  )}
   // check if index is selected
@@ -401,12 +397,6 @@ function run (){
   // get date from the selected fire
   var date = getDateFromFires(); // gets dates and loads the fire polygon
   
-  Map.drawingTools().layers().forEach(function(lay){
-        print(lay)
-        lay.setShown(false)
-      });
-      
-      
   // index name
   var indexName = indexButton.getValue();
   
