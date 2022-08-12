@@ -37,10 +37,10 @@ function reclassLulucf() {
   var coniferas = mfeLulucf.gte(120).and(mfeLulucf.lte(122));
   var mixtas = mfeLulucf.gte(130).and(mfeLulucf.lte(132));
   var cultivos = mfeLulucf.gte(700).and(mfeLulucf.lte(730));
-  var otrosP = mfeLulucf.eq(210).and(mfeLulucf.eq(240).and(mfeLulucf.eq(200)));
+  var otrosP = mfeLulucf.gte(210).and(mfeLulucf.lte(219)).and(mfeLulucf.eq(240).and(mfeLulucf.eq(200)));
   var matorral = mfeLulucf.eq(220);
   var pastizales = mfeLulucf.eq(230);
-  var humedales = mfeLulucf.gte(500).and(mfeLulucf.lte(523));
+  var humedales = mfeLulucf.gte(500).and(mfeLulucf.lte(533));
   var artificiales = mfeLulucf.gte(800).and(mfeLulucf.lte(883));
   var otrasSuperficies = mfeLulucf.eq(400);
   
