@@ -75,7 +75,7 @@ var codigos = ee.Dictionary({
       '210' : 'Otros Pastizales',
       '220' : 'Matorrales',
       '230' : 'Pastizales y herbazales',
-      '500' : 'Humedales (HLs)',
+      '500' : 'Humedales',
       '800' : 'Asentamiento artificial',
       '400' : 'Otras tierras',
       
