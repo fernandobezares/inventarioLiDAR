@@ -1,3 +1,10 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = /* color: #000000 */ee.Geometry.Polygon(
+        [[[-6.1160375976562475, 41.83239539719553],
+          [-6.1160375976562475, 41.7586798823053],
+          [-6.0556127929687475, 41.7586798823053],
+          [-6.0556127929687475, 41.83239539719553]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
 var severityAnalysis = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
@@ -54,6 +61,7 @@ function reclassLulucf() {
 
 function printStats(stats){
   
+  print(stats)
   var indexName = indexButton.getValue()+'class'
   //print('stats',stats)
   
@@ -106,7 +114,7 @@ function printStats(stats){
   //print(cod_ser.get('mfe').get('lulucf'))
   
   // get intensity 
-  var descripcion = ee.Dictionary(ee.Dictionary(cod_ser.get('mfe')).get('lulucf')).get(lulucfCode);
+  var descripcion = ee.Dictionary(ee.Dictionary(cod_ser.get('mfe')).get('lulucfR')).get(lulucfCode);
   
   var sevDes = ee.List(ee.Dictionary(cod_ser.get('reclassIndex')).get(indexName)).get(ee.Number.parse(severityCode));
   //print(sevDes)
