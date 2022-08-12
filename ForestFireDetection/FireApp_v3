@@ -25,6 +25,7 @@ var drawingTools = Map.drawingTools();
 
 function reclassLulucf() {
   
+  var otrosB = mfeLulucf.eq(100);
   var frondosas = mfeLulucf.gte(110).and(mfeLulucf.lte(112));
   var coniferas = mfeLulucf.gte(120).and(mfeLulucf.lte(122));
   var mixtas = mfeLulucf.gte(130).and(mfeLulucf.lte(132));
@@ -34,19 +35,19 @@ function reclassLulucf() {
   var pastizales = mfeLulucf.eq(230);
   var humedales = mfeLulucf.gte(500).and(mfeLulucf.lte(523));
   var artificiales = mfeLulucf.gte(800).and(mfeLulucf.lte(883));
-  var frondosas = mfeLulucf.eq(400);
+  var otrasSuperficies = mfeLulucf.eq(400);
   
-  var simplified = ee.Image(0).where(frondosas,100)
-                              .where(frondosas,)
-                              .where(coniferas,)
-                              .where(mixtas,)
-                              .where(cultivos,)
-                              .where(otrosP,)
-                              .where(matorral,)
-                              .where(pastizales,)
-                              .where(humedales,)
-                              .where(artificiales,)
-                              .where(frondosas,)
+  var simplified = ee.Image(0).where(otrosB,100)
+                              .where(frondosas,110)
+                              .where(coniferas,120)
+                              .where(mixtas,130)
+                              .where(cultivos,700)
+                              .where(otrosP,200)
+                              .where(matorral,220)
+                              .where(pastizales,230)
+                              .where(humedales,500)
+                              .where(artificiales,800)
+                              .where(otrasSuperficies,400)
 }
 
 
