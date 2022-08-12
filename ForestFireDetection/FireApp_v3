@@ -135,7 +135,7 @@ function printStats(stats){
   
   //analysisPanel.add(resultsPanel);
   
-  //print(statsForExport);
+  print(statsForExport);
   urlStats = statsForExport.getDownloadURL({format: 'csv',filename: 'areas_afectadas_por_incendio'});
   
   
