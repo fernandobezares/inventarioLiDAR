@@ -44,7 +44,7 @@ function reclassLulucf() {
   var artificiales = mfeLulucf.gte(800).and(mfeLulucf.lte(883));
   var otrasSuperficies = mfeLulucf.eq(400);
   
-  var simplified = ee.Image(0).where(otrosB,100)
+  var simplified = ee.Image(400).where(otrosB,100)
                               .where(frondosas,110)
                               .where(coniferas,120)
                               .where(mixtas,130)
