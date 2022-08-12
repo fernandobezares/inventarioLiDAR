@@ -68,7 +68,7 @@ var codigos = ee.Dictionary({
     'lulucfR' : ee.Dictionary({
       '100' : 'Otras zonas forestales arboladas',
       '110' : 'Bosque de frondosas',
-      '120' : 'Bosque de coníferas',
+      '120' : 'Bosque de coniferas',
       '130' : 'Bosque mixto',
       '700' : 'Cultivos',
       '200' : 'Otros pastizales',
