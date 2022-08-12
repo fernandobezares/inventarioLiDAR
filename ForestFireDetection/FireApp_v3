@@ -61,7 +61,7 @@ function reclassLulucf() {
 
 function printStats(stats){
   
-  print(stats)
+  //print(stats)
   var indexName = indexButton.getValue()+'class'
   //print('stats',stats)
   
@@ -135,7 +135,7 @@ function printStats(stats){
   
   //analysisPanel.add(resultsPanel);
   
-  print(statsForExport);
+  //print(statsForExport);
   urlStats = statsForExport.getDownloadURL({format: 'csv',filename: 'areas_afectadas_por_incendio'});
   
   
