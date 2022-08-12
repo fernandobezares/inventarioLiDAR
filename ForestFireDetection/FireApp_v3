@@ -591,7 +591,7 @@ var mainPanel = ui.Panel({
 
 // title 
 var title = ui.Label({
-  value: 'Forest Fire Detector 🔥',
+  value: 'Analizador de Incendios Forestales 🔥',
   style: {fontSize: '24px',
           margin:'5px 0px 10px 5px'}
 });
