@@ -48,6 +48,7 @@ function reclassLulucf() {
                               .where(humedales,500)
                               .where(artificiales,800)
                               .where(otrasSuperficies,400)
+  return simplified;
 }
 
 
