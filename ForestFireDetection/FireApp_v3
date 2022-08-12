@@ -536,7 +536,8 @@ function run (){
   label : 'Obtener Estadisticas',
   onClick: function(){
   
-  var lulucfStats = severityAnalysis.categoricalZonalStatistics(mfeLulucf,severityImg);
+  var simplified = reclassLulucf()
+  var lulucfStats = severityAnalysis.categoricalZonalStatistics(simplified,severityImg);
   printStats(lulucfStats)
 
   // try loading the download image button 
