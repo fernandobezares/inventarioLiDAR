@@ -21,7 +21,35 @@ var marginTitles = '20px 0px 5px 8px';
 
 var drawingTools = Map.drawingTools();
 //---------------------------------------------------------------------------------------------
- print(ee.List(ee.Dictionary(cod_ser.get('reclassIndex')).get('RBRclass')).get(ee.Number.parse('0')))
+// print(ee.List(ee.Dictionary(cod_ser.get('reclassIndex')).get('RBRclass')).get(ee.Number.parse('0')))
+
+function reclassLulucf() {
+  
+  var frondosas = mfeLulucf.gte(110).and(mfeLulucf.lte(112));
+  var coniferas = mfeLulucf.gte(120).and(mfeLulucf.lte(122));
+  var mixtas = mfeLulucf.gte(130).and(mfeLulucf.lte(132));
+  var cultivos = mfeLulucf.gte(700).and(mfeLulucf.lte(730));
+  var otrosP = mfeLulucf.eq(210).and(mfeLulucf.eq(240).and(mfeLulucf.eq(200)));
+  var matorral = mfeLulucf.eq(220);
+  var pastizales = mfeLulucf.eq(230);
+  var humedales = mfeLulucf.gte(500).and(mfeLulucf.lte(523));
+  var artificiales = mfeLulucf.gte(800).and(mfeLulucf.lte(883));
+  var frondosas = mfeLulucf.eq(400);
+  
+  var simplified = ee.Image(0).where(frondosas,100)
+                              .where(frondosas,)
+                              .where(coniferas,)
+                              .where(mixtas,)
+                              .where(cultivos,)
+                              .where(otrosP,)
+                              .where(matorral,)
+                              .where(pastizales,)
+                              .where(humedales,)
+                              .where(artificiales,)
+                              .where(frondosas,)
+}
+
+
 function printStats(stats){
   
   var indexName = indexButton.getValue()+'class'
@@ -415,7 +443,7 @@ function run (){
   var indexName = indexButton.getValue();
   
   var reclassIndexName = indexName +'class'; 
-  
+
   
   // retrieve the info from the index;
   var indexes = severityAnalysis.getSpectralIndexes(date, userAOI);
