@@ -12,7 +12,8 @@ var mfe3 = ee.FeatureCollection("users/cesefor/general/MFE_3_Peninsula_Baleares_
     guriezo = ee.FeatureCollection("users/cesefor/Nitens/Guiriezo"),
     guipuzcoa = ee.FeatureCollection("users/cesefor/Nitens/guipuzcoa_131011"),
     parcelas_pv = ee.FeatureCollection("users/cesefor/Nitens/parcelas_nitens_PV"),
-    srtm = ee.Image("USGS/SRTMGL1_003");
+    srtm = ee.Image("USGS/SRTMGL1_003"),
+    eucaliptos_norte = ui.Map.FeatureViewLayer("users/cesefor/Nitens/ecualiptos_norte", null, "ecualiptos_norte");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // aoi
 var gaul = ee.FeatureCollection("FAO/GAUL/2015/level1");
@@ -106,6 +107,10 @@ var eucgte350 = elevStats.filter(ee.Filter.gte('mean',350));
 var eucaliptos = ee.FeatureCollection([filteredMfe25C,filteredMfe25As,filteredMfe25PV,filteredMfe25Gal,eucgte350]).flatten();
 //print('eucaliptos', eucaliptos)
 
+
+
+
+
 // ------------------------------------ FOREST AREAS 2000 -------------------------------------------
 
 // image Corine 2000
@@ -129,12 +134,13 @@ var corineClassValues = corine2000.get('landcover_class_values').getInfo();
 var elements = ee.List(corinePalette).length().getInfo();
 
 
-
+/*
 print (ee.Dictionary.fromLists(corinePalette,corineClassNames));
 //print('corineClassValues',corineClassValues);
 
 print('corine200',corine2000);
 print('corinePalette', corinePalette);
+*/
 // ---------------------------- CORINE LEGEND ----------------------------
 
 // set position of panel
@@ -211,8 +217,17 @@ for (var i = 0; i < elements; i++){
 
 // -------------- Results Legend ---------------------------------------------------------------
 
-var resultsNames = ['Areas de bosque en 2000 con nitens en MFE4', 'Bosque con nitens sin cambios desde 2000 y altura > 15 m', 'Bosque mixto y Bosque caducifolio (año 2000)' ];
-var resultsColors = ['f54242','c842f5', '2de060'];
+var resultsNames = [
+'Areas de bosque en 2000 con nitens en MFE4', 
+'Bosque con nitens sin cambios desde 2000 y altura > 15 m', 
+'Bosque mixto y Bosque caducifolio (año 2000)' ];
+
+var resultsColors = [
+'f54242',
+'c842f5', 
+'2de060'];
+
+// FFFF00
 
 // set position of panel
 var resultLegend = ui.Panel({
@@ -315,8 +330,8 @@ Map.addLayer(nitensUnchanged,{min:0,max:1, palette: ['white','#c842f5']},
 //Map.addLayer(nitensFustal2,{color:'blue'},'nitens Fustal2');
 
 eucaliptos = eucaliptos.style({fillColor: 'FF000000',color:'yellow'})
-Map.addLayer(eucaliptos,{}, 'Nitens Fustal (mezcla Eucaliptos Cantabria y PV)',0)
-
+//Map.addLayer(eucaliptos,{}, 'Nitens Fustal (mezcla Eucaliptos Cantabria y PV)',0)
+Map.add(eucaliptos_norte)
 
 Map.centerObject(valPV,10)
 valPV = valPV.style({fillColor: 'FF000000',color:'red'})
