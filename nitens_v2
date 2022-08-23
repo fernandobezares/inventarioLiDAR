@@ -237,43 +237,20 @@ nitensUnchanged = nitensUnchanged.updateMask(heigthMask);
 
 // --------------------------------------------------------------------------------------------
 // VALIDATION LAYERS 
-
 var valPV = guipuzcoa.merge(parcelas_pv);
 
 
-
-
 // -------------------- ADD LAYERS TO MAP -----------------------------------------------------
-// print the dataset with
-
-//Map.add(legend) 
-//Map.addLayer(corine2000,{min: 111, max :523, palette : corinePalette },'Land Cover Corine 2000');
 
 Map.add(resultLegend); 
 
-// add corine forests classes 311 and 313 
-/*
-Map.addLayer(c20Forest.updateMask(c20Forest.eq(1)),{min:0,max:1 , palette: ['#2de060']},
-'Bosques de frondosas y mixtos en el año 2000 (CORINE)',0,0.2);
 
-// add canopyheigth map 
-Map.addLayer(canopyHeight.updateMask(c20Forest), 
-{min:0,max:40, palette :['lightgrey','lightyellow','lightgreen','green', 'darkgreen']},
-'Altura vegetación',0,0.1);
-*/
+Map.centerObject(valPV,10);
+valPV = valPV.style({fillColor: 'FF000000',color:'red'});
 
+//parcelas de validación
+Map.addLayer(valPV,{},'Parcelas de Valicación Guipuzcoa 13-10, 13-11');
 
-//print('nitens_fustal', nitensFustal.toList(10,0));
-//print('nitens_fustal_mfe2', nitensFustal2);
-
-
-// style the ee.FeatureCollection
-//nitensMFE4 = nitensMFE4.style({fillColor: 'FF000000'});
-
-//Map.centerObject(mfe25Cyl,15)
-
-//Map.addLayer(nitensMFE4,{color:'red'},'Nitens Fustal',0);
-//Map.addLayer(nitensFustal2,{color:'blue'},'nitens Fustal2');
 
 eucaliptos = eucaliptos.style({fillColor: 'FF000000',color:'yellow'});
 
@@ -286,12 +263,6 @@ var ecualiptos_norte = eucaliptos_norte.setVisParams({
 
 //Map.addLayer(eucaliptos,{}, 'Nitens Fustal (mezcla Eucaliptos Cantabria y PV)',0)
 Map.add(eucaliptos_norte);
-
-Map.centerObject(valPV,10);
-valPV = valPV.style({fillColor: 'FF000000',color:'red'});
-
-//parcelas de validación
-Map.addLayer(valPV,{},'Parcelas de Valicación Guipuzcoa 13-10, 13-11');
 
 // add forest areas in 2000 that today have nitens
 Map.addLayer(nitens2000.updateMask(nitens2000.eq(1)),{min:0,max:1, palette: ['#f54242']},
