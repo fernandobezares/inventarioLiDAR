@@ -21,7 +21,6 @@ var gaul = ee.FeatureCollection("FAO/GAUL/2015/level1");
 var aoi = gaul.filter(ee.Filter.inList('ADM1_NAME', ['Principado de Asturias','Cantabria','Galicia','Pa�s Vasco/Euskadi'])).union(0.5)
 var guiAla =  ee.FeatureCollection("FAO/GAUL/2015/level2").filter(ee.Filter.inList('ADM2_NAME', ['Araba/Álava','Gipuzkoa'])).union(0.5);
 
-//print('gaul', ee.FeatureCollection("FAO/GAUL/2015/level2").aggregate_array('ADM2_NAME').distinct().sort())
 
 // import canopy height image 2019
 // https://glad.umd.edu/dataset/gedi
