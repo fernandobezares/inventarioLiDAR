@@ -1,0 +1,339 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var mfe3 = ee.FeatureCollection("users/cesefor/general/MFE_3_Peninsula_Baleares_2006"),
+    corine = ee.ImageCollection("COPERNICUS/CORINE/V20/100m"),
+    loss = ee.Image("users/cesefor/Nitens/yodLossNitens3"),
+    nitensMFE4 = ee.FeatureCollection("users/cesefor/Nitens/Nitens_Cantabrico"),
+    aoi = ee.FeatureCollection("users/cesefor/Nitens/aoiNitens2"),
+    mfe25Gal = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_Galicia"),
+    mfe25PV = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_PaisVasco"),
+    mfe25As = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_PrincipadoDeAsturias"),
+    mfe25C = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_cantabria"),
+    loss2 = ee.Image("users/cesefor/Nitens/yodLossNitens_Gal_Ast_PV_Can"),
+    guriezo = ee.FeatureCollection("users/cesefor/Nitens/Guiriezo"),
+    guipuzcoa = ee.FeatureCollection("users/cesefor/Nitens/guipuzcoa_131011"),
+    parcelas_pv = ee.FeatureCollection("users/cesefor/Nitens/parcelas_nitens_PV"),
+    srtm = ee.Image("USGS/SRTMGL1_003"),
+    eucaliptos_norte = ui.Map.FeatureViewLayer("users/cesefor/Nitens/ecualiptos_norte", null, "ecualiptos_norte");
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+// aoi
+var gaul = ee.FeatureCollection("FAO/GAUL/2015/level1");
+
+var aoi = gaul.filter(ee.Filter.inList('ADM1_NAME', ['Principado de Asturias','Cantabria','Galicia','Pa�s Vasco/Euskadi'])).union(0.5)
+var guiAla =  ee.FeatureCollection("FAO/GAUL/2015/level2").filter(ee.Filter.inList('ADM2_NAME', ['Araba/Álava','Gipuzkoa'])).union(0.5);
+
+//print('gaul', ee.FeatureCollection("FAO/GAUL/2015/level2").aggregate_array('ADM2_NAME').distinct().sort())
+
+// import canopy height image 2019
+// https://glad.umd.edu/dataset/gedi
+var canopyHeight = ee.ImageCollection('users/potapovpeter/GEDI_V27');
+
+canopyHeight = canopyHeight.filter(ee.Filter.eq('system:index','GEDI_NAFR_v27'))
+.first()
+.clip(aoi);
+
+// Filter MFE dataset. Selecting E.nitens 
+function to25830 (feat){
+  return feat.transform({proj:ee.Projection('epsg:25830'), maxError: 1});
+}
+/*
+var mfe2 = mfe2.map(to25830);
+var mfe3 = mfe3.map(to25830);
+
+var estados = mfe2.aggregate_array('ROTULO1').distinct().sort();
+print(estados);
+
+
+var filtros = ee.Filter.and(
+ee.Filter.eq('SP1',64)
+//ee.Filter.inList('E1',[4,3]),
+//ee.Filter.inList('CCAA_MFE50',[11,12,13,21])
+) ;
+
+var filtros2 = ee.Filter.and(
+ee.Filter.eq('ROTULO1',64)
+//ee.Filter.eq('NOM_FORARB','Eucaliptales'),
+//ee.Filter.inList('CCAA_MFE50',[11,12,13,21])
+) 
+
+var nitensFustal = mfe3.filter(filtros);
+var nitensFustal2 = mfe2.filter(filtros2);
+*/
+//print(mfe25C.aggregate_array('especie1').distinct().sort());
+
+// filter Eucalyptus nitens 
+var filtroTodosEuc = ee.Filter.or(
+ee.Filter.eq('especie1',"Eucalyptus nitens"),
+ee.Filter.eq('especie1','Mezcla de eucaliptos'),
+ee.Filter.eq('especie1','Eucalyptus globulus')
+//ee.Filter.inList('CCAA_MFE50',[11,12,13,21])
+)
+var filtroNitens = ee.Filter.eq('especie1','Eucalyptus nitens')
+//ee.Filter.eq('NOM_FORARB','Eucaliptales'),
+//ee.Filter.inList('CCAA_MFE50',[11,12,13,21])
+
+var filtroGlob = ee.Filter.or(
+ee.Filter.eq('especie1','Mezcla de eucaliptos'),
+ee.Filter.eq('especie1','Eucalyptus globulus')
+//ee.Filter.inList('CCAA_MFE50',[11,12,13,21])
+)
+
+var filtroEstado = ee.Filter.inList('estado1',['Fustal','Latizal']);
+
+// filter the collections
+
+var filteredMfe25C = mfe25C.filter(ee.Filter.and(filtroTodosEuc,filtroEstado));
+var filteredMfe25As = mfe25As.filter(ee.Filter.and(filtroNitens,filtroEstado));
+var filteredMfe25PV = mfe25PV.filter(ee.Filter.and(filtroNitens,filtroEstado));
+var filteredMfe25Gal = mfe25Gal.filter(ee.Filter.and(filtroNitens,filtroEstado));
+
+// busca los E. globulus en álava y Guipúzcoa por encima de los 350 m
+
+var filteredMfe25PVg = mfe25PV
+.filterBounds(guiAla) // selecciona solo la zona de alava y guipuzcoa
+.filter(ee.Filter.and(filtroGlob,filtroEstado)); // selecciona las parcelas de globulus y de latizal o fustal
+
+// calcaula la media de elevación para las parcelas con globulus en Alava y Guipuzcoa
+var elevStats = srtm.reduceRegions({
+  collection:filteredMfe25PVg,
+  reducer:ee.Reducer.mean(),
+  scale:30
+}) ;
+
+
+// selecciona solo aquellas parcelas con elevación < 350m
+var eucgte350 = elevStats.filter(ee.Filter.gte('mean',350));
+
+// juntamos las colecciones con nitens
+var eucaliptos = ee.FeatureCollection([filteredMfe25C,filteredMfe25As,filteredMfe25PV,filteredMfe25Gal,eucgte350]).flatten();
+//print('eucaliptos', eucaliptos)
+
+
+
+
+
+// ------------------------------------ FOREST AREAS 2000 -------------------------------------------
+
+// image Corine 2000
+var corine2000 = corine.filterDate('1999-01-01','2001-02-02').first().clip(aoi);
+
+// get only forests 
+var c20Forest = ee.Image(0) // create const raster 
+.where(corine2000.eq(311),1) 
+.where(corine2000.eq(313),1);
+
+// palette 
+var corinePalette = corine2000.get('landcover_class_palette').getInfo();
+
+// get the landcover names 
+var corineClassNames = corine2000.get('landcover_class_names').getInfo();
+
+// get teh landcover values
+var corineClassValues = corine2000.get('landcover_class_values').getInfo();
+
+// get elements length from the landcover palette
+var elements = ee.List(corinePalette).length().getInfo();
+
+
+/*
+print (ee.Dictionary.fromLists(corinePalette,corineClassNames));
+//print('corineClassValues',corineClassValues);
+
+print('corine200',corine2000);
+print('corinePalette', corinePalette);
+*/
+// ---------------------------- CORINE LEGEND ----------------------------
+
+// set position of panel
+var legend = ui.Panel({
+  layout: ui.Panel.Layout.Flow('vertical'),
+  style: {
+    position: 'bottom-left',
+    padding: '8px 15px',
+    height :'300px',
+    width : '600px'
+  }
+});
+ 
+// Create legend title
+var legendTitle = ui.Label({
+  value: 'Corine LandCover Classes',
+  style: {
+    fontWeight: 'bold',
+    fontSize: '18px',
+    margin: '0 0 4px 0',
+    padding: '0'
+    }
+});
+
+
+// Add the title to the panel
+legend.add(legendTitle);
+ 
+// Creates and styles 1 row of the legend.
+var makeRow = function(color, name) {
+ 
+      // Create the label that is actually the colored box.
+      var colorBox = ui.Label({
+        style: {
+          backgroundColor: '#' + color,
+          // Use padding to give the box height and width.
+          padding: '8px',
+          margin: '0 0 4px 0'
+        }
+      });
+ 
+      // Create the label filled with the description text.
+      var description = ui.Label({
+        value: name,
+        style: {margin: '0 0 4px 6px'}
+      });
+      
+      // Create teh label filled with the landcover code
+      
+      var code = ui.Label({
+        value: '| ' + code + ' |',
+        style: {
+          margin: '0 0 4px 6px',
+          fontWeight: 'bold',
+        }
+      });
+ 
+      // return the panel
+      return ui.Panel({
+        widgets: [colorBox, description ],
+        layout: ui.Panel.Layout.Flow('horizontal')
+      });
+};
+ 
+
+// create a legend for the palette 
+for (var i = 0; i < elements; i++){
+  
+  var nameLabel = '| '+ corineClassValues[i] + ' |' + corineClassNames[i];
+  
+  legend.add(makeRow(corinePalette[i], nameLabel));
+  
+}
+
+// -------------- Results Legend ---------------------------------------------------------------
+
+var resultsNames = [
+'Areas de bosque en 2000 con nitens en MFE4', 
+'Bosque con nitens sin cambios desde 2000 y altura > 15 m', 
+'Bosque mixto y Bosque caducifolio (año 2000)' ];
+
+var resultsColors = [
+'f54242',
+'c842f5', 
+'2de060'];
+ 
+// FFFF00
+
+// set position of panel
+var resultLegend = ui.Panel({
+  layout: ui.Panel.Layout.Flow('vertical'),
+  style: {
+    position: 'bottom-left',
+    padding: '8px 15px',
+    height :'110px',
+    width : '450px'
+  }
+});
+ 
+// Create legend title
+var resultslegendTitle = ui.Label({
+  value: 'Resultados',
+  style: {
+    fontWeight: 'bold',
+    fontSize: '18px',
+    margin: '0 0 4px 0',
+    padding: '0'
+    }
+});
+
+
+resultLegend.add(resultslegendTitle);
+
+// create a legend for the palette 
+for (var i = 0; i < 3; i++){
+
+  resultLegend.add(makeRow(resultsColors[i], resultsNames[i]));
+  
+}
+
+
+// ------------- GET THE FORESTED AREAS IN 2000 THAT TODAY HAVE NITENS ------------------------
+
+// get the areas where there was nitens in 2000 and it was forest 
+var nitens2000 = c20Forest.clip(eucaliptos);
+
+// get unchanged areas 
+var unchanged = loss2.unmask(0).eq(0);
+
+// get unchanged areas 
+var nitensUnchanged = nitens2000.multiply(unchanged);
+
+// mask changed areas 
+nitensUnchanged = nitensUnchanged.updateMask(nitensUnchanged.eq(1));
+
+// select heights above 15m 
+var heigthMask = canopyHeight.gte(15);
+
+// apply Mask
+nitensUnchanged = nitensUnchanged.updateMask(heigthMask);
+
+
+
+// --------------------------------------------------------------------------------------------
+// VALIDATION LAYERS 
+
+var valPV = guipuzcoa.merge(parcelas_pv)
+
+
+
+
+// -------------------- ADD LAYERS TO MAP -----------------------------------------------------
+// print the dataset with
+
+//Map.add(legend) 
+//Map.addLayer(corine2000,{min: 111, max :523, palette : corinePalette },'Land Cover Corine 2000');
+
+Map.add(resultLegend); 
+
+// add corine forests classes 311 and 313 
+Map.addLayer(c20Forest.updateMask(c20Forest.eq(1)),{min:0,max:1 , palette: ['#2de060']},
+'Bosques de frondosas y mixtos en el año 2000 (CORINE)',0,0.2);
+
+// add canopyheigth map 
+Map.addLayer(canopyHeight.updateMask(c20Forest), 
+{min:0,max:40, palette :['lightgrey','lightyellow','lightgreen','green', 'darkgreen']},
+'Altura vegetación',0,0.1);
+
+// add forest areas in 2000 that today have nitens
+Map.addLayer(nitens2000.updateMask(nitens2000.eq(1)),{min:0,max:1, palette: ['#f54242']},
+'Areas de bosque en 2000 con nitens en MFE4');
+
+// addd the forest areas in 2000 with nitens in 2018 that didn't change and a canopy height above 15 m in 2019 
+Map.addLayer(nitensUnchanged,{min:0,max:1, palette: ['white','#c842f5']},
+'Bosque con nitens sin cambios desde 2000 y altura mayor de 15m' );
+
+//print('nitens_fustal', nitensFustal.toList(10,0));
+//print('nitens_fustal_mfe2', nitensFustal2);
+
+
+// style the ee.FeatureCollection
+//nitensMFE4 = nitensMFE4.style({fillColor: 'FF000000'});
+
+//Map.centerObject(mfe25Cyl,15)
+
+//Map.addLayer(nitensMFE4,{color:'red'},'Nitens Fustal',0);
+//Map.addLayer(nitensFustal2,{color:'blue'},'nitens Fustal2');
+
+eucaliptos = eucaliptos.style({fillColor: 'FF000000',color:'yellow'})
+//Map.addLayer(eucaliptos,{}, 'Nitens Fustal (mezcla Eucaliptos Cantabria y PV)',0)
+Map.add(eucaliptos_norte)
+
+Map.centerObject(valPV,10)
+valPV = valPV.style({fillColor: 'FF000000',color:'red'})
+Map.addLayer(valPV,{},'Parcelas de Valicación Guipuzcoa 13-10, 13-11')
+
