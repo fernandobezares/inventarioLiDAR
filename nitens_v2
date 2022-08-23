@@ -35,30 +35,7 @@ canopyHeight = canopyHeight.filter(ee.Filter.eq('system:index','GEDI_NAFR_v27'))
 function to25830 (feat){
   return feat.transform({proj:ee.Projection('epsg:25830'), maxError: 1});
 }
-/*
-var mfe2 = mfe2.map(to25830);
-var mfe3 = mfe3.map(to25830);
 
-var estados = mfe2.aggregate_array('ROTULO1').distinct().sort();
-print(estados);
-
-
-var filtros = ee.Filter.and(
-ee.Filter.eq('SP1',64)
-//ee.Filter.inList('E1',[4,3]),
-//ee.Filter.inList('CCAA_MFE50',[11,12,13,21])
-) ;
-
-var filtros2 = ee.Filter.and(
-ee.Filter.eq('ROTULO1',64)
-//ee.Filter.eq('NOM_FORARB','Eucaliptales'),
-//ee.Filter.inList('CCAA_MFE50',[11,12,13,21])
-) 
-
-var nitensFustal = mfe3.filter(filtros);
-var nitensFustal2 = mfe2.filter(filtros2);
-*/
-//print(mfe25C.aggregate_array('especie1').distinct().sort());
 
 // filter Eucalyptus nitens 
 var filtroTodosEuc = ee.Filter.or(
@@ -66,8 +43,9 @@ ee.Filter.eq('especie1',"Eucalyptus nitens"),
 ee.Filter.eq('especie1','Mezcla de eucaliptos'),
 ee.Filter.eq('especie1','Eucalyptus globulus')
 //ee.Filter.inList('CCAA_MFE50',[11,12,13,21])
-)
-var filtroNitens = ee.Filter.eq('especie1','Eucalyptus nitens')
+);
+
+var filtroNitens = ee.Filter.eq('especie1','Eucalyptus nitens');
 //ee.Filter.eq('NOM_FORARB','Eucaliptales'),
 //ee.Filter.inList('CCAA_MFE50',[11,12,13,21])
 
@@ -75,7 +53,7 @@ var filtroGlob = ee.Filter.or(
 ee.Filter.eq('especie1','Mezcla de eucaliptos'),
 ee.Filter.eq('especie1','Eucalyptus globulus')
 //ee.Filter.inList('CCAA_MFE50',[11,12,13,21])
-)
+);
 
 var filtroEstado = ee.Filter.inList('estado1',['Fustal','Latizal']);
 
@@ -121,26 +99,7 @@ var c20Forest = ee.Image(0) // create const raster
 .where(corine2000.eq(311),1) 
 .where(corine2000.eq(313),1);
 
-// palette 
-var corinePalette = corine2000.get('landcover_class_palette').getInfo();
 
-// get the landcover names 
-var corineClassNames = corine2000.get('landcover_class_names').getInfo();
-
-// get teh landcover values
-var corineClassValues = corine2000.get('landcover_class_values').getInfo();
-
-// get elements length from the landcover palette
-var elements = ee.List(corinePalette).length().getInfo();
-
-
-/*
-print (ee.Dictionary.fromLists(corinePalette,corineClassNames));
-//print('corineClassValues',corineClassValues);
-
-print('corine200',corine2000);
-print('corinePalette', corinePalette);
-*/
 // ---------------------------- CORINE LEGEND ----------------------------
 
 // set position of panel
@@ -188,7 +147,7 @@ var makeRow = function(color, name) {
         style: {margin: '0 0 4px 6px'}
       });
       
-      // Create teh label filled with the landcover code
+      // Create the label filled with the landcover code
       
       var code = ui.Label({
         value: '| ' + code + ' |',
@@ -218,16 +177,16 @@ for (var i = 0; i < elements; i++){
 // -------------- Results Legend ---------------------------------------------------------------
 
 var resultsNames = [
-'Areas de bosque en 2000 con nitens en MFE4', 
-'Bosque con nitens sin cambios desde 2000 y altura > 15 m', 
-'Bosque mixto y Bosque caducifolio (año 2000)' ];
+'Áreas susceptibles de presencia de Nitens de mas de 20 años',
+'Áreas de estudio con bosque en el 2000', 
+'Áreas de estudio' ];
 
 var resultsColors = [
+'c842f5',  
 'f54242',
-'c842f5', 
-'2de060'];
+'FFFF00'];
  
-// FFFF00
+
 
 // set position of panel
 var resultLegend = ui.Panel({
@@ -287,7 +246,7 @@ nitensUnchanged = nitensUnchanged.updateMask(heigthMask);
 // --------------------------------------------------------------------------------------------
 // VALIDATION LAYERS 
 
-var valPV = guipuzcoa.merge(parcelas_pv)
+var valPV = guipuzcoa.merge(parcelas_pv);
 
 
 
@@ -301,6 +260,7 @@ var valPV = guipuzcoa.merge(parcelas_pv)
 Map.add(resultLegend); 
 
 // add corine forests classes 311 and 313 
+/*
 Map.addLayer(c20Forest.updateMask(c20Forest.eq(1)),{min:0,max:1 , palette: ['#2de060']},
 'Bosques de frondosas y mixtos en el año 2000 (CORINE)',0,0.2);
 
@@ -308,14 +268,14 @@ Map.addLayer(c20Forest.updateMask(c20Forest.eq(1)),{min:0,max:1 , palette: ['#2d
 Map.addLayer(canopyHeight.updateMask(c20Forest), 
 {min:0,max:40, palette :['lightgrey','lightyellow','lightgreen','green', 'darkgreen']},
 'Altura vegetación',0,0.1);
-
+*/
 // add forest areas in 2000 that today have nitens
 Map.addLayer(nitens2000.updateMask(nitens2000.eq(1)),{min:0,max:1, palette: ['#f54242']},
-'Areas de bosque en 2000 con nitens en MFE4');
+'Áreas de estudio de bosque en el 2000');
 
 // addd the forest areas in 2000 with nitens in 2018 that didn't change and a canopy height above 15 m in 2019 
 Map.addLayer(nitensUnchanged,{min:0,max:1, palette: ['white','#c842f5']},
-'Bosque con nitens sin cambios desde 2000 y altura mayor de 15m' );
+'Áreas susceptibles de presencia de Nitens de mas de 20 años' );
 
 //print('nitens_fustal', nitensFustal.toList(10,0));
 //print('nitens_fustal_mfe2', nitensFustal2);
