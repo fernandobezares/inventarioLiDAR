@@ -85,9 +85,6 @@ var eucaliptos = ee.FeatureCollection([filteredMfe25C,filteredMfe25As,filteredMf
 //print('eucaliptos', eucaliptos)
 
 
-
-
-
 // ------------------------------------ FOREST AREAS 2000 -------------------------------------------
 
 // image Corine 2000
@@ -97,74 +94,6 @@ var corine2000 = corine.filterDate('1999-01-01','2001-02-02').first().clip(aoi);
 var c20Forest = ee.Image(0) // create const raster 
 .where(corine2000.eq(311),1) 
 .where(corine2000.eq(313),1);
-
-
-// ---------------------------- CORINE LEGEND ----------------------------
-
-// set position of panel
-var legend = ui.Panel({
-  layout: ui.Panel.Layout.Flow('vertical'),
-  style: {
-    position: 'bottom-left',
-    padding: '8px 15px',
-    height :'300px',
-    width : '600px'
-  }
-});
- 
-// Create legend title
-var legendTitle = ui.Label({
-  value: 'Corine LandCover Classes',
-  style: {
-    fontWeight: 'bold',
-    fontSize: '18px',
-    margin: '0 0 4px 0',
-    padding: '0'
-    }
-});
-
-
-// Add the title to the panel
-legend.add(legendTitle);
- 
-// Creates and styles 1 row of the legend.
-var makeRow = function(color, name) {
- 
-      // Create the label that is actually the colored box.
-      var colorBox = ui.Label({
-        style: {
-          backgroundColor: '#' + color,
-          // Use padding to give the box height and width.
-          padding: '8px',
-          margin: '0 0 4px 0'
-        }
-      });
- 
-      // Create the label filled with the description text.
-      var description = ui.Label({
-        value: name,
-        style: {margin: '0 0 4px 6px'}
-      });
-      
-      // Create the label filled with the landcover code
-      
-      var code = ui.Label({
-        value: '| ' + code + ' |',
-        style: {
-          margin: '0 0 4px 6px',
-          fontWeight: 'bold',
-        }
-      });
- 
-      // return the panel
-      return ui.Panel({
-        widgets: [colorBox, description ],
-        layout: ui.Panel.Layout.Flow('horizontal')
-      });
-};
- 
-
-
 
 // -------------- Results Legend ---------------------------------------------------------------
 
