@@ -164,14 +164,7 @@ var makeRow = function(color, name) {
 };
  
 
-// create a legend for the palette 
-for (var i = 0; i < elements; i++){
-  
-  var nameLabel = '| '+ corineClassValues[i] + ' |' + corineClassNames[i];
-  
-  legend.add(makeRow(corinePalette[i], nameLabel));
-  
-}
+
 
 // -------------- Results Legend ---------------------------------------------------------------
 
@@ -268,13 +261,7 @@ Map.addLayer(canopyHeight.updateMask(c20Forest),
 {min:0,max:40, palette :['lightgrey','lightyellow','lightgreen','green', 'darkgreen']},
 'Altura vegetación',0,0.1);
 */
-// add forest areas in 2000 that today have nitens
-Map.addLayer(nitens2000.updateMask(nitens2000.eq(1)),{min:0,max:1, palette: ['#f54242']},
-'Áreas de estudio de bosque en el 2000');
 
-// addd the forest areas in 2000 with nitens in 2018 that didn't change and a canopy height above 15 m in 2019 
-Map.addLayer(nitensUnchanged,{min:0,max:1, palette: ['white','#c842f5']},
-'Áreas susceptibles de presencia de Nitens de mas de 20 años' );
 
 //print('nitens_fustal', nitensFustal.toList(10,0));
 //print('nitens_fustal_mfe2', nitensFustal2);
@@ -288,11 +275,28 @@ Map.addLayer(nitensUnchanged,{min:0,max:1, palette: ['white','#c842f5']},
 //Map.addLayer(nitensMFE4,{color:'red'},'Nitens Fustal',0);
 //Map.addLayer(nitensFustal2,{color:'blue'},'nitens Fustal2');
 
-eucaliptos = eucaliptos.style({fillColor: 'FF000000',color:'yellow'})
+eucaliptos = eucaliptos.style({fillColor: 'FF000000',color:'yellow'});
+
+var ecualiptos_norte = eucaliptos_norte.setVisParams({
+  polygonStrokeColor:'#FFFF00',
+  polygonStrokeWidth: 1,
+  polygonFillColor: 'black',
+  polygonFillOpacity: 0})
+  .setName('Áreas de estudio');
+
 //Map.addLayer(eucaliptos,{}, 'Nitens Fustal (mezcla Eucaliptos Cantabria y PV)',0)
-Map.add(eucaliptos_norte)
+Map.add(eucaliptos_norte);
 
-Map.centerObject(valPV,10)
-valPV = valPV.style({fillColor: 'FF000000',color:'red'})
-Map.addLayer(valPV,{},'Parcelas de Valicación Guipuzcoa 13-10, 13-11')
+Map.centerObject(valPV,10);
+valPV = valPV.style({fillColor: 'FF000000',color:'red'});
 
+//parcelas de validación
+Map.addLayer(valPV,{},'Parcelas de Valicación Guipuzcoa 13-10, 13-11');
+
+// add forest areas in 2000 that today have nitens
+Map.addLayer(nitens2000.updateMask(nitens2000.eq(1)),{min:0,max:1, palette: ['#f54242']},
+'Áreas de estudio de bosque en el 2000');
+
+// addd the forest areas in 2000 with nitens in 2018 that didn't change and a canopy height above 15 m in 2019 
+Map.addLayer(nitensUnchanged,{min:0,max:1, palette: ['white','#c842f5']},
+'Áreas susceptibles de presencia de Nitens de mas de 20 años' );
