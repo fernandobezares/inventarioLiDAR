@@ -62,9 +62,9 @@ function volStatsForExport(stats) {
   
   //
   var indexName = indexButton.getValue()+'class'
-  print(stats.get('groups'))
-  print(ee.List(stats.get('groups')).get(0))
-  print(ee.Dictionary(ee.List(stats.get('groups')).get(0)).get('group'))
+  //print(stats.get('groups'))
+  //print(ee.List(stats.get('groups')).get(0))
+  //print(ee.Dictionary(ee.List(stats.get('groups')).get(0)).get('group'))
   // get the names of the vars
   var statsForExport = ee.List(stats.get('groups')).map(function(obj){
    
@@ -84,7 +84,7 @@ function volStatsForExport(stats) {
 });
   
   
-  print(statsForExport);
+  // print(statsForExport);
   urlVolStats = ee.FeatureCollection(statsForExport).getDownloadURL({format: 'csv',filename: 'volumen_afectado_por_incendio'});
   
   
