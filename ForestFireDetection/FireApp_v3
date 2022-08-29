@@ -62,17 +62,19 @@ function volStatsForExport(stats) {
   
   //
   var indexName = indexButton.getValue()+'class'
-  print(ee.List(stats).get)
-  print(ee.List(stats).get(0)['group'])
+  print(stats.get('groups'))
+  print(ee.List(stats.get('groups')).get(0))
+  print(ee.Dictionary(ee.List(stats.get('groups')).get(0)).get('group'))
   // get the names of the vars
-  var statsForExport = ee.List(stats).map(function(obj){
+  var statsForExport = ee.List(stats.get('groups')).map(function(obj){
    
+   var obj = ee.Dictionary(obj)
   
   // get band name 
-  var g = ee.String(obj['group'])//.getInfo();
+  var g = obj.getString('group')//.getInfo();
   
   // get area stats 
-  var vol = ee.String(obj['sum']) // returns ee.String;  
+  var vol = obj.getString('sum') // returns ee.String;  
   
   var sevDes = ee.List(ee.Dictionary(cod_ser.get('reclassIndex')).get(indexName)).get(ee.Number.parse(g));
   
