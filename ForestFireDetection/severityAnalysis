@@ -234,8 +234,10 @@ function volumenArea(image){
   // call the vol dataset vol
   var vol = lidar.c1.vcc;
   
+  var volMask = vol.updateMask(vol.gte(0))
+  
   // add the image bands to the volume image 
-  var volArea = vol.addBands(image);
+  var volArea = volMask.addBands(image);
   
   // compute the stats per group
   var volAreaDict = volArea.reduceRegion({
