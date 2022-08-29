@@ -43,4 +43,21 @@ function G (All_returns_above_heightbreak_div_Total_first_returns_100,CRR) {
   return ee.Image(g).clipToCollection(pinus); //updateMask(pinusMask.eq(1)) ;
 }
 
-exports = {'G':G,'VCC':VCC};
+function VCC_All(All_returns_above_heightbreak_div_Total_first_returns_100,P75) {
+  
+  // Expression using named variables.
+    var vcc_pinos = '((-9.33) + 0.14* a + 0.907309* b)*16';
+    
+    var vcc = ee.Image().expression({
+        expression: vcc_pinos,
+        map: {
+            a: All_returns_above_heightbreak_div_Total_first_returns_100,
+            b: P75
+    }
+    }).rename('vcc');
+  
+  return ee.Image(vcc);//.updateMask(pinusMask.eq(1)) ;
+}
+
+
+exports = {'G':G,'VCC':VCC,'VCC_All': VCC_All};
