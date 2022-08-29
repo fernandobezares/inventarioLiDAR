@@ -68,7 +68,7 @@ function volStatsForExport(stats) {
   // get the names of the vars
   var statsForExport = ee.List(stats.get('groups')).map(function(obj){
    
-   var obj = ee.Dictionary(obj)
+   obj = ee.Dictionary(obj)
   
   // get band name 
   var g = obj.getString('group')//.getInfo();
