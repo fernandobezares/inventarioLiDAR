@@ -8,7 +8,7 @@ var pinusList = mfe.aggregate_array('especie1').distinct().filter(ee.Filter.stri
 var pinus = mfe.filter(ee.Filter.inList('especie1',pinusList)).map(function(feat){return feat.set('pino',1)});
 
 //usomfe 
-var arbolado = mfe.filter(ee.Filter.inList('usomfe',['arbolado'])).map(function(feat){return feat.set('arbolado',1)});
+var arbolado = mfe.filter(ee.Filter.inList('usomfe',['Arbolado'])).map(function(feat){return feat.set('arbolado',1)});
 //var pinusMask = pinus.reduceToImage({properties:['pino'], reducer: ee.Reducer.first()});
 
 // funciones de Volumen 
