@@ -1,12 +1,9 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = 
-    /* color: #000000 */
-    /* shown: false */
-    ee.Geometry.Polygon(
-        [[[-6.040383990813127, 41.71565385217139],
-          [-6.040383990813127, 41.697199369804636],
-          [-6.008111651945939, 41.697199369804636],
-          [-6.008111651945939, 41.71565385217139]]], null, false);
+var geometry = /* color: #000000 */ee.Geometry.Polygon(
+        [[[-6.0720922851562475, 41.78735710154102],
+          [-6.0720922851562475, 41.78326114091576],
+          [-6.0611059570312475, 41.78326114091576],
+          [-6.0611059570312475, 41.78735710154102]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -62,7 +59,7 @@ function reclassLulucf() {
                               .where(otrasSuperficies,400)
   return simplified.rename('lulucf');
 }
-function volStatsForExport() {
+function volStatsForExport(stats) {
   
   // get the names of the vars
   var statsForExport = ee.List(stats).map(function(obj){
