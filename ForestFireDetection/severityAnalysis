@@ -232,7 +232,7 @@ function volumenArea(image){
   var lidar = require('users/cesefor/inventarioForestal:LidarApp/inc/LiDARVars');
   
   // call the vol dataset vol
-  var vol = lidar.c1.vcc;
+  var vol = lidar.c1.vccAll;
   
   // add the image bands to the volume image 
   var volArea = vol.addBands(image);
