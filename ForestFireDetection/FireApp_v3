@@ -1,9 +1,9 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-6.0720922851562475, 41.78735710154102],
-          [-6.0720922851562475, 41.78326114091576],
-          [-6.0611059570312475, 41.78326114091576],
-          [-6.0611059570312475, 41.78735710154102]]], null, false);
+        [[[-6.566319579610724, 42.4277949327291],
+          [-6.566319579610724, 42.417657465719266],
+          [-6.560826415548224, 42.417657465719266],
+          [-6.560826415548224, 42.4277949327291]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -60,6 +60,9 @@ function reclassLulucf() {
   return simplified.rename('lulucf');
 }
 function volStatsForExport(stats) {
+  
+  //
+  var indexName = indexButton.getValue()+'class'
   
   // get the names of the vars
   var statsForExport = ee.List(stats).map(function(obj){
