@@ -3,10 +3,10 @@ var geometry =
     /* color: #000000 */
     /* shown: false */
     ee.Geometry.Polygon(
-        [[[-4.480981928735335, 40.50370681141715],
-          [-4.480981928735335, 40.479685889537535],
-          [-4.430856806665022, 40.479685889537535],
-          [-4.430856806665022, 40.50370681141715]]], null, false);
+        [[[-6.040383990813127, 41.71565385217139],
+          [-6.040383990813127, 41.697199369804636],
+          [-6.008111651945939, 41.697199369804636],
+          [-6.008111651945939, 41.71565385217139]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -20,6 +20,7 @@ var mfeEspecies = ee.Image('users/cesefor/InventarioForestal/mfeEspecies').renam
 var mfeLulucf = ee.Image('users/cesefor/InventarioForestal/mfeLulucf').rename('lulucf');
 
 var urlStats;
+var urlVolStats;
 
 // add fv 
 var fv = require('users/cesefor/inventarioForestal:LidarApp/inc/FeatureViewLidar');
@@ -61,9 +62,31 @@ function reclassLulucf() {
                               .where(otrasSuperficies,400)
   return simplified.rename('lulucf');
 }
-function prepareStatsForExport() {
+function volStatsForExport() {
+  
+  // get the names of the vars
+  var statsForExport = ee.List(stats).map(function(obj){
+   
+  // get band name 
+  var g = obj.group//.getInfo();
+  
+  // get area stats 
+  var vol = obj.sum // returns ee.String;  
+  
+  var sevDes = ee.List(ee.Dictionary(cod_ser.get('reclassIndex')).get(indexName)).get(ee.Number.parse(g));
+  
+  var feat = ee.Feature(null,{});
+           
+    return feat.set('vol_madera',vol).set('severidad',sevDes);
+})
+  
+  //analysisPanel.add(resultsPanel);
+  
+  //print(statsForExport);
+  urlVolStats = ee.FeatureCollection(volStatsForExport).getDownloadURL({format: 'csv',filename: 'volumen_afectado_por_incendio'});
   
   
+  return urlVolStats
 }
 function printStats(stats){
   
@@ -553,18 +576,19 @@ function run (){
   var simplified = reclassLulucf()
   var lulucfStats = severityAnalysis.categoricalZonalStatistics(simplified,severityImg);
   var volStats = severityAnalysis.volumenArea(severityImg);
-  print(volStats)
+  
   printStats(lulucfStats)
+  volStatsForExport(volStats);
 
   // try loading the download image button 
   try {  
     //lulucfStats.evaluate(printStats(lulucfStats,reclassIndexName));
     //var url = lulucfStats.getDownloadURL({format: 'csv',filename: 'areas_afectadas_por_incendio'})
    
-   var urlVolumeStats = ee.FeatureCollection(ee.Feature(null,volStats)).getDownloadURL({format: 'csv',filename: 'volumen_afectado_por_incendio'});
+   //var urlVolumeStats = ee.FeatureCollection(ee.Feature(null,volStats)).getDownloadURL({format: 'csv',filename: 'volumen_afectado_por_incendio'});
    metricsPanel.widgets().remove(imagePrintStatsButton);
    metricsPanel.add(ui.Label({value:'🌍  Archivo: Areas afectadas por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlStats));
-   metricsPanel.add(ui.Label({value:'🌍  Archivo: Volumen de madera afectado por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlVolumeStats));
+   metricsPanel.add(ui.Label({value:'🌍  Archivo: Volumen de madera afectado por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlVolStats));
    
   // if it doesnt work thrown an error  
   }
@@ -573,7 +597,7 @@ function run (){
      var urlVolumeStats = volStats.getDownloadURL({format: 'csv',filename: 'volumen_afectado_por_incendio'});
      metricsPanel.widgets().remove(imagePrintStatsButton);
      metricsPanel.add(ui.Label({value:'🌍  Archivo: Areas afectadas por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlStats));
-     metricsPanel.add(ui.Label({value:'🌍  Archivo: Volumen de madera afectado por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlVolumeStats));
+     metricsPanel.add(ui.Label({value:'🌍  Archivo: Volumen de madera afectado por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlVolStats));
       lulucfStats.evaluate(printStats(lulucfStats,reclassIndexName));
    }
   
