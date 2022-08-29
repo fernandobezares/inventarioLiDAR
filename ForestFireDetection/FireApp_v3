@@ -1,9 +1,8 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-6.566319579610724, 42.4277949327291],
-          [-6.566319579610724, 42.417657465719266],
-          [-6.560826415548224, 42.417657465719266],
-          [-6.560826415548224, 42.4277949327291]]], null, false);
+        [[[-6.0858251953124975, 41.79452440298635],
+          [-6.0597326660156225, 41.78428515560354],
+          [-6.0624792480468725, 41.79861964400566]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
@@ -63,15 +62,17 @@ function volStatsForExport(stats) {
   
   //
   var indexName = indexButton.getValue()+'class'
-  
+  print(ee.List(stats).get)
+  print(ee.List(stats).get(0)['group'])
   // get the names of the vars
   var statsForExport = ee.List(stats).map(function(obj){
    
+  
   // get band name 
-  var g = obj.group//.getInfo();
+  var g = ee.String(obj['group'])//.getInfo();
   
   // get area stats 
-  var vol = obj.sum // returns ee.String;  
+  var vol = ee.String(obj['sum']) // returns ee.String;  
   
   var sevDes = ee.List(ee.Dictionary(cod_ser.get('reclassIndex')).get(indexName)).get(ee.Number.parse(g));
   
