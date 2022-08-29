@@ -68,28 +68,27 @@ function volStatsForExport(stats) {
   // get the names of the vars
   var statsForExport = ee.List(stats.get('groups')).map(function(obj){
    
-   obj = ee.Dictionary(obj)
+   obj = ee.Dictionary(obj);
   
   // get band name 
-  var g = obj.getString('group')//.getInfo();
+  var g = obj.get('group');//.getInfo();
   
   // get area stats 
-  var vol = obj.getString('sum') // returns ee.String;  
+  var vol = obj.get('sum'); // returns ee.String;  
   
   var sevDes = ee.List(ee.Dictionary(cod_ser.get('reclassIndex')).get(indexName)).get(ee.Number.parse(g));
   
   var feat = ee.Feature(null,{});
            
     return feat.set('vol_madera',vol).set('severidad',sevDes);
-})
-  
-  //analysisPanel.add(resultsPanel);
-  
-  //print(statsForExport);
-  urlVolStats = ee.FeatureCollection(volStatsForExport).getDownloadURL({format: 'csv',filename: 'volumen_afectado_por_incendio'});
+});
   
   
-  return urlVolStats
+  print(statsForExport);
+  urlVolStats = ee.FeatureCollection(statsForExport).getDownloadURL({format: 'csv',filename: 'volumen_afectado_por_incendio'});
+  
+  
+  return urlVolStats;
 }
 function printStats(stats){
   
