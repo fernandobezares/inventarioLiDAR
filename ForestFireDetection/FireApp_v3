@@ -1,8 +1,9 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-6.0858251953124975, 41.79452440298635],
-          [-6.0597326660156225, 41.78428515560354],
-          [-6.0624792480468725, 41.79861964400566]]]);
+        [[[-6.06481916272577, 41.96747394191228],
+          [-6.06481916272577, 41.8872690874495],
+          [-5.89453107678827, 41.8872690874495],
+          [-5.89453107678827, 41.96747394191228]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
