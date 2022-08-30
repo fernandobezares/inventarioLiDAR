@@ -232,7 +232,7 @@ function volumenArea(image){
   var lidar = require('users/cesefor/inventarioForestal:LidarApp/inc/LiDARVars');
   
   // call the vol dataset vol
-  var vol = lidar.c1.vcc_ALL;
+  var vol = lidar.c1.vccAll;
   
   var volMask = vol.updateMask(vol.gte(0))
   
