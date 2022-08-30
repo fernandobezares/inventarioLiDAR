@@ -224,6 +224,7 @@ function indexArea(image){
   return aIndexDict; // returns dictionary
 }
 
+
 // calcualte the pine wood volume in a given area
 
 function volumenArea(image){
