@@ -48,7 +48,7 @@ function G (All_returns_above_heightbreak_div_Total_first_returns_100,CRR) {
 function VCC_All(All_returns_above_heightbreak_div_Total_first_returns_100,P75) {
   
   // Expression using named variables.
-    var vcc_pinos = '((-9.33) + 0.14* a + 0.907309* b)*16';
+    var vcc_pinos = '(-9.33) + 0.14* a + 0.907309* b';
     
     var vcc = ee.Image().expression({
         expression: vcc_pinos,
