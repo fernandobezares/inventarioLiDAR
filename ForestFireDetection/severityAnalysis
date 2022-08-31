@@ -238,7 +238,7 @@ function volumenArea(image){
   var volMask = vol.updateMask(vol.gte(0))
   
   // add the image bands to the volume image 
-  var volArea = volMask.addBands(image);
+  var imgArea = img.multiply(volMask);
   
   // compute the stats per group
   var volAreaDict = volArea.reduceRegion({
