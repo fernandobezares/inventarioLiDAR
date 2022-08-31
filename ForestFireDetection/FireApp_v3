@@ -1,9 +1,3 @@
-/**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = /* color: #000000 */ee.Geometry.Polygon(
-        [[[-4.855463403259816, 42.97078674079388],
-          [-4.881555932556691, 42.947671104687245],
-          [-4.823877709900441, 42.944655381497164]]]);
-/***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
 var severityAnalysis = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
