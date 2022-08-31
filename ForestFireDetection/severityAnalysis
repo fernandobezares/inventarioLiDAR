@@ -346,7 +346,7 @@ function calculateArea (img){
 }
 
 
-function calcualteVolume(img){
+function calculateVolume(img){
   
   // call the lidar var script 
   var lidar = require('users/cesefor/inventarioForestal:LidarApp/inc/LiDARVars');
