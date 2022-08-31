@@ -177,7 +177,7 @@ function volStatsForExportByCategory(stats){
   //analysisPanel.add(resultsPanel);
   
   //print(statsForExport);
-  urlVolLulucfSevStats = statsForExport.getDownloadURL({format: 'csv',filename: 'areas_afectadas_por_incendio'});
+  urlVolLulucfSevStats = statsForExport.getDownloadURL({format: 'csv',filename: 'vol_madera_afectada_por_lulucf_y_severidad'});
   
   
   return statsForExport
