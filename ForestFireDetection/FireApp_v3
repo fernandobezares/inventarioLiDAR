@@ -1,3 +1,10 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = /* color: #000000 */ee.Geometry.Polygon(
+        [[[-4.878084740772921, 42.969128812009004],
+          [-4.878084740772921, 42.9434993928328],
+          [-4.821093163624483, 42.9434993928328],
+          [-4.821093163624483, 42.969128812009004]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // import the functions 
 var severityAnalysis = require('users/cesefor/inventarioForestal:ForestFireDetection/severityAnalysis');
@@ -612,11 +619,11 @@ function run (){
   var simplified = reclassLulucf();
   var lulucfStats = severityAnalysis.categoricalZonalStatistics(simplified,severityImg);
   var volStats = severityAnalysis.volumenArea(severityImg);
-  var volLulucfStats =severity.Analysis.volumenArea(simplified)
+  var volLulucfStats = severityAnalysis.volumenArea(simplified)
   
   printStats(lulucfStats);
   volStatsForExport(volStats);
-  volStatsForExportLulucf(volLulucfStats)
+  volStatsForExportLulucf(volLulucfStats);
   
 
   // try loading the download image button 
