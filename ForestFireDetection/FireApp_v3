@@ -11,7 +11,7 @@ var mfeLulucf = ee.Image('users/cesefor/InventarioForestal/mfeLulucf').rename('l
 
 var urlStats;
 var urlVolStats;
-var urlVolLulucfStats;
+var urlVolLulucfSevStats;
 
 // add fv 
 var fv = require('users/cesefor/inventarioForestal:LidarApp/inc/FeatureViewLidar');
@@ -123,6 +123,64 @@ function volStatsForExportLulucf(stats) {
   
   return urlVolLulucfStats;
 }
+
+
+
+function volStatsForExportByCategory(stats){
+  
+  //print(stats)
+  var indexName = indexButton.getValue()+'class';
+
+  // get the size of the collection
+  var size = ee.FeatureCollection(stats).size();
+ 
+  
+  // add items 
+  resultsPanel.add(resultsLabel).add(headerResultsPanel);
+  
+  
+  
+  // get the names of the vars
+  var statsForExport = ee.FeatureCollection(stats).map(function(feat){
+   
+  // get band name 
+  var band = feat.getString('band')//.getInfo();
+  
+  // get area stats 
+  var area = feat.getNumber('area').format('%.2f') // returns ee.String;  
+  
+  
+  // get lulucf class 
+  var lulucfCode = band.match('\\d\{3\}').get(0) // returns ee.String;
+  
+  
+  //print(band)
+  //var severityCode = band.match('\\(\\?\\<\\=class\\)\\d\{1\}').get(0).getInfo();
+  var severityCode = band.match('class\\d\{1\}')
+                          .getString(0).match('\\d\{1\}')
+                           .get(0);
+  
+  //print(severityCode)
+  //print(cod_ser.get('mfe').get('lulucf'))
+  
+  // get intensity 
+  var descripcion = ee.Dictionary(ee.Dictionary(cod_ser.get('mfe')).get('lulucfR')).get(lulucfCode);
+  
+  var sevDes = ee.List(ee.Dictionary(cod_ser.get('reclassIndex')).get(indexName)).get(ee.Number.parse(severityCode));
+  //print(sevDes)
+     
+    return feat.set('lulucf',descripcion).set('severidad',sevDes);
+})
+  
+  //analysisPanel.add(resultsPanel);
+  
+  //print(statsForExport);
+  urlStats = statsForExport.getDownloadURL({format: 'csv',filename: 'areas_afectadas_por_incendio'});
+  
+  
+  return statsForExport
+}
+
 
 
 function printStats(stats){
@@ -613,11 +671,12 @@ function run (){
   var simplified = reclassLulucf();
   var lulucfStats = severityAnalysis.categoricalZonalStatistics(simplified,severityImg);
   var volStats = severityAnalysis.volumenArea(severityImg);
-  var volLulucfStats = severityAnalysis.volumenArea(simplified)
+  var volLulucfStats = severityAnalysis.volStatsByCategory(simplified,severityImg);
+  
   
   printStats(lulucfStats);
   volStatsForExport(volStats);
-  volStatsForExportLulucf(volLulucfStats);
+  volStatsForExportByCategory(volLulucfStats);
   
 
   // try loading the download image button 
@@ -629,7 +688,7 @@ function run (){
    metricsPanel.widgets().remove(imagePrintStatsButton);
    metricsPanel.add(ui.Label({value:'🌍  Archivo: Superficie afectada por el incendio.\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlStats));
    metricsPanel.add(ui.Label({value:'🌍  Archivo: Volumen de madera afectado por clase de severidad de incendio.\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlVolStats));
-   metricsPanel.add(ui.Label({value:'🌍  Archivo: Volumen de madera afectada por clase Lulufc.\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlVolLulucfStats));
+   metricsPanel.add(ui.Label({value:'🌍  Archivo: Volumen de madera afectada por clase Lulufc.\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlVolLulucfSevStats));
 
   // if it doesnt work thrown an error  
   }
