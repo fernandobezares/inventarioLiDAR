@@ -11,6 +11,7 @@ var mfeLulucf = ee.Image('users/cesefor/InventarioForestal/mfeLulucf').rename('l
 
 var urlStats;
 var urlVolStats;
+var urlVolLulucfStats;
 
 // add fv 
 var fv = require('users/cesefor/inventarioForestal:LidarApp/inc/FeatureViewLidar');
@@ -80,11 +81,48 @@ function volStatsForExport(stats) {
   
   
   // print(statsForExport);
-  urlVolStats = ee.FeatureCollection(statsForExport).getDownloadURL({format: 'csv',filename: 'volumen_afectado_por_incendio'});
+  urlVolStats = ee.FeatureCollection(statsForExport).getDownloadURL({format: 'csv',filename: 'volumen_afectado_por_clase_de_severidad_de_incendio'});
   
   
   return urlVolStats;
 }
+
+function volStatsForExportLulucf(stats) {
+  
+  stats = ee.Dictionary(stats)
+  //
+  var indexName = indexButton.getValue()+'class';
+  //print(stats.get('groups'))
+  //print(ee.List(stats.get('groups')).get(0))
+  //print(ee.Dictionary(ee.List(stats.get('groups')).get(0)).get('group'))
+  // get the names of the vars
+  var statsForExport = ee.List(stats.get('groups')).map(function(obj){
+   
+   obj = ee.Dictionary(obj);
+  
+  // get band name 
+  var band = obj.get('group');//.getInfo();
+  
+  // get area stats 
+  var vol = obj.get('sum'); // returns ee.String;  
+  
+  var lulucfCode = band.match('\\d\{3\}').get(0) // returns ee.String;
+  
+  var descripcion = ee.Dictionary(ee.Dictionary(cod_ser.get('mfe')).get('lulucfR')).get(lulucfCode);
+  
+  var feat = ee.Feature(null,{});
+           
+    return feat.set('vol_madera',vol).set('lulucf',descripcion);
+});
+  
+  
+  // print(statsForExport);
+  urlVolLulucfStats = ee.FeatureCollection(statsForExport).getDownloadURL({format: 'csv',filename: 'vol_madera_afectada_por_lulucf'});
+  
+  
+  return urlVolLulucfStats;
+}
+
 
 function printStats(stats){
   
@@ -574,9 +612,11 @@ function run (){
   var simplified = reclassLulucf();
   var lulucfStats = severityAnalysis.categoricalZonalStatistics(simplified,severityImg);
   var volStats = severityAnalysis.volumenArea(severityImg);
+  var volLulucfStats =severity.Analysis.volumenArea(simplified)
   
   printStats(lulucfStats);
   volStatsForExport(volStats);
+  volStatsForExportLulucf(volLulucfStats)
   
 
   // try loading the download image button 
@@ -586,9 +626,10 @@ function run (){
    
    //var urlVolumeStats = ee.FeatureCollection(ee.Feature(null,volStats)).getDownloadURL({format: 'csv',filename: 'volumen_afectado_por_incendio'});
    metricsPanel.widgets().remove(imagePrintStatsButton);
-   metricsPanel.add(ui.Label({value:'🌍  Archivo: Areas afectadas por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlStats));
-   metricsPanel.add(ui.Label({value:'🌍  Archivo: Volumen de madera afectado por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlVolStats));
-   
+   metricsPanel.add(ui.Label({value:'🌍  Archivo: Superficie afectada por el incendio.\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlStats));
+   metricsPanel.add(ui.Label({value:'🌍  Archivo: Volumen de madera afectado por clase de severidad de incendio.\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlVolStats));
+   metricsPanel.add(ui.Label({value:'🌍  Archivo: Volumen de madera afectada por clase Lulufc.\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlVolLulucfStats));
+
   // if it doesnt work thrown an error  
   }
    catch (error){
