@@ -238,10 +238,10 @@ function volumenArea(image){
   var volMask = vol.updateMask(vol.gte(0))
   
   // add the image bands to the volume image 
-  var imgVol = img.multiply(volMask);
+  var volArea = volMask.addBands(image);
   
   // compute the stats per group
-  var volAreaDict = imgVol.reduceRegion({
+  var volAreaDict = volArea.reduceRegion({
     reducer: ee.Reducer.sum().group(1),
     geometry: getAOI().geometry(),
     scale: 10,
@@ -346,7 +346,7 @@ function calculateArea (img){
 }
 
 
-function calculateVolume(img){
+function calcualteVolume(img){
   
   // call the lidar var script 
   var lidar = require('users/cesefor/inventarioForestal:LidarApp/inc/LiDARVars');
@@ -357,7 +357,7 @@ function calculateVolume(img){
   var volMask = vol.updateMask(vol.gte(0))
   
   // add the image bands to the volume image 
-  var volArea = volMask.addBands(img);
+  var volArea = volMask.addBands(image);
   
   // calculate the aggregated area .sum() for a Given Region
   var areaD = volArea.reduceRegion({
