@@ -529,8 +529,8 @@ function run (){
   }
    catch (error){
      
-     downloadPanel.widgets().remove(imageDownloadButton)
-     downloadPanel.add(ui.Label({value:'Área demasiado grande, reduzca el área de estudio para descargar la imagen',style:{color:'red'}}))
+     downloadPanel.widgets().remove(imageDownloadButton);
+     downloadPanel.add(ui.Label({value:'Área demasiado grande, reduzca el área de estudio para descargar la imagen',style:{color:'red'}}));
      
    }
     
@@ -578,7 +578,7 @@ function run (){
   label : 'Obtener Estadisticas',
   onClick: function(){
   
-  var simplified = reclassLulucf()
+  var simplified = reclassLulucf();
   var lulucfStats = severityAnalysis.categoricalZonalStatistics(simplified,severityImg);
   var volStats = severityAnalysis.volumenArea(severityImg);
   
