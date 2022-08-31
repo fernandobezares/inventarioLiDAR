@@ -376,7 +376,7 @@ function calculateVolume(img){
   return ee.FeatureCollection(key.map(function(value){
     return ee.Feature(null, {
       'band': value,
-      'area': dict.get(value)
+      'volume': dict.get(value)
     });
   })
   );
