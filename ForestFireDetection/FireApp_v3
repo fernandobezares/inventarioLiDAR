@@ -1,5 +1,8 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = /* color: #000000 */ee.Geometry.Polygon(
+var geometry = 
+    /* color: #000000 */
+    /* shown: false */
+    ee.Geometry.Polygon(
         [[[-4.878084740772921, 42.969128812009004],
           [-4.878084740772921, 42.9434993928328],
           [-4.821093163624483, 42.9434993928328],
@@ -96,7 +99,7 @@ function volStatsForExport(stats) {
 
 function volStatsForExportLulucf(stats) {
   
-  stats = ee.Dictionary(stats)
+  stats = ee.Dictionary(stats);
   //
   var indexName = indexButton.getValue()+'class';
   //print(stats.get('groups'))
@@ -107,15 +110,15 @@ function volStatsForExportLulucf(stats) {
    
    obj = ee.Dictionary(obj);
   
-  // get band name 
-  var band = obj.get('group');//.getInfo();
+  
+  // get teh lulucfCode  number 
+  var lulucfCode = obj.get('group');//.getInfo();
   
   // get area stats 
   var vol = obj.get('sum'); // returns ee.String;  
   
-  var lulucfCode = band.match('\\d\{3\}').get(0) // returns ee.String;
-  
-  var descripcion = ee.Dictionary(ee.Dictionary(cod_ser.get('mfe')).get('lulucfR')).get(lulucfCode);
+
+  var descripcion = ee.Dictionary(ee.Dictionary(cod_ser.get('mfe')).get('lulucfR')).get(ee.Number.parse(lulucfCode))//.get(lulucfCode);
   
   var feat = ee.Feature(null,{});
            
