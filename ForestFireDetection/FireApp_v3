@@ -142,11 +142,6 @@ function volStatsForExportByCategory(stats){
   var size = ee.FeatureCollection(stats).size();
  
   
-  // add items 
-  resultsPanel.add(resultsLabel).add(headerResultsPanel);
-  
-  
-  
   // get the names of the vars
   var statsForExport = ee.FeatureCollection(stats).map(function(feat){
    
