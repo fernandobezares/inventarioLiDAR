@@ -1,8 +1,5 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = 
-    /* color: #000000 */
-    /* shown: false */
-    ee.Geometry.Polygon(
+var geometry = /* color: #000000 */ee.Geometry.Polygon(
         [[[-4.855463403259816, 42.97078674079388],
           [-4.881555932556691, 42.947671104687245],
           [-4.823877709900441, 42.944655381497164]]]);
@@ -63,8 +60,9 @@ function reclassLulucf() {
 }
 function volStatsForExport(stats) {
   
+  stats = ee.Dictionary(stats)
   //
-  var indexName = indexButton.getValue()+'class'
+  var indexName = indexButton.getValue()+'class';
   //print(stats.get('groups'))
   //print(ee.List(stats.get('groups')).get(0))
   //print(ee.Dictionary(ee.List(stats.get('groups')).get(0)).get('group'))
@@ -93,10 +91,11 @@ function volStatsForExport(stats) {
   
   return urlVolStats;
 }
+
 function printStats(stats){
   
   //print(stats)
-  var indexName = indexButton.getValue()+'class'
+  var indexName = indexButton.getValue()+'class';
   //print('stats',stats)
   
   // labels 
@@ -582,8 +581,11 @@ function run (){
   var lulucfStats = severityAnalysis.categoricalZonalStatistics(simplified,severityImg);
   var volStats = severityAnalysis.volumenArea(severityImg);
   
-  printStats(lulucfStats)
-  volStatsForExport(volStats);
+  //printStats(lulucfStats);
+  //volStatsForExport(volStats);
+  
+  lulucfStats.evaluate(printStats);
+  volStats.evaluate(volStatsForExport);
 
   // try loading the download image button 
   try {  
