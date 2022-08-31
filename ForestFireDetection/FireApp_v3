@@ -581,7 +581,7 @@ function run (){
   var lulucfStats = severityAnalysis.categoricalZonalStatistics(simplified,severityImg);
   var volStats = severityAnalysis.volumenArea(severityImg);
   
-  //printStats(lulucfStats);
+  printStats(lulucfStats);
   volStatsForExport(volStats);
   
 
