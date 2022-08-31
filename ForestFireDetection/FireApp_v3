@@ -688,7 +688,7 @@ function run (){
    metricsPanel.widgets().remove(imagePrintStatsButton);
    metricsPanel.add(ui.Label({value:'🌍  Archivo: Superficie afectada por el incendio.\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlStats));
    metricsPanel.add(ui.Label({value:'🌍  Archivo: Volumen de madera afectado por clase de severidad de incendio.\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlVolStats));
-   metricsPanel.add(ui.Label({value:'🌍  Archivo: Volumen de madera afectada por clase Lulufc.\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlVolLulucfSevStats));
+   metricsPanel.add(ui.Label({value:'🌍  Archivo: Volumen de madera afectada por clase Lulufc y severidad.\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlVolLulucfSevStats));
 
   // if it doesnt work thrown an error  
   }
