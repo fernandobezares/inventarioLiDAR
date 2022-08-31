@@ -94,6 +94,8 @@ function volStatsForExport(stats) {
 
 function printStats(stats){
   
+  stats = ee.FeatureCollection(stats);
+  
   print(stats)
   //print(stats)
   var indexName = indexButton.getValue()+'class';
@@ -121,7 +123,7 @@ function printStats(stats){
   
   
   // get the names of the vars
-  var statsForExport = ee.FeatureCollection(stats).map(function(feat){
+  var statsForExport = stats.map(function(feat){
    
   // get band name 
   var band = feat.getString('band')//.getInfo();
@@ -581,24 +583,41 @@ function run (){
   //printStats(lulucfStats);
   //volStatsForExport(volStats);
   
-  ee.FeatureCollection(lulucfStats).evaluate(printStats);
-  ee.Dictionary(volStats).evaluate(volStatsForExport);
+  //ee.FeatureCollection(lulucfStats).evaluate(printStats);
+  //ee.Dictionary(volStats).evaluate(volStatsForExport);
 
   // try loading the download image button 
   try {  
-    //lulucfStats.evaluate(printStats(lulucfStats,reclassIndexName));
-    //var url = lulucfStats.getDownloadURL({format: 'csv',filename: 'areas_afectadas_por_incendio'})
+  
+  metricsPanel.widgets().remove(imagePrintStatsButton);
+  
+  ee.FeatureCollection(lulucfStats).evaluate(function (stats){
+    
+    printStats(stats);
+    
+    metricsPanel.add(ui.Label({value:'🌍  Archivo: Areas afectadas por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlStats));
+
+    return print('done') 
+    
+  });
+  ee.Dictionary(volStats).evaluate(function(volstats){
+    
+    volStatsForExport(volstats);
+    metricsPanel.add(ui.Label({value:'🌍  Archivo: Volumen de madera afectado por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlVolStats));
+
+    return print('vol calculated')
+    
+  });
    
-   //var urlVolumeStats = ee.FeatureCollection(ee.Feature(null,volStats)).getDownloadURL({format: 'csv',filename: 'volumen_afectado_por_incendio'});
-   metricsPanel.widgets().remove(imagePrintStatsButton);
-   metricsPanel.add(ui.Label({value:'🌍  Archivo: Areas afectadas por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlStats));
-   metricsPanel.add(ui.Label({value:'🌍  Archivo: Volumen de madera afectado por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlVolStats));
+   //metricsPanel.widgets().remove(imagePrintStatsButton);
+   //metricsPanel.add(ui.Label({value:'🌍  Archivo: Areas afectadas por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlStats));
+   //metricsPanel.add(ui.Label({value:'🌍  Archivo: Volumen de madera afectado por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlVolStats));
    
   // if it doesnt work thrown an error  
   }
    catch (error){
      
-     var urlVolumeStats = volStats.getDownloadURL({format: 'csv',filename: 'volumen_afectado_por_incendio'});
+     //var urlVolumeStats = volStats.getDownloadURL({format: 'csv',filename: 'volumen_afectado_por_incendio'});
      metricsPanel.widgets().remove(imagePrintStatsButton);
      metricsPanel.add(ui.Label({value:'🌍  Archivo: Areas afectadas por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlStats));
      metricsPanel.add(ui.Label({value:'🌍  Archivo: Volumen de madera afectado por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlVolStats));
