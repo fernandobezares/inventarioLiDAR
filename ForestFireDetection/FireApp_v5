@@ -94,8 +94,7 @@ function volStatsForExport(stats) {
 
 function printStats(stats){
   
-  stats = ee.FeatureCollection(stats);
-  
+
   print(stats)
   //print(stats)
   var indexName = indexButton.getValue()+'class';
@@ -597,7 +596,7 @@ function run (){
     
     metricsPanel.add(ui.Label({value:'🌍  Archivo: Areas afectadas por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlStats));
 
-    return print('done') 
+    return print('area stats calcualted') 
     
   });
   ee.Dictionary(volStats).evaluate(function(volstats){
