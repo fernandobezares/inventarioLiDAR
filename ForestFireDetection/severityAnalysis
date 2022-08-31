@@ -346,7 +346,7 @@ function calculateArea (img){
 }
 
 
-function calcualteVolume(img){
+function calculateVolume(img){
   
   // call the lidar var script 
   var lidar = require('users/cesefor/inventarioForestal:LidarApp/inc/LiDARVars');
@@ -354,10 +354,10 @@ function calcualteVolume(img){
   // call the vol dataset vol
   var vol = lidar.c1.vccAll;
   
-  var volMask = vol.updateMask(vol.gte(0))
+  var volImg = vol.updateMask(vol.gte(0));
   
   // add the image bands to the volume image 
-  var volArea = volMask.addBands(image);
+  var volArea = img.multiply(volImg);
   
   // calculate the aggregated area .sum() for a Given Region
   var areaD = volArea.reduceRegion({
@@ -656,7 +656,7 @@ exports  = {
 // reclasifies the espectral indexes form the function getSpectral indexes
 'reclassifyIndexes':reclassifyIndexes,
 'calculateVolume':calculateVolume,
-'volStatsByCategory':volStatsByCategory
+'volStatsByCategory':volStatsByCategory,
 
 
 };
