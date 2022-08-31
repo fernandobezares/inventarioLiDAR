@@ -168,7 +168,7 @@ function volStatsForExportByCategory(stats){
   var band = feat.getString('band')//.getInfo();
   
   // get area stats 
-  var area = feat.getNumber('area').format('%.2f') // returns ee.String;  
+  var area = feat.getNumber('volume').format('%.2f') // returns ee.String;  
   
   
   // get lulucf class 
