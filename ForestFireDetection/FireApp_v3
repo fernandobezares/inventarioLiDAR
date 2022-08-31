@@ -598,7 +598,7 @@ function run (){
   // if it doesnt work thrown an error  
   }
    catch (error){
-     
+     print(error)
      var urlVolumeStats = volStats.getDownloadURL({format: 'csv',filename: 'volumen_afectado_por_incendio'});
      metricsPanel.widgets().remove(imagePrintStatsButton);
      metricsPanel.add(ui.Label({value:'🌍  Archivo: Areas afectadas por el incendio\n', style:{ color:'blue', whiteSpace: 'pre'}}).setUrl(urlStats));
