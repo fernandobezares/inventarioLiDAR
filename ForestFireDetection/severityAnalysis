@@ -238,10 +238,10 @@ function volumenArea(image){
   var volMask = vol.updateMask(vol.gte(0))
   
   // add the image bands to the volume image 
-  var imgArea = img.multiply(volMask);
+  var imgVol = img.multiply(volMask);
   
   // compute the stats per group
-  var volAreaDict = volArea.reduceRegion({
+  var volAreaDict = imgVol.reduceRegion({
     reducer: ee.Reducer.sum().group(1),
     geometry: getAOI().geometry(),
     scale: 10,
