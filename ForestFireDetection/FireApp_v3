@@ -177,7 +177,7 @@ function volStatsForExportByCategory(stats){
   //analysisPanel.add(resultsPanel);
   
   //print(statsForExport);
-  urlStats = statsForExport.getDownloadURL({format: 'csv',filename: 'areas_afectadas_por_incendio'});
+  urlVolLulucfSevStats = statsForExport.getDownloadURL({format: 'csv',filename: 'areas_afectadas_por_incendio'});
   
   
   return statsForExport
@@ -675,6 +675,7 @@ function run (){
   var volStats = severityAnalysis.volumenArea(severityImg);
   var volLulucfStats = severityAnalysis.volStatsByCategory(simplified,severityImg);
   
+  print(volLulucfStats)
   
   printStats(lulucfStats);
   volStatsForExport(volStats);
