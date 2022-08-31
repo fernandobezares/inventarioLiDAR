@@ -345,6 +345,47 @@ function calculateArea (img){
   );
 }
 
+
+function calcualteVolume(img){
+  
+  // call the lidar var script 
+  var lidar = require('users/cesefor/inventarioForestal:LidarApp/inc/LiDARVars');
+  
+  // call the vol dataset vol
+  var vol = lidar.c1.vccAll;
+  
+  var volMask = vol.updateMask(vol.gte(0))
+  
+  // add the image bands to the volume image 
+  var volArea = volMask.addBands(image);
+  
+  // calculate the aggregated area .sum() for a Given Region
+  var areaD = volArea.reduceRegion({
+    reducer: ee.Reducer.sum(),
+    geometry: getAOI().geometry(),
+    scale: 25,
+    maxPixels: 1e13
+    });
+
+  // the result of reduceRegion is a dictionary,
+  // so it is needed to convert it into FeatureCollection (to export it)
+  var dict = ee.Dictionary (areaD);
+  var key = ee.Dictionary(areaD).keys();
+  
+  // eliminate the geometry for better export
+  return ee.FeatureCollection(key.map(function(value){
+    return ee.Feature(null, {
+      'band': value,
+      'area': dict.get(value)
+    });
+  })
+  );
+  
+  
+}
+
+
+
 // Calculate the area given two rasters
 // the function finds the crossed areas between them and calclautes teh area in has 
 function categoricalZonalStatistics (img1,img2){
@@ -359,6 +400,24 @@ function categoricalZonalStatistics (img1,img2){
   
   
 }
+
+
+// the function finds the crossed areas between them and calclautes teh area in has 
+function volStatsByCategory (img1,img2){
+  
+  // get the multiband Image Mask
+  var mask = getMasksByCrossedCategories (img1,img2);
+  
+  // get area Values ready to export 
+  var vol = calculateVolume(mask);
+  
+  return vol;
+  
+  
+}
+
+
+
 
 function getAlternativeCollection(collection){
   
@@ -596,6 +655,8 @@ exports  = {
 'getSpectralIndexes':getSpectralIndexes,
 // reclasifies the espectral indexes form the function getSpectral indexes
 'reclassifyIndexes':reclassifyIndexes,
+'calculateVolume':calculateVolume,
+'volStatsByCategory':volStatsByCategory
 
 
 };
