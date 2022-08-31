@@ -53,6 +53,7 @@ function reclassLulucf() {
                               .where(otrasSuperficies,400)
   return simplified.rename('lulucf');
 }
+
 function volStatsForExport(stats) {
   
   stats = ee.Dictionary(stats)
