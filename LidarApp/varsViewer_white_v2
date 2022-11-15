@@ -341,14 +341,12 @@ var coberturaSelect = ui.Select({
     var datasets = checkDatasetCovers(cover);
     print('datasets', datasets)
     
-    // dataetsNames cleaner
+  
+    ee.List(datasets).evaluate(function(list){
+      // dataetsNames cleaner
     var datasetsClean = ee.Dictionary(lidarVarNames).values();
     
-    datasetsClean = datasetsClean.filter(ee.Filter.inList('item',datasets));
-    
-    print('datasetsClean',datasetsClean)
-    datasetsClean = datasetsClean.getInfo()
-    ee.List(datasetsClean).evaluate(function(list){
+    list = datasetsClean.filter(ee.Filter.inList('item',list));
       //print(list)
         datasetSelect = ui.Select({
           placeholder: 'Variables LiDAR',
