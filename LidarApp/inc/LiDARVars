@@ -1,7 +1,3 @@
-/**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var image = ee.Image("users/cesefor/InventarioForestal/LiDAR/2C/Elev_P75"),
-    image2 = ee.Image("users/cesefor/general/topografia/MDT_CyL5m_CNIG_25830");
-/***** End of imports. If edited, may not auto-convert in the playground. *****/
 var models = require('users/cesefor/inventarioForestal:LidarApp/inc/models');
 
 
