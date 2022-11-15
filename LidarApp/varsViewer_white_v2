@@ -1,8 +1,3 @@
-/**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var fcc = ee.ImageCollection("users/cesefor/InventarioForestal/LiDAR/1C/FCC"),
-    p95 = ee.ImageCollection("users/cesefor/InventarioForestal/LiDAR/1C/P95"),
-    mdav = ee.ImageCollection("users/cesefor/InventarioForestal/LiDAR/1C/MDAV");
-/***** End of imports. If edited, may not auto-convert in the playground. *****/
 // import LiDAR Vars
 var lidar = require('users/cesefor/inventarioForestal:LidarApp/inc/LiDARVars');
 
