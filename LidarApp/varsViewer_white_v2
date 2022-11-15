@@ -347,15 +347,15 @@ var coberturaSelect = ui.Select({
       var new_list = [];
       
       for (var el in datasets){
-        var element = datasets[element];
-        var clean = lidarVarNames[element]
+        var element = datasets[el];
+        var clean = lidarVarNames[element];
         new_list.push(clean);
       }
-      
+      print('new_list',new_list)
       //print(list)
         datasetSelect = ui.Select({
           placeholder: 'Variables LiDAR',
-          items: list,
+          items: new_list,
           style: {width: "95%"},
           //value: 'All regions'
           onChange: function(image){
