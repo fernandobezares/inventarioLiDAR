@@ -1,6 +1,3 @@
-/**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var table = ee.FeatureCollection("users/cesefor/InventarioForestal/mfe_CastillayLeon");
-/***** End of imports. If edited, may not auto-convert in the playground. *****/
 // The following models are only applied to Pinus sylvestris 
 var mfe = ee.FeatureCollection('users/cesefor/InventarioForestal/mfe_CastillayLeon');
 
