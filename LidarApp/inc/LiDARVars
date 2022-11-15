@@ -53,5 +53,5 @@ c2.vcc = vcc2c;
 c2.G = g2c;
 
 
-exports = {'c1': c1 , 'c2': c2 , "topo":topo};
+exports = {'c1': c1 , 'c2': c2 , 'topo':topo};
 
