@@ -54,6 +54,11 @@ function checkDatasetCovers(cobertura){
     
       // return the keys of the 2 cover object
       return Object.keys(lidar.c2);
+      
+    }else if (cobertura === 'Topografía'){
+    
+      // return the keys of the 2 cover object
+      return Object.keys(lidar.topo);
     }
   
     
@@ -81,6 +86,11 @@ function checkCovers(cobertura){
     
       // return the keys of the 2 cover object
       return 'c2';
+    }
+    else if (cobertura === 'Topografía'){
+    
+      // return the keys of the 2 cover object
+      return 'topo';
     }
   
     
@@ -214,7 +224,7 @@ function createColorBar(titleText, unit, palette, min, max) {
 }
 
   
-// function for displaying teh selected image
+// function for displaying the selected image
 function displayImage(image,cover){
   
     // image to represent
@@ -290,7 +300,7 @@ var mainTitle = ui.Label('Visor Variables LiDAR');
 mainTitle.style().set({fontWeight :'bold', textAlign : 'center', color : '#332f2b',backgroundColor : '#ffffff'});
 
 // cover lists
-var cobs = ['1a Cobertura','2a Cobertura'];
+var cobs = ['1a Cobertura','2a Cobertura','Topografía'];
 
 // ui.Panel for covers 
 var buttonPanels = ui.Panel({layout:ui.Panel.Layout.flow('vertical')});
