@@ -181,6 +181,8 @@ var units = {
   'vcc': '(m3)',
   'All_returns_above_heightbreak_div_Total_first_returns_100':'' ,
   'G': '(m2)', 
+  'Elevación':'(m)',
+  "Pendientes":"(%)"
   
 };
 
