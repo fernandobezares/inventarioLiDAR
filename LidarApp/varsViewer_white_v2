@@ -344,6 +344,8 @@ var coberturaSelect = ui.Select({
     // dataetsNames cleaner
     var datasetsClean = ee.Dictionary(lidarVarNames).values();
     
+    datasetsClean = datasetsClean.filter(ee.Filter.inList('item',datasets));
+    
     print('datasetsClean',datasetsClean)
     datasetsClean = datasetsClean.getInfo()
     ee.List(datasetsClean).evaluate(function(list){
