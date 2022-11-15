@@ -237,7 +237,7 @@ function createColorBar(titleText, unit, palette, min, max) {
 function displayImage(image,cover){
   
     // image to represent
-    var varImg = ee.Image(lidar[cover][image]); //.updateMask(lidar[cover][image].gte(0));
+    var varImg = ee.Image(lidar[cover][image]).clip(cyl); //.updateMask(lidar[cover][image].gte(0));
     
     
     // visualziation parameters
