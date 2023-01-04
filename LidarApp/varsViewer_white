@@ -243,7 +243,7 @@ function displayImage(image,cover){
       // clear the Map and add the selected layer 
       Map.layers().reset();
       
-      // remove the first elemento of the widgets
+      // remove the first element of the widgets
       Map.widgets().remove(Map.widgets().get(0));
       
       
